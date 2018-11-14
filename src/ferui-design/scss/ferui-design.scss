@@ -1,25 +1,13 @@
-@at-root {
-  @-ms-viewport { width: device-width; } // stylelint-disable-line at-rule-no-vendor-prefix
-}
-
-html {
-  box-sizing: border-box;
-  -ms-overflow-style: scrollbar;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: inherit;
-}
-
 @import "functions";
 @import "variables";
-
-@import "mixins/breakpoints";
-@import "mixins/grid-framework";
-@import "mixins/grid";
-
-@import "grid";
-@import "utilities/flex";
-@import "utilities/spacing";
+@import "mixins";
+@import "../../../node_modules/bootstrap/scss/root";
+@import "../../../node_modules/bootstrap/scss/reboot";
+@import "../../../node_modules/bootstrap/scss/type";
+@import "../../../node_modules/bootstrap/scss/grid";
+@import "../../../node_modules/bootstrap/scss/tables";
+@import "../../../node_modules/bootstrap/scss/nav";
+@import "../../../node_modules/bootstrap/scss/navbar";
+@import "../../../node_modules/bootstrap/scss/badge";
+@import "utilities";
+@import "../../../node_modules/bootstrap/scss/print";
