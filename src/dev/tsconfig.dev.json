@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/dev",
+    "baseUrl": "./",
+    "module": "es2015",
+    "paths": {
+      "@ferui/icons": ["../ferui-icons"]
+    }
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ]
+}

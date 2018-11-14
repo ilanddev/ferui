@@ -1,6 +1,6 @@
 const BADGED_CLASS_SUBSTRING = '--badged';
 const ALERTED_CLASS_SUBSTRING = '--alerted';
-const SOLID_CLASS = 'ferui-i-solid';
+const SOLID_CLASS = 'clr-i-solid';
 
 export function feruiIconSVG(content: string): string {
   let classes: string = '';
@@ -8,11 +8,9 @@ export function feruiIconSVG(content: string): string {
   if (content.indexOf(BADGED_CLASS_SUBSTRING) > -1) {
     classes += 'can-badge ';
   }
-
   if (content.indexOf(ALERTED_CLASS_SUBSTRING) > -1) {
     classes += 'can-alert ';
   }
-
   if (content.indexOf(SOLID_CLASS) > -1) {
     classes += 'has-solid ';
   }

@@ -12,6 +12,5 @@
     "removeComments": false,
     "noImplicitAny": true
   },
-  "include": ["typings.d.ts", "**/*.ts"],
-  "exclude": ["**/*.spec.ts"]
+  "include": ["**/*.ts"]
 }

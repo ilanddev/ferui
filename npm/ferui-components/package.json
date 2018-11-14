@@ -1,0 +1,23 @@
+{
+  "name": "@ferui/components",
+  "version": "@VERSION",
+  "description": "Angular components for FerUI",
+  "es2015": "esm2015/clr-angular.js",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:ilanddev/ferui.git"
+  },
+  "peerDependencies": {
+    "@angular/common": "^7.0.0",
+    "@angular/compiler": "^7.0.0",
+    "@angular/core": "^7.0.0",
+    "@angular/forms": "^7.0.0",
+    "@angular/platform-browser": "^7.0.0",
+    "@angular/platform-browser-dynamic": "^7.0.0",
+    "@ferui/design": "@VERSION"
+  },
+  "author": "jonathan.masmejean@frigg-computing.com",
+  "license": "BSD-3-clause"
+}

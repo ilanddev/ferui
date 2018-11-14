@@ -1,12 +1,14 @@
 {
   "name": "@ferui/icons",
-  "version": "@VERSION",
+  "version": "0.0.1",
   "description": "Custom Element Icons for FerUI",
   "main": "index.js",
-  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "ssh://git@github.com:ilanddev/ferui.git"
+  },
+  "dependencies": {
+    "@clr/icons": "^0.13.9"
   },
   "peerDependencies": {
     "@webcomponents/custom-elements": "^1.0.0"

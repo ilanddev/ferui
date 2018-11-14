@@ -1,0 +1,11 @@
+{
+  "name": "@ferui/design",
+  "version": "@VERSION",
+  "description": "CSS for FerUI",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:ilanddev/ferui.git"
+  },
+  "author": "jonathan.masmejean@frigg-computing.com",
+  "license": "BSD-3-clause"
+}
