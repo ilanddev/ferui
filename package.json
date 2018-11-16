@@ -1,19 +1,29 @@
 {
   "name": "@ferui/ferui",
   "version": "0.0.1",
-  "author": "jonathan.masmejean@frigg-computing.com",
+  "author": "iLand cloud",
+  "contributors": [
+    {
+      "name": "Jonathan Masmejean",
+      "email": "jonathan.masmejean@frigg-computing.com"
+    }
+  ],
   "license": "BSD-3-Clause",
   "repository": "https://github.com/ilanddev/ferui",
   "scripts": {
     "clean": "del ./dist",
     "build:icons:web": "webpack --config webpack.icons.config.js",
+    "build:icons:css": "node-sass --source-map=true --precision=6 ./src/ferui-icons/ferui-icons.scss ./dist/ferui-icons/ferui-icons.css",
+    "build:icons:optimize": "csso ./dist/ferui-icons/ferui-icons.css ./dist/ferui-icons/ferui-icons.min.css --map file;",
+    "build:icons:scss": "cpy '**/*.scss' '../../dist/ferui-icons/' --cwd=src/ferui-icons --parents",
     "build:icons:package": "cpy ./npm/ferui-icons/package.json ./npm/ferui-icons/README.md ./dist/ferui-icons/; replace '@VERSION' $npm_package_version ./dist/ferui-icons/package.json",
-    "build:icons": "npm-run-all build:icons:web build:icons:package",
+    "build:icons": "npm-run-all build:icons:css build:icons:optimize build:icons:web build:icons:scss build:icons:package",
     "build:ui:css": "node-sass --include-path=node_modules --source-map=true --precision=6 --indentedSyntax=true ./src/ferui-design/scss/ferui-design.scss ./dist/ferui-design/ferui-design.css",
     "build:ui:prefix": "postcss ./dist/ferui-design/ferui-design.css -o ./dist/ferui-design/ferui-design.css",
     "build:ui:optimize": "csso ./dist/ferui-design/ferui-design.css ./dist/ferui-design/ferui-design.min.css --map file",
+    "build:ui:scss": "cpy '**/*.scss' '../../dist/ferui-design/' --cwd=src/ferui-design --parents",
     "build:ui:package": "cpy ./npm/ferui-design/package.json ./npm/ferui-design/README.md ./dist/ferui-design/; replace '@VERSION' $npm_package_version ./dist/ferui-design/package.json",
-    "build:ui": "npm-run-all build:ui:css build:ui:prefix build:ui:optimize build:ui:package",
+    "build:ui": "npm-run-all build:ui:css build:ui:prefix build:ui:optimize build:ui:scss build:ui:package",
     "build": "npm-run-all clean build:ui build:icons",
     "ng": "ng",
     "dev-serve": "ng serve dev --port 9090",

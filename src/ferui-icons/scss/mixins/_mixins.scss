@@ -1,0 +1,24 @@
+@mixin setIconColor($clr-icon-color) {
+  fill: $clr-icon-color;
+  .transparent-fill-stroke {
+    stroke: $clr-icon-color;
+  }
+}
+
+@mixin rotateSVGIcon($deg) {
+  svg {
+    transform: rotate($deg);
+  }
+}
+
+@mixin flipSVGIcon($direction) {
+  @if $direction == 'horizontal' {
+    svg {
+      transform: scale(-1) rotateX(180deg);
+    }
+  } @else if $direction == 'vertical' {
+    svg {
+      transform: scale(-1) rotateY(180deg);
+    }
+  }
+}

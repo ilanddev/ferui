@@ -6,6 +6,9 @@
     "type": "git",
     "url": "ssh://git@github.com:ilanddev/ferui.git"
   },
-  "author": "jonathan.masmejean@frigg-computing.com",
+  "dependencies": {
+    "bootstrap": "^4.1.3"
+  },
+  "author": "iLand cloud",
   "license": "BSD-3-clause"
 }

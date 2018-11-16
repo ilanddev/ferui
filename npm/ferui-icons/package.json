@@ -13,6 +13,6 @@
   "peerDependencies": {
     "@webcomponents/custom-elements": "^1.0.0"
   },
-  "author": "jonathan.masmejean@frigg-computing.com",
+  "author": "iLand cloud",
   "license": "BSD-3-clause"
 }
