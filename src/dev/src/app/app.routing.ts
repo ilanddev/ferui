@@ -8,4 +8,4 @@ export const APP_ROUTES: Routes = [
   { path: 'icons', loadChildren: 'src/app/icons/icons.demo.module#IconsDemoModule' }
 ];
 
-export const ROUTING: ModuleWithProviders = RouterModule.forRoot(APP_ROUTES);
+export const ROUTING: ModuleWithProviders = RouterModule.forRoot(APP_ROUTES, {useHash: true});
