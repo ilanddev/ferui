@@ -1,0 +1,20 @@
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-2">
+      <section class="sidenav-content">
+        <section class="nav-group collapsible">
+          <label>FerUI Navigation</label>
+          <ul class="nav-list">
+            <li *ngFor="let route of routes">
+              <a *ngIf="route.path !== ''" class="nav-link" [routerLink]="[route.path]"
+                 [routerLinkActive]="['active']">{{route.path}}</a>
+            </li>
+          </ul>
+        </section>
+      </section>
+    </nav>
+    <main class="col-10">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

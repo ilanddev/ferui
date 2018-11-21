@@ -27,5 +27,8 @@ $secondary: $gray-500;
 $dark: $gray-900;
 $light: $gray-300;
 
+$grid-columns: 12 !default;
+$grid-gutter-width: 20px !default;
+
 // Import Bootstrap default variables
 @import "../../../node_modules/bootstrap/scss/variables";

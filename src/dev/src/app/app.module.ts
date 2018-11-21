@@ -7,11 +7,13 @@ import { AppComponent } from './app.component';
 import { ROUTING } from './app.routing';
 import { LandingComponent } from './landing.component';
 import { AppContentContainerComponent } from './content-container.component';
+import { WINDOW_PROVIDERS } from './services/window.service';
 
 @NgModule({
   declarations: [AppComponent, LandingComponent, AppContentContainerComponent],
   imports: [BrowserAnimationsModule, CommonModule, FormsModule, ROUTING],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [WINDOW_PROVIDERS]
 })
 export class AppModule {
 }

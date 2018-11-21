@@ -1,8 +1,7 @@
 {
   "name": "@ferui/icons",
-  "version": "0.0.1",
+  "version": "@VERSION",
   "description": "Custom Element Icons for FerUI",
-  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "ssh://git@github.com:ilanddev/ferui.git"
@@ -14,5 +13,6 @@
     "@webcomponents/custom-elements": "^1.0.0"
   },
   "author": "iLand cloud",
-  "license": "BSD-3-clause"
+  "license": "BSD-3-clause",
+  "main": "ferui-icons.min.js"
 }

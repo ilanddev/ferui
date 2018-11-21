@@ -30,6 +30,7 @@
             ],
             "styles": [
               "src/ferui-icons/ferui-icons.scss",
+              "src/ferui-design/scss/ferui-design.scss",
               "src/dev/src/styles.scss"
             ],
             "stylePreprocessorOptions": {
@@ -77,14 +78,14 @@
           "options": {
             "main": "src/dev/test.ts",
             "polyfills": "src/dev/polyfills.ts",
-            "tsConfig": "src/dev/tsconfig.spec.json",
+            "tsConfig": "src/dev/tsconfig.dev.json",
             "karmaConfig": "src/dev/karma.conf.js",
             "styles": [],
             "scripts": [],
             "assets": [
               {
                 "glob": "favicon.png",
-                "input": "src/dev/",
+                "input": "src/dev/src/",
                 "output": "/"
               },
               {
@@ -99,8 +100,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "src/dev/tsconfig.app.json",
-              "src/dev/tsconfig.spec.json"
+              "src/dev/tsconfig.dev.json"
             ],
             "exclude": [
               "**/node_modules/**"
