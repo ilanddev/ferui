@@ -10,12 +10,7 @@
     "experimentalDecorators": true,
     "lib": ["es2015", "dom"],
     "removeComments": false,
-    "noImplicitAny": true,
-    "baseUrl": "./",
-    "paths": {
-      "@clr/icons": ["../../node_modules/@clr/icons"],
-      "@clr/icons/shapes/*": ["../../node_modules/@clr/icons/shapes", "../../node_modules/@clr/icons/shapes/*"]
-    }
+    "noImplicitAny": true
   },
-  "include": ["**/*.ts"]
+  "include": ["typings.d.ts", "**/*.ts"]
 }

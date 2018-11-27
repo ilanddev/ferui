@@ -11,7 +11,8 @@
     "target": "es5",
     "typeRoots": ["node_modules/@types"],
     "paths": {
-      "@ferui/icons": ["src/ferui-icons"]
+      "@ferui/icons": ["../ferui-icons"],
+      "@ferui/icons/shapes/*": ["../ferui-icons/shapes", "../ferui-icons/shapes/*"]
     },
     "lib": ["es2017", "dom"]
   },

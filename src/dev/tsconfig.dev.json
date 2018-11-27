@@ -5,11 +5,8 @@
     "baseUrl": "./",
     "module": "es2015",
     "paths": {
-      "@ferui/icons": ["../ferui-icons/index.ts"]
+      "@ferui/icons/shapes/*": ["../ferui-icons/shapes", "../ferui-icons/shapes/*"]
     }
   },
-  "exclude": [
-    "test.ts",
-    "**/*.spec.ts"
-  ]
+  "exclude": ["test.ts", "**/*.spec.ts"]
 }

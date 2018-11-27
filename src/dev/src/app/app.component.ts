@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { Route } from '@angular/router';
 import { APP_ROUTES } from './app.routing';
-import '@clr/icons';
-import '@ferui/icons';
 
 @Component({
   selector: 'app-root',

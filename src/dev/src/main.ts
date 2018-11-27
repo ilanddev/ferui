@@ -1,3 +1,5 @@
+import '@clr/icons';
+import '@ferui/icons/shapes/ferui-core-shapes';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 

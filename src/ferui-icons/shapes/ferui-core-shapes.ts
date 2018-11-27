@@ -1,6 +1,11 @@
-import { ClarityIcons } from '@clr/icons';
 import { IconShapeSources } from '@clr/icons/interfaces/icon-interfaces';
-import { feruiIconSVG } from './utils/svg-tag-generator';
+import { feruiIconSVG } from '../utils/svg-tag-generator';
+
+interface Window {
+  ClarityIcons: any;
+}
+
+declare var window: Window;
 
 export const FeruiShape: IconShapeSources = {};
 
@@ -198,4 +203,6 @@ FeruiShape['fui-zoomout'] = feruiIconSVG(`
 FeruiShape['fui-unknown'] = feruiIconSVG(`
     <path class="fui-unknown-icon clr-i-outline clr-i-outline-path-1" d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm0-12a2 2 0 0 0-2 2 1 1 0 1 1-2 0 4 4 0 0 1 4-4c2.23 0 4 1.6 4 3.8 0 1.2-.41 1.93-1.31 2.7l-1.17.96c-.42.33-.5.48-.5.98a1 1 0 1 1-2 0c0-1.17.4-1.86 1.25-2.54l1.11-.91c.5-.43.63-.65.63-1.2C12 6.77 11.17 6 10 6zm0 10a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>`);
 
-ClarityIcons.add(FeruiShape);
+if (typeof window !== 'undefined' && window.hasOwnProperty('ClarityIcons')) {
+  window.ClarityIcons.add(FeruiShape);
+}
