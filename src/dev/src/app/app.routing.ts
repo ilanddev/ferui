@@ -5,7 +5,8 @@ import { LandingComponent } from './landing.component';
 
 export const APP_ROUTES: Routes = [
   { path: '', component: LandingComponent },
-  { path: 'icons', loadChildren: 'src/app/icons/icons.demo.module#IconsDemoModule' }
+  { path: 'icons', loadChildren: 'src/app/icons/icons.module#IconsModule' },
+  { path: 'forms', loadChildren: 'src/app/forms/forms-demo.module#FormsDemoModule' }
 ];
 
-export const ROUTING: ModuleWithProviders = RouterModule.forRoot(APP_ROUTES, {useHash: true});
+export const ROUTING: ModuleWithProviders = RouterModule.forRoot(APP_ROUTES, { useHash: true });

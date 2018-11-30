@@ -1,0 +1,128 @@
+@import "../_variables.scss";
+@import "../_mixins.scss";
+
+@include exports("inputs") {
+  .fui-form-control {
+    display: block;
+    position: relative;
+    margin: 1rem 0 auto;
+    width: 100%;
+    height: 50px;
+
+    .fui-control-container {
+
+      .fui-control-label {
+        position: absolute;
+        top: 50%;
+        left: calc(1rem + 2px); // With the borders we need to add 2px.
+        margin-top: -10px;
+        height: 20px;
+        line-height: 20px;
+        font-size: $font-size-base;
+        color: $gray-500;
+        font-weight: $font-weight-bold;
+        transform-origin: 0 0;
+        transition: transform .2s ease;
+        font-family: inherit;
+        @include text-truncate;
+      }
+
+      .fui-input-wrapper {
+        input:not([type=checkbox]):not([type=radio]) {
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          width: 100%;
+          border: 1px solid $gray-300;
+          font-family: inherit;
+          padding: 1.3335rem 3rem 1.3335rem 1rem;
+          height: 50px;
+          font-size: $font-size-base;
+          font-weight: $font-weight-bold;
+          background: none;
+          color: $gray-900;
+          transition: all .15s ease;
+          @include border-radius(3px);
+          @include no-placeholder();
+
+          &:focus {
+            border-color: $gray-500;
+          }
+
+          &:not(:focus) {
+            + .fui-subtext {
+              visibility: hidden;
+              opacity: 0;
+              transition-delay: 0s;
+            }
+          }
+        }
+
+        .fui-validate-icon,
+        .fui-error-icon {
+          display: block;
+          position: absolute;
+          top: 50%;
+          right: 1.0714rem;
+          fill: $gray-500;
+        }
+
+        .fui-validate-icon {
+          width: 12px;
+          height: 12px;
+          margin-top: -0.4286rem;
+        }
+
+        .fui-error-icon {
+          width: 18px;
+          height: 18px;
+          margin-top: -0.6429rem;
+          fill: $red;
+        }
+
+        .fui-subtext {
+          display: block;
+          position: absolute;
+          z-index: $zindex-tooltip;
+          padding: 0.5714rem 0.7143rem;
+          background-color: $red;
+          font-size: $font-size-base;
+          font-weight: $font-weight-light;
+          color: $white;
+          @include border-radius(3px);
+          top: -35px;
+          right: 0;
+
+          visibility: visible;
+          opacity: 1;
+          transition: visibility 0s linear 0.5s, opacity 0.5s linear;
+
+          &::after {
+            position: absolute;
+            display: block;
+            content: "";
+            width: 0;
+            height: 0;
+            z-index: 1;
+            left: 83%;
+            bottom: 0;
+            margin: 0 0 -6px -6px;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid $red;
+          }
+        }
+      }
+
+      &:not(.fui-empty):not(.fui-no-label) {
+        input:not([type=checkbox]):not([type=radio]) {
+          padding: 1.91667rem 3rem 0.9rem 1rem !important;
+        }
+
+        .fui-control-label {
+          font-weight: $font-weight-normal;
+          transform: translateY(-0.6429rem) scale(.85);
+        }
+      }
+    }
+  }
+}

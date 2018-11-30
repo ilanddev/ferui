@@ -29,7 +29,7 @@
               }
             ],
             "styles": [
-              "node_modules/@clr/icons/clr-icons.min.css",
+              "src/ferui-icons/ferui-icons.scss",
               "src/ferui-design/scss/ferui-design.scss",
               "src/dev/src/styles.scss"
             ],

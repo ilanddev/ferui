@@ -1,0 +1,29 @@
+<h2>Inputs :
+  <button class="btn btn-sm btn-primary" (click)="disabled = !disabled">Toggle Disabled</button>
+</h2>
+
+<form fuiForm>
+  <input fuiInput placeholder="No label, no wrapper" name="one" [(ngModel)]="inputs.one"/>
+
+  <fui-input-container>
+    <input fuiInput placeholder="No label, wrapper" name="two" [(ngModel)]="inputs.two"/>
+  </fui-input-container>
+
+  <fui-input-container>
+    <label>Full example</label>
+    <input fuiInput placeholder="Full example" name="three" [(ngModel)]="inputs.three" required/>
+    <fui-control-error>There was an error</fui-control-error>
+  </fui-input-container>
+
+  <fui-input-container>
+    <label>Full example (disabled)</label>
+    <input fuiInput placeholder="Full example (disabled)" name="four" [(ngModel)]="inputs.four" required [disabled]="disabled"/>
+    <fui-control-error>There was an error</fui-control-error>
+  </fui-input-container>
+
+  <fui-input-container>
+    <label>Full example (disabled, filled)</label>
+    <input fuiInput placeholder="Full example (disabled)" name="five" [(ngModel)]="inputs.five" required [disabled]="disabled"/>
+    <fui-control-error>There was an error</fui-control-error>
+  </fui-input-container>
+</form>

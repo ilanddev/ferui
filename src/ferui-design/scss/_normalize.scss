@@ -1,0 +1,11 @@
+html {
+  //  We set the default font-size to let the rem working the same everywhere.
+  font-size: 14px;
+}
+
+* {
+  outline: none;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

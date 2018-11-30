@@ -2,6 +2,7 @@
 @import "variables";
 @import "mixins";
 @import "../../../node_modules/bootstrap/scss/root";
+@import "normalize";
 @import "../../../node_modules/bootstrap/scss/reboot";
 @import "../../../node_modules/bootstrap/scss/type";
 @import "../../../node_modules/bootstrap/scss/alert";
@@ -17,3 +18,4 @@
 @import "../../../node_modules/bootstrap/scss/card";
 @import "utilities";
 @import "../../../node_modules/bootstrap/scss/print";
+@import "forms/forms";
