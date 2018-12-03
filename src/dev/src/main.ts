@@ -1,5 +1,5 @@
-import '@clr/icons';
-import '@ferui/icons/shapes/ferui-core-shapes';
+// Clarity/Ferui icons initialisation.
+import '@ferui/icons';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 

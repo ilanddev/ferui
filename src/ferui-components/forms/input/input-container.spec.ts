@@ -1,25 +1,17 @@
-/*
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
- * This software is released under MIT license.
- * The full license information can be found in LICENSE in the root directory of this project.
- */
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
-import { ClrInput } from './input';
-import { ClrInputContainer } from './input-container';
-
+import { FuiInput } from './input';
+import { FuiInputContainer } from './input-container';
 import { TemplateDrivenSpec, ReactiveSpec, ContainerNoLabelSpec } from '../tests/container.spec';
 
 @Component({
   template: `
-    <clr-input-container>
-        <input name="model" clrInput required [(ngModel)]="model" [disabled]="disabled" />
-        <label>Hello World</label>
-        <clr-control-helper>Helper text</clr-control-helper>
-        <clr-control-error>Must be at least 5 characters</clr-control-error>
-    </clr-input-container>
-    `,
+    <fui-input-container>
+      <input name="model" fuiInput required [(ngModel)]="model" [disabled]="disabled"/>
+      <label>Hello World</label>
+      <fui-control-error>This field is required</fui-control-error>
+    </fui-input-container>
+  `,
 })
 class SimpleTest {
   disabled = false;
@@ -28,22 +20,22 @@ class SimpleTest {
 
 @Component({
   template: `
-  <clr-input-container>
-    <input clrInput name="model" [(ngModel)]="model" />
-  </clr-input-container>`,
+    <fui-input-container>
+      <input fuiInput name="model" [(ngModel)]="model"/>
+    </fui-input-container>`,
 })
-class NoLabelTest {}
+class NoLabelTest {
+}
 
 @Component({
   template: `
-  <form [formGroup]="form">
-    <clr-input-container>
-      <input clrInput formControlName="model" />
-      <label>Hello World</label>
-      <clr-control-helper>Helper text</clr-control-helper>
-      <clr-control-error>Must be at least 5 characters</clr-control-error>
-    </clr-input-container>
-  </form>`,
+    <form [formGroup]="form">
+      <fui-input-container>
+        <label>Hello World</label>
+        <input fuiInput formControlName="model"/>
+        <fui-control-error>This field is required</fui-control-error>
+      </fui-input-container>
+    </form>`,
 })
 class ReactiveTest {
   disabled = false;
@@ -53,9 +45,9 @@ class ReactiveTest {
 }
 
 export default function(): void {
-  describe('ClrInputContainer', () => {
-    ContainerNoLabelSpec(ClrInputContainer, ClrInput, NoLabelTest);
-    TemplateDrivenSpec(ClrInputContainer, ClrInput, SimpleTest, '.clr-input-wrapper [clrInput]');
-    ReactiveSpec(ClrInputContainer, ClrInput, ReactiveTest, '.clr-input-wrapper [clrInput]');
+  describe('FuiInputContainer', () => {
+    ContainerNoLabelSpec(FuiInputContainer, FuiInput, NoLabelTest);
+    TemplateDrivenSpec(FuiInputContainer, FuiInput, SimpleTest, '.fui-input-wrapper [fuiInput]');
+    ReactiveSpec(FuiInputContainer, FuiInput, ReactiveTest, '.fui-input-wrapper [fuiInput]');
   });
 }

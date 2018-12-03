@@ -1,0 +1,28 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10.14-browsers
+    working_directory: ~/ilanddev/ferui
+    environment:
+      CODECOV_TOKEN: 5e2cf5ef-db54-411c-b62b-57b155dfb3b4
+    branches:
+      ignore:
+        - gh-pages
+    steps:
+      - checkout
+      - restore_cache:
+          key: ferui-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - run: npm install
+      - save_cache:
+          key: ferui-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - "node_modules"
+
+      # run tests!
+      - run: npm run test
+      - run: bash <(curl -s https://codecov.io/bash)

@@ -1,8 +1,3 @@
-/*
- * Copyright (c) 2016 VMware, Inc. All Rights Reserved.
- * This software is released under MIT license.
- * The full license information can be found in LICENSE in the root directory of this project.
- */
 import { Component, Directive, InjectionToken, NgModule, OnInit, Type, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -10,7 +5,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { DynamicWrapper } from './dynamic-wrapper';
 import { HostWrapper } from './host-wrapper';
-import { ClrHostWrappingModule } from './host-wrapping.module';
+import { FuiHostWrappingModule } from './host-wrapping.module';
 
 const WRAPPER_SERVICE = new InjectionToken<number>('WrapperService');
 
@@ -73,7 +68,7 @@ interface TestContext<T extends WrappingTest | ExplicitTest | NgIfTest> {
 describe('Host wrapping', function() {
   function setupTest<T>(testContext: TestContext<T>, testComponent: Type<T>) {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, ClrHostWrappingModule, HostWrappingTestModule],
+      imports: [NoopAnimationsModule, FuiHostWrappingModule, HostWrappingTestModule],
       declarations: [testComponent],
     });
     testContext.fixture = TestBed.createComponent(testComponent);

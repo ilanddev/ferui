@@ -30,5 +30,7 @@ $light: $gray-300;
 $grid-columns: 12 !default;
 $grid-gutter-width: 20px !default;
 
+$font-family-sans-serif:  Roboto, "Helvetica Neue", Arial, Noto Sans, sans-serif;
+
 // Import Bootstrap default variables
 @import "../../../node_modules/bootstrap/scss/variables";

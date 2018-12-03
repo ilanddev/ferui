@@ -17,9 +17,9 @@ import { ControlClassService } from '../common/providers/control-class.service';
       <label *ngIf="!label"></label>
       <div class="fui-input-wrapper">
         <ng-content select="[fuiInput]"></ng-content>
+        <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
         <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
         <clr-icon *ngIf="!invalid && control?.value" class="fui-validate-icon" shape="fui-tick" aria-hidden="true"></clr-icon>
-        <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
       </div>
     </div>
   `,

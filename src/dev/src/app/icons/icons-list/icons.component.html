@@ -22,7 +22,7 @@
 
   <h4>{{iconGroup.gName | titlecase }} icon set :</h4>
 
-  <div class="card-deck mb-3" *ngFor="let iconRow of iconGroup.rows">
+  <div class="card-columns mb-3" *ngFor="let iconRow of iconGroup.rows">
       <div class="card text-center" *ngFor="let iconItem of iconRow">
         <div class="card-header">
           <p class="card-text">{{iconItem.name}}</p>

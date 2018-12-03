@@ -4,8 +4,13 @@ html {
 }
 
 * {
-  outline: none;
-  text-rendering: geometricPrecision;
+  outline: none !important;
+  text-rendering: geometricPrecision !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+pre {
+  border-radius: 3px;
+  border: 1px solid $gray-300;
 }

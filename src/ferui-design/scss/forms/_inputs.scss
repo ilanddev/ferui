@@ -10,7 +10,6 @@
     height: 50px;
 
     .fui-control-container {
-
       .fui-control-label {
         position: absolute;
         top: 50%;
@@ -48,10 +47,15 @@
             border-color: $gray-500;
           }
 
-          &:not(:focus) {
+          &[disabled] {
+            background-color: $gray-200;
+            color: $gray-500;
+          }
+
+          &:focus {
             + .fui-subtext {
-              visibility: hidden;
-              opacity: 0;
+              visibility: visible;
+              opacity: 1;
               transition-delay: 0s;
             }
           }
@@ -83,18 +87,18 @@
           display: block;
           position: absolute;
           z-index: $zindex-tooltip;
-          padding: 0.5714rem 0.7143rem;
+          padding: 0.3571rem 0.5714rem;
           background-color: $red;
           font-size: $font-size-base;
-          font-weight: $font-weight-light;
+          font-weight: $font-weight-normal;
           color: $white;
           @include border-radius(3px);
-          top: -35px;
+          top: -2.1428rem;
           right: 0;
 
-          visibility: visible;
-          opacity: 1;
-          transition: visibility 0s linear 0.5s, opacity 0.5s linear;
+          visibility: hidden;
+          opacity: 0;
+          transition: visibility 0s ease 0.2s, opacity 0.2s ease;
 
           &::after {
             position: absolute;
@@ -103,12 +107,12 @@
             width: 0;
             height: 0;
             z-index: 1;
-            left: 83%;
+            right: 1.2857rem;
             bottom: 0;
-            margin: 0 0 -6px -6px;
-            border-left: 6px solid transparent;
-            border-right: 6px solid transparent;
-            border-top: 6px solid $red;
+            margin: 0 0 -0.4286rem -0.4286rem;
+            border-left: 0.4286rem solid transparent;
+            border-right: 0.4286rem solid transparent;
+            border-top: 0.4286rem solid $red;
           }
         }
       }

@@ -13,7 +13,7 @@ export class FuiInput extends WrappedFormControl<FuiInputContainer> {
     injector: Injector,
     @Self()
     @Optional()
-      control: NgControl,
+    control: NgControl,
     el: ElementRef
   ) {
     super(vcr, FuiInputContainer, injector, control, el);

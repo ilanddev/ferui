@@ -6,18 +6,18 @@
   "description": "Angular components for FerUI",
   "es2015": "esm2015/ferui-components.js",
   "main": "bundles/ferui-components.umd.js",
-  "module": "esm5/clr-angular.js",
+  "module": "esm5/ferui-components.js",
   "repository": {
     "type": "git",
     "url": "ssh://git@github.com:ilanddev/ferui.git"
   },
   "peerDependencies": {
-    "@angular/common": "^7.0.0",
-    "@angular/compiler": "^7.0.0",
-    "@angular/core": "^7.0.0",
-    "@angular/forms": "^7.0.0",
-    "@angular/platform-browser": "^7.0.0",
-    "@angular/platform-browser-dynamic": "^7.0.0",
+    "@angular/common": "^7.1.1",
+    "@angular/compiler": "^7.1.1",
+    "@angular/core": "^7.1.1",
+    "@angular/forms": "^7.1.1",
+    "@angular/platform-browser": "^7.1.1",
+    "@angular/platform-browser-dynamic": "^7.1.1",
     "@ferui/design": "@VERSION",
     "@ferui/icons": "@VERSION"
   }

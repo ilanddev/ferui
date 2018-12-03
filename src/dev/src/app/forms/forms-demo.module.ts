@@ -6,9 +6,10 @@ import { InputsComponent } from './inputs/inputs.component';
 import { FeruiModule } from '@ferui/components';
 import { FormsLandingComponent } from './forms-landing.component';
 import { FormsModule } from '@angular/forms';
+import { HighlightModule } from 'ngx-highlightjs';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, FeruiModule, ROUTING],
+  imports: [CommonModule, FormsModule, FeruiModule, ROUTING, HighlightModule],
   declarations: [DefaultComponent, InputsComponent, FormsLandingComponent],
   exports: [DefaultComponent, InputsComponent]
 })

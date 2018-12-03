@@ -1,49 +1,48 @@
-/*
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
- * This software is released under MIT license.
- * The full license information can be found in LICENSE in the root directory of this project.
- */
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, Validators } from '@angular/forms';
-
-import { ClrIconModule } from '../../../icon/icon.module';
-import { ClrInput } from '../../input/input';
-import { ClrInputContainer } from '../../input/input-container';
-import { ClrControlError } from '../error';
 import { NgControlService } from '../providers/ng-control.service';
-
-import { ClrIfError } from './if-error';
 import { IfErrorService } from './if-error.service';
+import { FuiIfError } from './if-error';
+import { ClrIconModule } from '@ferui/components';
+import { FuiInput } from '../../input/input';
+import { FuiControlError } from '../error';
+import { FuiInputContainer } from '../../input/input-container';
 
 const errorMessage = 'ERROR_MESSAGE';
 const minLengthMessage = 'MIN_LENGTH_MESSAGE';
 
-@Component({ template: `<div *clrIfError></div>` })
-class InvalidUseTest {}
+@Component({
+  template: `
+    <div *fuiIfError></div>`,
+})
+class InvalidUseTest {
+}
 
 @Component({
   template: `
-        <clr-control-error *clrIfError>${errorMessage}</clr-control-error>
-    `,
+    <clr-control-error *fuiIfError>${errorMessage}</clr-control-error>
+  `,
   providers: [IfErrorService, NgControlService],
 })
-class GeneralErrorTest {}
+class GeneralErrorTest {
+}
 
 @Component({
   template: `
-        <clr-control-error *clrIfError="'required'">${errorMessage}</clr-control-error>
-        <clr-control-error *clrIfError="'minlength'">${minLengthMessage}</clr-control-error>
-    `,
+    <clr-control-error *fuiIfError="'required'">${errorMessage}</clr-control-error>
+    <clr-control-error *fuiIfError="'minlength'">${minLengthMessage}</clr-control-error>
+  `,
   providers: [IfErrorService, NgControlService],
 })
-class SpecificErrorTest {}
+class SpecificErrorTest {
+}
 
 export default function(): void {
-  describe('ClrIfError', () => {
+  describe('FuiIfError', () => {
     describe('invalid use', () => {
       it('throws error when used outside of a control container', () => {
-        TestBed.configureTestingModule({ declarations: [ClrIfError, InvalidUseTest] });
+        TestBed.configureTestingModule({ declarations: [FuiIfError, InvalidUseTest] });
         expect(() => {
           const fixture = TestBed.createComponent(InvalidUseTest);
           fixture.detectChanges();
@@ -57,7 +56,7 @@ export default function(): void {
       beforeEach(() => {
         TestBed.configureTestingModule({
           imports: [ClrIconModule, FormsModule],
-          declarations: [ClrInput, ClrControlError, ClrInputContainer, ClrIfError, GeneralErrorTest],
+          declarations: [FuiInput, FuiControlError, FuiInputContainer, FuiIfError, GeneralErrorTest],
         });
         fixture = TestBed.createComponent(GeneralErrorTest);
         fixture.detectChanges();
@@ -86,7 +85,7 @@ export default function(): void {
       beforeEach(() => {
         TestBed.configureTestingModule({
           imports: [ClrIconModule, FormsModule],
-          declarations: [ClrInput, ClrControlError, ClrInputContainer, ClrIfError, SpecificErrorTest],
+          declarations: [FuiInput, FuiControlError, FuiInputContainer, FuiIfError, SpecificErrorTest],
         });
         fixture = TestBed.createComponent(SpecificErrorTest);
         fixture.detectChanges();

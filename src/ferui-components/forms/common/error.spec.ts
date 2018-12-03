@@ -8,7 +8,7 @@ import { FuiControlError } from './error';
 class SimpleTest {}
 
 export default function(): void {
-  describe('ClrControlError', () => {
+  describe('FuiControlError', () => {
     let fixture;
 
     beforeEach(function() {
@@ -21,9 +21,9 @@ export default function(): void {
       expect(fixture.debugElement.query(By.directive(FuiControlError)).nativeElement.innerText).toContain('Test error');
     });
 
-    it('adds the .clr-subtext class to host', function() {
+    it('adds the .fui-subtext class to host', function() {
       expect(
-        fixture.debugElement.query(By.directive(FuiControlError)).nativeElement.classList.contains('clr-subtext')
+        fixture.debugElement.query(By.directive(FuiControlError)).nativeElement.classList.contains('fui-subtext')
       ).toBeTrue();
     });
   });

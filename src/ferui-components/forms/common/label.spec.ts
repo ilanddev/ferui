@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
-import { FuiInputContainer } from '../input/input-container';
-
 import { FuiLabel } from './label';
 import { ControlIdService } from './providers/control-id.service';
 import { NgControlService } from './providers/ng-control.service';
@@ -27,7 +24,7 @@ class ContainerizedTest {}
 class WrapperTest {}
 
 @Component({
-  template: `<label for="hello" class="clr-col-xs-12 clr-col-md-3"></label>`,
+  template: `<label for="hello" class="existing-class"></label>`,
 })
 class ExistingGridTest {}
 
@@ -41,12 +38,12 @@ export default function(): void {
       }).not.toThrow();
     });
 
-    it("doesn't set the the class unless its inside of a container", function() {
+    it("doesn't set the class unless its inside of a container", function() {
       TestBed.configureTestingModule({ declarations: [FuiLabel, NoForTest] });
       const fixture = TestBed.createComponent(NoForTest);
       fixture.detectChanges();
       expect(
-        fixture.debugElement.query(By.css('label')).nativeElement.classList.contains('clr-control-label')
+        fixture.debugElement.query(By.css('label')).nativeElement.classList.contains('fui-control-label')
       ).toBeFalse();
     });
 
@@ -57,7 +54,7 @@ export default function(): void {
       const fixture = TestBed.createComponent(ContainerizedTest);
       fixture.detectChanges();
       expect(
-        fixture.debugElement.query(By.css('label')).nativeElement.classList.contains('clr-control-label')
+        fixture.debugElement.query(By.css('label')).nativeElement.classList.contains('fui-control-label')
       ).toBeTrue();
     });
 
@@ -68,7 +65,7 @@ export default function(): void {
       const fixture = TestBed.createComponent(WrapperTest);
       fixture.detectChanges();
       expect(
-        fixture.debugElement.query(By.css('label')).nativeElement.classList.contains('clr-control-label')
+        fixture.debugElement.query(By.css('label')).nativeElement.classList.contains('fui-control-label')
       ).toBeTrue();
     });
 
@@ -84,25 +81,12 @@ export default function(): void {
       expect(label.getAttribute('for')).toBe('test');
     });
 
-    it('adds the grid classes for non-vertical layouts', function() {
-      TestBed.configureTestingModule({
-        declarations: [FuiLabel, FuiInputContainer, ContainerizedTest]
-      });
-      const fixture = TestBed.createComponent(ContainerizedTest);
-
-      fixture.detectChanges();
-      const label = fixture.nativeElement.querySelector('label');
-      expect(label.classList.contains('clr-col-md-2')).toBeTrue();
-      expect(label.classList.contains('clr-col-xs-12')).toBeTrue();
-    });
-
     it('leaves the grid classes untouched if they exist', function() {
       TestBed.configureTestingModule({ declarations: [FuiLabel, ExistingGridTest], providers: [ControlIdService] });
       const fixture = TestBed.createComponent(ExistingGridTest);
       fixture.detectChanges();
       const label = fixture.nativeElement.querySelector('label');
-      expect(label.className).not.toContain('clr-col-md-2');
-      expect(label.className).toContain('clr-col-md-3');
+      expect(label.className).toContain('existing-class');
     });
 
     it('leaves the for attribute untouched if it exists', function() {

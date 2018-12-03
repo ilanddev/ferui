@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { WINDOW } from '../../services/window.service';
+import { IconShapeSources } from '@clr/icons/interfaces/icon-interfaces';
 
 interface Window {
   ClarityIcons: any;
@@ -7,7 +8,7 @@ interface Window {
 
 @Component({
   templateUrl: './icons.component.html',
-  styleUrls: ['./icons.component.scss']
+  styleUrls: ['./icons.component.scss'],
 })
 export class IconsComponent implements OnInit {
 
@@ -25,7 +26,7 @@ export class IconsComponent implements OnInit {
 
   ngOnInit() {
     // We get all icons from Ferui icons, including Clarity core ones.
-    const clrIcons: Array<any> = this.window.hasOwnProperty('ClarityIcons') ? this.window.ClarityIcons.get() : [];
+    const clrIcons: IconShapeSources = this.window.hasOwnProperty('ClarityIcons') ? this.window.ClarityIcons.get() : {};
     this.icons = this.formatIcons(clrIcons);
     this.changeColor(this.defaultColor);
     this.changeIconsVariation(this.iconsVariation);
@@ -59,39 +60,36 @@ export class IconsComponent implements OnInit {
     }
   }
 
-  formatIcons(icons: Array<any>) {
-    const completeList: Array<any> = [];
-    const list: Array<any> = [];
-    for (const iconName in icons) {
-      if (icons.hasOwnProperty(iconName)) {
-        list.push({
-          name: iconName,
-          group: iconName.match(/fui/g) ? 'ferui' : 'clarity'
-        });
-      }
-    }
+  formatIcons(icons: IconShapeSources): Array<any> {
+    const list: Array<any> = Object.keys(icons).map(i => {
+      return {
+        name: i,
+        group: i.match(/fui/g) ? 'ferui' : 'clarity',
+      };
+    });
     const grouppedList = this.groupBy(list, (icon) => {
       return icon.group;
     });
-    for (const gIdx in grouppedList) {
-      if (grouppedList.hasOwnProperty(gIdx)) {
-        const groupName = grouppedList[gIdx][0].group;
-        completeList.push({
-          gName: groupName,
-          rows: this.generateRows(grouppedList[gIdx], 6)
-        });
-      }
-    }
-    return completeList;
+    return grouppedList.map((value) => {
+      return {
+        gName: value[0].group,
+        rows: this.generateRows(value, 6),
+      };
+    });
   }
 
   generateRows(array: Array<any>, nElements: number = 4): Array<any> {
     const rows: Array<any> = [];
     let items: Array<any> = [];
     let idx = 0;
+    let loopIdx = 0;
     for (const item of array) {
       items.push(item);
-      idx += 1;
+      idx++;
+      loopIdx++;
+      if (loopIdx === array.length && idx !== nElements) {
+        rows.push(items);
+      }
       if (idx === nElements) {
         rows.push(items);
         // Reset
@@ -104,11 +102,13 @@ export class IconsComponent implements OnInit {
 
   groupBy(array: Array<any>, f: Function): Array<any> {
     const groups = {};
-    array.forEach((o) => {
+    for (const o of array) {
       const group = JSON.stringify(f(o));
-      groups[group] = groups[group] || [];
+      if (!groups.hasOwnProperty(group)) {
+        groups[group] = [];
+      }
       groups[group].push(o);
-    });
+    }
     return Object.keys(groups).map((group) => {
       return groups[group];
     });

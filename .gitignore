@@ -3,6 +3,8 @@
 /.ng_build
 /tests/tslint/dist
 
+/reports
+
 # dependencies
 /node_modules
 

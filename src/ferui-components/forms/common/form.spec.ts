@@ -27,26 +27,6 @@ export default function(): void {
       expect(directive.nativeElement.className).toContain('fui-form');
     });
 
-    it('adds the horizontal layout class to host', function() {
-      fixture.detectChanges();
-      expect(directive.nativeElement.className).toContain('fui-form-horizontal');
-    });
-
-    it('adds the vertical layout class to host', function() {
-      fixture.detectChanges();
-      // There is no need to put `fui-form-vertical` because its the default behavior in CSS
-      expect(directive.nativeElement.className).toEqual('fui-form');
-    });
-
-    it('adds the compact layout class to host', function() {
-      fixture.detectChanges();
-      expect(directive.nativeElement.className).toContain('fui-form-compact');
-    });
-
-    it('provides the LayoutService', function() {
-      fixture.detectChanges();
-    });
-
     it('provides the MarkControlService', function() {
       expect(directive.injector.get(MarkControlService)).toBeTruthy();
     });

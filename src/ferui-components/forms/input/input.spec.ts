@@ -1,25 +1,20 @@
-/*
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
- * This software is released under MIT license.
- * The full license information can be found in LICENSE in the root directory of this project.
- */
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { TemplateDrivenSpec, ControlStandaloneSpec, ReactiveSpec } from '../tests/control.spec';
-import { ClrInputContainer } from './input-container';
-import { ClrInput } from './input';
+import { FuiInputContainer } from './input-container';
+import { FuiInput } from './input';
 
 @Component({
   template: `
-       <input type="text" clrInput />
+       <input type="text" fuiInput />
     `,
 })
 class StandaloneUseTest {}
 
 @Component({
   template: `
-       <input clrInput name="model" class="test-class" [(ngModel)]="model" />
+       <input fuiInput name="model" class="test-class" [(ngModel)]="model" />
     `,
 })
 class TemplateDrivenTest {}
@@ -27,7 +22,7 @@ class TemplateDrivenTest {}
 @Component({
   template: `
     <div [formGroup]="example">
-       <input clrInput name="model" class="test-class" formControlName="model" />
+       <input fuiInput name="model" class="test-class" formControlName="model" />
     </div>
     `,
 })
@@ -40,7 +35,7 @@ class ReactiveTest {
 export default function(): void {
   describe('Input directive', () => {
     ControlStandaloneSpec(StandaloneUseTest);
-    TemplateDrivenSpec(ClrInputContainer, ClrInput, TemplateDrivenTest, 'clr-input');
-    ReactiveSpec(ClrInputContainer, ClrInput, ReactiveTest, 'clr-input');
+    TemplateDrivenSpec(FuiInputContainer, FuiInput, TemplateDrivenTest, 'fui-input');
+    ReactiveSpec(FuiInputContainer, FuiInput, ReactiveTest, 'fui-input');
   });
 }
