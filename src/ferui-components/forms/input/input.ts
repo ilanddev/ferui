@@ -3,6 +3,7 @@ import { NgControl } from '@angular/forms';
 
 import { FuiInputContainer } from './input-container';
 import { WrappedFormControl } from '../common/wrapped-control';
+import { Renderer2 } from '@angular/core';
 
 @Directive({ selector: '[fuiInput]', host: { '[class.fui-input]': 'true' } })
 export class FuiInput extends WrappedFormControl<FuiInputContainer> {
@@ -14,8 +15,9 @@ export class FuiInput extends WrappedFormControl<FuiInputContainer> {
     @Self()
     @Optional()
     control: NgControl,
+    renderer: Renderer2,
     el: ElementRef
   ) {
-    super(vcr, FuiInputContainer, injector, control, el);
+    super(vcr, FuiInputContainer, injector, control, renderer, el);
   }
 }

@@ -1,0 +1,44 @@
+// Color override
+$blue: #03a6ff !default;
+$red: #ed5151 !default;
+$yellow: #fadd56 !default;
+$green: #13ce66 !default;
+$orange: #f89412 !default;
+
+$white: #ffffff !default;
+$gray-100: #f5f8f9 !default;
+$gray-200: #f1f7fb !default;
+$gray-300: #e5eaee !default;
+$gray-400: #ced6dd !default;
+$gray-500: #87a1b5 !default;
+$gray-600: #353f4e !default;
+$gray-700: #343b4e !default;
+$gray-800: #242a3b !default;
+$gray-900: #252a3a !default;
+$gray-1000: #191c28 !default;
+
+$grays: ('1000': $gray-1000);
+
+$colors: (
+  'gray': $gray-500,
+  'gray-dark': $gray-900
+);
+
+$secondary: $gray-500 !default;
+$dark: $gray-900 !default;
+$light: $gray-300 !default;
+
+$grid-columns: 12 !default;
+$grid-gutter-width: 20px !default;
+
+$font-family-sans-serif: Roboto, 'Helvetica Neue', Arial, Noto Sans, sans-serif !default;
+$font-family-monospace: Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !default;
+
+$font-size-base: 0.875rem !default; // = 14px assuming browser default to 16px
+$font-size-lg: ($font-size-base * 1.1428) !default; // 16px
+$font-size-sm: ($font-size-base * 0.8571) !default; // 12px
+
+$font-weight-lighter: 100 !default;
+$font-weight-bolder: 900 !default;
+
+$headings-font-weight: 700 !default;

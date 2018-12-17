@@ -16,20 +16,22 @@ import scss from 'highlight.js/lib/languages/scss';
 import typescript from 'highlight.js/lib/languages/typescript';
 
 export function hljsLanguages() {
-  return [
-    {name: 'typescript', func: typescript},
-    {name: 'scss', func: scss},
-    {name: 'xml', func: xml}
-  ];
+  return [{ name: 'typescript', func: typescript }, { name: 'scss', func: scss }, { name: 'xml', func: xml }];
 }
 
 @NgModule({
   declarations: [AppComponent, LandingComponent, AppContentContainerComponent],
-  imports: [BrowserAnimationsModule, CommonModule, FormsModule, FeruiModule, ROUTING, HighlightModule.forRoot({
-    languages: hljsLanguages
-  })],
+  imports: [
+    BrowserAnimationsModule,
+    CommonModule,
+    FormsModule,
+    FeruiModule,
+    ROUTING,
+    HighlightModule.forRoot({
+      languages: hljsLanguages,
+    }),
+  ],
   bootstrap: [AppComponent],
-  providers: [WINDOW_PROVIDERS]
+  providers: [WINDOW_PROVIDERS],
 })
-export class AppModule {
-}
+export class AppModule {}

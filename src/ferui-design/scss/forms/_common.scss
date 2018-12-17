@@ -1,0 +1,120 @@
+@import '../_variables.scss';
+@import '../_mixins.scss';
+
+@include exports('commons') {
+  .fui-form-control {
+    display: block;
+    position: relative;
+    margin: 1rem 0 auto;
+    width: 100%;
+    height: auto;
+
+    .fui-control-container {
+      .fui-control-icons {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: 0;
+      }
+
+      *:not(.fui-checkbox-wrapper) {
+        .fui-control-label:not(.fui-control-icons) {
+          position: absolute;
+          top: 50%;
+          left: calc(1rem + 2px); // With the borders we need to add 2px.
+          margin-top: -10px;
+          margin-bottom: 0;
+          height: 20px;
+          line-height: 20px;
+          font-size: $font-size-base;
+          color: $gray-500;
+          font-weight: $font-weight-bold;
+          transform-origin: 0 0;
+          transition: transform 0.2s ease;
+          font-family: inherit;
+          @include text-truncate;
+
+          .fui-label-required-star {
+            padding-left: 5px;
+          }
+
+          .fui-placeholder {
+            display: inline-block;
+            font-style: italic;
+            font-weight: $font-weight-normal;
+            padding-left: 5px;
+          }
+        }
+      }
+
+      > *:not(.fui-checkbox-subtext-wrapper) {
+        .fui-control-icons {
+          > .fui-validate-icon,
+          > .fui-error-icon {
+            display: block;
+            position: absolute;
+            top: 50%;
+            right: 1.0714rem;
+            fill: $gray-500;
+          }
+
+          > .fui-validate-icon {
+            width: 12px;
+            height: 12px;
+            margin-top: -0.4286rem;
+          }
+
+          > .fui-error-icon {
+            width: 18px;
+            height: 18px;
+            margin-top: -0.6429rem;
+            fill: $red;
+          }
+        }
+
+        .fui-subtext {
+          display: block;
+          position: absolute;
+          z-index: $zindex-tooltip;
+          padding: 0.3571rem 0.5714rem;
+          background-color: $red;
+          font-size: $font-size-base;
+          font-weight: $font-weight-normal;
+          color: $white;
+          @include border-radius(3px);
+          bottom: calc(100% - 5px);
+          right: 0;
+
+          visibility: hidden;
+          opacity: 0;
+          transition: visibility 0s ease 0.2s, opacity 0.2s ease;
+
+          &::after {
+            position: absolute;
+            display: block;
+            content: '';
+            width: 0;
+            height: 0;
+            z-index: 1;
+            right: 1.25rem;
+            bottom: 0;
+            margin: 0 0 -0.4286rem -0.4286rem;
+            border-left: 0.4286rem solid transparent;
+            border-right: 0.4286rem solid transparent;
+            border-top: 0.4286rem solid $red;
+          }
+        }
+      }
+
+      &:not(.fui-empty):not(.fui-no-label) {
+        *:not(.fui-checkbox-wrapper) {
+          .fui-control-label:not(.fui-control-icons) {
+            font-weight: $font-weight-normal;
+            transform: translateY(-0.6429rem) scale(0.85);
+          }
+        }
+      }
+    }
+  }
+}

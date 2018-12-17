@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Input } from '@angular/core';
 
 @Component({
   selector: 'fui-control-error',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
     `,
   host: { '[class.fui-subtext]': 'true' },
 })
-export class FuiControlError {}
+export class FuiControlError {
+  @Input('on') condition: boolean;
+}

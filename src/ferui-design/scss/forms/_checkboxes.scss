@@ -1,0 +1,94 @@
+@import '../_variables.scss';
+@import '../_mixins.scss';
+
+@include exports('forms.checkboxes') {
+  .fui-checkbox-wrapper {
+    display: block;
+    position: relative;
+    height: 1.25rem;
+    width: auto;
+    margin: 10px 0;
+
+    input[type='checkbox'] {
+      box-sizing: border-box;
+      width: 1.25rem;
+      height: 1.25rem;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      padding: 0;
+      margin: 0;
+
+      + label {
+        color: $gray-500;
+        font-size: 14px;
+        cursor: pointer;
+        box-sizing: border-box;
+        display: block;
+        position: relative;
+        user-select: none;
+        min-height: $min-height;
+        padding-left: 30px;
+        line-height: $min-height;
+        font-weight: bold;
+
+        &::before {
+          position: absolute;
+          box-sizing: border-box;
+          content: '';
+          top: 0;
+          left: 0;
+          display: inline-block;
+          height: 1.25rem;
+          width: 1.25rem;
+          border: 1px solid $gray-300;
+          border-radius: 3px;
+        }
+
+        &::after {
+          display: none;
+          position: absolute;
+          box-sizing: border-box;
+          content: '';
+          width: 0.40625rem;
+          height: 0.28125rem;
+          border-left: 2px solid white;
+          border-bottom: 2px solid white;
+          border-bottom-left-radius: 1px;
+          top: 0;
+          left: $checkmark-left-value;
+          transform: translate(0, $checkmark-left-value) rotate(-45deg);
+        }
+      }
+
+      &:checked {
+        + label {
+          color: $gray-900;
+          font-weight: bold;
+
+          &::before {
+            background-color: $blue;
+            border-color: $blue;
+          }
+
+          &::after {
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+
+  .fui-control-container {
+    .fui-checkbox-subtext-wrapper {
+      padding: 0 0 0 2px;
+      .fui-subtext {
+        color: $red;
+        display: inline-block;
+        vertical-align: middle;
+        padding: 0 0 0 8px;
+      }
+    }
+  }
+}

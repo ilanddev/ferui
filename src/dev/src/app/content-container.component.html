@@ -1,11 +1,11 @@
 <div class="container-fluid">
   <div class="row row flex-xl-nowrap">
-    <div class="col-xl-2 p-0 fui-sidebar">
+    <div class="col-sm-12 col-md-12 col-xl-2 col-lg-2 p-0 fui-sidebar">
       <form class="fui-search p-3 d-flex align-items-center">
         <input type="text" placeholder="Search..."/>
       </form>
-      <nav class="collapse">
-        <ul class="nav flex-column">
+      <nav class="demo-sidebar-menu">
+        <ul class="nav nav-pills flex-lg-column flex-xl-column">
           <li class="nav-item" *ngFor="let route of routes">
             <a *ngIf="route.path !== ''" class="nav-link" [routerLink]="[route.path]"
                [routerLinkActive]="['active']">{{route.path}}</a>
@@ -13,7 +13,7 @@
         </ul>
       </nav>
     </div>
-    <main class="col-10 bd-content">
+    <main class="col-xl-10 col-lg-10 col-md-12 col-sm-12 bd-content">
       <router-outlet></router-outlet>
     </main>
   </div>

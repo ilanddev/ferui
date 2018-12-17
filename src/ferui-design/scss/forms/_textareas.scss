@@ -1,0 +1,101 @@
+@import '../_variables.scss';
+@import '../_mixins.scss';
+
+@include exports('forms.textareas') {
+  .fui-form-control {
+    .fui-control-container {
+      .fui-textarea-wrapper {
+        .fui-control-label:not(.fui-control-icons) {
+          top: 1.3335rem;
+          margin-top: 0;
+        }
+
+        border: 1px solid $gray-300;
+        @include border-radius(3px);
+        padding: 1.3335rem 0 0;
+        transition: padding 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+
+        textarea {
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          width: 100%;
+          border: none;
+          font-family: inherit;
+          padding: 0 3rem 1.3335rem 1rem;
+          line-height: normal;
+          height: calc(70px - 1.8999rem);
+          min-height: calc(70px - 1.8999rem);
+          font-size: $font-size-base;
+          font-weight: $font-weight-bold;
+          background: none;
+          color: $gray-900;
+          resize: vertical;
+          @include controls-transitions();
+          @include no-placeholder();
+
+          &[disabled] {
+            background-color: $gray-200;
+            color: $gray-500;
+          }
+        }
+
+        .fui-validate-icon,
+        .fui-error-icon {
+          top: 1.3335rem;
+        }
+
+        .fui-validate-icon {
+          margin-top: 0;
+        }
+
+        .fui-error-icon {
+          margin-top: 0;
+        }
+      }
+
+      &:not(.fui-empty):not(.fui-no-label) {
+        textarea {
+          margin-top: 0.58317rem;
+          padding: 0 3rem 0.9rem 1rem !important;
+          height: calc(70px - (1.8999rem + 0.58317rem));
+          min-height: calc(70px - (1.8999rem + 0.58317rem));
+        }
+      }
+
+      &.fui-disabled {
+        background-color: $gray-200;
+        color: $gray-500;
+      }
+
+      &.fui-control-focus {
+        .fui-textarea-wrapper {
+          border-color: $gray-500;
+        }
+      }
+
+      &.fui-touched,
+      &.fui-dirty {
+        .fui-textarea-wrapper {
+          textarea {
+            &:focus {
+              + .fui-subtext {
+                visibility: visible;
+                opacity: 1;
+                transition-delay: 0s;
+              }
+
+              + .fui-subtext-wrapper {
+                .fui-subtext {
+                  visibility: visible;
+                  opacity: 1;
+                  transition-delay: 0s;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

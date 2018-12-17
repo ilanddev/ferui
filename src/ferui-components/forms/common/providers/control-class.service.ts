@@ -17,16 +17,25 @@ export class ControlClassService {
     return controlClasses.join(' ').trim();
   }
 
-  initControlClass(element: HTMLElement) {
+  initControlClass(renderer, element: HTMLElement) {
     if (element && element.className) {
       this.className = element.className;
+      const klasses = element.className.split(' ');
+      klasses.forEach(klass => {
+        if (klass.startsWith('fui-')) {
+          renderer.removeClass(element, klass);
+        }
+      });
     }
   }
 
   private cleanClasses(): string {
     const klassName = this.className.split(' ');
-    return klassName.filter(c => {
-      return c.indexOf('fui-') === -1;
-    }).join(' ').trim();
+    return klassName
+      .filter(c => {
+        return c.indexOf('fui-') === -1;
+      })
+      .join(' ')
+      .trim();
   }
 }

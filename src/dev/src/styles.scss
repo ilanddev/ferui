@@ -1,20 +1,63 @@
-@import '~highlight.js/styles/tomorrow.css';
+@import '~highlight.js/styles/github.css';
+@import 'ferui-design';
+
+.hljs {
+  background-color: $white;
+}
 
 .fui-navbar {
   position: sticky;
   top: 0;
-  z-index: 1071;
-  min-height: 3rem;
+  z-index: $zindex-sticky;
+  max-height: 3rem;
+  height: 3rem;
 }
 
 .fui-sidebar {
   position: sticky;
   top: 3rem;
-  z-index: 1000;
-  height: calc(100vh - 3rem);
-  border-right: 1px solid #e5eaee;
+  z-index: $zindex-sticky;
+  background-color: $white;
+
+  @include media-breakpoint-up(lg) {
+    height: calc(100vh - 3rem);
+    border-right: 1px solid $gray-300;
+  }
+
+  @include media-breakpoint-down(md) {
+    height: auto;
+    border-bottom: 1px solid $gray-300;
+  }
 
   .fui-search {
     border-bottom: 1px solid #e5eaee;
+
+    input {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      border: none;
+    }
+  }
+}
+
+.demo-sidebar-menu {
+  padding: 20px;
+
+  .nav-pills .nav-link.active {
+    background-color: $gray-900;
+  }
+
+  .nav-link {
+    padding: 0.3rem 0.7rem;
+  }
+}
+
+.code-container {
+  @include media-breakpoint-up(md) {
+    margin-top: 3.4286rem;
+  }
+
+  @include media-breakpoint-down(sm) {
+    margin-top: 0;
   }
 }

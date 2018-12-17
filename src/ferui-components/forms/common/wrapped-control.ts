@@ -20,12 +20,15 @@ import { NgControl } from '@angular/forms';
 import { ControlClassService } from './providers/control-class.service';
 import { MarkControlService } from './providers/mark-control.service';
 import { Subscription } from 'rxjs';
+import { PlaceholderService } from './providers/placeholder.service';
+import { Renderer2 } from '@angular/core';
 
 export class WrappedFormControl<W extends DynamicWrapper> implements OnInit, OnDestroy {
   private ngControlService: NgControlService;
   private ifErrorService: IfErrorService;
   private controlClassService: ControlClassService;
   private markControlService: MarkControlService;
+  private placeholderService: PlaceholderService;
 
   protected subscriptions: Subscription[] = [];
   protected index = 0;
@@ -33,32 +36,31 @@ export class WrappedFormControl<W extends DynamicWrapper> implements OnInit, OnD
 
   _id: string;
 
-  // I lost way too much time trying to make this work without injecting the ViewContainerRef and the Injector,
-  // I'm giving up. So we have to inject these two manually for now.
   constructor(
     protected vcr: ViewContainerRef,
     protected wrapperType: Type<W>,
     injector: Injector,
     private ngControl: NgControl,
-    el: ElementRef,
+    renderer: Renderer2,
+    el: ElementRef
   ) {
     try {
       this.ngControlService = injector.get(NgControlService);
       this.ifErrorService = injector.get(IfErrorService);
       this.controlClassService = injector.get(ControlClassService);
       this.markControlService = injector.get(MarkControlService);
-    } catch (e) {
-    }
+      this.placeholderService = injector.get(PlaceholderService);
+    } catch (e) {}
 
     if (this.controlClassService) {
-      this.controlClassService.initControlClass(el.nativeElement);
+      this.controlClassService.initControlClass(renderer, el.nativeElement);
     }
     if (this.markControlService) {
       this.subscriptions.push(
         this.markControlService.dirtyChange.subscribe(() => {
           this.ngControl.control.markAsDirty();
           this.ngControl.control.updateValueAndValidity();
-        }),
+        })
       );
     }
   }
@@ -75,6 +77,14 @@ export class WrappedFormControl<W extends DynamicWrapper> implements OnInit, OnD
       this.controlIdService.id = value;
     }
   }
+
+  @HostBinding('attr.placeholder')
+  @Input('placeholder')
+  placeholderAttr: string;
+
+  @HostBinding('attr.required')
+  @Input('required')
+  requiredAttr: boolean;
 
   @HostListener('blur')
   triggerValidation() {
@@ -96,6 +106,10 @@ export class WrappedFormControl<W extends DynamicWrapper> implements OnInit, OnD
 
     if (this.ngControlService) {
       this.ngControlService.setControl(this.ngControl);
+    }
+
+    if (this.placeholderService) {
+      this.placeholderService.setPlaceholder(this.placeholderAttr);
     }
   }
 

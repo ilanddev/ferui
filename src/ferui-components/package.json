@@ -2,7 +2,7 @@
   "name": "@ferui/components",
   "author": "iLand cloud",
   "license": "BSD-3-clause",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Angular components for FerUI",
   "es2015": "esm2015/ferui-components.js",
   "main": "bundles/ferui-components.umd.js",
@@ -18,7 +18,7 @@
     "@angular/forms": "^7.1.1",
     "@angular/platform-browser": "^7.1.1",
     "@angular/platform-browser-dynamic": "^7.1.1",
-    "@ferui/design": "0.0.3",
-    "@ferui/icons": "0.0.3"
+    "@ferui/design": "0.0.4",
+    "@ferui/icons": "0.0.4"
   }
 }

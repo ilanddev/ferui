@@ -1,0 +1,3 @@
+@mixin controls-transitions() {
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease, padding 0.15s ease, opacity 0.15s ease;
+}

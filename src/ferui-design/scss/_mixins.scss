@@ -1,7 +1,7 @@
-
 // FerUI custom mixins.
-@import "mixins/exports";
-@import "mixins/control-placeholder";
+@import 'mixins/exports';
+@import 'mixins/control-placeholder';
+@import 'mixins/forms';
 
 // All imported Bootstrap mixins.
-@import "../../../node_modules/bootstrap/scss/mixins";
+@import '../../../node_modules/bootstrap/scss/mixins';
