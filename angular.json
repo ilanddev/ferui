@@ -26,11 +26,16 @@
                 "glob": "**/*",
                 "input": "src/dev/src/assets",
                 "output": "/assets"
+              },
+              {
+                "glob": "*",
+                "input": "src/ferui-design/fonts",
+                "output": "/fonts"
               }
             ],
             "styles": ["src/ferui-icons/ferui-icons.scss", "src/dev/src/styles.scss"],
             "stylePreprocessorOptions": {
-              "includePaths": ["node_modules", "src/ferui-design"]
+              "includePaths": ["node_modules", "src/ferui-design", "src/ferui-design/fonts"]
             },
             "scripts": ["node_modules/@webcomponents/custom-elements/custom-elements.min.js"]
           },

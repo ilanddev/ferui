@@ -6,26 +6,28 @@
     .fui-control-container {
       .fui-textarea-wrapper {
         .fui-control-label:not(.fui-control-icons) {
-          top: 1.3335rem;
+          top: $controls-padding;
           margin-top: 0;
         }
 
         border: 1px solid $gray-300;
         @include border-radius(3px);
-        padding: 1.3335rem 0 0;
-        transition: padding 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+        padding: $controls-padding 0;
+        transition: background-color 0.15s ease, color 0.15s ease;
+        min-height: 70px;
 
         textarea {
+          display: inline-block;
+          vertical-align: top;
           -webkit-appearance: none;
           -moz-appearance: none;
-          appearance: none;
           width: 100%;
           border: none;
           font-family: inherit;
-          padding: 0 3rem 1.3335rem 1rem;
+          padding: 0 3rem 0 $controls-padding;
           line-height: normal;
-          height: calc(70px - 1.8999rem);
-          min-height: calc(70px - 1.8999rem);
+          height: calc(#{$textarea-default-height} - #{$controls-padding});
+          min-height: calc(#{$textarea-default-height} - #{$controls-padding});
           font-size: $font-size-base;
           font-weight: $font-weight-bold;
           background: none;
@@ -39,27 +41,16 @@
             color: $gray-500;
           }
         }
-
-        .fui-validate-icon,
-        .fui-error-icon {
-          top: 1.3335rem;
-        }
-
-        .fui-validate-icon {
-          margin-top: 0;
-        }
-
-        .fui-error-icon {
-          margin-top: 0;
-        }
       }
 
       &:not(.fui-empty):not(.fui-no-label) {
-        textarea {
-          margin-top: 0.58317rem;
-          padding: 0 3rem 0.9rem 1rem !important;
-          height: calc(70px - (1.8999rem + 0.58317rem));
-          min-height: calc(70px - (1.8999rem + 0.58317rem));
+        .fui-textarea-wrapper {
+          padding: $controls-padding 0 $controls-filled-padding 0;
+          textarea {
+            margin-top: $textarea-margin;
+            height: calc(#{$textarea-default-height} - #{$textarea-margin} - #{$controls-filled-padding});
+            min-height: calc(#{$textarea-default-height} - #{$textarea-margin} - #{$controls-filled-padding});
+          }
         }
       }
 
@@ -79,14 +70,8 @@
         .fui-textarea-wrapper {
           textarea {
             &:focus {
-              + .fui-subtext {
-                visibility: visible;
-                opacity: 1;
-                transition-delay: 0s;
-              }
-
-              + .fui-subtext-wrapper {
-                .fui-subtext {
+              ~ .fui-subtext-wrapper {
+                .fui-subtext:first-child {
                   visibility: visible;
                   opacity: 1;
                   transition-delay: 0s;

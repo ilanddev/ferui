@@ -7,7 +7,7 @@
     position: relative;
     height: 1.25rem;
     width: auto;
-    margin: 10px 0;
+    margin: 10px 0 0 0;
 
     input[type='checkbox'] {
       box-sizing: border-box;
@@ -50,15 +50,24 @@
           display: none;
           position: absolute;
           box-sizing: border-box;
-          content: '';
-          width: 0.40625rem;
-          height: 0.28125rem;
-          border-left: 2px solid white;
-          border-bottom: 2px solid white;
-          border-bottom-left-radius: 1px;
+          width: 0.5625rem;
+          height: 0.5625rem;
           top: 0;
           left: $checkmark-left-value;
-          transform: translate(0, $checkmark-left-value) rotate(-45deg);
+          transform: translate(0, $checkmark-left-value);
+          // TODO create a mixin to handle this icon stuff.
+          color: $white;
+          content: '\68';
+          font-style: normal !important;
+          font-weight: normal !important;
+          font-variant: normal !important;
+          text-transform: none !important;
+          speak: none;
+          line-height: 1;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          font-size: 0.5625rem;
+          font-family: 'ferui-design-forms-icons' !important;
         }
       }
 
@@ -82,12 +91,38 @@
 
   .fui-control-container {
     .fui-checkbox-subtext-wrapper {
-      padding: 0 0 0 2px;
+      padding: 5px 0 0 2px;
+
       .fui-subtext {
         color: $red;
         display: inline-block;
         vertical-align: middle;
-        padding: 0 0 0 8px;
+        padding: 0 0 0 12px;
+
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s ease 0.2s, opacity 0.2s ease;
+      }
+    }
+
+    &.fui-touched,
+    &.fui-dirty {
+      .fui-checkbox-subtext-wrapper {
+        .fui-subtext:first-child {
+          visibility: visible;
+          opacity: 1;
+          transition-delay: 0s;
+        }
+      }
+
+      &.fui-error {
+        .fui-checkbox-wrapper {
+          .fui-control-label {
+            &::before {
+              border-color: $red;
+            }
+          }
+        }
       }
     }
   }

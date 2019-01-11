@@ -14,11 +14,14 @@ import { AfterContentInit } from '@angular/core';
   selector: 'fui-checkbox-container',
   template: `
     <ng-content select="label"></ng-content>
+    <label *ngIf="!label"></label>
     <div class="fui-control-container" [ngClass]="controlClass()">
       <ng-content select="fui-checkbox-wrapper"></ng-content>
       <div class="fui-checkbox-subtext-wrapper">
         <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-        <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
+        <fui-default-control-error [on]="invalid">
+          <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
+        </fui-default-control-error>
       </div>
     </div>
   `,

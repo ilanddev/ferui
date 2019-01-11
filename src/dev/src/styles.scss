@@ -61,3 +61,12 @@
     margin-top: 0;
   }
 }
+
+.footer {
+  padding: 20px 0;
+  border-top: 1px solid $gray-300;
+
+  .btn:not(:first-child) {
+    margin-left: 10px;
+  }
+}

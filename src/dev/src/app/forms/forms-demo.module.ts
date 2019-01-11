@@ -9,10 +9,30 @@ import { FormsModule } from '@angular/forms';
 import { HighlightModule } from 'ngx-highlightjs';
 import { TextareaComponent } from './textarea/textarea.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
+import { SelectsComponent } from './select/selects.component';
+import { RadiosComponent } from './radios/radios.component';
+import { PasswordComponent } from './password/password.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, FeruiModule, ROUTING, HighlightModule],
-  declarations: [DefaultComponent, InputsComponent, TextareaComponent, CheckboxComponent, FormsLandingComponent],
-  exports: [DefaultComponent, InputsComponent, TextareaComponent, CheckboxComponent],
+  declarations: [
+    DefaultComponent,
+    InputsComponent,
+    TextareaComponent,
+    CheckboxComponent,
+    RadiosComponent,
+    SelectsComponent,
+    PasswordComponent,
+    FormsLandingComponent,
+  ],
+  exports: [
+    DefaultComponent,
+    InputsComponent,
+    TextareaComponent,
+    CheckboxComponent,
+    RadiosComponent,
+    SelectsComponent,
+    PasswordComponent,
+  ],
 })
 export class FormsDemoModule {}

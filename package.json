@@ -52,6 +52,7 @@
     "@angular/platform-browser-dynamic": "^7.1.1",
     "@angular/router": "^7.1.1",
     "@clr/icons": "^0.13.10",
+    "@ng-select/ng-select": "^2.13.1",
     "@types/highlight.js": "^9.12.3",
     "@webcomponents/custom-elements": "^1.0.0",
     "core-js": "^2.5.5",

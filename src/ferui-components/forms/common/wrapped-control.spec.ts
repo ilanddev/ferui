@@ -13,6 +13,7 @@ import { IfErrorService } from './if-error/if-error.service';
 import { ControlClassService } from './providers/control-class.service';
 import { MarkControlService } from './providers/mark-control.service';
 import { WrappedFormControl } from './wrapped-control';
+import { Renderer2 } from '@angular/core';
 
 /*
  * Components using the WrappedFormControl we want to test.
@@ -25,7 +26,7 @@ class TestWrapper implements DynamicWrapper {
 @Directive({ selector: '[testControl]' })
 class TestControl extends WrappedFormControl<TestWrapper> {
   constructor(vcr: ViewContainerRef) {
-    super(vcr, TestWrapper, null, null, null);
+    super(vcr, TestWrapper, null, null, null, null);
   }
 }
 
@@ -41,7 +42,7 @@ class TestWrapper2 implements DynamicWrapper {
 @Directive({ selector: '[testControl2]' })
 class TestControl2 extends WrappedFormControl<TestWrapper2> {
   constructor(vcr: ViewContainerRef) {
-    super(vcr, TestWrapper2, null, null, null);
+    super(vcr, TestWrapper2, null, null, null, null);
   }
 }
 
@@ -56,8 +57,8 @@ class TestWrapper3 implements DynamicWrapper {
 
 @Directive({ selector: '[testControl3]' })
 class TestControl3 extends WrappedFormControl<TestWrapper3> {
-  constructor(vcr: ViewContainerRef, injector: Injector, control: NgControl, el: ElementRef) {
-    super(vcr, TestWrapper3, injector, control, el);
+  constructor(vcr: ViewContainerRef, injector: Injector, control: NgControl, renderer: Renderer2, el: ElementRef) {
+    super(vcr, TestWrapper3, injector, control, renderer, el);
   }
 }
 

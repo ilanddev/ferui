@@ -1,5 +1,9 @@
+import { ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+
 export interface ControlTemplateInterface {
   template: string;
+
   getExamples(): Array<ExampleCode>;
 }
 
@@ -25,8 +29,11 @@ export abstract class AbstractControlTemplate implements ControlTemplateInterfac
         <button class="btn btn-sm btn-info ml-2" (click)="toggleAllCodes()">Toggle all code</button>
         <button class="btn btn-sm btn-info ml-2" (click)="toggleAllResults()">Toggle all results</button>
       </p>
-      <form fuiForm class="container-fluid">`;
-    const endTag = `</form>`;
+      <form fuiForm class="container-fluid" #demoForm="ngForm">`;
+    const endTag = `<div class="footer"><button class="btn btn-primary" [disabled]="!demoForm.form.valid" type="submit">Submit</button>
+  <button class="btn btn-success" type="button" (click)="validate()">Validate</button>
+  <button class="btn btn-light" type="button" (click)="demoForm.reset()">Reset</button></div>
+</form>`;
 
     let block = ``;
     let idx = 0;
@@ -82,6 +89,8 @@ export abstract class AbstractControlDemoComponent {
   public results: any = {};
   public disabled: boolean = true;
 
+  @ViewChild('demoForm') form: NgForm;
+
   protected constructor() {}
 
   concatResultModels(models, ...modelNames): Array<any> {
@@ -113,6 +122,16 @@ export abstract class AbstractControlDemoComponent {
     for (const res in this.results) {
       if (this.results.hasOwnProperty(res)) {
         this.toggle(this.results, res);
+      }
+    }
+  }
+
+  validate(): void {
+    this.form.form.markAsTouched();
+    for (const controlKey in this.form.controls) {
+      if (this.form.controls.hasOwnProperty(controlKey)) {
+        this.form.controls[controlKey].markAsTouched();
+        this.form.controls[controlKey].updateValueAndValidity();
       }
     }
   }

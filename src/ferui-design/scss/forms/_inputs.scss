@@ -11,7 +11,7 @@
           width: 100%;
           border: 1px solid $gray-300;
           font-family: inherit;
-          padding: 1.3335rem 3rem 1.3335rem 1rem;
+          padding: $controls-padding 3rem $controls-padding $controls-padding;
           height: 50px;
           font-size: $font-size-base;
           font-weight: $font-weight-bold;
@@ -30,27 +30,45 @@
             color: $gray-500;
           }
         }
+
+        .fui-input-group-icon-action {
+          display: block;
+          position: absolute;
+          top: 50%;
+          right: 1.0714rem;
+          fill: $gray-500;
+          z-index: $zindex-dropdown;
+          width: 20px;
+          height: 20px;
+          margin-top: -0.625rem;
+          cursor: pointer;
+        }
       }
 
       &:not(.fui-empty):not(.fui-no-label) {
-        input:not([type='checkbox']):not([type='radio']) {
-          padding: 1.91667rem 3rem 0.9rem 1rem !important;
+        .fui-input-wrapper {
+          input:not([type='checkbox']):not([type='radio']) {
+            padding: $controls-padding 3rem 0 $controls-padding !important;
+          }
+        }
+      }
+
+      &:not(.fui-empty) {
+        .fui-input-group-icon-action {
+          right: 2.6964rem;
         }
       }
 
       &.fui-touched,
       &.fui-dirty {
         .fui-input-wrapper {
+          .fui-input-group-icon-action {
+            right: 2.6964rem;
+          }
           input:not([type='checkbox']):not([type='radio']) {
             &:focus {
-              + .fui-subtext {
-                visibility: visible;
-                opacity: 1;
-                transition-delay: 0s;
-              }
-
-              + .fui-subtext-wrapper {
-                .fui-subtext {
+              ~ .fui-subtext-wrapper {
+                .fui-subtext:first-child {
                   visibility: visible;
                   opacity: 1;
                   transition-delay: 0s;

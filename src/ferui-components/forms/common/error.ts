@@ -6,8 +6,11 @@ import { Input } from '@angular/core';
   template: `
     <ng-content></ng-content>
     `,
-  host: { '[class.fui-subtext]': 'true' },
+  host: {
+    '[class.fui-subtext]': 'true',
+    '[attr.hidden]': 'displayOn === false ? true : null',
+  },
 })
 export class FuiControlError {
-  @Input('on') condition: boolean;
+  @Input() displayOn: boolean;
 }

@@ -1,2 +1,12 @@
+// Controls
+$controls-padding: 0.9375rem !default; // 15px padding
+$controls-filled-padding: 0.3125rem !default; // 5px padding
+
+// Textarea
+$textarea-default-height: calc((70px - #{$controls-padding}) - 2px);
+$textarea-margin: calc(#{$controls-filled-padding} + 2px);
+
+// Radios / checkboxes
 $min-height: 1.25rem;
-$checkmark-left-value: 0.41875rem;
+$checkmark-left-value: 0.34375rem;
+$radiocircle-left-value: 0.425rem;

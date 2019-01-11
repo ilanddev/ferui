@@ -36,6 +36,10 @@ export class FuiIfError {
   }
 
   @Input('fuiIfError') error: string;
+  @Input()
+  set displayOn(condition: boolean) {
+    this.displayError(!condition);
+  }
 
   private subscriptions: Subscription[] = [];
   private displayed: boolean = false;
@@ -49,7 +53,7 @@ export class FuiIfError {
     if (invalid && !this.displayed) {
       this.container.createEmbeddedView(this.template);
       this.displayed = true;
-    } else if (!invalid) {
+    } else if (!invalid && this.displayed) {
       this.container.clear();
       this.displayed = false;
     }

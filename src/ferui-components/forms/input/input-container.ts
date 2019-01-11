@@ -21,15 +21,14 @@ import { InputReference } from './input-reference';
         <ng-content select="label" *ngIf="label"></ng-content>
         <label *ngIf="!label"></label>
         <ng-content select="[fuiInput]"></ng-content>
-        <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
-
-        <fui-default-control-error [on]="invalid"></fui-default-control-error>
-        
         <label class="fui-control-icons">
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
           <clr-icon *ngIf="!invalid && control?.value" class="fui-validate-icon" shape="fui-tick"
                     aria-hidden="true"></clr-icon>
         </label>
+        <fui-default-control-error [on]="invalid">
+          <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
+        </fui-default-control-error>
       </div>
     </div>
   `,

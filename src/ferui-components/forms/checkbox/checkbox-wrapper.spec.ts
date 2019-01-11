@@ -1,22 +1,17 @@
-/*
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
- * This software is released under MIT license.
- * The full license information can be found in LICENSE in the root directory of this project.
- */
 import { Component } from '@angular/core';
 
 import { WrapperFullSpec, WrapperNoLabelSpec, WrapperContainerSpec } from '../tests/wrapper.spec';
-import { ClrCheckbox } from './checkbox';
-import { ClrCheckboxWrapper } from './checkbox-wrapper';
-import { ClrCheckboxContainer } from './checkbox-container';
+import { FuiCheckboxContainer } from './checkbox-container';
+import { FuiCheckbox } from './checkbox';
+import { FuiCheckboxWrapper } from './checkbox-wrapper';
 
 @Component({
   template: `
-    <clr-checkbox-wrapper>
+    <fui-checkbox-wrapper>
       <label>Hello World</label>
-      <input type="checkbox" clrCheckbox name="model" [(ngModel)]="model" />
-    </clr-checkbox-wrapper>
-    `,
+      <input type="checkbox" fuiCheckbox name="model" [(ngModel)]="model"/>
+    </fui-checkbox-wrapper>
+  `,
 })
 class FullTest {
   model = '';
@@ -24,29 +19,30 @@ class FullTest {
 
 @Component({
   template: `
-    <clr-checkbox-wrapper>
-      <input type="checkbox" clrCheckbox name="model" [(ngModel)]="model" />
-    </clr-checkbox-wrapper>`,
+    <fui-checkbox-wrapper>
+      <input type="checkbox" fuiCheckbox name="model" [(ngModel)]="model"/>
+    </fui-checkbox-wrapper>`,
 })
 class NoLabelTest {
   model = '';
 }
 
 @Component({
-  template: `<clr-checkbox-container>
-    <clr-checkbox-wrapper>
-      <input type="checkbox" clrCheckbox name="model" [(ngModel)]="model" />
-    </clr-checkbox-wrapper>
-  </clr-checkbox-container>`,
+  template: `
+    <fui-checkbox-container>
+      <fui-checkbox-wrapper>
+        <input type="checkbox" fuiCheckbox name="model" [(ngModel)]="model"/>
+      </fui-checkbox-wrapper>
+    </fui-checkbox-container>`,
 })
 class ContainerTest {
   model = '';
 }
 
 export default function(): void {
-  describe('ClrCheckboxWrapper', () => {
-    WrapperNoLabelSpec(ClrCheckboxWrapper, ClrCheckbox, NoLabelTest);
-    WrapperFullSpec(ClrCheckboxWrapper, ClrCheckbox, FullTest, 'clr-checkbox-wrapper');
-    WrapperContainerSpec(ClrCheckboxContainer, ClrCheckboxWrapper, ClrCheckbox, ContainerTest, 'clr-checkbox-wrapper');
+  describe('FuiCheckboxWrapper', () => {
+    WrapperNoLabelSpec(FuiCheckboxWrapper, FuiCheckbox, NoLabelTest);
+    WrapperFullSpec(FuiCheckboxWrapper, FuiCheckbox, FullTest, 'fui-checkbox-wrapper');
+    WrapperContainerSpec(FuiCheckboxContainer, FuiCheckboxWrapper, FuiCheckbox, ContainerTest, 'fui-checkbox-wrapper');
   });
 }

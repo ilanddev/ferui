@@ -27,7 +27,7 @@ export function ContainerNoLabelSpec(testContainer, testControl, testComponent):
     it('adds an empty label when instantiated', () => {
       fixture.detectChanges();
       const labels = containerEl.querySelectorAll('label');
-      expect(Array.prototype.filter.call(labels, label => label.textContent === '').length).toBe(1);
+      expect(Array.prototype.filter.call(labels, label => label.textContent === '').length).toBeGreaterThanOrEqual(1);
     });
   });
 }

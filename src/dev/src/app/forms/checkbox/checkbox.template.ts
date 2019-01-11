@@ -38,11 +38,11 @@ export class CheckboxComponentTemplate extends AbstractControlTemplate {
       },
       {
         title: 'Label, wrapper and <span class="text-danger">required</span> validator :',
-        code: `<fui-checkbox-container>
-  <fui-checkbox-wrapper>
-    <input type="checkbox" fuiCheckbox name="option1" value="option1" [(ngModel)]="model.three" />
-    <label>Option 1</label>
-  </fui-checkbox-wrapper>
+        code: `<fui-checkbox-wrapper>
+  <input type="checkbox" fuiCheckbox name="option1" value="option1" [(ngModel)]="model.three" />
+  <label>Option 1</label>
+</fui-checkbox-wrapper>
+<fui-checkbox-container>
   <fui-checkbox-wrapper>
     <input type="checkbox" fuiCheckbox name="option2" required value="option2" [(ngModel)]="model.threebis" />
     <label>Option 2</label>

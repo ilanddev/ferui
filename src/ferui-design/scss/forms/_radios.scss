@@ -1,0 +1,119 @@
+@import '../_variables.scss';
+@import '../_mixins.scss';
+
+@include exports('forms.radios') {
+  .fui-radio-wrapper {
+    display: block;
+    position: relative;
+    height: 1.25rem;
+    width: auto;
+    margin: 10px 0 0 0;
+
+    input[type='radio'] {
+      box-sizing: border-box;
+      width: 1.25rem;
+      height: 1.25rem;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      padding: 0;
+      margin: 0;
+
+      + label {
+        color: $gray-500;
+        font-size: 14px;
+        cursor: pointer;
+        box-sizing: border-box;
+        display: block;
+        position: relative;
+        user-select: none;
+        min-height: $min-height;
+        padding-left: 30px;
+        line-height: $min-height;
+        font-weight: bold;
+
+        &::before {
+          position: absolute;
+          box-sizing: border-box;
+          content: '';
+          top: 0;
+          left: 0;
+          display: inline-block;
+          height: 1.25rem;
+          width: 1.25rem;
+          border: 1px solid $gray-300;
+          border-radius: 50%;
+        }
+
+        &::after {
+          display: none;
+          content: '';
+          position: absolute;
+          box-sizing: border-box;
+          width: 0.4rem;
+          height: 0.4rem;
+          top: 0;
+          left: $radiocircle-left-value;
+          transform: translate(0, $radiocircle-left-value);
+          background-color: $white;
+          border-radius: 50%;
+        }
+      }
+
+      &:checked {
+        + label {
+          color: $gray-900;
+          font-weight: bold;
+
+          &::before {
+            background-color: $blue;
+            border-color: $blue;
+          }
+
+          &::after {
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+
+  .fui-control-container {
+    .fui-radio-subtext-wrapper {
+      padding: 5px 0 0 2px;
+
+      .fui-subtext {
+        color: $red;
+        display: inline-block;
+        vertical-align: middle;
+        padding: 0 0 0 12px;
+
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s ease 0.2s, opacity 0.2s ease;
+      }
+    }
+
+    &.fui-touched,
+    &.fui-dirty {
+      .fui-radio-subtext-wrapper {
+        .fui-subtext:first-child {
+          visibility: visible;
+          opacity: 1;
+          transition-delay: 0s;
+        }
+      }
+
+      &.fui-error {
+        .fui-radio-wrapper {
+          .fui-control-label {
+            &::before {
+              border-color: $red;
+            }
+          }
+        }
+      }
+    }
+  }
+}
