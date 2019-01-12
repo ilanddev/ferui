@@ -1,30 +1,13 @@
 import { Component } from '@angular/core';
-import { InputsComponentTemplate } from './inputs.template';
 import { AbstractControlDemoComponent } from '../abstract-control-demo.component';
 import { ExampleCode } from '../abstract-control-demo.component';
 import { OnInit } from '@angular/core';
-
-const componentTemplate: InputsComponentTemplate = InputsComponentTemplate.getInstance();
+import { INPUT_EXAMPLES, INPUT_TEMPLATE } from './inputs.template';
 
 @Component({
-  template: componentTemplate.template || ``,
+  template: INPUT_TEMPLATE,
 })
 export class InputsComponent extends AbstractControlDemoComponent implements OnInit {
-  constructor() {
-    super();
-  }
-
-  ngOnInit(): void {
-    const examples: Array<ExampleCode> = componentTemplate.getExamples();
-    for (const idx in examples) {
-      if (examples[idx]) {
-        this.examples[idx] = this.defaultExampleValue;
-        this.results[idx] = this.defaultResultValue;
-        this.examplesCode[idx] = examples[idx].code;
-      }
-    }
-  }
-
   model = {
     one: '',
     two: 'Filled with value',
@@ -34,4 +17,19 @@ export class InputsComponent extends AbstractControlDemoComponent implements OnI
     six: '',
     seven: '',
   };
+
+  constructor() {
+    super();
+  }
+
+  ngOnInit(): void {
+    const examples: Array<ExampleCode> = INPUT_EXAMPLES;
+    for (const key in examples) {
+      if (examples[key]) {
+        this.examples[key] = this.defaultExampleValue;
+        this.results[key] = this.defaultResultValue;
+        this.examplesCode[key] = examples[key].code;
+      }
+    }
+  }
 }

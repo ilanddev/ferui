@@ -2,29 +2,12 @@ import { Component } from '@angular/core';
 import { AbstractControlDemoComponent } from '../abstract-control-demo.component';
 import { ExampleCode } from '../abstract-control-demo.component';
 import { OnInit } from '@angular/core';
-import { PasswordsComponentTemplate } from './password.template';
-
-const componentTemplate: PasswordsComponentTemplate = PasswordsComponentTemplate.getInstance();
+import { PASSWORD_EXAMPLES, PASSWORD_TEMPLATE } from './password.template';
 
 @Component({
-  template: componentTemplate.template || ``,
+  template: PASSWORD_TEMPLATE,
 })
 export class PasswordComponent extends AbstractControlDemoComponent implements OnInit {
-  constructor() {
-    super();
-  }
-
-  ngOnInit(): void {
-    const examples: Array<ExampleCode> = componentTemplate.getExamples();
-    for (const idx in examples) {
-      if (examples[idx]) {
-        this.examples[idx] = this.defaultExampleValue;
-        this.results[idx] = this.defaultResultValue;
-        this.examplesCode[idx] = examples[idx].code;
-      }
-    }
-  }
-
   model = {
     one: '',
     two: 'Filled with value',
@@ -34,4 +17,19 @@ export class PasswordComponent extends AbstractControlDemoComponent implements O
     six: '',
     seven: '',
   };
+
+  constructor() {
+    super();
+  }
+
+  ngOnInit(): void {
+    const examples: Array<ExampleCode> = PASSWORD_EXAMPLES;
+    for (const idx in examples) {
+      if (examples[idx]) {
+        this.examples[idx] = this.defaultExampleValue;
+        this.results[idx] = this.defaultResultValue;
+        this.examplesCode[idx] = examples[idx].code;
+      }
+    }
+  }
 }

@@ -12,10 +12,12 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
 import { SelectsComponent } from './select/selects.component';
 import { RadiosComponent } from './radios/radios.component';
 import { PasswordComponent } from './password/password.component';
+import { DefaultTemplateWrapper } from './default-template-wrapper';
 
 @NgModule({
   imports: [CommonModule, FormsModule, FeruiModule, ROUTING, HighlightModule],
   declarations: [
+    DefaultTemplateWrapper,
     DefaultComponent,
     InputsComponent,
     TextareaComponent,
@@ -26,6 +28,7 @@ import { PasswordComponent } from './password/password.component';
     FormsLandingComponent,
   ],
   exports: [
+    DefaultTemplateWrapper,
     DefaultComponent,
     InputsComponent,
     TextareaComponent,

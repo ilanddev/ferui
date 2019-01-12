@@ -7,11 +7,12 @@ import { FuiCommonFormsModule } from '../common/common.module';
 
 import { FuiPassword } from './password';
 import { FuiPasswordContainer } from './password-container';
+import { PasswordReference } from './password-reference';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ClrIconModule, FuiCommonFormsModule],
-  declarations: [FuiPassword, FuiPasswordContainer],
-  exports: [FuiCommonFormsModule, FuiPassword, FuiPasswordContainer],
+  declarations: [FuiPassword, FuiPasswordContainer, PasswordReference],
+  exports: [FuiCommonFormsModule, FuiPassword, FuiPasswordContainer, PasswordReference],
   entryComponents: [FuiPasswordContainer],
 })
 export class FuiPasswordModule {}

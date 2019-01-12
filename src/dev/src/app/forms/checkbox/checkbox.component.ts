@@ -1,21 +1,27 @@
 import { Component } from '@angular/core';
-import { CheckboxComponentTemplate } from './checkbox.template';
 import { AbstractControlDemoComponent } from '../abstract-control-demo.component';
 import { OnInit } from '@angular/core';
 import { ExampleCode } from '../abstract-control-demo.component';
-
-const componentTemplate: CheckboxComponentTemplate = CheckboxComponentTemplate.getInstance();
+import { CHECKBOX_EXAMPLES, CHECKBOX_TEMPLATE } from './checkbox.template';
 
 @Component({
-  template: componentTemplate.template || ``,
+  template: CHECKBOX_TEMPLATE,
 })
 export class CheckboxComponent extends AbstractControlDemoComponent implements OnInit {
+  model = {
+    one: '',
+    two: true,
+    twobis: '',
+    three: false,
+    threebis: null,
+  };
+
   constructor() {
     super();
   }
 
   ngOnInit(): void {
-    const examples: Array<ExampleCode> = componentTemplate.getExamples();
+    const examples: Array<ExampleCode> = CHECKBOX_EXAMPLES;
     for (const idx in examples) {
       if (examples[idx]) {
         this.examples[idx] = this.defaultExampleValue;
@@ -24,12 +30,4 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
       }
     }
   }
-
-  model = {
-    one: '',
-    two: true,
-    twobis: '',
-    three: false,
-    threebis: null,
-  };
 }

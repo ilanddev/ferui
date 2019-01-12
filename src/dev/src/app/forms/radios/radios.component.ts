@@ -1,21 +1,26 @@
 import { Component } from '@angular/core';
-import { RadioComponentTemplate } from './radios.template';
 import { AbstractControlDemoComponent } from '../abstract-control-demo.component';
 import { OnInit } from '@angular/core';
 import { ExampleCode } from '../abstract-control-demo.component';
-
-const componentTemplate: RadioComponentTemplate = RadioComponentTemplate.getInstance();
+import { RADIOS_TEMPLATE, RADIOS_EXAMPLES } from './radios.template';
 
 @Component({
-  template: componentTemplate.template || ``,
+  template: RADIOS_TEMPLATE,
 })
 export class RadiosComponent extends AbstractControlDemoComponent implements OnInit {
+  model = {
+    one: '',
+    two: true,
+    twobis: '',
+    three: 'option2',
+  };
+
   constructor() {
     super();
   }
 
   ngOnInit(): void {
-    const examples: Array<ExampleCode> = componentTemplate.getExamples();
+    const examples: Array<ExampleCode> = RADIOS_EXAMPLES;
     for (const idx in examples) {
       if (examples[idx]) {
         this.examples[idx] = this.defaultExampleValue;
@@ -24,11 +29,4 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
       }
     }
   }
-
-  model = {
-    one: '',
-    two: true,
-    twobis: '',
-    three: 'option2',
-  };
 }

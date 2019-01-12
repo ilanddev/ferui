@@ -2,29 +2,12 @@ import { Component } from '@angular/core';
 import { AbstractControlDemoComponent } from '../abstract-control-demo.component';
 import { ExampleCode } from '../abstract-control-demo.component';
 import { OnInit } from '@angular/core';
-import { SelectsComponentTemplate } from './selects.template';
-
-const componentTemplate: SelectsComponentTemplate = SelectsComponentTemplate.getInstance();
+import { SELECTS_TEMPLATE, SELECTS_EXAMPLES } from './selects.template';
 
 @Component({
-  template: componentTemplate.template || ``,
+  template: SELECTS_TEMPLATE,
 })
 export class SelectsComponent extends AbstractControlDemoComponent implements OnInit {
-  constructor() {
-    super();
-  }
-
-  ngOnInit(): void {
-    const examples: Array<ExampleCode> = componentTemplate.getExamples();
-    for (const idx in examples) {
-      if (examples[idx]) {
-        this.examples[idx] = this.defaultExampleValue;
-        this.results[idx] = this.defaultResultValue;
-        this.examplesCode[idx] = examples[idx].code;
-      }
-    }
-  }
-
   defaultBindingsList = [
     { value: 1, label: 'Vilnius' },
     { value: 2, label: 'Kaunas' },
@@ -45,4 +28,19 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
     selectedCityNative: null,
     selectedCityId: null,
   };
+
+  constructor() {
+    super();
+  }
+
+  ngOnInit(): void {
+    const examples: Array<ExampleCode> = SELECTS_EXAMPLES;
+    for (const idx in examples) {
+      if (examples[idx]) {
+        this.examples[idx] = this.defaultExampleValue;
+        this.results[idx] = this.defaultResultValue;
+        this.examplesCode[idx] = examples[idx].code;
+      }
+    }
+  }
 }
