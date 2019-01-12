@@ -225,6 +225,9 @@ MIT
 ngx-highlightjs
 MIT
 
+@ng-select/ng-select
+MIT
+
 highlight.js
 BSD-3-Clause
 Copyright (c) 2006, Ivan Sagalaev
