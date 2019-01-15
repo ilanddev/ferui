@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 
 export interface ExampleCode {
   title: string;
+  templateId?: string;
   description?: string;
   code: string;
   resultModels: Array<string>;
@@ -12,7 +13,7 @@ export abstract class AbstractControlDemoComponent {
   protected defaultExampleValue: boolean = true;
   protected defaultResultValue: boolean = true;
 
-  examplesCode: Array<string> = [];
+  examplesCode: Array<ExampleCode> = [];
   examples: any = {};
   results: any = {};
   disabled: boolean = true;
@@ -20,17 +21,6 @@ export abstract class AbstractControlDemoComponent {
   @ViewChild('demoForm') form: NgForm;
 
   protected constructor() {}
-
-  concatResultModels(models, ...modelNames): Array<any> {
-    const results: Array<any> = [];
-    for (const name of modelNames) {
-      results.push({
-        'field-name': name,
-        value: models[name],
-      });
-    }
-    return results;
-  }
 
   toggle(tgl: Array<any>): void {
     const model: any = tgl[0];

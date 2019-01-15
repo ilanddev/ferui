@@ -1,6 +1,6 @@
 {
   "name": "@ferui/ferui",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "iLand cloud",
   "contributors": [
     {
@@ -29,9 +29,9 @@
     "build:angular:ngpackagr": "ng build ferui-components",
     "build:angular": "npm-run-all build:angular:package build:angular:ngpackagr",
     "build": "npm-run-all clean build:ui build:icons build:angular",
-    "build:dev": "npm run clean:dev; ng build dev --prod=true --extractCss=true --baseHref=/ferui/",
+    "build:dev": "npm run clean:dev; ng build dev --prod=true --extractCss=true --baseHref=/ferui/; cpy .circleci/config.yml dist/dev/.circleci",
     "deploy:gh-pages": "gh-pages -d dist/dev",
-    "buid:deploy:dev": "npm-run-all build:dev deploy:gh-pages",
+    "build:deploy:dev": "npm-run-all build:dev deploy:gh-pages",
     "ng": "ng",
     "start": "ng serve dev --port 9090",
     "publish:latest": "npm publish dist/ferui-design --access public; npm publish dist/ferui-icons --access public; npm publish dist/ferui-components --access public",

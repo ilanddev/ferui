@@ -13,11 +13,13 @@ import { SelectsComponent } from './select/selects.component';
 import { RadiosComponent } from './radios/radios.component';
 import { PasswordComponent } from './password/password.component';
 import { DefaultTemplateWrapper } from './default-template-wrapper';
+import { DefaultTemplateContent } from './default-template-content';
 
 @NgModule({
   imports: [CommonModule, FormsModule, FeruiModule, ROUTING, HighlightModule],
   declarations: [
     DefaultTemplateWrapper,
+    DefaultTemplateContent,
     DefaultComponent,
     InputsComponent,
     TextareaComponent,
@@ -29,6 +31,7 @@ import { DefaultTemplateWrapper } from './default-template-wrapper';
   ],
   exports: [
     DefaultTemplateWrapper,
+    DefaultTemplateContent,
     DefaultComponent,
     InputsComponent,
     TextareaComponent,
