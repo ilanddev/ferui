@@ -127,3 +127,7 @@ System.config({
 	...
 });
 ```
+
+## Contributing
+
+The Clarity project team welcomes contributions from the community. For more detailed information, see [CONTRIBUTING.md](CONTRIBUTING.md).
