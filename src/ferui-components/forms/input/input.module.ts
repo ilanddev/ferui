@@ -12,7 +12,7 @@ import { InputReference } from './input-reference';
 @NgModule({
   imports: [CommonModule, FormsModule, ClrIconModule, FuiCommonFormsModule],
   declarations: [FuiInput, FuiInputContainer, InputReference],
-  exports: [FuiCommonFormsModule, FuiInput, FuiInputContainer, InputReference],
+  exports: [FuiInput, FuiInputContainer, InputReference],
   entryComponents: [FuiInputContainer],
 })
 export class FuiInputModule {}

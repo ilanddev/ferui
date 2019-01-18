@@ -22,6 +22,7 @@ export class DefaultTemplateWrapper {
 
   @Input() disabled: boolean = true;
   @Output() disabledChange = new EventEmitter<boolean>();
+
   @Output() toggleEvent = new EventEmitter<any>();
 
   toggle(model: any, index: number | string): void {

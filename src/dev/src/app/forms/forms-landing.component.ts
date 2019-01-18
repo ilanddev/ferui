@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
     <ul class="nav nav-pills">
       <li class="nav-item"><a class="nav-link" [routerLinkActive]="'active'" [routerLink]="['./default']">Forms</a></li>
       <li class="nav-item"><a class="nav-link" [routerLinkActive]="'active'" [routerLink]="['./inputs']">Inputs</a></li>
+      <li class="nav-item"><a class="nav-link" [routerLinkActive]="'active'" [routerLink]="['./datetimes']">Datetime</a></li>
       <li class="nav-item"><a class="nav-link" [routerLinkActive]="'active'" [routerLink]="['./passwords']">Passwords</a></li>
       <li class="nav-item"><a class="nav-link" [routerLinkActive]="'active'" [routerLink]="['./textareas']">Textareas</a></li>
       <li class="nav-item"><a class="nav-link" [routerLinkActive]="'active'" [routerLink]="['./checkboxes']">Checkboxes</a></li>

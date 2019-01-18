@@ -14,6 +14,7 @@ import { RadiosComponent } from './radios/radios.component';
 import { PasswordComponent } from './password/password.component';
 import { DefaultTemplateWrapper } from './default-template-wrapper';
 import { DefaultTemplateContent } from './default-template-content';
+import { DatetimeComponent } from './datetime/datetime.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, FeruiModule, ROUTING, HighlightModule],
@@ -22,6 +23,7 @@ import { DefaultTemplateContent } from './default-template-content';
     DefaultTemplateContent,
     DefaultComponent,
     InputsComponent,
+    DatetimeComponent,
     TextareaComponent,
     CheckboxComponent,
     RadiosComponent,
@@ -34,6 +36,7 @@ import { DefaultTemplateContent } from './default-template-content';
     DefaultTemplateContent,
     DefaultComponent,
     InputsComponent,
+    DatetimeComponent,
     TextareaComponent,
     CheckboxComponent,
     RadiosComponent,

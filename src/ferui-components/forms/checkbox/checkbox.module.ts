@@ -12,7 +12,7 @@ import { CheckboxReference } from './checkbox-reference';
 @NgModule({
   imports: [CommonModule, ClrIconModule, FuiCommonFormsModule, FuiHostWrappingModule],
   declarations: [FuiCheckbox, FuiCheckboxContainer, FuiCheckboxWrapper, CheckboxReference],
-  exports: [FuiCommonFormsModule, FuiCheckbox, FuiCheckboxContainer, FuiCheckboxWrapper],
+  exports: [FuiCheckbox, FuiCheckboxContainer, FuiCheckboxWrapper],
   entryComponents: [FuiCheckboxWrapper],
 })
 export class FuiCheckboxModule {}

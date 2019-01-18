@@ -11,7 +11,7 @@ import { TextareaReference } from './textarea-reference';
 @NgModule({
   imports: [CommonModule, FormsModule, ClrIconModule, FuiCommonFormsModule],
   declarations: [FuiTextarea, FuiTextareaContainer, TextareaReference],
-  exports: [FuiCommonFormsModule, FuiTextarea, FuiTextareaContainer, TextareaReference],
+  exports: [FuiTextarea, FuiTextareaContainer, TextareaReference],
   entryComponents: [FuiTextareaContainer],
 })
 export class FuiTextareaModule {}

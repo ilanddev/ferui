@@ -11,7 +11,7 @@ import { RadioReference } from './radio-reference';
 @NgModule({
   imports: [CommonModule, FuiCommonFormsModule, FuiHostWrappingModule, ClrIconModule],
   declarations: [FuiRadio, FuiRadioContainer, FuiRadioWrapper, RadioReference],
-  exports: [FuiCommonFormsModule, FuiRadio, FuiRadioContainer, FuiRadioWrapper],
+  exports: [FuiRadio, FuiRadioContainer, FuiRadioWrapper],
   entryComponents: [FuiRadioWrapper],
 })
 export class FuiRadioModule {}

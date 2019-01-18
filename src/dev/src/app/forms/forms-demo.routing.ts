@@ -8,6 +8,7 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
 import { SelectsComponent } from './select/selects.component';
 import { RadiosComponent } from './radios/radios.component';
 import { PasswordComponent } from './password/password.component';
+import { DatetimeComponent } from './datetime/datetime.component';
 
 const FORM_ROUTES: Routes = [
   {
@@ -17,6 +18,7 @@ const FORM_ROUTES: Routes = [
       { path: '', redirectTo: 'default', pathMatch: 'full' },
       { path: 'default', component: DefaultComponent },
       { path: 'inputs', component: InputsComponent },
+      { path: 'datetimes', component: DatetimeComponent },
       { path: 'passwords', component: PasswordComponent },
       { path: 'textareas', component: TextareaComponent },
       { path: 'checkboxes', component: CheckboxComponent },

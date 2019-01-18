@@ -13,7 +13,7 @@ import { SelectReference } from './select-reference';
 @NgModule({
   imports: [CommonModule, FormsModule, NgSelectModule, ClrIconModule, FuiCommonFormsModule],
   declarations: [FuiSelect, FuiSelectContainer, SelectReference],
-  exports: [FuiCommonFormsModule, FuiSelect, FuiSelectContainer, NgSelectModule, SelectReference],
+  exports: [FuiSelect, FuiSelectContainer, NgSelectModule, SelectReference],
   entryComponents: [FuiSelectContainer],
 })
 export class FuiSelectModule {}

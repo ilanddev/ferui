@@ -12,7 +12,7 @@ import { PasswordReference } from './password-reference';
 @NgModule({
   imports: [CommonModule, FormsModule, ClrIconModule, FuiCommonFormsModule],
   declarations: [FuiPassword, FuiPasswordContainer, PasswordReference],
-  exports: [FuiCommonFormsModule, FuiPassword, FuiPasswordContainer, PasswordReference],
+  exports: [FuiPassword, FuiPasswordContainer, PasswordReference],
   entryComponents: [FuiPasswordContainer],
 })
 export class FuiPasswordModule {}
