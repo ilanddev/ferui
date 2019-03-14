@@ -17,8 +17,6 @@ import { ESC } from '../../utils/key-codes/key-codes';
 import { Point, Popover } from './popover';
 import { PopoverOptions } from './popover-options.interface';
 
-// Literally any annotation would work here, but writing our own @HoneyBadger annotation feels overkill.
-@Injectable()
 export abstract class AbstractPopover implements AfterViewChecked, OnDestroy {
   closeOnOutsideClick = false;
 
@@ -44,8 +42,8 @@ export abstract class AbstractPopover implements AfterViewChecked, OnDestroy {
   protected constructor(
     injector: Injector,
     @SkipSelf() protected parentHost: ElementRef,
-    @Optional() forcedMarginTop?: number,
-    @Optional() forcedMarginLeft?: number
+    @Optional() forcedMarginTop: number,
+    @Optional() forcedMarginLeft: number
   ) {
     this.el = injector.get(ElementRef);
     this.ifOpenService = injector.get(IfOpenService);

@@ -181,7 +181,7 @@
 
     &.fui-datetime-4 {
       .fui-control-label {
-        max-width: calc((100% / 4) - 3.125rem);
+        max-width: calc((100% / 4) - 3.4375rem);
       }
       .fui-time-3 {
         width: calc(100% - calc(100% / 4)) !important;
@@ -198,7 +198,7 @@
 
     &.fui-datetime-3 {
       .fui-control-label {
-        max-width: calc((100% / 3) - 3.125rem);
+        max-width: calc((100% / 3) - 3.4375rem);
       }
       .fui-time-2 {
         width: calc(100% - calc(100% / 3)) !important;
@@ -215,7 +215,7 @@
 
     &.fui-datetime-2 {
       .fui-control-label {
-        max-width: calc((100% / 2) - 3.125rem);
+        max-width: calc((100% / 2) - 3.4375rem);
       }
       .fui-time-1 {
         width: calc(100% - calc(100% / 2)) !important;
@@ -328,7 +328,7 @@
 
     &.fui-time-3 {
       .fui-control-label {
-        max-width: calc((100% / 3) - 3.125rem);
+        max-width: calc((100% / 3) - 3.4375rem);
       }
       .fui-select {
         width: calc(100% / 3) !important;
@@ -337,7 +337,7 @@
 
     &.fui-time-2 {
       .fui-control-label {
-        max-width: calc((100% / 2) - 3.125rem);
+        max-width: calc((100% / 2) - 3.4375rem);
       }
       .fui-select {
         width: calc(100% / 2) !important;
@@ -346,7 +346,7 @@
 
     &.fui-time-1 {
       .fui-control-label {
-        max-width: calc(100% - 3.125rem);
+        max-width: calc(100% - 3.4375rem);
       }
       .fui-select {
         width: 100% !important;

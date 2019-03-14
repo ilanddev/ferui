@@ -7,7 +7,6 @@ import {
   OnDestroy,
   OnInit,
   QueryList,
-  Renderer2,
   ViewChildren,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -50,7 +49,7 @@ export interface TimeInterface {
         <label *ngIf="!label"></label>
 
         <ng-content select="[fuiTime]"></ng-content>
-
+        
         <ng-select #selectElement *ngIf="showHours" [clearable]="false" [class.fui-select]="true"
                    [placeholder]="commonStrings.hours" [items]="hoursList"
                    (focus)="setFocusState()"

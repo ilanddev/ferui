@@ -1,7 +1,7 @@
 import { SkipSelf, Optional, InjectableProvider, forwardRef, Injectable } from '@angular/core';
 import { AbstractFuiCommonStrings } from './common-strings.interface';
 
-export class FuiCommonStringsService implements AbstractFuiCommonStrings {
+export class FuiCommonStringsService implements Required<FuiCommonStrings> {
   open = 'Open';
   close = 'Close';
   show = 'Show';
@@ -25,7 +25,7 @@ export class FuiCommonStringsService implements AbstractFuiCommonStrings {
   hours = 'Hours';
 }
 
-export function commonStringsFactory(existing?: AbstractFuiCommonStrings): AbstractFuiCommonStrings {
+export function commonStringsFactory(existing?: FuiCommonStrings): FuiCommonStrings {
   const defaults = new FuiCommonStringsService();
   if (existing) {
     return { ...defaults, ...existing };
@@ -33,13 +33,8 @@ export function commonStringsFactory(existing?: AbstractFuiCommonStrings): Abstr
   return defaults;
 }
 
-export const COMMON_STRINGS_PROVIDER: InjectableProvider = {
-  useFactory: commonStringsFactory,
-  deps: [[new Optional(), new SkipSelf(), forwardRef(() => AbstractFuiCommonStrings)]],
-};
-
 @Injectable({
   providedIn: 'root',
-  ...COMMON_STRINGS_PROVIDER,
+  useFactory: commonStringsFactory,
 })
 export class FuiCommonStrings extends AbstractFuiCommonStrings {}

@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, ContentChild, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ContentChild, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NgControl } from '@angular/forms';
 
@@ -17,8 +17,6 @@ import { RequiredControlService } from '../common/providers/required-control.ser
 import { FuiDatetimeModelTypes } from '../common/datetime-model-types.enum';
 import { DatetimeIOService } from './providers/datetime-io.service';
 import { DatetimeFormControlService } from './providers/datetime-form-control.service';
-import { TimeIOService } from '../time/providers/time-io.service';
-import { DateIOService } from '../date/providers/date-io.service';
 import { FuiTime } from '../time/time';
 import { FuiDate } from '../date/date';
 

@@ -35,6 +35,7 @@
     "build:deploy:dev": "npm-run-all build:dev deploy:gh-pages",
     "ng": "ng",
     "start": "ng serve dev --port 9090",
+    "start:prod": "ng serve dev --port 9090 --prod=true",
     "publish:latest": "npm publish dist/ferui-design --access public; npm publish dist/ferui-icons --access public; npm publish dist/ferui-components --access public",
     "publish:alpha": "npm publish dist/ferui-design --tag alpha --access public; npm publish dist/ferui-icons --tag alpha --access public; npm publish dist/ferui-components --tag alpha --access public",
     "publish:beta": "npm publish dist/ferui-design --tag beta --access public; npm publish dist/ferui-icons --tag beta --access public; npm publish dist/ferui-components --tag beta --access public",
