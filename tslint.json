@@ -1,13 +1,16 @@
 {
+  "rulesDirectory": ["./node_modules/tslint-defocus/dist", "./tests/tslint/dist"],
   "rules": {
     "class-name": true,
     "curly": true,
+    "defocus": true,
     "file-header": false,
     "forin": true,
     "jsdoc-format": true,
     "label-position": true,
     "member-access": false,
     "no-arg": true,
+    "no-barrel-imports": true,
     "no-bitwise": true,
     "no-conditional-assignment": true,
     "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
@@ -34,6 +37,28 @@
     "semicolon": [true, "always", "ignore-bound-class-methods"],
     "switch-default": true,
     "triple-equals": [true, "allow-null-check"],
-    "variable-name": [true, "check-format", "allow-leading-underscore", "ban-keywords"]
+    "variable-name": [true, "check-format", "allow-leading-underscore", "ban-keywords"],
+    "member-ordering": [
+      true,
+      {
+        "order": [
+          "public-static-field",
+          "public-instance-field",
+          "protected-static-field",
+          "protected-instance-field",
+          "private-static-field",
+          "private-instance-field",
+          "public-constructor",
+          "protected-constructor",
+          "private-constructor",
+          "public-instance-method",
+          "public-static-method",
+          "protected-instance-method",
+          "protected-static-method",
+          "private-instance-method",
+          "private-static-method"
+        ]
+      }
+    ]
   }
 }

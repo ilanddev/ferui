@@ -1,13 +1,8 @@
-/*
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
- * This software is released under MIT license.
- * The full license information can be found in LICENSE in the root directory of this project.
- */
-
 import {
   FormatWidth,
   FormStyle,
   getLocaleDateFormat,
+  getLocaleTimeFormat,
   getLocaleDayNames,
   getLocaleFirstDayOfWeek,
   getLocaleMonthNames,
@@ -20,16 +15,6 @@ import { Inject, Injectable, LOCALE_ID } from '@angular/core';
  */
 @Injectable()
 export class LocaleHelperService {
-  constructor(@Inject(LOCALE_ID) public locale: string) {
-    this.initializeLocaleData();
-  }
-
-  private _firstDayOfWeek: number = 0;
-  private _localeDaysNarrow: ReadonlyArray<string>;
-  private _localeMonthsAbbreviated: ReadonlyArray<string>;
-  private _localeMonthsWide: ReadonlyArray<string>;
-  private _localeDateFormat: string;
-
   get firstDayOfWeek(): number {
     return this._firstDayOfWeek;
   }
@@ -50,6 +35,40 @@ export class LocaleHelperService {
     return this._localeDateFormat;
   }
 
+  get localeTimeFormat(): string {
+    return this._localeTimeFormat;
+  }
+
+  get localeDatetimeFormat(): string {
+    return this._localeDatetimeFormat;
+  }
+
+  private _firstDayOfWeek: number = 0;
+  private _localeDaysNarrow: ReadonlyArray<string>;
+  private _localeMonthsAbbreviated: ReadonlyArray<string>;
+  private _localeMonthsWide: ReadonlyArray<string>;
+  private _localeDateFormat: string;
+  private _localeTimeFormat: string;
+  private _localeDatetimeFormat: string;
+
+  constructor(@Inject(LOCALE_ID) public locale: string) {
+    this.initializeLocaleData();
+  }
+
+  toLocaleTimeString(date: Date): string {
+    if (!date) {
+      return null;
+    }
+    return date.toLocaleTimeString(this.locale);
+  }
+
+  toLocaleDatetimeString(date: Date): string {
+    if (!date) {
+      return null;
+    }
+    return date.toLocaleString(this.locale);
+  }
+
   /**
    * Initializes the locale data.
    */
@@ -57,6 +76,8 @@ export class LocaleHelperService {
     // Order in which these functions is called is very important.
     this.initializeFirstDayOfWeek();
     this.initializeLocaleDateFormat();
+    this.initializeLocaleTimeFormat();
+    this.initializeLocaleDatetimeFormat();
     this.initializeLocaleMonthsAbbreviated();
     this.initializeLocaleMonthsWide();
     this.initializeLocaleDaysNarrow();
@@ -108,5 +129,13 @@ export class LocaleHelperService {
 
   private initializeLocaleDateFormat(): void {
     this._localeDateFormat = getLocaleDateFormat(this.locale, FormatWidth.Short);
+  }
+
+  private initializeLocaleTimeFormat(): void {
+    this._localeTimeFormat = getLocaleTimeFormat(this.locale, FormatWidth.Medium);
+  }
+
+  private initializeLocaleDatetimeFormat(): void {
+    this._localeDatetimeFormat = [this._localeDateFormat, this._localeTimeFormat].join(' ');
   }
 }

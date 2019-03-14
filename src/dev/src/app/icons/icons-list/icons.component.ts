@@ -11,17 +11,17 @@ interface Window {
   styleUrls: ['./icons.component.scss'],
 })
 export class IconsComponent implements OnInit {
-
-  private defaultColor: string = '03A6FF';
-
   icons: {} = {};
-  colorHex: string = this.defaultColor;
+  colorHex: string;
   iconsColor: string = '';
   iconsType: boolean = false;
   classes: string = 'icon-shape';
   iconsVariation: string = '';
 
+  private defaultColor: string = '03A6FF';
+
   constructor(@Inject(WINDOW) private window: Window) {
+    this.colorHex = this.defaultColor;
   }
 
   ngOnInit() {
@@ -34,7 +34,7 @@ export class IconsComponent implements OnInit {
 
   changeColor(value: string): void {
     if (this.isValidHexNumber(value)) {
-      this.iconsColor = `#${ value }`;
+      this.iconsColor = `#${value}`;
     } else {
       this.iconsColor = this.defaultColor;
     }
@@ -67,10 +67,10 @@ export class IconsComponent implements OnInit {
         group: i.match(/fui/g) ? 'ferui' : 'clarity',
       };
     });
-    const grouppedList = this.groupBy(list, (icon) => {
+    const grouppedList = this.groupBy(list, icon => {
       return icon.group;
     });
-    return grouppedList.map((value) => {
+    return grouppedList.map(value => {
       return {
         gName: value[0].group,
         rows: this.generateRows(value, 6),
@@ -109,7 +109,7 @@ export class IconsComponent implements OnInit {
       }
       groups[group].push(o);
     }
-    return Object.keys(groups).map((group) => {
+    return Object.keys(groups).map(group => {
       return groups[group];
     });
   }

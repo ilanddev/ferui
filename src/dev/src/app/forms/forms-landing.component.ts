@@ -4,8 +4,7 @@ import { Component } from '@angular/core';
   selector: 'forms-landing',
   styleUrls: ['./forms-demo.component.scss'],
   template: `
-    <h1 class="mt-3">Forms</h1>
-    <ul class="nav nav-pills">
+    <ul class="nav nav-pills mt-3">
       <li class="nav-item"><a class="nav-link" [routerLinkActive]="'active'" [routerLink]="['./default']">Forms</a></li>
       <li class="nav-item"><a class="nav-link" [routerLinkActive]="'active'" [routerLink]="['./inputs']">Inputs</a></li>
       <li class="nav-item"><a class="nav-link" [routerLinkActive]="'active'" [routerLink]="['./datetimes']">Datetime</a></li>

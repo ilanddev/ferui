@@ -7,12 +7,11 @@ import { FuiHostWrappingModule } from '../../utils/host-wrapping/host-wrapping.m
 import { FuiCheckbox } from './checkbox';
 import { FuiCheckboxContainer } from './checkbox-container';
 import { FuiCheckboxWrapper } from './checkbox-wrapper';
-import { CheckboxReference } from './checkbox-reference';
 
 @NgModule({
   imports: [CommonModule, ClrIconModule, FuiCommonFormsModule, FuiHostWrappingModule],
-  declarations: [FuiCheckbox, FuiCheckboxContainer, FuiCheckboxWrapper, CheckboxReference],
+  declarations: [FuiCheckbox, FuiCheckboxContainer, FuiCheckboxWrapper],
   exports: [FuiCheckbox, FuiCheckboxContainer, FuiCheckboxWrapper],
-  entryComponents: [FuiCheckboxWrapper],
+  entryComponents: [FuiCheckboxWrapper, FuiCheckboxContainer],
 })
 export class FuiCheckboxModule {}

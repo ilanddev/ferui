@@ -6,12 +6,11 @@ import { FuiHostWrappingModule } from '../../utils/host-wrapping/host-wrapping.m
 import { FuiRadio } from './radio';
 import { FuiRadioContainer } from './radio-container';
 import { FuiRadioWrapper } from './radio-wrapper';
-import { RadioReference } from './radio-reference';
 
 @NgModule({
   imports: [CommonModule, FuiCommonFormsModule, FuiHostWrappingModule, ClrIconModule],
-  declarations: [FuiRadio, FuiRadioContainer, FuiRadioWrapper, RadioReference],
+  declarations: [FuiRadio, FuiRadioContainer, FuiRadioWrapper],
   exports: [FuiRadio, FuiRadioContainer, FuiRadioWrapper],
-  entryComponents: [FuiRadioWrapper],
+  entryComponents: [FuiRadioWrapper, FuiRadioContainer],
 })
 export class FuiRadioModule {}

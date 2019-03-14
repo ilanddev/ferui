@@ -10,8 +10,8 @@ import { FuiLabel } from '../common/label';
 import { ControlClassService } from '../common/providers/control-class.service';
 import { FormControlClass } from '../../utils/form-control-class/form-control-class';
 import { PlaceholderService } from '../common/providers/placeholder.service';
-import { AfterContentInit } from '@angular/core';
-import { TextareaReference } from './textarea-reference';
+import { FocusService } from '../common/providers/focus.service';
+import { RequiredControlService } from '../common/providers/required-control.service';
 
 @Component({
   selector: 'fui-textarea-container',
@@ -36,21 +36,31 @@ import { TextareaReference } from './textarea-reference';
     '[class.fui-form-control]': 'true',
     '[class.fui-form-control-disabled]': 'control?.disabled',
   },
-  providers: [IfErrorService, NgControlService, ControlIdService, ControlClassService, PlaceholderService],
+  providers: [
+    IfErrorService,
+    NgControlService,
+    ControlIdService,
+    ControlClassService,
+    PlaceholderService,
+    FocusService,
+    RequiredControlService,
+  ],
 })
-export class FuiTextareaContainer implements DynamicWrapper, AfterContentInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+export class FuiTextareaContainer implements DynamicWrapper, OnDestroy {
   invalid = false;
   _dynamic = false;
   control: NgControl;
 
   @ContentChild(FuiLabel) label: FuiLabel;
-  @ContentChild(TextareaReference) injectedControl: TextareaReference;
+
+  private focus: boolean = false;
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private ifErrorService: IfErrorService,
     private controlClassService: ControlClassService,
-    private ngControlService: NgControlService
+    private ngControlService: NgControlService,
+    private focusService: FocusService
   ) {
     this.subscriptions.push(
       this.ifErrorService.statusChanges.subscribe(invalid => {
@@ -62,19 +72,18 @@ export class FuiTextareaContainer implements DynamicWrapper, AfterContentInit, O
         this.control = control;
       })
     );
+    this.subscriptions.push(
+      this.focusService.focusChange.subscribe(state => {
+        this.focus = state;
+      })
+    );
   }
 
   controlClass() {
     return this.controlClassService.controlClass(
       this.invalid,
-      FormControlClass.extractControlClass(this.control, this.label, this.injectedControl)
+      FormControlClass.extractControlClass(this.control, this.label, this.focus)
     );
-  }
-
-  ngAfterContentInit() {
-    if (this.label && this.injectedControl) {
-      this.label.setLabelRequired(this.injectedControl.required !== undefined);
-    }
   }
 
   ngOnDestroy() {

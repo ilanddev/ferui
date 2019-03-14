@@ -1,41 +1,41 @@
-/*
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
- * This software is released under MIT license.
- * The full license information can be found in LICENSE in the root directory of this project.
- */
-
 import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
 
 import { ClrIconModule } from '../../icon/icon.module';
-import { ClrConditionalModule } from '../../utils/conditional/conditional.module';
-import { ClrFocusTrapModule } from '../../utils/focus-trap/focus-trap.module';
-import { ClrHostWrappingModule } from '../../utils/host-wrapping/host-wrapping.module';
+import { FuiFocusTrapModule } from '../../utils/focus-trap/focus-trap.module';
+import { FuiDay } from './day';
+import { FuiDatepickerViewManager } from './datepicker-view-manager';
+import { FuiMonthpicker } from './monthpicker';
+import { FuiYearpicker } from './yearpicker';
+import { FuiDaypicker } from './daypicker';
+import { FuiCalendar } from './calendar';
+import { FuiHostWrappingModule } from '../../utils/host-wrapping/host-wrapping.module';
+import { FuiConditionalModule } from '../../utils/conditional/conditional.module';
+import { FuiCommonFormsModule } from '../common/common.module';
+import { FormsModule } from '@angular/forms';
+import { FuiDateContainer } from '../date/date-container';
 
-import { ClrCalendar } from './calendar';
-import { ClrDateContainer } from './date-container';
-import { ClrDateInput } from './date-input';
-import { ClrDatepickerViewManager } from './datepicker-view-manager';
-import { ClrDay } from './day';
-import { ClrDaypicker } from './daypicker';
-import { ClrMonthpicker } from './monthpicker';
-import { ClrYearpicker } from './yearpicker';
-
-export const CLR_DATEPICKER_DIRECTIVES: Type<any>[] = [
-  ClrDay,
-  ClrDateContainer,
-  ClrDateInput,
-  ClrDatepickerViewManager,
-  ClrMonthpicker,
-  ClrYearpicker,
-  ClrDaypicker,
-  ClrCalendar,
+export const FUI_DATEPICKER_DIRECTIVES: Type<any>[] = [
+  FuiDay,
+  FuiDatepickerViewManager,
+  FuiMonthpicker,
+  FuiYearpicker,
+  FuiDaypicker,
+  FuiCalendar,
 ];
 
 @NgModule({
-  imports: [CommonModule, ClrHostWrappingModule, ClrConditionalModule, ClrIconModule, ClrFocusTrapModule],
-  declarations: [CLR_DATEPICKER_DIRECTIVES],
-  exports: [CLR_DATEPICKER_DIRECTIVES],
-  entryComponents: [ClrDateContainer],
+  imports: [
+    CommonModule,
+    FormsModule,
+    FuiHostWrappingModule,
+    FuiConditionalModule,
+    ClrIconModule,
+    FuiFocusTrapModule,
+    FuiCommonFormsModule,
+  ],
+  declarations: [FUI_DATEPICKER_DIRECTIVES],
+  exports: [FUI_DATEPICKER_DIRECTIVES],
+  entryComponents: [FuiDateContainer],
 })
-export class ClrDatepickerModule {}
+export class FuiDatepickerModule {}

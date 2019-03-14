@@ -10,15 +10,14 @@ export interface ExampleCode {
 }
 
 export abstract class AbstractControlDemoComponent {
-  protected defaultExampleValue: boolean = true;
-  protected defaultResultValue: boolean = true;
-
-  examplesCode: Array<ExampleCode> = [];
   examples: any = {};
   results: any = {};
   disabled: boolean = true;
 
   @ViewChild('demoForm') form: NgForm;
+
+  protected defaultExampleValue: boolean = true;
+  protected defaultResultValue: boolean = true;
 
   protected constructor() {}
 

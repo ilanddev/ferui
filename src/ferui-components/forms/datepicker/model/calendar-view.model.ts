@@ -1,9 +1,3 @@
-/*
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
- * This software is released under MIT license.
- * The full license information can be found in LICENSE in the root directory of this project.
- */
-
 import { NO_OF_DAYS_IN_A_WEEK, NO_OF_ROWS_IN_CALENDAR_VIEW, TOTAL_DAYS_IN_DAYS_VIEW } from '../utils/constants';
 import { getDay } from '../utils/date-utils';
 
@@ -12,6 +6,17 @@ import { DayViewModel } from './day-view.model';
 import { DayModel } from './day.model';
 
 export class CalendarViewModel {
+  private currMonthDayViews: DayViewModel[] = [];
+
+  private _calendarView: DayViewModel[][];
+
+  /**
+   * DayViewModel matrix. Size 6x7
+   */
+  get calendarView(): DayViewModel[][] {
+    return this._calendarView;
+  }
+
   constructor(
     public calendar: CalendarModel,
     private selectedDay: DayModel,
@@ -22,15 +27,13 @@ export class CalendarViewModel {
     this.initializeCalendarView();
   }
 
-  private currMonthDayViews: DayViewModel[] = [];
-
-  private _calendarView: DayViewModel[][];
-
   /**
-   * DayViewModel matrix. Size 6x7
+   * Updates the focusable day in the calendar.
    */
-  get calendarView(): DayViewModel[][] {
-    return this._calendarView;
+  updateFocusableDay(day: DayModel): void {
+    this.setFocusableFlag(this.focusableDay, false);
+    this.setFocusableFlag(day, true);
+    this.focusableDay = day;
   }
 
   /**
@@ -112,10 +115,7 @@ export class CalendarViewModel {
    * Checks if the Day passed is in the CalendarView.
    */
   private isDayInCalendarView(day: DayModel): boolean {
-    if (!this.calendar.isDayInCalendar(day)) {
-      return false;
-    }
-    return true;
+    return this.calendar.isDayInCalendar(day);
   }
 
   /**
@@ -165,14 +165,5 @@ export class CalendarViewModel {
     if (day) {
       this.currMonthDayViews[day.date - 1].isFocusable = flag;
     }
-  }
-
-  /**
-   * Updates the focusable day in the calendar.
-   */
-  updateFocusableDay(day: DayModel): void {
-    this.setFocusableFlag(this.focusableDay, false);
-    this.setFocusableFlag(day, true);
-    this.focusableDay = day;
   }
 }

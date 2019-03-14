@@ -7,6 +7,17 @@ import { NgControl } from '@angular/forms';
 
 @Directive({ selector: '[fuiIfError]' })
 export class FuiIfError {
+  @Input('fuiIfError') error: string;
+
+  private subscriptions: Subscription[] = [];
+  private displayed: boolean = false;
+  private control: NgControl;
+
+  @Input()
+  set displayOn(condition: boolean) {
+    this.displayError(!condition);
+  }
+
   constructor(
     @Optional() private ifErrorService: IfErrorService,
     @Optional() private ngControlService: NgControlService,
@@ -34,16 +45,6 @@ export class FuiIfError {
       })
     );
   }
-
-  @Input('fuiIfError') error: string;
-  @Input()
-  set displayOn(condition: boolean) {
-    this.displayError(!condition);
-  }
-
-  private subscriptions: Subscription[] = [];
-  private displayed: boolean = false;
-  private control: NgControl;
 
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());

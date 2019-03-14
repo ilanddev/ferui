@@ -1,26 +1,20 @@
-/*
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
- * This software is released under MIT license.
- * The full license information can be found in LICENSE in the root directory of this project.
- */
-
 import { Component } from '@angular/core';
 
-import { TestContext } from '../../data/datagrid/helpers.spec';
 import { IfOpenService } from '../../utils/conditional/if-open.service';
 
-import { ClrDaypicker } from './daypicker';
 import { DayModel } from './model/day.model';
-import { DateFormControlService } from './providers/date-form-control.service';
-import { DateIOService } from './providers/date-io.service';
-import { DateNavigationService } from './providers/date-navigation.service';
 import { DatepickerFocusService } from './providers/datepicker-focus.service';
 import { LocaleHelperService } from './providers/locale-helper.service';
 import { ViewManagerService } from './providers/view-manager.service';
+import { TestContext } from '../tests/helpers.spec';
+import { FuiDaypicker } from './daypicker';
+import { DateNavigationService } from '../date/providers/date-navigation.service';
+import { DateIOService } from '../date/providers/date-io.service';
+import { DateFormControlService } from '../common/providers/date-form-control.service';
 
 export default function() {
   describe('Daypicker Component', () => {
-    let context: TestContext<ClrDaypicker, TestComponent>;
+    let context: TestContext<FuiDaypicker, TestComponent>;
     let viewManagerService: ViewManagerService;
     let localeHelperService: LocaleHelperService;
     let dateNavigationService: DateNavigationService;
@@ -31,7 +25,7 @@ export default function() {
       dateNavigationService.selectedDay = new DayModel(2015, 1, 1);
       dateNavigationService.initializeCalendar();
 
-      context = this.create(ClrDaypicker, TestComponent, [
+      context = this.create(FuiDaypicker, TestComponent, [
         { provide: DateNavigationService, useValue: dateNavigationService },
         DateIOService,
         IfOpenService,
@@ -40,66 +34,66 @@ export default function() {
         DatepickerFocusService,
         DateFormControlService,
       ]);
-      viewManagerService = context.getClarityProvider(ViewManagerService);
-      localeHelperService = context.getClarityProvider(LocaleHelperService);
+      viewManagerService = context.getFeruiProvider(ViewManagerService);
+      localeHelperService = context.getFeruiProvider(LocaleHelperService);
     });
 
     describe('View Basics', () => {
       it('calls to open the month picker when the monthpicker trigger is clicked', () => {
-        spyOn(context.clarityDirective, 'changeToMonthView');
-        const button: HTMLButtonElement = context.clarityElement.querySelector('.monthpicker-trigger');
+        spyOn(context.feruiDirective, 'changeToMonthView');
+        const button: HTMLButtonElement = context.feruiElement.querySelector('.monthpicker-trigger');
 
         expect(button).not.toBeNull();
 
         button.click();
         context.detectChanges();
 
-        expect(context.clarityDirective.changeToMonthView).toHaveBeenCalled();
+        expect(context.feruiDirective.changeToMonthView).toHaveBeenCalled();
       });
 
       it('calls to open the year picker when the yearpicker trigger is clicked', () => {
-        spyOn(context.clarityDirective, 'changeToYearView');
-        const button: HTMLButtonElement = context.clarityElement.querySelector('.yearpicker-trigger');
+        spyOn(context.feruiDirective, 'changeToYearView');
+        const button: HTMLButtonElement = context.feruiElement.querySelector('.yearpicker-trigger');
 
         expect(button).not.toBeNull();
 
         button.click();
         context.detectChanges();
 
-        expect(context.clarityDirective.changeToYearView).toHaveBeenCalled();
+        expect(context.feruiDirective.changeToYearView).toHaveBeenCalled();
       });
 
       it('calls to navigate to the previous month', () => {
-        spyOn(context.clarityDirective, 'previousMonth');
-        const switchers: HTMLElement = context.clarityElement.querySelector('.calendar-switchers');
+        spyOn(context.feruiDirective, 'previousMonth');
+        const switchers: HTMLElement = context.feruiElement.querySelector('.calendar-switchers');
         const button: HTMLButtonElement = <HTMLButtonElement>switchers.children[0];
 
         button.click();
         context.detectChanges();
 
-        expect(context.clarityDirective.previousMonth).toHaveBeenCalled();
+        expect(context.feruiDirective.previousMonth).toHaveBeenCalled();
       });
 
       it('calls to navigate to the current month', () => {
-        spyOn(context.clarityDirective, 'currentMonth');
-        const switchers: HTMLElement = context.clarityElement.querySelector('.calendar-switchers');
+        spyOn(context.feruiDirective, 'currentMonth');
+        const switchers: HTMLElement = context.feruiElement.querySelector('.calendar-switchers');
         const button: HTMLButtonElement = <HTMLButtonElement>switchers.children[1];
 
         button.click();
         context.detectChanges();
 
-        expect(context.clarityDirective.currentMonth).toHaveBeenCalled();
+        expect(context.feruiDirective.currentMonth).toHaveBeenCalled();
       });
 
       it('calls to navigate to the next month', () => {
-        spyOn(context.clarityDirective, 'nextMonth');
-        const switchers: HTMLElement = context.clarityElement.querySelector('.calendar-switchers');
+        spyOn(context.feruiDirective, 'nextMonth');
+        const switchers: HTMLElement = context.feruiElement.querySelector('.calendar-switchers');
         const button: HTMLButtonElement = <HTMLButtonElement>switchers.children[2];
 
         button.click();
         context.detectChanges();
 
-        expect(context.clarityDirective.nextMonth).toHaveBeenCalled();
+        expect(context.feruiDirective.nextMonth).toHaveBeenCalled();
       });
     });
 
@@ -107,7 +101,7 @@ export default function() {
       it('moves to the month view', () => {
         expect(viewManagerService.isDayView).toBe(true);
 
-        context.clarityDirective.changeToMonthView();
+        context.feruiDirective.changeToMonthView();
         context.detectChanges();
 
         expect(viewManagerService.isDayView).toBe(false);
@@ -117,7 +111,7 @@ export default function() {
       it('moves to the year view', () => {
         expect(viewManagerService.isDayView).toBe(true);
 
-        context.clarityDirective.changeToYearView();
+        context.feruiDirective.changeToYearView();
         context.detectChanges();
 
         expect(viewManagerService.isDayView).toBe(false);
@@ -126,38 +120,38 @@ export default function() {
 
       it('moves to the previous month', () => {
         const initialMonth: string = localeHelperService.localeMonthsAbbreviated[1];
-        expect(context.clarityDirective.calendarMonth).toBe(initialMonth);
-        expect(context.clarityDirective.calendarYear).toBe(2015);
+        expect(context.feruiDirective.calendarMonth).toBe(initialMonth);
+        expect(context.feruiDirective.calendarYear).toBe(2015);
 
-        context.clarityDirective.previousMonth();
+        context.feruiDirective.previousMonth();
 
-        expect(context.clarityDirective.calendarMonth).toBe('Jan');
-        expect(context.clarityDirective.calendarYear).toBe(2015);
+        expect(context.feruiDirective.calendarMonth).toBe('Jan');
+        expect(context.feruiDirective.calendarYear).toBe(2015);
       });
 
       it('moves to the next month', () => {
         const initialMonth: string = localeHelperService.localeMonthsAbbreviated[1];
-        expect(context.clarityDirective.calendarMonth).toBe(initialMonth);
-        expect(context.clarityDirective.calendarYear).toBe(2015);
+        expect(context.feruiDirective.calendarMonth).toBe(initialMonth);
+        expect(context.feruiDirective.calendarYear).toBe(2015);
 
-        context.clarityDirective.nextMonth();
+        context.feruiDirective.nextMonth();
 
-        expect(context.clarityDirective.calendarMonth).toBe('Mar');
-        expect(context.clarityDirective.calendarYear).toBe(2015);
+        expect(context.feruiDirective.calendarMonth).toBe('Mar');
+        expect(context.feruiDirective.calendarYear).toBe(2015);
       });
 
       it('moves to the current month', () => {
         const initialMonth: string = localeHelperService.localeMonthsAbbreviated[1];
-        expect(context.clarityDirective.calendarMonth).toBe(initialMonth);
-        expect(context.clarityDirective.calendarYear).toBe(2015);
+        expect(context.feruiDirective.calendarMonth).toBe(initialMonth);
+        expect(context.feruiDirective.calendarYear).toBe(2015);
 
-        context.clarityDirective.currentMonth();
+        context.feruiDirective.currentMonth();
 
         const date: Date = new Date();
         const currentMonth: string = localeHelperService.localeMonthsAbbreviated[date.getMonth()];
 
-        expect(context.clarityDirective.calendarMonth).toBe(currentMonth);
-        expect(context.clarityDirective.calendarYear).toBe(date.getFullYear());
+        expect(context.feruiDirective.calendarMonth).toBe(currentMonth);
+        expect(context.feruiDirective.calendarYear).toBe(date.getFullYear());
       });
     });
   });
@@ -165,7 +159,7 @@ export default function() {
 
 @Component({
   template: `
-        <clr-daypicker></clr-daypicker>
-    `,
+    <fui-daypicker></fui-daypicker>
+  `,
 })
 class TestComponent {}

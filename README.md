@@ -13,7 +13,7 @@ Like Clarity, we've published three npm packages:
 
 * **@ferui/icons**. We just added our custom set of icons to the existing set from [Clarity](https://github.com/vmware/clarity/). By default we load all Clarity `core icons`.
 * **@ferui/design**. We have used [Bootstrap](https://github.com/twbs/bootstrap) as a base for our design system. So you'll found the same methods but we have a totaly custom design system for `forms`. You can find the complete list of what we load from botstrap [there](https://github.com/ilanddev/ferui/blob/master/src/ferui-design/scss/ferui-design.scss).
-* **@ferui/components**. This part is a kind of a fork of [@clr/angular](https://github.com/vmware/clarity/tree/master/src/clr-angular) which is part of [Clarity](https://github.com/vmware/clarity/). It contains all Angular components. This package depends on `@ferui/design` and `@ferui/icons` for styles and icons.
+* **@ferui/components**. This part is a fork of [@clr/angular](https://github.com/vmware/clarity/tree/master/src/clr-angular) which is part of [Clarity](https://github.com/vmware/clarity/). It contains all Angular components. This package depends on `@ferui/design` and `@ferui/icons` for styles and icons.
 
 If you already have an Angular application, you can follow the installation steps below to include and use Ferui in your application.
 

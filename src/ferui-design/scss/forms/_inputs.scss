@@ -30,19 +30,6 @@
             color: $gray-500;
           }
         }
-
-        .fui-input-group-icon-action {
-          display: block;
-          position: absolute;
-          top: 50%;
-          right: 1.0714rem;
-          fill: $gray-500;
-          z-index: $zindex-dropdown;
-          width: 20px;
-          height: 20px;
-          margin-top: -0.625rem;
-          cursor: pointer;
-        }
       }
 
       &:not(.fui-empty):not(.fui-no-label) {

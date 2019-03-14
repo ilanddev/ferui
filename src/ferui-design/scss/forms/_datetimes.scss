@@ -1,0 +1,346 @@
+@import '../_variables.scss';
+@import '../_mixins.scss';
+
+@mixin hideOriginalControl() {
+  opacity: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  position: absolute !important;
+  top: 0 !important;
+}
+
+@include exports('forms.datetimes') {
+  input.fui-input-date {
+    display: inline-block;
+    vertical-align: top;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 100%;
+    border: 1px solid $gray-300;
+    font-family: inherit;
+    padding: $controls-padding 3rem $controls-padding $controls-padding;
+    height: 50px;
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    background: none;
+    color: $gray-900;
+    @include controls-transitions();
+    @include border-radius(3px);
+    @include no-placeholder();
+
+    &:focus {
+      border-color: $gray-500;
+    }
+
+    &[disabled] {
+      background-color: $gray-200;
+      color: $gray-500;
+    }
+  }
+
+  .fui-control-container {
+    &:not(.fui-empty):not(.fui-no-label) {
+      .fui-datetime-wrapper,
+      .fui-time-wrapper,
+      .fui-date-wrapper {
+        input.fui-input-date {
+          padding: $controls-padding 3rem 0 $controls-padding !important;
+        }
+      }
+    }
+
+    &:not(.fui-no-label) {
+      > .fui-time-wrapper {
+        .fui-select:first-of-type {
+          .ng-placeholder {
+            display: none !important;
+          }
+        }
+      }
+    }
+
+    &:not(.fui-empty) {
+      .fui-input-group-icon-action {
+        right: 2.6964rem;
+      }
+
+      .fui-datetime-wrapper {
+        .fui-input-group-icon-action {
+          right: 1.0714rem;
+        }
+      }
+    }
+
+    &.fui-touched,
+    &.fui-dirty,
+    &:not(.fui-empty) {
+      .fui-time-wrapper {
+        .fui-select:last-of-type {
+          .ng-arrow-wrapper {
+            display: none;
+          }
+        }
+      }
+    }
+
+    &.fui-touched,
+    &.fui-dirty {
+      .fui-datetime,
+      .fui-time,
+      .fui-date {
+        &:focus {
+          ~ .fui-subtext-wrapper {
+            .fui-subtext:first-child {
+              visibility: visible;
+              opacity: 1;
+              transition-delay: 0s;
+            }
+          }
+        }
+      }
+
+      > .fui-time-wrapper,
+      > .fui-date-wrapper {
+        .fui-input-group-icon-action {
+          right: 2.6964rem;
+        }
+      }
+
+      > .fui-datetime-wrapper {
+        .fui-time-wrapper,
+        .fui-date-wrapper {
+          .fui-input-group-icon-action {
+            right: 1.0714rem;
+          }
+        }
+      }
+
+      &.fui-control-focus {
+        .fui-datetime,
+        .fui-time,
+        .fui-date {
+          ~ .fui-subtext-wrapper {
+            .fui-subtext:first-child {
+              visibility: visible;
+              opacity: 1;
+              transition-delay: 0s;
+            }
+          }
+        }
+      }
+    }
+
+    > .fui-datetime-wrapper {
+      .fui-time-wrapper,
+      .fui-date-wrapper {
+        .fui-subtext-wrapper,
+        .fui-control-icons {
+          display: none !important;
+        }
+      }
+    }
+  }
+
+  .fui-control-focus {
+    input.fui-input-date {
+      border-color: $gray-500;
+    }
+  }
+
+  .fui-time-wrapper,
+  .fui-date-wrapper {
+    position: relative;
+    display: block;
+  }
+
+  .fui-datetime-wrapper {
+    .fui-datetime {
+      @include hideOriginalControl();
+    }
+
+    input.fui-input-date {
+      &:not(:focus) {
+        border-right: none !important;
+      }
+
+      border-bottom-right-radius: 0 !important;
+      border-top-right-radius: 0 !important;
+    }
+
+    .fui-select:first-of-type {
+      .ng-select-container {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+      }
+    }
+
+    .fui-time-wrapper,
+    .fui-date-wrapper {
+      float: left;
+    }
+
+    &.fui-datetime-4 {
+      .fui-time-3 {
+        width: calc(100% - calc(100% / 4)) !important;
+
+        .fui-select {
+          width: calc(100% / 3) !important;
+        }
+      }
+
+      .fui-date-wrapper {
+        width: calc(100% / 4) !important;
+      }
+    }
+
+    &.fui-datetime-3 {
+      .fui-time-2 {
+        width: calc(100% - calc(100% / 3)) !important;
+
+        .fui-select {
+          width: calc(100% / 2) !important;
+        }
+      }
+
+      .fui-date-wrapper {
+        width: calc(100% / 3) !important;
+      }
+    }
+
+    &.fui-datetime-2 {
+      .fui-time-1 {
+        width: calc(100% - calc(100% / 2)) !important;
+
+        .fui-select {
+          width: calc(100%) !important;
+        }
+      }
+
+      .fui-date-wrapper {
+        width: calc(100% / 2) !important;
+      }
+    }
+  }
+
+  .fui-time-wrapper {
+    .fui-time {
+      @include hideOriginalControl();
+    }
+
+    .fui-select {
+      display: inline-block !important;
+      vertical-align: top;
+      margin: 0 !important;
+
+      .ng-select-container {
+        border-right: none;
+        border-radius: 0;
+      }
+
+      &.ng-select-opened {
+        &:not(.ng-select-top) {
+          > .ng-select-container {
+            border-top-color: $gray-500 !important;
+            border-left-color: $gray-500 !important;
+            border-right-color: $gray-500 !important;
+          }
+        }
+
+        &.ng-select-top {
+          > .ng-select-container {
+            border-right-color: $gray-500 !important;
+            border-left-color: $gray-500 !important;
+            border-bottom-color: $gray-500 !important;
+          }
+        }
+
+        > .ng-select-container {
+          border-right-width: 1px;
+          border-right-style: solid;
+        }
+
+        + .fui-select {
+          > .ng-select-container {
+            border-left: none;
+            padding-left: 1px;
+
+            .ng-value-container {
+              .ng-placeholder {
+                left: calc(1rem + 3px);
+              }
+            }
+          }
+        }
+      }
+
+      &:first-of-type {
+        .ng-select-container {
+          border-top-left-radius: $default-radius-value;
+          border-bottom-left-radius: $default-radius-value;
+        }
+
+        &.ng-select-opened {
+          &:not(.ng-select-top) {
+            .ng-select-container {
+              border-bottom-left-radius: 0;
+            }
+          }
+
+          &.ng-select-top {
+            .ng-select-container {
+              border-top-left-radius: 0;
+            }
+          }
+        }
+      }
+
+      &:last-of-type {
+        .ng-select-container {
+          border-right: 1px solid $gray-300;
+          border-top-right-radius: $default-radius-value;
+          border-bottom-right-radius: $default-radius-value;
+        }
+
+        &.ng-select-opened {
+          &:not(.ng-select-top) {
+            .ng-select-container {
+              border-bottom-right-radius: 0;
+            }
+          }
+
+          &.ng-select-top {
+            .ng-select-container {
+              border-top-right-radius: 0;
+            }
+          }
+        }
+      }
+    }
+
+    &.fui-time-3 {
+      .fui-select {
+        width: calc(100% / 3) !important;
+      }
+    }
+
+    &.fui-time-2 {
+      .fui-select {
+        width: calc(100% / 2) !important;
+      }
+    }
+
+    &.fui-time-1 {
+      .fui-select {
+        width: 100% !important;
+      }
+    }
+  }
+
+  .fui-date-wrapper {
+    .fui-date-icon-wrapper {
+      position: relative;
+      display: inline-block;
+      height: 50px;
+    }
+  }
+}

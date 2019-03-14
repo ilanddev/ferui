@@ -11,7 +11,8 @@ import { NgControlService } from '../common/providers/ng-control.service';
 import { FocusService } from '../common/providers/focus.service';
 import { FuiLabel } from '../common/label';
 import { FormControlClass } from '../../utils/form-control-class/form-control-class';
-import { PasswordReference } from './password-reference';
+import { PlaceholderService } from '../common/providers/placeholder.service';
+import { RequiredControlService } from '../common/providers/required-control.service';
 
 /* tslint:disable-next-line:variable-name */
 export const ToggleService = new InjectionToken<any>(undefined);
@@ -28,7 +29,7 @@ export function ToggleServiceProvider() {
       <div class="fui-input-wrapper">
         <ng-content select="label" *ngIf="label"></ng-content>
         <label *ngIf="!label"></label>
-        
+
         <clr-icon *ngIf="!show && fuiToggle"
                   shape="fui-eye"
                   class="fui-input-group-icon-action"
@@ -37,7 +38,7 @@ export function ToggleServiceProvider() {
                   shape="fui-eye-off"
                   class="fui-input-group-icon-action"
                   (click)="toggle()"></clr-icon>
-        
+
         <ng-content select="[fuiPassword]"></ng-content>
         <label class="fui-control-icons">
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
@@ -60,17 +61,17 @@ export function ToggleServiceProvider() {
     ControlIdService,
     ControlClassService,
     FocusService,
+    RequiredControlService,
     { provide: ToggleService, useFactory: ToggleServiceProvider },
+    PlaceholderService,
   ],
 })
-export class FuiPasswordContainer implements DynamicWrapper, AfterContentInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+export class FuiPasswordContainer implements DynamicWrapper, OnDestroy {
   invalid = false;
   control: NgControl;
   _dynamic = false;
   show = false;
   focus = false;
-  private _toggle = true;
 
   @Input('fuiToggle')
   set fuiToggle(state: boolean) {
@@ -85,13 +86,15 @@ export class FuiPasswordContainer implements DynamicWrapper, AfterContentInit, O
   }
 
   @ContentChild(FuiLabel) label: FuiLabel;
-  @ContentChild(PasswordReference) injectedControl: PasswordReference;
+
+  private _toggle = true;
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private ifErrorService: IfErrorService,
     private controlClassService: ControlClassService,
-    public focusService: FocusService,
     private ngControlService: NgControlService,
+    private focusService: FocusService,
     @Inject(ToggleService) private toggleService: BehaviorSubject<boolean>
   ) {
     this.subscriptions.push(
@@ -100,13 +103,13 @@ export class FuiPasswordContainer implements DynamicWrapper, AfterContentInit, O
       })
     );
     this.subscriptions.push(
-      this.focusService.focusChange.subscribe(state => {
-        this.focus = state;
+      this.ngControlService.controlChanges.subscribe(control => {
+        this.control = control;
       })
     );
     this.subscriptions.push(
-      this.ngControlService.controlChanges.subscribe(control => {
-        this.control = control;
+      this.focusService.focusChange.subscribe(state => {
+        this.focus = state;
       })
     );
   }
@@ -119,14 +122,8 @@ export class FuiPasswordContainer implements DynamicWrapper, AfterContentInit, O
   controlClass() {
     return this.controlClassService.controlClass(
       this.invalid,
-      FormControlClass.extractControlClass(this.control, this.label, this.injectedControl)
+      FormControlClass.extractControlClass(this.control, this.label, this.focus)
     );
-  }
-
-  ngAfterContentInit() {
-    if (this.label && this.injectedControl) {
-      this.label.setLabelRequired(this.injectedControl.required !== undefined);
-    }
   }
 
   ngOnDestroy() {

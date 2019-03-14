@@ -211,6 +211,7 @@ Finally, and this is harder to put in black-or-white terms, keep the API as simp
 * Unit tests should not duplicate coverage. In particular, avoid multiple unit tests failing for the same error.
 * Do not test several components at the same time, unless you're specifically writing an integration test. You should manually declare parent components that might be needed for your test as **providers**, or even better mock them. In other words, make sure the only components your are declaring in your testing module are the currently tested component and the test host.
 * Split your unit tests in Typescript API, Template API and View (details coming soon).
+* During your testing sessions, it's possible to use `fdescribe` and `fit` to test specific chunks of tests but keep in mind that the tslint will not accept it ! And this is wanted, we're using `defocus` plugin to be sure that we do not miss any `fdescribe` or `fit` for production release. To be able to run your tests without issues, you must run the command : `npm run test:components`. This will avoid the tslint check.
 
 ## Static UI
 

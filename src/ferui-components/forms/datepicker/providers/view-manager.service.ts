@@ -1,9 +1,3 @@
-/*
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
- * This software is released under MIT license.
- * The full license information can be found in LICENSE in the root directory of this project.
- */
-
 import { Injectable } from '@angular/core';
 
 const enum DatepickerViewEnum {
@@ -17,29 +11,29 @@ const enum DatepickerViewEnum {
  */
 @Injectable()
 export class ViewManagerService {
-  private _currentView: DatepickerViewEnum = DatepickerViewEnum.DAYVIEW;
+  private currentView: DatepickerViewEnum = DatepickerViewEnum.DAYVIEW;
 
   get isDayView(): boolean {
-    return this._currentView === DatepickerViewEnum.DAYVIEW;
+    return this.currentView === DatepickerViewEnum.DAYVIEW;
   }
 
   get isYearView(): boolean {
-    return this._currentView === DatepickerViewEnum.YEARVIEW;
+    return this.currentView === DatepickerViewEnum.YEARVIEW;
   }
 
   get isMonthView(): boolean {
-    return this._currentView === DatepickerViewEnum.MONTHVIEW;
+    return this.currentView === DatepickerViewEnum.MONTHVIEW;
   }
 
   changeToMonthView(): void {
-    this._currentView = DatepickerViewEnum.MONTHVIEW;
+    this.currentView = DatepickerViewEnum.MONTHVIEW;
   }
 
   changeToYearView(): void {
-    this._currentView = DatepickerViewEnum.YEARVIEW;
+    this.currentView = DatepickerViewEnum.YEARVIEW;
   }
 
   changeToDayView(): void {
-    this._currentView = DatepickerViewEnum.DAYVIEW;
+    this.currentView = DatepickerViewEnum.DAYVIEW;
   }
 }

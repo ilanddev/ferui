@@ -8,11 +8,11 @@ import { OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NgControl } from '@angular/forms';
 import { ContentChild } from '@angular/core';
-import { SelectReference } from './select-reference';
 import { FormControlClass } from '../../utils/form-control-class/form-control-class';
 import { FuiLabel } from '../common/label';
-import { AfterContentInit } from '@angular/core';
 import { PlaceholderService } from '../common/providers/placeholder.service';
+import { FocusService } from '../common/providers/focus.service';
+import { RequiredControlService } from '../common/providers/required-control.service';
 
 @Component({
   selector: 'fui-select-container',
@@ -37,20 +37,32 @@ import { PlaceholderService } from '../common/providers/placeholder.service';
     '[class.fui-form-control]': 'true',
     '[class.fui-form-control-disabled]': 'control?.disabled',
   },
-  providers: [IfErrorService, NgControlService, ControlIdService, ControlClassService, PlaceholderService],
+  providers: [
+    IfErrorService,
+    NgControlService,
+    ControlIdService,
+    ControlClassService,
+    PlaceholderService,
+    FocusService,
+    RequiredControlService,
+  ],
 })
-export class FuiSelectContainer implements DynamicWrapper, AfterContentInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+export class FuiSelectContainer implements DynamicWrapper, OnDestroy {
   invalid = false;
   _dynamic = false;
   control: NgControl;
+
   @ContentChild(FuiLabel) label: FuiLabel;
-  @ContentChild(SelectReference) injectedControl: SelectReference;
+
+  private focus: boolean = false;
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private ifErrorService: IfErrorService,
     private controlClassService: ControlClassService,
-    private ngControlService: NgControlService
+    private ngControlService: NgControlService,
+    private focusService: FocusService,
+    private requiredService: RequiredControlService
   ) {
     this.subscriptions.push(
       this.ifErrorService.statusChanges.subscribe(invalid => {
@@ -62,19 +74,25 @@ export class FuiSelectContainer implements DynamicWrapper, AfterContentInit, OnD
         this.control = control;
       })
     );
+    this.subscriptions.push(
+      this.focusService.focusChange.subscribe(state => {
+        this.focus = state;
+      })
+    );
+    this.subscriptions.push(
+      this.requiredService.requiredChange.subscribe(state => {
+        if (this.requiredService) {
+          this.requiredService.required = state;
+        }
+      })
+    );
   }
 
   controlClass() {
     return this.controlClassService.controlClass(
       this.invalid,
-      FormControlClass.extractControlClass(this.control, this.label, this.injectedControl)
+      FormControlClass.extractControlClass(this.control, this.label, this.focus)
     );
-  }
-
-  ngAfterContentInit() {
-    if (this.label && this.injectedControl) {
-      this.label.setLabelRequired(this.injectedControl.required !== undefined);
-    }
   }
 
   ngOnDestroy() {

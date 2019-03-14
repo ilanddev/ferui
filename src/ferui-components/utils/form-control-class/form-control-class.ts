@@ -1,13 +1,8 @@
 import { NgControl } from '@angular/forms';
 import { FuiLabel } from '../../forms/common/label';
-import { ControlReference } from '../../forms/common/control-reference';
 
 export class FormControlClass {
-  public static extractControlClass(
-    control: NgControl,
-    label?: FuiLabel,
-    controlReference?: ControlReference
-  ): Array<string> {
+  public static extractControlClass(control: NgControl, label?: FuiLabel, focus?: boolean): Array<string> {
     const classes = [];
     if (control && control.touched) {
       classes.push('fui-touched');
@@ -27,7 +22,7 @@ export class FormControlClass {
     if (!label) {
       classes.push('fui-no-label');
     }
-    if (controlReference && controlReference.focus) {
+    if (focus) {
       classes.push('fui-control-focus');
     }
     return classes;

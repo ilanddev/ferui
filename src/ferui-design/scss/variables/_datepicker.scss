@@ -1,0 +1,36 @@
+$fui-calendar-click-target: 1.875rem;
+$fui-calendar-background-color: $white;
+$fui-calendar-border-color: $gray-300;
+$fui-datepicker-trigger-color: $blue;
+$fui-datepicker-trigger-hover-color: $blue-hover;
+$fui-calendar-margin-top: 0.25rem;
+$fui-calendar-padding: 0.6875rem;
+
+$fui-calendar-width: 18.75rem;
+//(No of days in the week * 36px + 2 * 12px padding + 2px for border
+
+$fui-calendar-height: 19.625rem;
+//(8 = 6 date rows + 1 row for day heading + 1 row for calendar switches and month/year pickers)
+
+$fui-calendar-btn-color: $gray-500;
+$fui-calendar-btn-hover-focus-color: $gray-900;
+$fui-calendar-btn-padding: 0;
+
+$fui-calendar-month-cell-height: 2.5rem;
+$fui-calendar-month-cell-padding: 0.5rem;
+
+$fui-calendar-picker-btn-font-size: 1rem;
+$fui-calendar-picker-btn-font-weight: 400;
+
+$fui-calendar-today-date-cell-color: $gray-900;
+$fui-calendar-today-date-cell-font-weight: 600;
+
+$fui-calendar-active-cell-background-color: $blue;
+$fui-calendar-active-focus-cell-background-color: $blue;
+$fui-calendar-active-cell-color: $white;
+
+$fui-day-font-size: 0.875rem;
+$fui-switcher-width: $fui-calendar-click-target * 1.333333;
+
+$fui-monthpicker-min-height: 6 * $fui-calendar-month-cell-height;
+$fui-month-year-btn-width: 5.3125rem;

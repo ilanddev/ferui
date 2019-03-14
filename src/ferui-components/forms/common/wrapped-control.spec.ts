@@ -18,7 +18,12 @@ import { Renderer2 } from '@angular/core';
 /*
  * Components using the WrappedFormControl we want to test.
  */
-@Component({ selector: 'test-wrapper', template: `<ng-content></ng-content>`, providers: [ControlIdService] })
+@Component({
+  selector: 'test-wrapper',
+  template: `
+    <ng-content></ng-content>`,
+  providers: [ControlIdService],
+})
 class TestWrapper implements DynamicWrapper {
   _dynamic = false;
 }
@@ -32,7 +37,13 @@ class TestControl extends WrappedFormControl<TestWrapper> {
 
 @Component({
   selector: 'test-wrapper2',
-  template: `<div id="first"><ng-content></ng-content></div><div id="second"><ng-content></ng-content></div>`,
+  template: `
+    <div id="first">
+      <ng-content></ng-content>
+    </div>
+    <div id="second">
+      <ng-content></ng-content>
+    </div>`,
   providers: [ControlIdService],
 })
 class TestWrapper2 implements DynamicWrapper {
@@ -48,7 +59,10 @@ class TestControl2 extends WrappedFormControl<TestWrapper2> {
 
 @Component({
   selector: 'test-wrapper3',
-  template: `<div id="wrapper"><ng-content></ng-content></div>`,
+  template: `
+    <div id="wrapper">
+      <ng-content></ng-content>
+    </div>`,
   providers: [ControlIdService, MarkControlService, NgControlService, IfErrorService, ControlClassService],
 })
 class TestWrapper3 implements DynamicWrapper {
@@ -73,22 +87,34 @@ class WrappedFormControlTestModule {}
 /*
  * Actual test components, one for each case we support
  */
-@Component({ template: `<input testControl />` })
+@Component({ template: `<input testControl/>` })
 class NoWrapperNoId {}
 
-@Component({ template: `<input testControl id="hello" />` })
+@Component({ template: `<input testControl id="hello"/>` })
 class NoWrapperWithId {}
 
-@Component({ template: `<test-wrapper><input testControl /></test-wrapper>` })
+@Component({
+  template: `
+    <test-wrapper><input testControl/></test-wrapper>`,
+})
 class WithWrapperNoId {}
 
-@Component({ template: `<test-wrapper><input testControl id="hello" /></test-wrapper>` })
+@Component({
+  template: `
+    <test-wrapper><input testControl id="hello"/></test-wrapper>`,
+})
 class WithWrapperWithId {}
 
-@Component({ template: `<test-wrapper2><input testControl id="hello" /></test-wrapper2>` })
+@Component({
+  template: `
+    <test-wrapper2><input testControl2 id="hello"/></test-wrapper2>`,
+})
 class WithMultipleNgContent {}
 
-@Component({ template: `<test-wrapper3><input testControl3 [(ngModel)]="model" /></test-wrapper3>` })
+@Component({
+  template: `
+    <test-wrapper3><input testControl3 [(ngModel)]="model"/></test-wrapper3>`,
+})
 class WithControl {
   model = '';
 }
@@ -107,14 +133,14 @@ interface TestContext {
 
 export default function(): void {
   describe('WrappedFormControl', () => {
-    function setupTest<T>(testContext: TestContext, testComponent: Type<T>, testControl: any) {
+    function setupTest<T>(testContext: TestContext, testComponent: Type<T>, testControl: any, testWrapper: any) {
       TestBed.configureTestingModule({
         imports: [WrappedFormControlTestModule, FormsModule],
         declarations: [testComponent],
       });
       testContext.fixture = TestBed.createComponent(testComponent);
       testContext.fixture.detectChanges();
-      const wrapperDebugElement = testContext.fixture.debugElement.query(By.directive(TestWrapper));
+      const wrapperDebugElement = testContext.fixture.debugElement.query(By.directive(testWrapper));
       testContext.wrapper = wrapperDebugElement.componentInstance;
       testContext.control = testContext.fixture.debugElement.query(By.directive(testControl)).injector.get(testControl);
       testContext.controlIdService = wrapperDebugElement.injector.get(ControlIdService);
@@ -131,18 +157,18 @@ export default function(): void {
     describe('with an explicit wrapper', function() {
       it('uses HostWrapper to inject the ControlIdService', function(this: TestContext) {
         spyOn(HostWrapper.prototype, 'get').and.callThrough();
-        setupTest(this, WithWrapperNoId, TestControl);
+        setupTest(this, WithWrapperNoId, TestControl, TestWrapper);
         expect(HostWrapper.prototype.get).toHaveBeenCalledWith(ControlIdService);
         expect(this.wrapper._dynamic).toBe(false);
       });
 
       it('sets the id of the host to the id given by the service', function(this: TestContext) {
-        setupTest(this, WithWrapperNoId, TestControl);
+        setupTest(this, WithWrapperNoId, TestControl, TestWrapper);
         expect(this.input.getAttribute('id')).toBe(this.controlIdService.id);
       });
 
       it('updates the service to the correct id if it exists', function(this: TestContext) {
-        setupTest(this, WithWrapperWithId, TestControl);
+        setupTest(this, WithWrapperWithId, TestControl, TestWrapper);
         expect(this.input.getAttribute('id')).toBe('hello');
         expect(this.controlIdService.id).toBe('hello');
       });
@@ -151,18 +177,18 @@ export default function(): void {
     describe('without an explicit wrapper', function() {
       it('uses HostWrapper to inject the ControlIdService', function(this: TestContext) {
         spyOn(HostWrapper.prototype, 'get').and.callThrough();
-        setupTest(this, NoWrapperNoId, TestControl);
+        setupTest(this, NoWrapperNoId, TestControl, TestWrapper);
         expect(HostWrapper.prototype.get).toHaveBeenCalledWith(ControlIdService);
         expect(this.wrapper._dynamic).toBe(true);
       });
 
       it('sets the id of the host to the id given by the service', function(this: TestContext) {
-        setupTest(this, NoWrapperNoId, TestControl);
+        setupTest(this, NoWrapperNoId, TestControl, TestWrapper);
         expect(this.input.getAttribute('id')).toBe(this.controlIdService.id);
       });
 
       it('updates the service to the correct id if it exists', function(this: TestContext) {
-        setupTest(this, NoWrapperWithId, TestControl);
+        setupTest(this, NoWrapperWithId, TestControl, TestWrapper);
         expect(this.input.getAttribute('id')).toBe('hello');
         expect(this.controlIdService.id).toBe('hello');
       });
@@ -170,7 +196,7 @@ export default function(): void {
 
     describe('with multiple projection slots', function() {
       it('projects into the second slot when configured', function(this: TestContext) {
-        setupTest(this, WithMultipleNgContent, TestControl);
+        setupTest(this, WithMultipleNgContent, TestControl2, TestWrapper2);
         expect(this.fixture.nativeElement.querySelector('#first').innerHTML).toBe('');
         expect(this.fixture.nativeElement.querySelector('#second').querySelector('input')).toBeTruthy();
       });
@@ -179,12 +205,12 @@ export default function(): void {
     describe('with a real NgControl', function() {
       it('sets the control class', function(this: TestContext) {
         spyOn(ControlClassService.prototype, 'initControlClass').and.callThrough();
-        setupTest(this, WithControl, TestControl3);
+        setupTest(this, WithControl, TestControl3, TestWrapper3);
         expect(ControlClassService.prototype.initControlClass).toHaveBeenCalled();
       });
 
       it('subscribes to requests to mark as dirty', function(this: TestContext) {
-        setupTest(this, WithControl, TestControl3);
+        setupTest(this, WithControl, TestControl3, TestWrapper3);
         expect(this.input.className).not.toContain('ng-dirty');
         this.markControlService.markAsDirty();
         this.fixture.detectChanges();
@@ -193,13 +219,13 @@ export default function(): void {
 
       it('sets the control on ngControlService', function(this: TestContext) {
         spyOn(NgControlService.prototype, 'setControl').and.callThrough();
-        setupTest(this, WithControl, TestControl3);
+        setupTest(this, WithControl, TestControl3, TestWrapper3);
         expect(NgControlService.prototype.setControl).toHaveBeenCalled();
       });
 
       it('triggers status changes on blur', function(this: TestContext) {
         spyOn(IfErrorService.prototype, 'triggerStatusChange').and.callThrough();
-        setupTest(this, WithControl, TestControl3);
+        setupTest(this, WithControl, TestControl3, TestWrapper3);
         this.input.focus();
         this.input.blur();
         this.fixture.detectChanges();
@@ -207,7 +233,7 @@ export default function(): void {
       });
 
       it('implements ngOnDestroy', function(this: TestContext) {
-        setupTest(this, WithControl, TestControl3);
+        setupTest(this, WithControl, TestControl3, TestWrapper3);
         expect(this.control.ngOnDestroy).toBeDefined();
       });
     });

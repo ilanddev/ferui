@@ -1,5 +1,6 @@
 // Color override
 $blue: #03a6ff !default;
+$blue-hover: darken(#03a6ff, 7%) !default;
 $red: #ed5151 !default;
 $yellow: #fadd56 !default;
 $green: #13ce66 !default;
@@ -7,7 +8,7 @@ $orange: #f89412 !default;
 
 $white: #ffffff !default;
 $gray-100: #f5f8f9 !default;
-$gray-200: #f1f7fb !default;
+$gray-200: #f1f4f6 !default;
 $gray-300: #e5eaee !default;
 $gray-400: #ced6dd !default;
 $gray-500: #87a1b5 !default;
@@ -35,8 +36,8 @@ $font-family-sans-serif: Roboto, 'Helvetica Neue', Arial, Noto Sans, sans-serif 
 $font-family-monospace: Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !default;
 
 $font-size-base: 0.875rem !default; // = 14px assuming browser default to 16px
-$font-size-lg: ($font-size-base * 1.1428) !default; // 16px
-$font-size-sm: ($font-size-base * 0.8571) !default; // 12px
+$font-size-lg: 1rem !default; // 16px
+$font-size-sm: 0.75rem !default; // 12px
 
 $font-weight-lighter: 100 !default;
 $font-weight-bolder: 900 !default;
@@ -44,3 +45,9 @@ $font-weight-bolder: 900 !default;
 $headings-font-weight: 700 !default;
 
 $zindex-dropdown: 1010 !default;
+
+$fui-default-borderradius: 3px;
+$fui-default-borderwidth: 1px;
+$fui-popover-box-shadow-color: rgba($gray-900, 0.25);
+
+$default-radius-value: 3px;

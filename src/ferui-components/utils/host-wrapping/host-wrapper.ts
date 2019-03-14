@@ -1,9 +1,3 @@
-/**
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
- * This software is released under MIT license.
- * The full license information can be found in LICENSE in the root directory of this project.
- */
-
 import {
   ComponentFactory,
   ComponentFactoryResolver,
@@ -20,9 +14,10 @@ import { EmptyAnchor } from './empty-anchor';
 /**
  * HostWrapper must be called in OnInit to ensure that the Views are ready. If its called in a constructor the view is
  * still undefined.
- * TODO - make sure these comment annotations do not break ng-packgr.
  */
 export class HostWrapper<W extends DynamicWrapper> implements Injector {
+  private injector: Injector;
+
   constructor(containerType: Type<W>, vcr: ViewContainerRef, index: number = 0) {
     this.injector = vcr.injector;
     // If the host is already wrapped, we don't do anything
@@ -51,8 +46,6 @@ export class HostWrapper<W extends DynamicWrapper> implements Injector {
       this.injector = containerRef.injector;
     }
   }
-
-  private injector: Injector;
 
   get<T>(token: Type<T> | InjectionToken<T>, notFoundValue?: T): T {
     return this.injector.get(token, notFoundValue);

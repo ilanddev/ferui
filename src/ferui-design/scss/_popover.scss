@@ -1,0 +1,7 @@
+@import './_mixins.scss';
+
+@include exports('popover.ferui') {
+  .is-off-screen {
+    @include off-screen-styles();
+  }
+}

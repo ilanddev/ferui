@@ -1,4 +1,4 @@
-import { Component, ContentChild, OnDestroy, AfterContentInit } from '@angular/core';
+import { Component, ContentChild, OnDestroy } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -7,7 +7,8 @@ import { FuiLabel } from '../common/label';
 import { ControlClassService } from '../common/providers/control-class.service';
 import { NgControlService } from '../common/providers/ng-control.service';
 import { FormControlClass } from '../../utils/form-control-class/form-control-class';
-import { RadioReference } from './radio-reference';
+import { FocusService } from '../common/providers/focus.service';
+import { RequiredControlService } from '../common/providers/required-control.service';
 
 @Component({
   selector: 'fui-radio-container',
@@ -28,20 +29,22 @@ import { RadioReference } from './radio-reference';
     '[class.fui-form-control]': 'true',
     '[class.fui-form-control-disabled]': 'control?.disabled',
   },
-  providers: [NgControlService, ControlClassService, IfErrorService],
+  providers: [NgControlService, ControlClassService, IfErrorService, FocusService, RequiredControlService],
 })
-export class FuiRadioContainer implements OnDestroy, AfterContentInit {
-  private subscriptions: Subscription[] = [];
+export class FuiRadioContainer implements OnDestroy {
   invalid = false;
   control: NgControl;
 
   @ContentChild(FuiLabel) label: FuiLabel;
-  @ContentChild(RadioReference) injectedControl: RadioReference;
+
+  private focus: boolean = false;
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private ifErrorService: IfErrorService,
     private controlClassService: ControlClassService,
-    private ngControlService: NgControlService
+    private ngControlService: NgControlService,
+    private focusService: FocusService
   ) {
     this.subscriptions.push(
       this.ifErrorService.statusChanges.subscribe(invalid => {
@@ -53,19 +56,18 @@ export class FuiRadioContainer implements OnDestroy, AfterContentInit {
         this.control = control;
       })
     );
+    this.subscriptions.push(
+      this.focusService.focusChange.subscribe(state => {
+        this.focus = state;
+      })
+    );
   }
 
   controlClass() {
     return this.controlClassService.controlClass(
       this.invalid,
-      FormControlClass.extractControlClass(this.control, this.label, this.injectedControl)
+      FormControlClass.extractControlClass(this.control, this.label, this.focus)
     );
-  }
-
-  ngAfterContentInit() {
-    if (this.label && this.injectedControl) {
-      this.label.setLabelRequired(this.injectedControl.required !== undefined);
-    }
   }
 
   ngOnDestroy() {

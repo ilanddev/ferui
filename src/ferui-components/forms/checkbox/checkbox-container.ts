@@ -7,8 +7,8 @@ import { FuiLabel } from '../common/label';
 import { ControlClassService } from '../common/providers/control-class.service';
 import { NgControlService } from '../common/providers/ng-control.service';
 import { FormControlClass } from '../../utils/form-control-class/form-control-class';
-import { CheckboxReference } from './checkbox-reference';
-import { AfterContentInit } from '@angular/core';
+import { FocusService } from '../common/providers/focus.service';
+import { RequiredControlService } from '../common/providers/required-control.service';
 
 @Component({
   selector: 'fui-checkbox-container',
@@ -29,20 +29,22 @@ import { AfterContentInit } from '@angular/core';
     '[class.fui-form-control]': 'true',
     '[class.fui-form-control-disabled]': 'control?.disabled',
   },
-  providers: [NgControlService, ControlClassService, IfErrorService],
+  providers: [NgControlService, ControlClassService, IfErrorService, FocusService, RequiredControlService],
 })
-export class FuiCheckboxContainer implements OnDestroy, AfterContentInit {
-  private subscriptions: Subscription[] = [];
+export class FuiCheckboxContainer implements OnDestroy {
   invalid = false;
   control: NgControl;
 
   @ContentChild(FuiLabel) label: FuiLabel;
-  @ContentChild(CheckboxReference) injectedControl: CheckboxReference;
+
+  private focus: boolean = false;
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private ifErrorService: IfErrorService,
     private controlClassService: ControlClassService,
-    private ngControlService: NgControlService
+    private ngControlService: NgControlService,
+    private focusService: FocusService
   ) {
     this.subscriptions.push(
       this.ngControlService.controlChanges.subscribe(control => {
@@ -57,19 +59,18 @@ export class FuiCheckboxContainer implements OnDestroy, AfterContentInit {
         this.invalid = invalid;
       })
     );
+    this.subscriptions.push(
+      this.focusService.focusChange.subscribe(state => {
+        this.focus = state;
+      })
+    );
   }
 
   controlClass() {
     return this.controlClassService.controlClass(
       this.invalid,
-      FormControlClass.extractControlClass(this.control, this.label, this.injectedControl)
+      FormControlClass.extractControlClass(this.control, this.label, this.focus)
     );
-  }
-
-  ngAfterContentInit() {
-    if (this.label && this.injectedControl) {
-      this.label.setLabelRequired(this.injectedControl.required !== undefined);
-    }
   }
 
   ngOnDestroy() {

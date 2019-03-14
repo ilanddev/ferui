@@ -23,25 +23,8 @@ export class IfErrorService implements OnDestroy {
           this.control = control;
           this.listenForChanges();
         }
-      }),
+      })
     );
-  }
-
-  // Subscribe to the status change events, only after touched and emit the control
-  private listenForChanges() {
-    this.subscriptions.push(
-      this.control.statusChanges.subscribe(() => {
-        this.sendValidity();
-      }),
-    );
-  }
-
-  private sendValidity() {
-    if ((this.control.touched || this.control.dirty) && this.control.invalid) {
-      this._statusChanges.next(true);
-    } else {
-      this._statusChanges.next(false);
-    }
   }
 
   // Allows a control to push a status check upstream, such as on blur
@@ -54,5 +37,24 @@ export class IfErrorService implements OnDestroy {
   // Clean up subscriptions
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  // Subscribe to the status change events, only after touched and emit the control
+  private listenForChanges() {
+    if (this.control && this.control.statusChanges) {
+      this.subscriptions.push(
+        this.control.statusChanges.subscribe(() => {
+          this.sendValidity();
+        })
+      );
+    }
+  }
+
+  private sendValidity() {
+    if ((this.control.touched || this.control.dirty) && this.control.invalid) {
+      this._statusChanges.next(true);
+    } else {
+      this._statusChanges.next(false);
+    }
   }
 }

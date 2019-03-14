@@ -1,60 +1,56 @@
-/*
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
- * This software is released under MIT license.
- * The full license information can be found in LICENSE in the root directory of this project.
- */
 import { AfterViewInit, Component, ElementRef, HostListener } from '@angular/core';
 
 import { DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, UP_ARROW } from '../../utils/key-codes/key-codes';
 
 import { YearRangeModel } from './model/year-range.model';
-import { DateNavigationService } from './providers/date-navigation.service';
 import { DatepickerFocusService } from './providers/datepicker-focus.service';
 import { ViewManagerService } from './providers/view-manager.service';
-import { ClrCommonStrings } from '../../utils/i18n/common-strings.interface';
+import { FuiCommonStrings } from '../../utils/i18n/common-strings.service';
+import { DateNavigationService } from '../date/providers/date-navigation.service';
+import { LocaleHelperService } from './providers/locale-helper.service';
 
 @Component({
-  selector: 'clr-yearpicker',
+  selector: 'fui-yearpicker',
   template: `
-        <div class="year-switchers">
-            <button class="calendar-btn switcher" type="button" (click)="previousDecade()">
-                <clr-icon shape="angle" dir="left" [attr.title]="commonStrings.previous"></clr-icon>
-            </button>
-            <button class="calendar-btn switcher" type="button" (click)="currentDecade()">
-                <clr-icon shape="event" [attr.title]="commonStrings.current"></clr-icon>
-            </button>
-            <button class="calendar-btn switcher" type="button" (click)="nextDecade()">
-                <clr-icon shape="angle" dir="right" [attr.title]="commonStrings.next"></clr-icon>
-            </button>
-        </div>
-        <div class="years">
-            <button
-                *ngFor="let year of yearRangeModel.yearRange"
-                type="button"
-                class="calendar-btn year"
-                [attr.tabindex]="getTabIndex(year)"
-                [class.is-selected]="year === calendarYear"
-                (click)="changeYear(year)">
-                {{year}}
-            </button>
-        </div>
-    `,
+    <div class="calendar-header">
+      <div class="calendar-pickers">
+        <button class="calendar-btn monthpicker-trigger" type="button" (click)="changeToMonthView()">
+          {{calendarMonth}}
+        </button>
+        <button class="calendar-btn yearpicker-trigger" type="button" (click)="changeToYearView()">
+          {{calendarYear}}
+        </button>
+      </div>
+      <div class="calendar-switchers">
+        <button class="calendar-btn switcher" type="button" (click)="previousDecade()">
+          <clr-icon class="fui-calendar-arrows" shape="fui-arrow-left" [attr.title]="commonStrings.previous"></clr-icon>
+        </button>
+        <button class="calendar-btn switcher" type="button" (click)="currentDecade()">
+          <clr-icon shape="fui-calendar" class="fui-calendar-icon has-badge"
+                    [attr.title]="commonStrings.current"></clr-icon>
+        </button>
+        <button class="calendar-btn switcher" type="button" (click)="nextDecade()">
+          <clr-icon class="fui-calendar-arrows" shape="fui-arrow-right" [attr.title]="commonStrings.next"></clr-icon>
+        </button>
+      </div>
+    </div>
+    <div class="year-wrapper">
+      <button
+        *ngFor="let year of yearRangeModel.yearRange"
+        type="button"
+        class="calendar-btn year"
+        [attr.tabindex]="getTabIndex(year)"
+        [class.is-selected]="year === calendarYear"
+        (click)="changeYear(year)">
+        {{year}}
+      </button>
+    </div>
+  `,
   host: {
     '[class.yearpicker]': 'true',
   },
 })
-export class ClrYearpicker implements AfterViewInit {
-  constructor(
-    private _dateNavigationService: DateNavigationService,
-    private _viewManagerService: ViewManagerService,
-    private _datepickerFocusService: DatepickerFocusService,
-    private _elRef: ElementRef,
-    public commonStrings: ClrCommonStrings
-  ) {
-    this.yearRangeModel = new YearRangeModel(this.calendarYear);
-    this._focusedYear = this.calendarYear;
-  }
-
+export class FuiYearpicker implements AfterViewInit {
   /**
    * YearRangeModel which is used to build the YearPicker view.
    */
@@ -63,29 +59,46 @@ export class ClrYearpicker implements AfterViewInit {
   /**
    * Keeps track of the current focused year.
    */
-  private _focusedYear: number;
+  private focusedYear: number;
 
   /**
    * Gets the year which the user is currently on.
    */
   get calendarYear(): number {
-    return this._dateNavigationService.displayedCalendar.year;
+    return this.dateNavigationService.displayedCalendar.year;
   }
 
   /**
-   * Increments the focus year by the value passed. Updates the YearRangeModel if the
-   * new value is not in the current decade.
+   * Returns the month value of the calendar in the TranslationWidth.Abbreviated format.
    */
-  private incrementFocusYearBy(value: number): void {
-    this._focusedYear = this._focusedYear + value;
-    if (!this.yearRangeModel.inRange(this._focusedYear)) {
-      if (value > 0) {
-        this.yearRangeModel = this.yearRangeModel.nextDecade();
-      } else {
-        this.yearRangeModel = this.yearRangeModel.previousDecade();
-      }
-    }
-    this._datepickerFocusService.focusCell(this._elRef);
+  get calendarMonth(): string {
+    return this.localeHelperService.localeMonthsAbbreviated[this.dateNavigationService.displayedCalendar.month];
+  }
+
+  constructor(
+    private dateNavigationService: DateNavigationService,
+    private viewManagerService: ViewManagerService,
+    private datepickerFocusService: DatepickerFocusService,
+    private elRef: ElementRef,
+    public commonStrings: FuiCommonStrings,
+    private localeHelperService: LocaleHelperService
+  ) {
+    this.yearRangeModel = new YearRangeModel(this.calendarYear);
+    this.focusedYear = this.calendarYear;
+  }
+
+  /**
+   * Calls the ViewManagerService to change to the monthpicker view.
+   */
+  changeToMonthView(): void {
+    this.viewManagerService.changeToMonthView();
+  }
+
+  /**
+   * Calls the ViewManagerService to change to the yearpicker view.
+   */
+  changeToYearView(): void {
+    this.viewManagerService.changeToYearView();
   }
 
   /**
@@ -93,8 +106,8 @@ export class ClrYearpicker implements AfterViewInit {
    * Also changes the view to the daypicker.
    */
   changeYear(year: number): void {
-    this._dateNavigationService.changeYear(year);
-    this._viewManagerService.changeToDayView();
+    this.dateNavigationService.changeYear(year);
+    this.viewManagerService.changeToDayView();
   }
 
   /**
@@ -110,10 +123,10 @@ export class ClrYearpicker implements AfterViewInit {
    * Updates the YearRangeModel to the current decade.
    */
   currentDecade(): void {
-    if (!this.yearRangeModel.inRange(this._dateNavigationService.today.year)) {
+    if (!this.yearRangeModel.inRange(this.dateNavigationService.today.year)) {
       this.yearRangeModel = this.yearRangeModel.currentDecade();
     }
-    this._datepickerFocusService.focusCell(this._elRef);
+    this.datepickerFocusService.focusCell(this.elRef);
   }
 
   /**
@@ -129,14 +142,14 @@ export class ClrYearpicker implements AfterViewInit {
    * Compares the year passed to the focused year and returns the tab index.
    */
   getTabIndex(year: number): number {
-    if (!this.yearRangeModel.inRange(this._focusedYear)) {
+    if (!this.yearRangeModel.inRange(this.focusedYear)) {
       if (this.yearRangeModel.inRange(this.calendarYear)) {
-        this._focusedYear = this.calendarYear;
+        this.focusedYear = this.calendarYear;
       } else {
-        this._focusedYear = this.yearRangeModel.middleYear;
+        this.focusedYear = this.yearRangeModel.middleYear;
       }
     }
-    return this._focusedYear === year ? 0 : -1;
+    return this.focusedYear === year ? 0 : -1;
   }
 
   /**
@@ -157,10 +170,10 @@ export class ClrYearpicker implements AfterViewInit {
         this.incrementFocusYearBy(1);
       } else if (keyCode === RIGHT_ARROW) {
         event.preventDefault();
-        this.incrementFocusYearBy(5);
+        this.incrementFocusYearBy(6);
       } else if (keyCode === LEFT_ARROW) {
         event.preventDefault();
-        this.incrementFocusYearBy(-5);
+        this.incrementFocusYearBy(-6);
       }
     }
   }
@@ -169,6 +182,22 @@ export class ClrYearpicker implements AfterViewInit {
    * Focuses on the current calendar year when the View is initialized.
    */
   ngAfterViewInit() {
-    this._datepickerFocusService.focusCell(this._elRef);
+    this.datepickerFocusService.focusCell(this.elRef);
+  }
+
+  /**
+   * Increments the focus year by the value passed. Updates the YearRangeModel if the
+   * new value is not in the current decade.
+   */
+  private incrementFocusYearBy(value: number): void {
+    this.focusedYear = this.focusedYear + value;
+    if (!this.yearRangeModel.inRange(this.focusedYear)) {
+      if (value > 0) {
+        this.yearRangeModel = this.yearRangeModel.nextDecade();
+      } else {
+        this.yearRangeModel = this.yearRangeModel.previousDecade();
+      }
+    }
+    this.datepickerFocusService.focusCell(this.elRef);
   }
 }

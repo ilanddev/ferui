@@ -8,6 +8,7 @@ import { ClrIconModule } from '@ferui/components';
 import { FuiInput } from '../../input/input';
 import { FuiControlError } from '../error';
 import { FuiInputContainer } from '../../input/input-container';
+import { FuiDefaultControlError } from '../default-error';
 
 const errorMessage = 'ERROR_MESSAGE';
 const minLengthMessage = 'MIN_LENGTH_MESSAGE';
@@ -16,27 +17,24 @@ const minLengthMessage = 'MIN_LENGTH_MESSAGE';
   template: `
     <div *fuiIfError></div>`,
 })
-class InvalidUseTest {
-}
+class InvalidUseTest {}
 
 @Component({
   template: `
-    <clr-control-error *fuiIfError>${errorMessage}</clr-control-error>
+    <fui-control-error *fuiIfError>${errorMessage}</fui-control-error>
   `,
   providers: [IfErrorService, NgControlService],
 })
-class GeneralErrorTest {
-}
+class GeneralErrorTest {}
 
 @Component({
   template: `
-    <clr-control-error *fuiIfError="'required'">${errorMessage}</clr-control-error>
-    <clr-control-error *fuiIfError="'minlength'">${minLengthMessage}</clr-control-error>
+    <fui-control-error *fuiIfError="'required'">${errorMessage}</fui-control-error>
+    <fui-control-error *fuiIfError="'minlength'">${minLengthMessage}</fui-control-error>
   `,
   providers: [IfErrorService, NgControlService],
 })
-class SpecificErrorTest {
-}
+class SpecificErrorTest {}
 
 export default function(): void {
   describe('FuiIfError', () => {
@@ -56,7 +54,14 @@ export default function(): void {
       beforeEach(() => {
         TestBed.configureTestingModule({
           imports: [ClrIconModule, FormsModule],
-          declarations: [FuiInput, FuiControlError, FuiInputContainer, FuiIfError, GeneralErrorTest],
+          declarations: [
+            FuiInput,
+            FuiControlError,
+            FuiInputContainer,
+            FuiDefaultControlError,
+            FuiIfError,
+            GeneralErrorTest,
+          ],
         });
         fixture = TestBed.createComponent(GeneralErrorTest);
         fixture.detectChanges();
@@ -85,7 +90,14 @@ export default function(): void {
       beforeEach(() => {
         TestBed.configureTestingModule({
           imports: [ClrIconModule, FormsModule],
-          declarations: [FuiInput, FuiControlError, FuiInputContainer, FuiIfError, SpecificErrorTest],
+          declarations: [
+            FuiInput,
+            FuiControlError,
+            FuiInputContainer,
+            FuiDefaultControlError,
+            FuiIfError,
+            SpecificErrorTest,
+          ],
         });
         fixture = TestBed.createComponent(SpecificErrorTest);
         fixture.detectChanges();

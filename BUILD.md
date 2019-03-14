@@ -50,7 +50,7 @@ You won't need to install these for general development but may wish to do so if
 
 There are a few other NPM scripts that can be useful during build and development.
 
-##### `npm start`
+##### `npm start` or `npm run start`
 
 This will start up our demo app using the Angular CLI on port 9090 and watch for file changes for live reload.
 
@@ -59,11 +59,20 @@ This will start up our demo app using the Angular CLI on port 9090 and watch for
 This script builds npm package candidates for all three packages we currently publish: `@ferui/components`, `@ferui/design`, and
 `@ferui/icons` under the `/dist` folder.
 
-##### `npm test` and `npm run test:watch`
+##### `npm run test:lint`
 
-The `test` script runs the unit tests using karma. The entry point for the tests is `tests/tests.entry.ts`.
-You may locally modify this file to constrain which tests to run if you are testing for specific components and don't want
-to run all the tests. You can run the tests in watch mode so they run continuously `npm run test:watch`.
+This command run the tslint checks to be sure your code respect our codding conventions.
+
+##### `npm run test:components` and `npm run test:components:watch`
+
+If you need to run all `@ferui/components` tests using karma without the tslint checks, you can run this command. This is useful if you plan to use `fdescribe` or `fit` to test specific chunks of your tests.
+The entry point for the tests is `tests/tests.entry.ts`. You may locally modify this file to constrain which tests to run if you are testing for specific components and don't want
+to run all the tests.
+You can run the tests in watch mode so they run continuously `npm run test:components:watch`.
+
+##### `npm run test`
+
+The `test` script runs tslint checks and unit tests using karma. This command use a combination of two commands : `test:components:components` and `test:lint`.
 
 ##### `npm run build:angular`
 

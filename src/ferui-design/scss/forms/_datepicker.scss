@@ -1,0 +1,286 @@
+@import '../_variables.scss';
+
+@mixin generate-calendar-button($height: $fui-calendar-click-target, $padding: $fui-calendar-btn-padding) {
+  //Dimensions
+  height: $height;
+  min-width: $height;
+  padding: 0 $padding;
+  margin: 0 !important; //Because stupid forms target buttons directly. We really need to refactor forms.
+
+  //Other Props
+  color: inherit;
+  border: none;
+  border-radius: $fui-default-borderradius;
+  background: none;
+  cursor: pointer;
+  line-height: $fui-calendar-click-target;
+}
+
+@mixin generate-calendar-focus-style() {
+  &:hover,
+  &:focus {
+    color: $fui-calendar-btn-hover-focus-color;
+    outline: 0;
+  }
+
+  &:focus {
+    //Only because we have defined a background color for focus above
+    outline: 0;
+  }
+}
+
+@include exports('datepicker.ferui') {
+  .date-container {
+    display: inline-flex;
+    align-items: center;
+
+    //Other Props
+    white-space: nowrap;
+  }
+
+  .datepicker-trigger {
+    @include generate-calendar-button();
+
+    .datepicker-trigger-icon {
+      fill: $fui-datepicker-trigger-color;
+
+      &:hover {
+        fill: $fui-datepicker-trigger-hover-color;
+      }
+    }
+  }
+  .datepicker-trigger:disabled {
+    cursor: not-allowed;
+  }
+  .fui-form-control {
+    .datepicker-trigger {
+      line-height: calc(1rem - 2px);
+      height: calc(1rem - 2px);
+    }
+  }
+
+  .date-input {
+    flex: 1 1 auto;
+  }
+
+  .datepicker {
+    display: flex;
+    flex-direction: column;
+
+    //Dimensions
+    margin-top: $fui-calendar-margin-top;
+    width: $fui-calendar-width;
+    min-height: $fui-calendar-height;
+
+    //Other Props
+    background: $fui-calendar-background-color;
+    border: 1px solid $fui-calendar-border-color;
+    border-radius: $fui-default-borderradius;
+    box-shadow: 0 4px 6px 0 rgba(54, 71, 82, 0.12);
+    overflow: hidden;
+    z-index: $zindex-dropdown;
+  }
+
+  .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $fui-calendar-padding;
+    border-bottom: 1px solid $gray-300;
+  }
+
+  .calendar-switchers,
+  .year-switchers {
+    display: flex;
+  }
+
+  .year-switchers {
+    flex: 0 0 auto;
+    width: $fui-switcher-width;
+    align-self: center;
+  }
+
+  .calendar-table {
+    flex: 1 1 auto;
+
+    //Dimensions
+    width: 100%;
+  }
+
+  .fui-calendar-days-wrapper {
+    padding: 0 10px 10px;
+  }
+
+  .calendar-cell {
+    //Dimensions
+    height: $fui-calendar-month-cell-height;
+    width: $fui-calendar-month-cell-height;
+    min-height: $fui-calendar-month-cell-height;
+    min-width: $fui-calendar-month-cell-height;
+    padding: 0;
+
+    //Other Props
+    text-align: center;
+  }
+
+  .day {
+    display: inline-block;
+  }
+
+  .weekdays {
+    flex: 0 0 $fui-calendar-click-target;
+    margin-top: 0.625rem;
+  }
+
+  .calendar-dates {
+    padding: 0 $fui-calendar-padding;
+  }
+
+  .weekday {
+    font-size: $font-size-base;
+    color: $gray-500;
+  }
+
+  .calendar-btn {
+    @include generate-calendar-button();
+    @include generate-calendar-focus-style();
+
+    //Other Props
+    font-size: $font-size-lg;
+    font-weight: 400;
+  }
+
+  .day-btn {
+    @include generate-calendar-button($height: $fui-calendar-month-cell-height, $padding: 0);
+    @include generate-calendar-focus-style();
+
+    //Dimensions
+    width: 100%;
+
+    //Other Props
+    color: inherit;
+
+    &:hover,
+    &:focus {
+      background: $gray-200;
+    }
+
+    &.is-today {
+      font-weight: $fui-calendar-today-date-cell-font-weight;
+      background: $gray-200;
+    }
+
+    &.is-selected {
+      background: $fui-calendar-active-cell-background-color;
+      color: $fui-calendar-active-cell-color;
+    }
+
+    &.is-selected:focus {
+      background: $fui-calendar-active-focus-cell-background-color;
+    }
+
+    &.is-disabled {
+      opacity: 0.25;
+
+      &:hover {
+        background: none;
+      }
+    }
+  }
+
+  .calendar-pickers {
+    display: flex;
+  }
+
+  .switcher {
+    color: $fui-calendar-btn-color;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+
+    .fui-calendar-arrows {
+      width: 0.5625rem;
+      height: 0.5625rem;
+    }
+
+    .fui-calendar-icon {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+  }
+
+  .monthpicker-trigger,
+  .yearpicker-trigger {
+    font-size: 1rem;
+    //Dimensions
+    min-width: 2rem;
+    max-width: 3rem;
+
+    padding: 0 5px;
+
+    //Other Props
+    color: $blue;
+    text-align: center;
+    @include text-truncate();
+
+    &:hover {
+      color: $blue !important;
+      border-radius: $default-radius-value;
+      background-color: $gray-200;
+    }
+  }
+
+  .month-wrapper,
+  .year-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    margin-top: 10px;
+    height: $fui-monthpicker-min-height;
+
+    padding: 0 10px;
+
+    //Other props
+    overflow: hidden;
+  }
+
+  .month,
+  .year {
+    @include generate-calendar-button($fui-calendar-month-cell-height, 0);
+    @include generate-calendar-focus-style();
+
+    //Dimensions
+    width: $fui-month-year-btn-width;
+
+    //Other Props
+    font-size: $fui-day-font-size;
+    font-weight: $fui-calendar-picker-btn-font-weight;
+    outline-offset: -5px; //needed for chrome
+
+    &:hover,
+    &:focus {
+      background: $gray-200;
+    }
+
+    &.is-selected {
+      background: $fui-calendar-active-cell-background-color;
+      color: $fui-calendar-active-cell-color;
+    }
+
+    &.is-selected:focus {
+      background: $fui-calendar-active-focus-cell-background-color;
+    }
+  }
+
+  .month {
+    text-align: center;
+    @include text-truncate();
+  }
+
+  .year {
+    text-align: center;
+  }
+}

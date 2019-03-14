@@ -1,30 +1,25 @@
-/*
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
- * This software is released under MIT license.
- * The full license information can be found in LICENSE in the root directory of this project.
- */
-
 import { Component } from '@angular/core';
 import { async } from '@angular/core/testing';
 
 import { itIgnore } from '../../../../tests/tests.helpers';
-import { TestContext } from '../../data/datagrid/helpers.spec';
 import { IfOpenService } from '../../utils/conditional/if-open.service';
 import { DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, UP_ARROW } from '../../utils/key-codes/key-codes';
 
-import { DateIOService } from './providers/date-io.service';
-import { DateNavigationService } from './providers/date-navigation.service';
 import { DatepickerFocusService } from './providers/datepicker-focus.service';
 import { LocaleHelperService } from './providers/locale-helper.service';
 import { ViewManagerService } from './providers/view-manager.service';
 import { createKeyboardEvent } from './utils/test-utils';
-import { ClrYearpicker } from './yearpicker';
+import { TestContext } from '../tests/helpers.spec';
+import { DateNavigationService } from '../date/providers/date-navigation.service';
+import { FuiYearpicker } from './yearpicker';
+import { DateIOService } from '../date/providers/date-io.service';
 
 export default function() {
   describe('Yearpicker Component', () => {
-    let context: TestContext<ClrYearpicker, TestComponent>;
+    let context: TestContext<FuiYearpicker, TestComponent>;
     let dateNavigationService: DateNavigationService;
     const selectedYear: number = 2003;
+    const yearsToDisplay: number = 18;
 
     function initializeCalendar(selYear: number) {
       dateNavigationService = new DateNavigationService();
@@ -36,7 +31,7 @@ export default function() {
       beforeEach(function() {
         initializeCalendar(selectedYear);
 
-        context = this.create(ClrYearpicker, TestComponent, [
+        context = this.create(FuiYearpicker, TestComponent, [
           ViewManagerService,
           DatepickerFocusService,
           IfOpenService,
@@ -47,66 +42,66 @@ export default function() {
       });
 
       it('renders the year range', () => {
-        const years: HTMLButtonElement[] = context.clarityElement.querySelectorAll('.year');
+        const years: HTMLButtonElement[] = context.feruiElement.querySelectorAll('.year');
         expect(years).not.toBeNull();
-        expect(years.length).toBe(10);
+        expect(years.length).toBe(yearsToDisplay);
 
-        for (let i = 0; i < 10; i++) {
-          expect(years[i].textContent).toMatch(`${2000 + i}`);
+        for (let i = 0; i < yearsToDisplay; i++) {
+          expect(years[i].textContent).toMatch(`${1998 + i}`);
         }
       });
 
       it('calls to navigate to the previous decade', () => {
-        spyOn(context.clarityDirective, 'previousDecade');
-        const switchers: HTMLElement = context.clarityElement.querySelector('.year-switchers');
+        spyOn(context.feruiDirective, 'previousDecade');
+        const switchers: HTMLElement = context.feruiElement.querySelector('.calendar-switchers');
         const button: HTMLButtonElement = <HTMLButtonElement>switchers.children[0];
 
         button.click();
         context.detectChanges();
 
-        expect(context.clarityDirective.previousDecade).toHaveBeenCalled();
+        expect(context.feruiDirective.previousDecade).toHaveBeenCalled();
       });
 
       it('calls to navigate to the current decade', () => {
-        spyOn(context.clarityDirective, 'currentDecade');
-        const switchers: HTMLElement = context.clarityElement.querySelector('.year-switchers');
+        spyOn(context.feruiDirective, 'currentDecade');
+        const switchers: HTMLElement = context.feruiElement.querySelector('.calendar-switchers');
         const button: HTMLButtonElement = <HTMLButtonElement>switchers.children[1];
 
         button.click();
         context.detectChanges();
 
-        expect(context.clarityDirective.currentDecade).toHaveBeenCalled();
+        expect(context.feruiDirective.currentDecade).toHaveBeenCalled();
       });
 
       it('calls to navigate to the next decade', () => {
-        spyOn(context.clarityDirective, 'nextDecade');
-        const switchers: HTMLElement = context.clarityElement.querySelector('.year-switchers');
+        spyOn(context.feruiDirective, 'nextDecade');
+        const switchers: HTMLElement = context.feruiElement.querySelector('.calendar-switchers');
         const button: HTMLButtonElement = <HTMLButtonElement>switchers.children[2];
 
         button.click();
         context.detectChanges();
 
-        expect(context.clarityDirective.nextDecade).toHaveBeenCalled();
+        expect(context.feruiDirective.nextDecade).toHaveBeenCalled();
       });
 
       it('updates the year when a year button is clicked', () => {
-        spyOn(context.clarityDirective, 'changeYear');
-        const years: HTMLButtonElement[] = context.clarityElement.querySelectorAll('.year');
+        spyOn(context.feruiDirective, 'changeYear');
+        const years: HTMLButtonElement[] = context.feruiElement.querySelectorAll('.year');
 
         for (const year of years) {
           year.click();
           context.detectChanges();
-          expect(context.clarityDirective.changeYear).toHaveBeenCalled();
+          expect(context.feruiDirective.changeYear).toHaveBeenCalled();
         }
       });
 
       it('adds a .yearpicker class on the host', () => {
-        expect(context.clarityElement.classList.contains('yearpicker')).toBe(true);
+        expect(context.feruiElement.classList.contains('yearpicker')).toBe(true);
       });
 
       it('adds a .is-selected class on the selected year', () => {
-        const yearIndex: number = context.clarityDirective.yearRangeModel.yearRange.indexOf(selectedYear);
-        const years: HTMLButtonElement[] = context.clarityElement.querySelectorAll('.year');
+        const yearIndex: number = context.feruiDirective.yearRangeModel.yearRange.indexOf(selectedYear);
+        const years: HTMLButtonElement[] = context.feruiElement.querySelectorAll('.year');
 
         let count: number = 0;
         for (const year of years) {
@@ -124,33 +119,33 @@ export default function() {
         ['ie'],
         'updates the tab indices correctly',
         async(() => {
-          const buttons: HTMLButtonElement[] = context.clarityElement.querySelectorAll('.year');
+          const buttons: HTMLButtonElement[] = context.feruiElement.querySelectorAll('.year');
 
-          expect(buttons[3].tabIndex).toBe(0);
+          expect(buttons[5].tabIndex).toBe(0);
 
-          context.clarityElement.dispatchEvent(createKeyboardEvent(DOWN_ARROW, 'keydown'));
+          context.feruiElement.dispatchEvent(createKeyboardEvent(DOWN_ARROW, 'keydown'));
           context.detectChanges();
 
-          expect(buttons[3].tabIndex).toBe(-1);
-          expect(buttons[4].tabIndex).toBe(0);
+          expect(buttons[5].tabIndex).toBe(-1);
+          expect(buttons[6].tabIndex).toBe(0);
 
-          context.clarityElement.dispatchEvent(createKeyboardEvent(UP_ARROW, 'keydown'));
+          context.feruiElement.dispatchEvent(createKeyboardEvent(UP_ARROW, 'keydown'));
           context.detectChanges();
 
-          expect(buttons[4].tabIndex).toBe(-1);
-          expect(buttons[3].tabIndex).toBe(0);
+          expect(buttons[6].tabIndex).toBe(-1);
+          expect(buttons[5].tabIndex).toBe(0);
 
-          context.clarityElement.dispatchEvent(createKeyboardEvent(RIGHT_ARROW, 'keydown'));
+          context.feruiElement.dispatchEvent(createKeyboardEvent(RIGHT_ARROW, 'keydown'));
           context.detectChanges();
 
-          expect(buttons[3].tabIndex).toBe(-1);
-          expect(buttons[8].tabIndex).toBe(0);
+          expect(buttons[5].tabIndex).toBe(-1);
+          expect(buttons[11].tabIndex).toBe(0);
 
-          context.clarityElement.dispatchEvent(createKeyboardEvent(LEFT_ARROW, 'keydown'));
+          context.feruiElement.dispatchEvent(createKeyboardEvent(LEFT_ARROW, 'keydown'));
           context.detectChanges();
 
-          expect(buttons[8].tabIndex).toBe(-1);
-          expect(buttons[3].tabIndex).toBe(0);
+          expect(buttons[11].tabIndex).toBe(-1);
+          expect(buttons[5].tabIndex).toBe(0);
         })
       );
     });
@@ -159,7 +154,7 @@ export default function() {
       beforeEach(function() {
         initializeCalendar(selectedYear);
 
-        context = this.create(ClrYearpicker, TestComponent, [
+        context = this.create(FuiYearpicker, TestComponent, [
           ViewManagerService,
           DatepickerFocusService,
           IfOpenService,
@@ -170,85 +165,104 @@ export default function() {
       });
 
       it('has access to the calendar year', () => {
-        expect(context.clarityDirective.calendarYear).toBe(selectedYear);
+        expect(context.feruiDirective.calendarYear).toBe(selectedYear);
       });
 
       it('generates a YearRangeModel based on the selected year on initialization', () => {
-        const testArr: number[] = [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009];
-        expect(context.clarityDirective.yearRangeModel).not.toBeNull();
-        expect(context.clarityDirective.yearRangeModel.yearRange.length).toBe(10);
+        const testArr: number[] = [
+          1998,
+          1999,
+          2000,
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012,
+          2013,
+          2014,
+          2015,
+        ];
+        expect(context.feruiDirective.yearRangeModel).not.toBeNull();
+        expect(context.feruiDirective.yearRangeModel.yearRange.length).toBe(yearsToDisplay);
 
-        expect(context.clarityDirective.yearRangeModel.yearRange).toEqual(testArr);
+        expect(context.feruiDirective.yearRangeModel.yearRange).toEqual(testArr);
       });
 
       it('updates the year range model when moving to the previous decade', () => {
-        expect(context.clarityDirective.yearRangeModel.inRange(selectedYear)).toBe(true);
+        expect(context.feruiDirective.yearRangeModel.inRange(selectedYear)).toBe(true);
 
-        context.clarityDirective.previousDecade();
+        context.feruiDirective.previousDecade();
 
-        expect(context.clarityDirective.yearRangeModel.inRange(selectedYear)).toBe(false);
-        expect(context.clarityDirective.yearRangeModel.inRange(selectedYear - 10)).toBe(true);
+        expect(context.feruiDirective.yearRangeModel.inRange(selectedYear)).toBe(false);
+        expect(context.feruiDirective.yearRangeModel.inRange(selectedYear - yearsToDisplay)).toBe(true);
       });
 
       it('updates the year range model when moving to the next decade', () => {
-        expect(context.clarityDirective.yearRangeModel.inRange(selectedYear)).toBe(true);
+        expect(context.feruiDirective.yearRangeModel.inRange(selectedYear)).toBe(true);
 
-        context.clarityDirective.nextDecade();
+        context.feruiDirective.nextDecade();
 
-        expect(context.clarityDirective.yearRangeModel.inRange(selectedYear)).toBe(false);
-        expect(context.clarityDirective.yearRangeModel.inRange(selectedYear + 10)).toBe(true);
+        expect(context.feruiDirective.yearRangeModel.inRange(selectedYear)).toBe(false);
+        expect(context.feruiDirective.yearRangeModel.inRange(selectedYear + yearsToDisplay)).toBe(true);
       });
 
       it('updates the year range model when moving to the current decade', () => {
-        expect(context.clarityDirective.yearRangeModel.inRange(selectedYear)).toBe(true);
+        expect(context.feruiDirective.yearRangeModel.inRange(selectedYear)).toBe(true);
 
-        context.clarityDirective.currentDecade();
+        context.feruiDirective.currentDecade();
 
-        expect(context.clarityDirective.yearRangeModel.inRange(selectedYear)).toBe(false);
-        expect(context.clarityDirective.yearRangeModel.inRange(new Date().getFullYear())).toBe(true);
+        expect(context.feruiDirective.yearRangeModel.inRange(selectedYear)).toBe(false);
+        expect(context.feruiDirective.yearRangeModel.inRange(new Date().getFullYear())).toBe(true);
       });
 
       it('does not regenerate the year range when its on the current decade', () => {
         // Move to the current decade
-        context.clarityDirective.currentDecade();
-        expect(context.clarityDirective.yearRangeModel.inRange(new Date().getFullYear())).toBe(true);
+        context.feruiDirective.currentDecade();
+        expect(context.feruiDirective.yearRangeModel.inRange(new Date().getFullYear())).toBe(true);
 
         // Move again and check
-        spyOn(context.clarityDirective.yearRangeModel, 'currentDecade');
-        context.clarityDirective.currentDecade();
-        expect(context.clarityDirective.yearRangeModel.currentDecade).not.toHaveBeenCalled();
+        spyOn(context.feruiDirective.yearRangeModel, 'currentDecade');
+        context.feruiDirective.currentDecade();
+        expect(context.feruiDirective.yearRangeModel.currentDecade).not.toHaveBeenCalled();
       });
 
       it('gets the correct tab indices on initialization', () => {
-        const years: number[] = context.clarityDirective.yearRangeModel.yearRange;
+        const years: number[] = context.feruiDirective.yearRangeModel.yearRange;
 
         for (const year of years) {
           if (year === selectedYear) {
-            expect(context.clarityDirective.getTabIndex(year)).toBe(0);
+            expect(context.feruiDirective.getTabIndex(year)).toBe(0);
           } else {
-            expect(context.clarityDirective.getTabIndex(year)).toBe(-1);
+            expect(context.feruiDirective.getTabIndex(year)).toBe(-1);
           }
         }
       });
 
       it('changes view to day picker when changeYear is called', () => {
-        const viewManagerService: ViewManagerService = context.getClarityProvider(ViewManagerService);
+        const viewManagerService: ViewManagerService = context.getFeruiProvider(ViewManagerService);
 
         viewManagerService.changeToYearView();
         expect(viewManagerService.isYearView).toBe(true);
 
-        context.clarityDirective.changeYear(2015);
+        context.feruiDirective.changeYear(2015);
 
         expect(viewManagerService.isYearView).toBe(false);
         expect(viewManagerService.isDayView).toBe(true);
       });
 
       it('updates year value in the date navigation service', () => {
-        const dateNavService: DateNavigationService = context.getClarityProvider(DateNavigationService);
+        const dateNavService: DateNavigationService = context.getFeruiProvider(DateNavigationService);
 
         expect(dateNavService.displayedCalendar.year).toBe(selectedYear);
 
-        context.clarityDirective.changeYear(2015);
+        context.feruiDirective.changeYear(2015);
 
         expect(dateNavService.displayedCalendar.year).toBe(2015);
       });
@@ -256,16 +270,17 @@ export default function() {
 
     describe('Keyboard Navigation', () => {
       // Yearpicker Layout
-      // 2000 | 2005
-      // 2001 | 2006
-      // 2002 | 2007
-      // 2003 | 2008
-      // 2004 | 2009
+      // 1998 | 2004 | 2010
+      // 1999 | 2005 | 2011
+      // 2000 | 2006 | 2012
+      // 2001 | 2007 | 2013
+      // 2002 | 2008 | 2014
+      // 2003 | 2009 | 2015
 
       function createYearPicker(scope: any, selYear: number) {
         initializeCalendar(selYear);
 
-        context = scope.create(ClrYearpicker, TestComponent, [
+        context = scope.create(FuiYearpicker, TestComponent, [
           ViewManagerService,
           DatepickerFocusService,
           IfOpenService,
@@ -277,62 +292,64 @@ export default function() {
 
       // IE doesn't handle KeyboardEvent constructor
       itIgnore(['ie'], 'handles up arrow', function() {
-        createYearPicker(this, 2010);
+        createYearPicker(this, 2016);
 
         // Boundary
-        expect(context.clarityDirective.getTabIndex(2010)).toBe(0);
-        expect(context.clarityDirective.yearRangeModel.inRange(2009)).toBe(false);
+        expect(context.feruiDirective.getTabIndex(2016)).toBe(0);
+        expect(context.feruiDirective.yearRangeModel.inRange(2015)).toBe(false);
 
-        for (let i = 2009; i >= 2000; i--) {
-          context.clarityDirective.onKeyDown(createKeyboardEvent(UP_ARROW, 'keydown'));
-          expect(context.clarityDirective.getTabIndex(i)).toBe(0);
+        for (let i = 2015; i >= 1998; i--) {
+          context.feruiDirective.onKeyDown(createKeyboardEvent(UP_ARROW, 'keydown'));
+          expect(context.feruiDirective.getTabIndex(i)).toBe(0);
         }
 
-        expect(context.clarityDirective.yearRangeModel.inRange(2010)).toBe(false);
+        expect(context.feruiDirective.yearRangeModel.inRange(2016)).toBe(false);
       });
 
       // IE doesn't handle KeyboardEvent constructor
       itIgnore(['ie'], 'handles down arrow', function() {
-        createYearPicker(this, 2009);
+        createYearPicker(this, 2015);
 
         // Boundary
-        expect(context.clarityDirective.getTabIndex(2009)).toBe(0);
-        expect(context.clarityDirective.yearRangeModel.inRange(2010)).toBe(false);
+        expect(context.feruiDirective.getTabIndex(2015)).toBe(0);
+        expect(context.feruiDirective.yearRangeModel.inRange(2016)).toBe(false);
 
-        for (let i = 2010; i <= 2019; i++) {
-          context.clarityDirective.onKeyDown(createKeyboardEvent(DOWN_ARROW, 'keydown'));
-          expect(context.clarityDirective.getTabIndex(i)).toBe(0);
+        for (let i = 2016; i <= 2033; i++) {
+          context.feruiDirective.onKeyDown(createKeyboardEvent(DOWN_ARROW, 'keydown'));
+          expect(context.feruiDirective.getTabIndex(i)).toBe(0);
         }
 
-        expect(context.clarityDirective.yearRangeModel.inRange(2010)).toBe(true);
+        expect(context.feruiDirective.yearRangeModel.inRange(2016)).toBe(true);
       });
 
       // IE doesn't handle KeyboardEvent constructor
       itIgnore(['ie'], 'handles right arrow', function() {
         createYearPicker(this, 2001);
-        expect(context.clarityDirective.getTabIndex(2001)).toBe(0);
-        context.clarityDirective.onKeyDown(createKeyboardEvent(RIGHT_ARROW, 'keydown'));
-        expect(context.clarityDirective.getTabIndex(2006)).toBe(0);
+        expect(context.feruiDirective.getTabIndex(2001)).toBe(0);
+        context.feruiDirective.onKeyDown(createKeyboardEvent(RIGHT_ARROW, 'keydown'));
+        expect(context.feruiDirective.getTabIndex(2007)).toBe(0);
+        context.feruiDirective.onKeyDown(createKeyboardEvent(RIGHT_ARROW, 'keydown'));
+        expect(context.feruiDirective.getTabIndex(2013)).toBe(0);
 
         // Boundary
-        expect(context.clarityDirective.yearRangeModel.inRange(2011)).toBe(false);
-        context.clarityDirective.onKeyDown(createKeyboardEvent(RIGHT_ARROW, 'keydown'));
-        expect(context.clarityDirective.yearRangeModel.inRange(2011)).toBe(true);
-        expect(context.clarityDirective.getTabIndex(2011)).toBe(0);
+        expect(context.feruiDirective.yearRangeModel.inRange(2019)).toBe(false);
+        context.feruiDirective.onKeyDown(createKeyboardEvent(RIGHT_ARROW, 'keydown'));
+        expect(context.feruiDirective.yearRangeModel.inRange(2019)).toBe(true);
+        expect(context.feruiDirective.getTabIndex(2019)).toBe(0);
       });
 
       // IE doesn't handle KeyboardEvent constructor
       itIgnore(['ie'], 'handles left arrow', function() {
         createYearPicker(this, 2005);
-        expect(context.clarityDirective.getTabIndex(2005)).toBe(0);
-        context.clarityDirective.onKeyDown(createKeyboardEvent(LEFT_ARROW, 'keydown'));
-        expect(context.clarityDirective.getTabIndex(2000)).toBe(0);
+        expect(context.feruiDirective.getTabIndex(2005)).toBe(0);
+        context.feruiDirective.onKeyDown(createKeyboardEvent(LEFT_ARROW, 'keydown'));
+        expect(context.feruiDirective.getTabIndex(1999)).toBe(0);
 
         // Boundary
-        expect(context.clarityDirective.yearRangeModel.inRange(1995)).toBe(false);
-        context.clarityDirective.onKeyDown(createKeyboardEvent(LEFT_ARROW, 'keydown'));
-        expect(context.clarityDirective.yearRangeModel.inRange(1995)).toBe(true);
-        expect(context.clarityDirective.getTabIndex(1995)).toBe(0);
+        expect(context.feruiDirective.yearRangeModel.inRange(1993)).toBe(false);
+        context.feruiDirective.onKeyDown(createKeyboardEvent(LEFT_ARROW, 'keydown'));
+        expect(context.feruiDirective.yearRangeModel.inRange(1993)).toBe(true);
+        expect(context.feruiDirective.getTabIndex(1993)).toBe(0);
       });
     });
   });
@@ -340,7 +357,7 @@ export default function() {
 
 @Component({
   template: `
-        <clr-yearpicker></clr-yearpicker>
-    `,
+    <fui-yearpicker></fui-yearpicker>
+  `,
 })
 class TestComponent {}

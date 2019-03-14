@@ -1,9 +1,3 @@
-/*
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
- * This software is released under MIT license.
- * The full license information can be found in LICENSE in the root directory of this project.
- */
-
 import { Component, ElementRef, EventEmitter, NgZone, PLATFORM_ID } from '@angular/core';
 import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { DatepickerFocusService } from './datepicker-focus.service';
@@ -73,11 +67,11 @@ class MockNgZone extends NgZone {
 
 @Component({
   template: `
-        <button id="1" [attr.tabindex]="tabIndex">Test Button</button>
-    `,
+    <button id="1" [attr.tabindex]="tabIndex">Test Button</button>
+  `,
 })
 class TestComponent {
-  constructor(public elementRef: ElementRef) {}
-
   tabIndex: string = '0';
+
+  constructor(public elementRef: ElementRef) {}
 }

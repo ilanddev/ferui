@@ -8,12 +8,11 @@ import { ClrIconModule } from '../../icon/icon.module';
 import { FuiSelect } from './select';
 import { FuiSelectContainer } from './select-container';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { SelectReference } from './select-reference';
 
 @NgModule({
   imports: [CommonModule, FormsModule, NgSelectModule, ClrIconModule, FuiCommonFormsModule],
-  declarations: [FuiSelect, FuiSelectContainer, SelectReference],
-  exports: [FuiSelect, FuiSelectContainer, NgSelectModule, SelectReference],
+  declarations: [FuiSelect, FuiSelectContainer],
+  exports: [FuiSelect, FuiSelectContainer, NgSelectModule],
   entryComponents: [FuiSelectContainer],
 })
 export class FuiSelectModule {}

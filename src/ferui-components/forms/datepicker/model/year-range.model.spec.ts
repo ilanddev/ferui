@@ -1,9 +1,3 @@
-/*
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
- * This software is released under MIT license.
- * The full license information can be found in LICENSE in the root directory of this project.
- */
-
 import { YearRangeModel } from './year-range.model';
 
 export default function() {
@@ -12,13 +6,14 @@ export default function() {
     let minYear: number;
     let maxYear: number;
     let yearRangeModel: YearRangeModel;
+    const yearsToDisplay: number = 18;
 
     beforeEach(() => {
       startYear = new Date().getFullYear();
       yearRangeModel = new YearRangeModel(startYear);
-      const rem: number = startYear % 10;
-      minYear = startYear - rem;
-      maxYear = startYear + (10 - rem) - 1;
+      const rem: number = startYear % yearsToDisplay; // 3
+      minYear = startYear - rem; // 2016
+      maxYear = startYear + (yearsToDisplay - rem) - 1; // 2033
     });
 
     function testRange(range: YearRangeModel, start: number): void {
@@ -27,20 +22,20 @@ export default function() {
       }
     }
 
-    it('initializes a Year Range with length 10', () => {
-      expect(yearRangeModel.yearRange.length).toBe(10);
+    it('initializes a Year Range with length 18', () => {
+      expect(yearRangeModel.yearRange.length).toBe(yearsToDisplay);
     });
 
     it('initializes the YearRange with the correct values', () => {
       testRange(yearRangeModel, minYear);
     });
 
-    it('generates the Year Range with min year divisible by 10', () => {
-      expect(yearRangeModel.yearRange[0] % 10).toBe(0);
+    it('generates the Year Range with min year divisible by 18', () => {
+      expect(yearRangeModel.yearRange[0] % yearsToDisplay).toBe(0);
     });
 
-    it('generates the YearRange with (max year + 1) divisible by 10', () => {
-      expect((yearRangeModel.yearRange[yearRangeModel.yearRange.length - 1] + 1) % 10).toBe(0);
+    it('generates the YearRange with (max year + 1) divisible by 18', () => {
+      expect((yearRangeModel.yearRange[yearRangeModel.yearRange.length - 1] + 1) % yearsToDisplay).toBe(0);
     });
 
     it('checks if a number is within the YearRange or not', () => {
@@ -50,8 +45,8 @@ export default function() {
     });
 
     it('returns the mid number in the Year Range', () => {
-      expect(yearRangeModel.middleYear).toBe(minYear + 5);
-      expect(yearRangeModel.middleYear).toBe(maxYear - 4);
+      expect(yearRangeModel.middleYear).toBe(minYear + 9);
+      expect(yearRangeModel.middleYear).toBe(maxYear - 8);
     });
 
     it('returns a new YearRangeModel for the next decade', () => {
@@ -59,11 +54,11 @@ export default function() {
 
       expect(testRangeModel).not.toBe(yearRangeModel);
 
-      testRange(testRangeModel, minYear + 10);
+      testRange(testRangeModel, minYear + yearsToDisplay);
 
       testRangeModel = testRangeModel.nextDecade();
 
-      testRange(testRangeModel, minYear + 20);
+      testRange(testRangeModel, minYear + yearsToDisplay * 2);
     });
 
     it('returns a new YearRangeModel for the previous decade', () => {
@@ -71,11 +66,11 @@ export default function() {
 
       expect(testRangeModel).not.toBe(yearRangeModel);
 
-      testRange(testRangeModel, minYear - 10);
+      testRange(testRangeModel, minYear - yearsToDisplay);
 
       testRangeModel = testRangeModel.previousDecade();
 
-      testRange(testRangeModel, minYear - 20);
+      testRange(testRangeModel, minYear - yearsToDisplay * 2);
     });
 
     it('returns a new YearRangeModel for the current decade', () => {

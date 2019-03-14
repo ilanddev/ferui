@@ -1,9 +1,3 @@
-/*
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
- * This software is released under MIT license.
- * The full license information can be found in LICENSE in the root directory of this project.
- */
-
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 
@@ -12,15 +6,15 @@ import { MOBILE_USERAGENT_REGEX } from '../utils/constants';
 
 @Injectable()
 export class DatepickerEnabledService {
+  private readonly isUserAgentMobile: boolean = false;
+  private readonly innerWidth: number;
+
   constructor(@Inject(DOCUMENT) private _document: any) {
     if (this._document) {
-      this._isUserAgentMobile = MOBILE_USERAGENT_REGEX.test(_document.defaultView.navigator.userAgent);
-      this._innerWidth = _document.defaultView.innerWidth;
+      this.isUserAgentMobile = MOBILE_USERAGENT_REGEX.test(_document.defaultView.navigator.userAgent);
+      this.innerWidth = _document.defaultView.innerWidth;
     }
   }
-
-  private _isUserAgentMobile: boolean = false;
-  private _innerWidth: number;
 
   /**
    * Returns if the calendar should be active or not.
@@ -33,7 +27,7 @@ export class DatepickerEnabledService {
     //"In summary, we recommend looking for the string 'Mobi'
     // anywhere in the User Agent to detect a mobile device."
     if (this._document) {
-      if (this._innerWidth < DATEPICKER_ENABLE_BREAKPOINT && this._isUserAgentMobile) {
+      if (this.innerWidth < DATEPICKER_ENABLE_BREAKPOINT && this.isUserAgentMobile) {
         return false;
       }
     }

@@ -1,26 +1,20 @@
-/*
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
- * This software is released under MIT license.
- * The full license information can be found in LICENSE in the root directory of this project.
- */
-
 import { Component, ElementRef, Injector, SkipSelf } from '@angular/core';
-
-import { AbstractPopover } from '../../popover/common/abstract-popover';
-import { Point } from '../../popover/common/popover';
 
 import { DatepickerFocusService } from './providers/datepicker-focus.service';
 import { ViewManagerService } from './providers/view-manager.service';
 
+import { AbstractPopover } from '../../popover/common/abstract-popover';
+import { Point } from '../../popover/common/popover';
+
 @Component({
-  selector: 'clr-datepicker-view-manager',
+  selector: 'fui-datepicker-view-manager',
   templateUrl: './datepicker-view-manager.html',
   providers: [ViewManagerService, DatepickerFocusService],
   host: { '[class.datepicker]': 'true' },
 })
-export class ClrDatepickerViewManager extends AbstractPopover {
-  constructor(@SkipSelf() parent: ElementRef, _injector: Injector, private _viewManagerService: ViewManagerService) {
-    super(_injector, parent);
+export class FuiDatepickerViewManager extends AbstractPopover {
+  constructor(@SkipSelf() parent: ElementRef, _injector: Injector, private viewManagerService: ViewManagerService) {
+    super(_injector, parent, -10, 15);
     this.configurePopover();
   }
 
@@ -37,20 +31,20 @@ export class ClrDatepickerViewManager extends AbstractPopover {
    * Returns if the current view is the monthpicker.
    */
   get isMonthView(): boolean {
-    return this._viewManagerService.isMonthView;
+    return this.viewManagerService.isMonthView;
   }
 
   /**
    * Returns if the current view is the yearpicker.
    */
   get isYearView(): boolean {
-    return this._viewManagerService.isYearView;
+    return this.viewManagerService.isYearView;
   }
 
   /**
    * Returns if the current view is the daypicker.
    */
   get isDayView(): boolean {
-    return this._viewManagerService.isDayView;
+    return this.viewManagerService.isDayView;
   }
 }

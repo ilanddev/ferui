@@ -5,7 +5,10 @@ import { FuiInputContainer } from './input-container';
 import { WrappedFormControl } from '../common/wrapped-control';
 import { Renderer2 } from '@angular/core';
 
-@Directive({ selector: '[fuiInput]', host: { '[class.fui-input]': 'true' } })
+@Directive({
+  selector: '[fuiInput]',
+  host: { '[class.fui-input]': 'true' },
+})
 export class FuiInput extends WrappedFormControl<FuiInputContainer> {
   protected index = 1;
 

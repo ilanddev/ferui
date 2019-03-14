@@ -33,7 +33,7 @@ class ReactiveTest {
 }
 
 export default function(): void {
-  describe('ClrRadio directive', () => {
+  describe('FuiRadio directive', () => {
     ControlStandaloneSpec(StandaloneUseTest);
     TemplateDrivenSpec(FuiRadioWrapper, FuiRadio, TemplateDrivenTest, 'fui-radio');
     ReactiveSpec(FuiRadioWrapper, FuiRadio, ReactiveTest, 'fui-radio');
