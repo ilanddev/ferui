@@ -4,7 +4,7 @@
 #
 version: 2
 jobs:
-  build:
+  test:
     docker:
       - image: circleci/node:10.14-browsers
     working_directory: ~/ilanddev/ferui
@@ -17,12 +17,22 @@ jobs:
       - checkout
       - restore_cache:
           key: ferui-{{ .Branch }}-{{ checksum "package-lock.json" }}
-      - run: npm install
+      - run:
+          name: Install dependencies
+          command: npm install
       - save_cache:
           key: ferui-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - "node_modules"
-
-      # run tests!
-      - run: npm run test
-      - run: bash <(curl -s https://codecov.io/bash)
+      - run:
+          name: Test
+          command: npm run test
+      - run:
+          name: Generate code coverage
+          command: bash <(curl -s https://codecov.io/bash)
+      - store_artifacts:
+          path: test-results.xml
+          prefix: tests
+      - store_artifacts:
+          path: coverage
+          prefix: coverage
