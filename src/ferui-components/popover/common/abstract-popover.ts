@@ -5,6 +5,7 @@ import {
   Injectable,
   Injector,
   OnDestroy,
+  Optional,
   Renderer2,
   SkipSelf,
 } from '@angular/core';
@@ -43,8 +44,8 @@ export abstract class AbstractPopover implements AfterViewChecked, OnDestroy {
   protected constructor(
     injector: Injector,
     @SkipSelf() protected parentHost: ElementRef,
-    forcedMarginTop?: number,
-    forcedMarginLeft?: number
+    @Optional() forcedMarginTop?: number,
+    @Optional() forcedMarginLeft?: number
   ) {
     this.el = injector.get(ElementRef);
     this.ifOpenService = injector.get(IfOpenService);
