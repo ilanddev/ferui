@@ -1,6 +1,6 @@
 {
   "name": "@ferui/ferui",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": "iLand cloud",
   "contributors": [
     {
@@ -39,9 +39,12 @@
     "publish:alpha": "npm publish dist/ferui-design --tag alpha --access public; npm publish dist/ferui-icons --tag alpha --access public; npm publish dist/ferui-components --tag alpha --access public",
     "publish:beta": "npm publish dist/ferui-design --tag beta --access public; npm publish dist/ferui-icons --tag beta --access public; npm publish dist/ferui-components --tag beta --access public",
     "publish:rc": "npm publish dist/ferui-design --tag rc --access public; npm publish dist/ferui-icons --tag rc --access public; npm publish dist/ferui-components --tag rc --access public",
-    "test": "ng test ferui-components --watch=false",
-    "test:watch": "ng test ferui-components --watch",
-    "format:fix": "pretty-quick --staged"
+    "test:lint": "tslint -p './' -c tslint.json 'src/**/*.ts'",
+    "test:components": "ng test ferui-components --watch=false",
+    "test:components:watch": "ng test ferui-components --watch",
+    "test": "npm-run-all test:lint test:components",
+    "format:fix": "pretty-quick --staged",
+    "pretest:lint": "tsc -p tests/tslint/tsconfig.json"
   },
   "dependencies": {
     "@angular/animations": "^7.1.1",
