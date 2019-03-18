@@ -7,8 +7,6 @@ import { Renderer2 } from '@angular/core';
 
 @Directive({ selector: '[fuiSelect]', host: { '[class.fui-select]': 'true' } })
 export class FuiSelect extends WrappedFormControl<FuiSelectContainer> {
-  protected index = 1;
-
   constructor(
     vcr: ViewContainerRef,
     injector: Injector,

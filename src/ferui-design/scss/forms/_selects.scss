@@ -176,9 +176,7 @@
     &.ng-select-filtered,
     .ng-has-value {
       .ng-placeholder {
-        display: inline-block !important;
-        font-weight: $font-weight-normal !important;
-        transform: translateY(-0.6429rem) scale(0.85);
+        @include control-label-selected();
       }
 
       .ng-value {
@@ -187,7 +185,7 @@
 
       .ng-input {
         > input {
-          padding: 1.91667rem 5rem 0.9rem 1rem !important;
+          padding: 1.91667rem 5rem 0.9rem $controls-padding !important;
         }
       }
     }
@@ -202,23 +200,10 @@
 
       .ng-value-container {
         align-items: center;
-        padding: 0 2rem 0 0.9375rem;
+        padding: 0 2rem 0 $controls-padding;
 
         .ng-placeholder {
-          color: $gray-500;
-          position: absolute;
-          top: 50%;
-          left: calc(1rem + 2px); // With the borders we need to add 2px.
-          margin-top: -10px;
-          margin-bottom: 0;
-          height: 20px;
-          line-height: 20px;
-          font-size: $font-size-base;
-          font-weight: $font-weight-bold;
-          transform-origin: 0 0;
-          transition: transform 0.2s ease;
-          font-family: inherit;
-          @include text-truncate;
+          @include control-label();
         }
 
         .ng-value {
@@ -226,7 +211,7 @@
           font-weight: $font-weight-bold;
           background: none;
           color: $gray-900;
-          padding: 0 0 0 2px;
+          padding: 0;
         }
       }
     }
@@ -242,7 +227,7 @@
 
             > input {
               box-sizing: border-box !important;
-              padding: 1.3335rem 3rem 1.3335rem 1rem;
+              padding: 1.3335rem 3rem 1.3335rem $controls-padding;
               height: 50px;
             }
           }
@@ -257,7 +242,7 @@
           border: 1px solid #e3e3e3;
 
           .ng-value-label {
-            padding: 0 5px;
+            padding: 0 5px 0 0;
           }
         }
       }
@@ -265,7 +250,7 @@
       .ng-select-container {
         .ng-value-container {
           padding-top: 5px;
-          padding-left: 7px;
+          padding-left: 0;
 
           .ng-value {
             font-size: 0.9em;
@@ -280,13 +265,13 @@
               border: 1px solid #e3e3e3;
 
               .ng-value-label {
-                padding-left: 5px;
+                padding-left: 0;
               }
             }
 
             .ng-value-label {
               display: inline-block;
-              padding: 0 5px 0 5px;
+              padding: 0 5px 0 0;
             }
 
             .ng-value-icon {
@@ -308,14 +293,8 @@
           }
 
           .ng-input {
-            padding: 1.91667rem 3rem 0.9rem 1rem;
+            padding: 1.91667rem 3rem 0.9rem $controls-padding;
             height: 50px;
-          }
-
-          .ng-placeholder {
-            top: 5px;
-            padding-bottom: 5px;
-            padding-left: 3px;
           }
         }
       }
@@ -468,12 +447,12 @@
       .ng-option {
         background-color: $white;
         color: $gray-900;
-        padding: 2px 10px;
+        padding: 2px 0.625rem;
         margin: 0 10px;
         border-radius: $default-radius-value;
 
         .ng-option-label {
-          padding: 3px 5px;
+          padding: 3px 0;
           display: inline-block;
           width: 100%;
           border-radius: $default-radius-value;

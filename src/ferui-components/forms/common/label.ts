@@ -4,8 +4,6 @@ import { Subscription } from 'rxjs';
 import { ControlIdService } from './providers/control-id.service';
 import { NgControlService } from './providers/ng-control.service';
 import { PlaceholderService } from './providers/placeholder.service';
-import { Subject } from 'rxjs';
-import { Observable } from 'rxjs';
 import { RequiredControlService } from './providers/required-control.service';
 
 @Directive({ selector: 'label' })

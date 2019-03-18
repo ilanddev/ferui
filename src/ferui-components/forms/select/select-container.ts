@@ -21,6 +21,7 @@ import { RequiredControlService } from '../common/providers/required-control.ser
       <div class="fui-select-wrapper">
         <ng-content select="[fuiSelect]"></ng-content>
         <ng-content select="label" *ngIf="label"></ng-content>
+        <label *ngIf="!label"></label>
         <div class="select-arrow"></div>
         <label class="fui-control-icons">
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
@@ -61,8 +62,7 @@ export class FuiSelectContainer implements DynamicWrapper, OnDestroy {
     private ifErrorService: IfErrorService,
     private controlClassService: ControlClassService,
     private ngControlService: NgControlService,
-    private focusService: FocusService,
-    private requiredService: RequiredControlService
+    private focusService: FocusService
   ) {
     this.subscriptions.push(
       this.ifErrorService.statusChanges.subscribe(invalid => {
@@ -77,13 +77,6 @@ export class FuiSelectContainer implements DynamicWrapper, OnDestroy {
     this.subscriptions.push(
       this.focusService.focusChange.subscribe(state => {
         this.focus = state;
-      })
-    );
-    this.subscriptions.push(
-      this.requiredService.requiredChange.subscribe(state => {
-        if (this.requiredService) {
-          this.requiredService.required = state;
-        }
       })
     );
   }
