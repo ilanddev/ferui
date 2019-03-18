@@ -11,8 +11,8 @@
 
     input[type='radio'] {
       box-sizing: border-box;
-      width: 1.25rem;
-      height: 1.25rem;
+      width: $checkbox-min-height;
+      height: $checkbox-min-height;
       position: absolute;
       top: 0;
       left: 0;
@@ -28,9 +28,9 @@
         display: block;
         position: relative;
         user-select: none;
-        min-height: $min-height;
+        min-height: $checkbox-min-height;
         padding-left: 30px;
-        line-height: $min-height;
+        line-height: $checkbox-min-height;
         font-weight: bold;
 
         &::before {
@@ -40,8 +40,8 @@
           top: 0;
           left: 0;
           display: inline-block;
-          height: 1.25rem;
-          width: 1.25rem;
+          height: $checkbox-min-height;
+          width: $checkbox-min-height;
           border: 1px solid $gray-300;
           border-radius: 50%;
         }
@@ -51,8 +51,8 @@
           content: '';
           position: absolute;
           box-sizing: border-box;
-          width: 0.4rem;
-          height: 0.4rem;
+          width: $radiomark-width;
+          height: $radiomark-width;
           top: 0;
           left: $radiocircle-left-value;
           transform: translate(0, $radiocircle-left-value);

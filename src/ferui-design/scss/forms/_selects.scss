@@ -2,8 +2,6 @@
 @import '../_mixins.scss';
 
 @include exports('forms.selects') {
-  $color-selected: $blue;
-
   .fui-control-container {
     &:not(.fui-empty):not(.fui-no-label) {
       .fui-select-wrapper {
@@ -33,7 +31,11 @@
     .fui-select-wrapper {
       position: relative;
 
-      .fui-control-label:not(.fui-control-icons) {
+      .fui-control-icons {
+        right: calc((#{$controls-padding} * 2) + #{$select-arrow-size}) !important;
+      }
+
+      .fui-control-label {
         display: none;
       }
 
@@ -44,24 +46,11 @@
         &::after {
           pointer-events: none;
           position: absolute;
-          right: 0.9375rem;
+          right: $controls-padding;
           top: 50%;
           margin-top: -0.28125rem;
           color: $gray-500;
-          // TODO Create mixin for this.
-          content: '\61';
-          font-style: normal !important;
-          font-weight: normal !important;
-          font-variant: normal !important;
-          text-transform: none !important;
-          speak: none;
-          line-height: 1;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-          font-size: 0.5625rem;
-          font-family: 'ferui-design-forms-icons' !important;
-          width: 0.5625rem !important;
-          height: 0.5625rem !important;
+          @include font-icon($icon-content-arrow, $select-arrow-size);
           transform: rotate(90deg);
         }
       }
@@ -75,7 +64,7 @@
         border: 1px solid $gray-300;
         font-family: inherit;
         padding: $controls-padding 3rem $controls-padding $controls-padding;
-        height: 50px;
+        height: $default-control-height;
         font-size: $font-size-base;
         font-weight: $font-weight-bold;
         background: none;
@@ -110,24 +99,27 @@
         }
       }
 
-      .fui-control-icons {
-        > .fui-validate-icon,
-        > .fui-error-icon {
-          right: 1.25rem;
-        }
-      }
-
       .fui-subtext {
         &::after {
-          right: 2.5rem !important;
+          right: calc(
+            ((#{$controls-padding} * 2) + #{$select-arrow-size} + (#{$controls-icons-max-width} / 2)) - #{$fui-subtext-arrow-width}
+          ) !important;
         }
       }
     }
 
-    &:not(.fui-empty) {
+    &.fui-error:not(.fui-empty) {
       .ng-select {
         .ng-clear-wrapper {
-          margin-right: 2rem !important;
+          margin-right: calc(((#{$controls-padding} * 2) + #{$controls-icons-max-width}) - 0.09375rem) !important;
+        }
+      }
+    }
+
+    &:not(.fui-empty):not(.fui-error) {
+      .ng-select {
+        .ng-clear-wrapper {
+          margin-right: calc(((#{$controls-padding} * 2) + #{$controls-icons-min-width}) - 0.09375rem) !important;
         }
       }
     }
@@ -180,7 +172,7 @@
       }
 
       .ng-value {
-        margin: 17px 0 0;
+        margin: calc(#{$controls-padding} + 3px) 0 0;
       }
 
       .ng-input {
@@ -194,13 +186,13 @@
       background-color: $white;
       border-radius: $default-radius-value;
       border: 1px solid $gray-300;
-      min-height: 50px;
-      height: 50px;
+      min-height: $default-control-height;
+      height: $default-control-height;
       align-items: center;
 
       .ng-value-container {
         align-items: center;
-        padding: 0 2rem 0 $controls-padding;
+        padding: 0 $controls-padding;
 
         .ng-placeholder {
           @include control-label();
@@ -218,7 +210,7 @@
 
     &.ng-select-single {
       .ng-select-container {
-        height: 50px;
+        height: $default-control-height;
 
         .ng-value-container {
           .ng-input {
@@ -228,7 +220,7 @@
             > input {
               box-sizing: border-box !important;
               padding: 1.3335rem 3rem 1.3335rem $controls-padding;
-              height: 50px;
+              height: $default-control-height;
             }
           }
         }
@@ -294,7 +286,7 @@
 
           .ng-input {
             padding: 1.91667rem 3rem 0.9rem $controls-padding;
-            height: 50px;
+            height: $default-control-height;
           }
         }
       }
@@ -303,14 +295,21 @@
     .ng-clear-wrapper {
       color: $gray-500;
       margin-right: 2.1875rem;
+      width: $select-clear-size !important;
+      height: $select-clear-size !important;
 
-      .ng-clear {
-        padding: 0;
-        vertical-align: middle;
+      &::after {
+        @include font-icon($icon-content-clean, $select-clear-size);
       }
 
-      &:hover .ng-clear {
-        color: $red;
+      .ng-clear {
+        display: none !important;
+      }
+
+      &:hover {
+        &::after {
+          color: $gray-900;
+        }
       }
     }
 
@@ -320,28 +319,18 @@
 
     .ng-arrow-wrapper {
       width: auto;
-      padding: 0 0.9375rem 0 0;
+      height: $select-arrow-size;
+      padding: 0 $controls-padding 0 0;
 
       .ng-arrow {
-        width: 0.5625rem !important;
-        height: 0.5625rem !important;
-        // TODO create a mixin to handle this icon stuff.
+        width: $select-arrow-size !important;
+        height: $select-arrow-size !important;
+
         &::after {
           display: inline-block;
           color: $gray-500;
-          content: '\61';
-          font-style: normal !important;
-          font-weight: normal !important;
-          font-variant: normal !important;
-          text-transform: none !important;
-          speak: none;
-          line-height: 1;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-          font-size: 0.5625rem;
-          font-family: 'ferui-design-forms-icons' !important;
-          width: 0.5625rem !important;
-          height: 0.5625rem !important;
+          @include font-icon($icon-content-arrow, $select-arrow-size);
+          vertical-align: top;
           transform: rotate(90deg);
         }
       }

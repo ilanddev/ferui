@@ -1,0 +1,15 @@
+@mixin font-icon($content: '', $icon-size: 1rem) {
+  content: $content;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: $icon-size;
+  font-family: 'ferui-design-icons' !important;
+  width: $icon-size !important;
+  height: $icon-size !important;
+}

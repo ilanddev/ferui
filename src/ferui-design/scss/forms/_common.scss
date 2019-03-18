@@ -2,38 +2,46 @@
 @import '../_mixins.scss';
 
 @include exports('commons') {
-  .fui-input-group-icon-action {
-    display: block;
-    position: absolute;
-    top: 50%;
-    right: 1.0714rem;
-    fill: $gray-500;
-    z-index: $zindex-dropdown;
-    width: 18px;
-    height: 18px;
-    margin-top: -0.625rem;
-    cursor: pointer;
-  }
-
   .fui-form-control {
     display: block;
     position: relative;
-    margin: 0.9375rem 0 auto;
     width: 100%;
     height: auto;
 
     .fui-control-container {
       .fui-control-icons {
         position: absolute;
-        top: $controls-padding;
-        right: 1.0714rem;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        top: calc(50% - (#{$controls-icons-max-width} / 2));
+        right: $controls-padding;
         width: auto;
-        max-height: 18px;
-        max-width: 18px;
-        margin-top: 0;
-        display: block;
-        text-align: right;
+        height: $controls-icons-max-width;
+        max-height: $controls-icons-max-width;
+        margin: 0;
+        text-align: center;
         cursor: pointer;
+        line-height: normal;
+        z-index: $zindex-dropdown;
+
+        .fui-input-group-icon-action {
+          display: inline-block;
+          position: relative;
+          fill: $gray-500;
+          line-height: $controls-icons-max-width;
+
+          width: auto;
+          min-width: $controls-icons-min-width;
+          max-width: $controls-icons-max-width;
+
+          height: $controls-icons-max-width;
+          min-height: $controls-icons-max-width;
+          max-height: $controls-icons-max-width;
+
+          margin-left: $controls-padding;
+          cursor: pointer;
+        }
       }
 
       *:not(.fui-checkbox-wrapper):not(.fui-radio-wrapper) {
@@ -47,21 +55,19 @@
           > .fui-validate-icon,
           > .fui-error-icon {
             display: inline-block;
-            vertical-align: top;
             position: relative;
             fill: $gray-500;
-            z-index: $zindex-dropdown;
+            margin-left: $controls-padding;
           }
 
           > .fui-validate-icon {
-            width: 14px;
-            height: 14px;
-            margin-top: 0.125rem;
+            width: $controls-icons-min-width;
+            height: $controls-icons-min-width;
           }
 
           > .fui-error-icon {
-            width: 18px;
-            height: 18px;
+            width: $controls-icons-max-width;
+            height: $controls-icons-max-width;
             fill: $red;
           }
 
@@ -86,7 +92,6 @@
           @include border-radius(3px);
           bottom: calc(100% - 5px);
           right: 0;
-
           visibility: hidden;
           opacity: 0;
           transition: visibility 0s ease 0.2s, opacity 0.2s ease;
@@ -98,12 +103,12 @@
             width: 0;
             height: 0;
             z-index: 1;
-            right: 1.25rem;
+            right: calc(#{$controls-padding} + (#{$controls-icons-max-width} / 2) - #{$fui-subtext-arrow-width});
             bottom: 0;
-            margin: 0 0 -0.4286rem -0.4286rem;
-            border-left: 0.4286rem solid transparent;
-            border-right: 0.4286rem solid transparent;
-            border-top: 0.4286rem solid $red;
+            margin: 0 0 ($fui-subtext-arrow-width * -1) ($fui-subtext-arrow-width * -1);
+            border-left: $fui-subtext-arrow-width solid transparent;
+            border-right: $fui-subtext-arrow-width solid transparent;
+            border-top: $fui-subtext-arrow-width solid $red;
           }
         }
       }
