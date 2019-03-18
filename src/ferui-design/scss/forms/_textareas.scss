@@ -12,7 +12,7 @@
 
         border: 1px solid $gray-300;
         @include border-radius(3px);
-        padding: $controls-padding 0;
+        padding: $controls-padding 0 0 0;
         transition: background-color 0.15s ease, color 0.15s ease;
         min-height: 70px;
 
@@ -26,8 +26,8 @@
           font-family: inherit;
           padding: 0 3rem 0 $controls-padding;
           line-height: normal;
-          height: calc(#{$textarea-default-height} - #{$controls-padding});
-          min-height: calc(#{$textarea-default-height} - #{$controls-padding});
+          height: calc(#{$textarea-default-height});
+          min-height: calc(#{$textarea-default-height});
           font-size: $font-size-base;
           font-weight: $font-weight-bold;
           background: none;
@@ -45,11 +45,11 @@
 
       &:not(.fui-empty):not(.fui-no-label) {
         .fui-textarea-wrapper {
-          padding: $controls-padding 0 $controls-filled-padding 0;
+          padding: $controls-padding 0 0 0;
           textarea {
             margin-top: $textarea-margin;
-            height: calc(#{$textarea-default-height} - #{$textarea-margin} - #{$controls-filled-padding});
-            min-height: calc(#{$textarea-default-height} - #{$textarea-margin} - #{$controls-filled-padding});
+            height: calc(#{$textarea-default-height} - #{$textarea-margin});
+            min-height: calc(#{$textarea-default-height} - #{$textarea-margin});
           }
         }
       }
