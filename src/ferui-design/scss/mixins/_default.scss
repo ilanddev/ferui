@@ -1,3 +1,5 @@
+@import '../_variables.scss';
+
 @mixin off-screen-styles() {
   position: fixed !important;
   border: none !important;
@@ -12,4 +14,37 @@
 
   padding: 0 !important;
   margin: 0 0 -1px 0 !important;
+}
+
+@mixin control-label() {
+  position: absolute;
+  top: $controls-padding;
+  left: calc(#{$controls-padding} + 1px); // With the borders we need to add 1px.
+  margin-bottom: 0;
+  height: 20px;
+  line-height: 20px;
+  font-size: $font-size-base;
+  color: $gray-500;
+  font-weight: $font-weight-bold;
+  transform-origin: 0 0;
+  transition: transform 0.2s ease;
+  font-family: inherit;
+  z-index: $zindex-dropdown;
+  @include text-truncate();
+
+  .fui-label-required-star {
+    padding-left: 5px;
+  }
+
+  .fui-placeholder {
+    display: inline-block;
+    font-style: italic;
+    font-weight: $font-weight-normal;
+    padding-left: 5px;
+  }
+}
+
+@mixin control-label-selected() {
+  font-weight: $font-weight-normal;
+  transform: translateY(calc(-0.85 * (#{$controls-padding} - #{$controls-filled-padding}))) scale(0.85);
 }
