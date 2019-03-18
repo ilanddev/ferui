@@ -87,7 +87,7 @@ describe('Abstract Popover', function() {
 })
 class TestPopover extends AbstractPopover {
   constructor(injector: Injector, @Optional() parent: ElementRef) {
-    super(injector, parent);
+    super(injector, parent, null, null);
   }
 }
 
@@ -127,7 +127,7 @@ class InputFocusPopover {
 })
 class TestPopoverIgnoreElement extends AbstractPopover {
   constructor(injector: Injector, @Optional() parent: ElementRef, parentHost: InputFocusPopover) {
-    super(injector, parent);
+    super(injector, parent, null, null);
     if (parentHost && parentHost.ignore) {
       this.ignoredElement = parentHost.ignore.nativeElement;
     }
