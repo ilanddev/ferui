@@ -441,7 +441,16 @@
         cursor: pointer;
 
         &.ng-option-disabled {
-          cursor: default;
+          // TODO make a mixin for this.
+          background-color: $white;
+          cursor: default !important;
+          color: $disabled;
+
+          .ng-option-label {
+            background-color: inherit !important;
+            cursor: default !important;
+            color: $disabled;
+          }
         }
 
         &.ng-option-marked {
@@ -495,6 +504,14 @@
 
         &.ng-option-disabled {
           background-color: $white;
+          cursor: default !important;
+          color: $disabled;
+
+          .ng-option-label {
+            background-color: inherit !important;
+            cursor: default !important;
+            color: $disabled;
+          }
         }
 
         &.ng-option-child {
