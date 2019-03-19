@@ -30,6 +30,11 @@
             color: $gray-500;
           }
         }
+
+        input[type='password'] {
+          font-size: $font-size-lg !important;
+          font-weight: $font-weight-bolder !important;
+        }
       }
 
       &:not(.fui-empty):not(.fui-no-label) {
