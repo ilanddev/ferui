@@ -32,10 +32,11 @@ jobs:
           command: bash <(curl -s https://codecov.io/bash)
       - run:
           name: Build demo page
-          command: npm run build:dev
+          command: npm run build:dev:circleci
 
-      - store_test_results:
-          path: ./reports/unit/index.html
+      - store_artifacts:
+          path: ./reports/unit
+          destination: tests
       - store_artifacts:
           path: ./reports/coverage
           destination: coverage
