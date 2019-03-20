@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:10.14-browsers
-    working_directory: ~/ilanddev/ferui
+    working_directory: ~/ferui
     environment:
       CODECOV_TOKEN: 5e2cf5ef-db54-411c-b62b-57b155dfb3b4
     branches:
@@ -30,9 +30,15 @@ jobs:
       - run:
           name: Generate code coverage
           command: bash <(curl -s https://codecov.io/bash)
+      - run:
+          name: Build demo page
+          command: npm run build:dev
+
+      - store_test_results:
+          path: ~/reports/unit/index.html
       - store_artifacts:
-          path: test-results.xml
-          prefix: tests
+          path: ~/reports/coverage
+          destination: coverage
       - store_artifacts:
-          path: coverage
-          prefix: coverage
+          path: ~/dist/dev
+          destination: demo
