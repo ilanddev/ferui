@@ -35,10 +35,10 @@ jobs:
           command: npm run build:dev
 
       - store_test_results:
-          path: ~/reports/unit/index.html
+          path: ./reports/unit/index.html
       - store_artifacts:
-          path: ~/reports/coverage
+          path: ./reports/coverage
           destination: coverage
       - store_artifacts:
-          path: ~/dist/dev
+          path: ./dist/dev
           destination: demo
