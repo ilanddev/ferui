@@ -1,20 +1,25 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: ''
-labels: ''
-assignees: ''
-
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+## Summary
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+_Summary the request and address the questions as appropriate._
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+* What is the change?
+* Why should it go in Ferui?
+* Does this change impact existing behaviors? If so how?
+* If this change introduces a new behavior, is this behavior accessible?
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+## Use case
+
+_Provide some specific details about how this change would improve your application and use case._
+
+## Examples
+
+_Are there any examples in other projects that demonstrate this feature or enhancement?_
+
+## Workarounds
+
+_Is there a workaround for this feature at the moment, even if it is less than ideal?_
