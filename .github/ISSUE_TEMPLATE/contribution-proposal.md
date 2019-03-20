@@ -1,6 +1,7 @@
 ---
 name: Contribution proposal
 about: Proposal for a larger new feature or enhancement
+labels: Prep for Contributions
 ---
 
 _Please review our [Contribution guide](https://github.com/ilanddev/ferui/blob/master/CONTRIBUTING.md) for more details about how to contribute effectively._
