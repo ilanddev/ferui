@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:10.14-browsers
-    working_directory: ~/ilanddev/ferui
+    working_directory: ~/ferui
     environment:
       CODECOV_TOKEN: 5e2cf5ef-db54-411c-b62b-57b155dfb3b4
     branches:
@@ -15,6 +15,7 @@ jobs:
         - gh-pages
     steps:
       - checkout
+
       - restore_cache:
           key: ferui-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run:
@@ -24,15 +25,23 @@ jobs:
           key: ferui-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - "node_modules"
+
       - run:
           name: Test
           command: npm run test
       - run:
           name: Generate code coverage
           command: bash <(curl -s https://codecov.io/bash)
+      - run:
+          name: Build demo page
+          command: npm run build:dev:circleci
+
       - store_artifacts:
-          path: test-results.xml
-          prefix: tests
+          path: ./reports/unit
+          destination: tests
       - store_artifacts:
-          path: coverage
-          prefix: coverage
+          path: ./reports/coverage
+          destination: coverage
+      - store_artifacts:
+          path: ./dist/dev
+          destination: ferui
