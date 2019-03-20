@@ -41,4 +41,4 @@ jobs:
           destination: coverage
       - store_artifacts:
           path: ./dist/dev
-          destination: demo
+          destination: ferui
