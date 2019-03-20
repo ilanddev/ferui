@@ -28,10 +28,7 @@ import { DatepickerEnabledService } from '../datepicker/providers/datepicker-ena
         <ng-content select="label" *ngIf="label"></ng-content>
         <label *ngIf="!label"></label>
         <ng-content select="[fuiDate]"></ng-content>
-        <div class="fui-date-icon-wrapper" *ngIf="isEnabled()">
-          <clr-icon shape="fui-calendar" (click)="toggleDatepicker($event)" class="fui-input-group-icon-action"></clr-icon>
-        </div>
-        <fui-datepicker-view-manager *fuiIfOpen fuiFocusTrap></fui-datepicker-view-manager>
+                <fui-datepicker-view-manager *fuiIfOpen fuiFocusTrap></fui-datepicker-view-manager>
         <label class="fui-control-icons">
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
           <clr-icon *ngIf="!invalid && control?.value" class="fui-validate-icon" shape="fui-tick" aria-hidden="true"></clr-icon>
