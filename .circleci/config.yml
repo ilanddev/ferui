@@ -15,6 +15,7 @@ jobs:
         - gh-pages
     steps:
       - checkout
+
       - restore_cache:
           key: ferui-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run:
