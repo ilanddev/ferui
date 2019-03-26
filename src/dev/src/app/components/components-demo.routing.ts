@@ -21,6 +21,7 @@ import { DatagridClientSideComponent } from './datagrid/pages/datagrid-client-si
 import { DropdownDemo } from './dropdown/dropdown.demo';
 import { DropdownExample } from './dropdown/pages/dropdown-example';
 import { TreeViewClientSideDemo } from './tree-view/tree-view-client-side-demo';
+import { WidgetDemo } from './widget/widget.demo';
 
 export const COMPONENTS_ROUTES: Routes = [
   {
@@ -63,6 +64,10 @@ export const COMPONENTS_ROUTES: Routes = [
       {
         path: 'treeview',
         component: TreeViewClientSideDemo,
+      },
+      {
+        path: 'widget',
+        component: WidgetDemo,
       },
     ],
   },
