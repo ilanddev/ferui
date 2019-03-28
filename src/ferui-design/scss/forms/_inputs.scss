@@ -12,7 +12,7 @@
           border: 1px solid $gray-300;
           font-family: inherit;
           padding: $controls-padding 3rem $controls-padding $controls-padding;
-          height: 50px;
+          height: $default-control-height;
           font-size: $font-size-base;
           font-weight: $font-weight-bold;
           background: none;
@@ -45,18 +45,9 @@
         }
       }
 
-      &:not(.fui-empty) {
-        .fui-input-group-icon-action {
-          right: 2.6964rem;
-        }
-      }
-
       &.fui-touched,
       &.fui-dirty {
         .fui-input-wrapper {
-          .fui-input-group-icon-action {
-            right: 2.6964rem;
-          }
           input:not([type='checkbox']):not([type='radio']) {
             &:focus {
               ~ .fui-subtext-wrapper {

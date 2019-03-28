@@ -4,6 +4,8 @@
 [![codecov](https://codecov.io/gh/ilanddev/ferui/branch/master/graph/badge.svg)](https://codecov.io/gh/ilanddev/ferui)
 [![License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](https://github.com/ilanddev/ferui/blob/master/LICENSE)
 
+**FerUI** stand for : **F**ast **E**asy **R**eusable **UI** and `Fer` sounds like `Fair` which is what we expect from a UI/UX web framework 😃.
+
 The Ferui project is an open sourced design system based on the amazing [Clarity](https://github.com/vmware/clarity/) project that brings together UX guidelines, an HTML/CSS framework, and Angular components.
 This repository includes everything you need to build, customize, test, and deploy Ferui. For complete documentation, visit our [Ferui docs](https://ilanddev.github.io/ferui/) (Still in construction).
 

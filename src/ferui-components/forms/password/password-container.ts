@@ -29,18 +29,18 @@ export function ToggleServiceProvider() {
       <div class="fui-input-wrapper">
         <ng-content select="label" *ngIf="label"></ng-content>
         <label *ngIf="!label"></label>
-
-        <clr-icon *ngIf="!show && fuiToggle"
-                  shape="fui-eye"
-                  class="fui-input-group-icon-action"
-                  (click)="toggle()"></clr-icon>
-        <clr-icon *ngIf="show && fuiToggle"
-                  shape="fui-eye-off"
-                  class="fui-input-group-icon-action"
-                  (click)="toggle()"></clr-icon>
-
         <ng-content select="[fuiPassword]"></ng-content>
         <label class="fui-control-icons">
+
+          <clr-icon *ngIf="!show && fuiToggle"
+                    shape="fui-eye"
+                    class="fui-input-group-icon-action"
+                    (click)="toggle()"></clr-icon>
+          <clr-icon *ngIf="show && fuiToggle"
+                    shape="fui-eye-off"
+                    class="fui-input-group-icon-action"
+                    (click)="toggle()"></clr-icon>
+          
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
           <clr-icon *ngIf="!invalid && control?.value" class="fui-validate-icon" shape="fui-tick"
                     aria-hidden="true"></clr-icon>

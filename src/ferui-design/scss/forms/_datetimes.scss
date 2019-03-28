@@ -19,7 +19,7 @@
     border: 1px solid $gray-300;
     font-family: inherit;
     padding: $controls-padding 3rem $controls-padding $controls-padding;
-    height: 50px;
+    height: $default-control-height;
     font-size: $font-size-base;
     font-weight: $font-weight-bold;
     background: none;
@@ -59,18 +59,6 @@
       }
     }
 
-    &:not(.fui-empty) {
-      .fui-input-group-icon-action {
-        right: 2.6964rem;
-      }
-
-      .fui-datetime-wrapper {
-        .fui-input-group-icon-action {
-          right: 1.0714rem;
-        }
-      }
-    }
-
     &.fui-touched,
     &.fui-dirty,
     &:not(.fui-empty) {
@@ -95,22 +83,6 @@
               opacity: 1;
               transition-delay: 0s;
             }
-          }
-        }
-      }
-
-      > .fui-time-wrapper,
-      > .fui-date-wrapper {
-        .fui-input-group-icon-action {
-          right: 2.6964rem;
-        }
-      }
-
-      > .fui-datetime-wrapper {
-        .fui-time-wrapper,
-        .fui-date-wrapper {
-          .fui-input-group-icon-action {
-            right: 1.0714rem;
           }
         }
       }
@@ -181,7 +153,7 @@
 
     &.fui-datetime-4 {
       .fui-control-label {
-        max-width: calc((100% / 4) - 3.4375rem);
+        max-width: calc((100% / 4) - #{$controls-padding});
       }
       .fui-time-3 {
         width: calc(100% - calc(100% / 4)) !important;
@@ -198,7 +170,7 @@
 
     &.fui-datetime-3 {
       .fui-control-label {
-        max-width: calc((100% / 3) - 3.4375rem);
+        max-width: calc((100% / 3) - #{$controls-padding});
       }
       .fui-time-2 {
         width: calc(100% - calc(100% / 3)) !important;
@@ -215,7 +187,7 @@
 
     &.fui-datetime-2 {
       .fui-control-label {
-        max-width: calc((100% / 2) - 3.4375rem);
+        max-width: calc((100% / 2) - #{$controls-padding});
       }
       .fui-time-1 {
         width: calc(100% - calc(100% / 2)) !important;
@@ -328,7 +300,7 @@
 
     &.fui-time-3 {
       .fui-control-label {
-        max-width: calc((100% / 3) - 3.4375rem);
+        max-width: calc((100% / 3) - (#{$controls-padding} + #{$select-arrow-size}));
       }
       .fui-select {
         width: calc(100% / 3) !important;
@@ -337,7 +309,7 @@
 
     &.fui-time-2 {
       .fui-control-label {
-        max-width: calc((100% / 2) - 3.4375rem);
+        max-width: calc((100% / 2) - (#{$controls-padding} + #{$select-arrow-size}));
       }
       .fui-select {
         width: calc(100% / 2) !important;
@@ -346,19 +318,11 @@
 
     &.fui-time-1 {
       .fui-control-label {
-        max-width: calc(100% - 3.4375rem);
+        max-width: calc(100% - (#{$controls-padding} + #{$select-arrow-size}));
       }
       .fui-select {
         width: 100% !important;
       }
-    }
-  }
-
-  .fui-date-wrapper {
-    .fui-date-icon-wrapper {
-      position: relative;
-      display: inline-block;
-      height: 50px;
     }
   }
 }

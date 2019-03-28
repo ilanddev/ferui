@@ -5,7 +5,8 @@
   .fui-form-control {
     .fui-control-container {
       .fui-textarea-wrapper {
-        .fui-control-label:not(.fui-control-icons) {
+        .fui-control-label,
+        .fui-control-icons {
           top: $controls-padding;
           margin-top: 0;
         }
@@ -14,7 +15,7 @@
         @include border-radius(3px);
         padding: $controls-padding 0 0 0;
         transition: background-color 0.15s ease, color 0.15s ease;
-        min-height: 70px;
+        min-height: $textarea-height;
 
         textarea {
           display: inline-block;
@@ -26,8 +27,8 @@
           font-family: inherit;
           padding: 0 3rem 0 $controls-padding;
           line-height: normal;
-          height: calc(#{$textarea-default-height});
-          min-height: calc(#{$textarea-default-height});
+          height: $textarea-default-height;
+          min-height: $textarea-default-height;
           font-size: $font-size-base;
           font-weight: $font-weight-bold;
           background: none;

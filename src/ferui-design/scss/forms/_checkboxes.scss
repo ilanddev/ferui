@@ -5,14 +5,14 @@
   .fui-checkbox-wrapper {
     display: block;
     position: relative;
-    height: 1.25rem;
+    height: $checkbox-min-height;
     width: auto;
     margin: 10px 0 0 0;
 
     input[type='checkbox'] {
       box-sizing: border-box;
-      width: 1.25rem;
-      height: 1.25rem;
+      width: $checkbox-min-height; // 20px
+      height: $checkbox-min-height;
       position: absolute;
       top: 0;
       left: 0;
@@ -28,9 +28,9 @@
         display: block;
         position: relative;
         user-select: none;
-        min-height: $min-height;
+        min-height: $checkbox-min-height;
         padding-left: 30px;
-        line-height: $min-height;
+        line-height: $checkbox-min-height;
         font-weight: bold;
 
         &::before {
@@ -40,8 +40,8 @@
           top: 0;
           left: 0;
           display: inline-block;
-          height: 1.25rem;
-          width: 1.25rem;
+          height: $checkbox-min-height; // 20px
+          width: $checkbox-min-height; // 20px
           border: 1px solid $gray-300;
           border-radius: 3px;
         }
@@ -50,24 +50,13 @@
           display: none;
           position: absolute;
           box-sizing: border-box;
-          width: 0.5625rem;
-          height: 0.5625rem;
+          width: $checkmark-width;
+          height: $checkmark-width;
           top: 0;
           left: $checkmark-left-value;
           transform: translate(0, $checkmark-left-value);
-          // TODO create a mixin to handle this icon stuff.
           color: $white;
-          content: '\68';
-          font-style: normal !important;
-          font-weight: normal !important;
-          font-variant: normal !important;
-          text-transform: none !important;
-          speak: none;
-          line-height: 1;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-          font-size: 0.5625rem;
-          font-family: 'ferui-design-forms-icons' !important;
+          @include font-icon($icon-content-tick, $checkmark-width);
         }
       }
 
