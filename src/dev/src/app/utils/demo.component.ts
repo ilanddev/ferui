@@ -110,10 +110,10 @@ export class DemoComponent implements AfterViewInit, AfterContentInit {
     this.canDisable = this.componentData.canDisable;
 
     if (!this.params.disabled) {
-      this.params['disabled'] = this.disabled;
+      this.params.disabled = this.disabled;
     }
 
-    let codeBlocks = this.extractCodeBlocks(this.sourceCode);
+    const codeBlocks = this.extractCodeBlocks(this.sourceCode);
     this.codeBlock = jsBeautify.html(codeBlocks.length > 0 ? codeBlocks.join('') : this.sourceCode);
   }
 
@@ -140,24 +140,28 @@ export class DemoComponent implements AfterViewInit, AfterContentInit {
   }
 
   resultsData() {
-    const data: object = {};
+    const data: any = {};
     if (this.canDisable) {
-      data['params'] = { disabled: this.params.disabled };
+      data.params = { disabled: this.params.disabled };
     }
-    data['models'] = {};
-    for (let modelName in this.models) {
-      data['models'][modelName] = this.models[modelName];
+    data.models = {};
+    for (const modelName in this.models) {
+      if (modelName) {
+        data.models[modelName] = this.models[modelName];
+      }
     }
     return data;
   }
 
-  concatResultModels(models): Array<any> {
+  concatResultModels(models: any): Array<any> {
     const results: Array<any> = [];
-    for (let modelName in models) {
-      results.push({
-        'field-name': modelName,
-        value: models[modelName],
-      });
+    for (const modelName in models) {
+      if (modelName) {
+        results.push({
+          'field-name': modelName,
+          value: models[modelName],
+        });
+      }
     }
     return results;
   }
@@ -181,7 +185,7 @@ export class DemoComponent implements AfterViewInit, AfterContentInit {
    * @param code Source code
    */
   private extractCodeBlocks(code: string) {
-    var el = document.createElement('div');
+    const el = document.createElement('div');
     el.innerHTML = code;
     let codeBlocks = this.getAllElementsWithAttribute('#code', el);
     if (codeBlocks.length > 0) {
@@ -198,9 +202,9 @@ export class DemoComponent implements AfterViewInit, AfterContentInit {
    * @return Array[HtmlElement] Array of matching HTML elements
    */
   private getAllElementsWithAttribute(attribute: string, html: HTMLElement) {
-    var matchingElements = [];
-    var allElements = html.getElementsByTagName('*');
-    for (var i = 0, n = allElements.length; i < n; i++) {
+    const matchingElements = [];
+    const allElements = html.getElementsByTagName('*');
+    for (let i = 0, n = allElements.length; i < n; i++) {
       if (allElements[i].getAttribute(attribute) !== null) {
         // Element exists with attribute. Add to array.
         matchingElements.push(allElements[i]);
