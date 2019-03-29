@@ -41,7 +41,7 @@
 
       .select-arrow {
         display: none;
-        z-index: $zindex-dropdown;
+        z-index: $zindex-label;
 
         &::after {
           pointer-events: none;

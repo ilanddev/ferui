@@ -113,9 +113,33 @@
     }
   }
 
-  .fui-control-focus {
-    input.fui-input-date {
-      border-color: $gray-500;
+  .fui-control-container.fui-control-focus {
+    > .fui-date-wrapper {
+      input.fui-input-date {
+        border-right: 1px solid $gray-500 !important;
+        border-color: $gray-500;
+      }
+    }
+  }
+
+  .fui-datetime-wrapper {
+    .fui-control-container.fui-control-focus {
+      > .fui-date-wrapper {
+        input.fui-input-date {
+          border-bottom-right-radius: 0 !important;
+          border-top-right-radius: 0 !important;
+        }
+      }
+    }
+
+    .fui-control-container:not(.fui-control-focus) {
+      > .fui-date-wrapper {
+        input.fui-input-date {
+          border-right: none !important;
+          border-bottom-right-radius: 0 !important;
+          border-top-right-radius: 0 !important;
+        }
+      }
     }
   }
 
@@ -128,15 +152,6 @@
   .fui-datetime-wrapper {
     .fui-datetime {
       @include hideOriginalControl();
-    }
-
-    input.fui-input-date {
-      &:not(:focus) {
-        border-right: none !important;
-      }
-
-      border-bottom-right-radius: 0 !important;
-      border-top-right-radius: 0 !important;
     }
 
     .fui-select:first-of-type {
@@ -155,6 +170,7 @@
       .fui-control-label {
         max-width: calc((100% / 4) - #{$controls-padding});
       }
+
       .fui-time-3 {
         width: calc(100% - calc(100% / 4)) !important;
 
@@ -172,6 +188,7 @@
       .fui-control-label {
         max-width: calc((100% / 3) - #{$controls-padding});
       }
+
       .fui-time-2 {
         width: calc(100% - calc(100% / 3)) !important;
 
@@ -189,6 +206,7 @@
       .fui-control-label {
         max-width: calc((100% / 2) - #{$controls-padding});
       }
+
       .fui-time-1 {
         width: calc(100% - calc(100% / 2)) !important;
 
@@ -218,7 +236,8 @@
         border-radius: 0;
       }
 
-      &.ng-select-opened {
+      &.ng-select-opened,
+      &.ng-select-focused {
         &:not(.ng-select-top) {
           > .ng-select-container {
             border-top-color: $gray-500 !important;
@@ -247,7 +266,7 @@
 
             .ng-value-container {
               .ng-placeholder {
-                left: calc(1rem + 3px);
+                left: calc(1rem + 1px);
               }
             }
           }
@@ -260,6 +279,7 @@
           border-bottom-left-radius: $default-radius-value;
         }
 
+        &.ng-select-focused,
         &.ng-select-opened {
           &:not(.ng-select-top) {
             .ng-select-container {
@@ -282,6 +302,7 @@
           border-bottom-right-radius: $default-radius-value;
         }
 
+        &.ng-select-focused,
         &.ng-select-opened {
           &:not(.ng-select-top) {
             .ng-select-container {
@@ -302,6 +323,7 @@
       .fui-control-label {
         max-width: calc((100% / 3) - (#{$controls-padding} + #{$select-arrow-size}));
       }
+
       .fui-select {
         width: calc(100% / 3) !important;
       }
@@ -311,6 +333,7 @@
       .fui-control-label {
         max-width: calc((100% / 2) - (#{$controls-padding} + #{$select-arrow-size}));
       }
+
       .fui-select {
         width: calc(100% / 2) !important;
       }
@@ -320,6 +343,7 @@
       .fui-control-label {
         max-width: calc(100% - (#{$controls-padding} + #{$select-arrow-size}));
       }
+
       .fui-select {
         width: 100% !important;
       }

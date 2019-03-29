@@ -78,7 +78,7 @@
     border-radius: $fui-default-borderradius;
     box-shadow: 0 4px 6px 0 rgba(54, 71, 82, 0.12);
     overflow: hidden;
-    z-index: $zindex-dropdown;
+    z-index: $zindex-popover;
   }
 
   .calendar-header {

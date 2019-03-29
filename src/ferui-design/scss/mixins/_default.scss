@@ -29,7 +29,7 @@
   transform-origin: 0 0;
   transition: transform 0.2s ease;
   font-family: inherit;
-  z-index: $zindex-dropdown;
+  z-index: $zindex-label;
   @include text-truncate();
 
   .fui-label-required-star {

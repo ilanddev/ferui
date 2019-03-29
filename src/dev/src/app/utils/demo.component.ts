@@ -146,24 +146,11 @@ export class DemoComponent implements AfterViewInit, AfterContentInit {
     }
     data.models = {};
     for (const modelName in this.models) {
-      if (modelName) {
+      if (this.models.hasOwnProperty(modelName)) {
         data.models[modelName] = this.models[modelName];
       }
     }
     return data;
-  }
-
-  concatResultModels(models: any): Array<any> {
-    const results: Array<any> = [];
-    for (const modelName in models) {
-      if (modelName) {
-        results.push({
-          'field-name': modelName,
-          value: models[modelName],
-        });
-      }
-    }
-    return results;
   }
 
   toggleCode() {
