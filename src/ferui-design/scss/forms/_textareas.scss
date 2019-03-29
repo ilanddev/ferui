@@ -56,8 +56,10 @@
       }
 
       &.fui-disabled {
-        background-color: $gray-200;
-        color: $gray-500;
+        .fui-textarea-wrapper {
+          background-color: $gray-200;
+          color: $gray-500;
+        }
       }
 
       &.fui-control-focus {
