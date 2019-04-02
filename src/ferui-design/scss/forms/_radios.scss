@@ -76,6 +76,22 @@
           }
         }
       }
+
+      &[disabled] {
+        + label {
+          color: $gray-500 !important;
+          cursor: default !important;
+
+          &::before {
+            background-color: $gray-200 !important;
+            border-color: $gray-400 !important;
+          }
+
+          &::after {
+            background-color: $gray-500 !important;
+          }
+        }
+      }
     }
   }
 

@@ -15,7 +15,8 @@ import { OnInit } from '@angular/core';
         </default-template-content>
 
         <default-template-content [disabled]="disabled" [model]="model" [code]="exampleCodes[1]"
-                                  [examples]="examples" [results]="results" [idx]="1" [resultModelNames]="['two', 'twobis']">
+                                  [examples]="examples" [results]="results" [idx]="1"
+                                  [resultModelNames]="['two', 'twobis']">
           <h5 #title>Radio with label :</h5>
           <fui-radio-wrapper>
             <input type="radio" fuiRadio name="two" value="yes" [(ngModel)]="model.two"/>
@@ -32,17 +33,31 @@ import { OnInit } from '@angular/core';
           <h5 #title>Label, wrapper and <span class="text-danger">required</span> validator :</h5>
           <fui-radio-container>
             <fui-radio-wrapper>
-              <input type="radio" fuiRadio name="option" required value="option1" [(ngModel)]="model.three" />
+              <input type="radio" fuiRadio name="option" required value="option1" [(ngModel)]="model.three"/>
               <label>Option 1</label>
             </fui-radio-wrapper>
             <fui-radio-wrapper>
-              <input type="radio" fuiRadio name="option" required value="option2" [(ngModel)]="model.three" />
+              <input type="radio" fuiRadio name="option" required value="option2" [(ngModel)]="model.three"/>
               <label>Option 2</label>
             </fui-radio-wrapper>
             <fui-control-error>This field is required!</fui-control-error>
           </fui-radio-container>
         </default-template-content>
-        
+
+        <default-template-content [disabled]="disabled" [model]="model" [code]="exampleCodes[3]"
+                                  [examples]="examples" [results]="results" [idx]="3"
+                                  [resultModelNames]="['four', 'fourbis']">
+          <h5 #title>Radio with label (disabled) :</h5>
+          <fui-radio-wrapper>
+            <input type="radio" [disabled]="disabled" fuiRadio name="four" value="yes" [(ngModel)]="model.four"/>
+            <label>Option 1</label>
+          </fui-radio-wrapper>
+          <fui-radio-wrapper>
+            <input type="radio" [disabled]="disabled" fuiRadio name="fourbis" value="yes" [(ngModel)]="model.fourbis"/>
+            <label>Option 1</label>
+          </fui-radio-wrapper>
+        </default-template-content>
+
       </default-template-wrapper>
       <div class="footer">
         <button class="btn btn-primary" [disabled]="!demoForm.form.valid" type="submit">Submit</button>
@@ -57,6 +72,8 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
     two: true,
     twobis: '',
     three: 'option2',
+    four: '',
+    fourbis: 'yes',
   };
 
   exampleCodes: Array<string> = [
@@ -80,6 +97,14 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
   </fui-radio-wrapper>
   <fui-control-error>This field is required!</fui-control-error>
 </fui-radio-container>`,
+    `<fui-radio-wrapper>
+  <input type="radio" [disabled]="disabled" fuiRadio name="four" value="yes" [(ngModel)]="model.four"/>
+  <label>Option 1</label>
+</fui-radio-wrapper>
+<fui-radio-wrapper>
+  <input type="radio" [disabled]="disabled" fuiRadio name="fourbis" value="yes" [(ngModel)]="model.fourbis"/>
+  <label>Option 1</label>
+</fui-radio-wrapper>`,
   ];
 
   constructor() {
