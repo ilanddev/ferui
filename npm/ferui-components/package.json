@@ -17,15 +17,17 @@
     "url": "ssh://git@github.com:ilanddev/ferui.git"
   },
   "dependencies": {
-    "@ng-select/ng-select": "^2.13.1"
+    "@ng-select/ng-select": "^2.20.0"
   },
   "peerDependencies": {
-    "@angular/common": "^7.1.1",
-    "@angular/compiler": "^7.1.1",
-    "@angular/core": "^7.1.1",
-    "@angular/forms": "^7.1.1",
-    "@angular/platform-browser": "^7.1.1",
-    "@angular/platform-browser-dynamic": "^7.1.1",
+    "@angular/animations": "^7.1.0",
+    "@angular/common": "^7.1.0",
+    "@angular/compiler": "^7.1.0",
+    "@angular/core": "^7.1.0",
+    "@angular/forms": "^7.1.0",
+    "@angular/platform-browser": "^7.1.0",
+    "@angular/platform-browser-dynamic": "^7.1.0",
+    "@angular/router": "^7.1.0",
     "@ferui/design": "@VERSION",
     "@ferui/icons": "@VERSION"
   },

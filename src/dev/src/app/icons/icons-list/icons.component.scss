@@ -5,12 +5,16 @@
   display: inline-block;
   vertical-align: top;
   text-align: center;
-  color: #FFF;
+  color: #fff;
   line-height: 30px;
 }
 
 input {
   width: 75px;
+}
+
+input[type='text'] {
+  height: 30px;
 }
 
 .card-columns {

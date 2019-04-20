@@ -1,4 +1,4 @@
-import { Component, ContentChild, OnDestroy, OnInit } from '@angular/core';
+import { Component, ContentChild, Input, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NgControl } from '@angular/forms';
 
@@ -19,6 +19,8 @@ import { DateNavigationService } from './providers/date-navigation.service';
 import { DateFormControlService } from '../common/providers/date-form-control.service';
 import { LocaleHelperService } from '../datepicker/providers/locale-helper.service';
 import { DatepickerEnabledService } from '../datepicker/providers/datepicker-enabled.service';
+import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { FuiFormLayoutEnum } from '../common/layout.enum';
 
 @Component({
   selector: 'fui-date-container',
@@ -28,10 +30,12 @@ import { DatepickerEnabledService } from '../datepicker/providers/datepicker-ena
         <ng-content select="label" *ngIf="label"></ng-content>
         <label *ngIf="!label"></label>
         <ng-content select="[fuiDate]"></ng-content>
-                <fui-datepicker-view-manager *fuiIfOpen fuiFocusTrap></fui-datepicker-view-manager>
+        <fui-datepicker-view-manager *fuiIfOpen fuiFocusTrap [appendTo]="appendTo"></fui-datepicker-view-manager>
         <label class="fui-control-icons">
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-          <clr-icon *ngIf="!invalid && control?.value" class="fui-validate-icon" shape="fui-tick" aria-hidden="true"></clr-icon>
+          <!--<clr-icon *ngIf="!invalid && control?.value" class="fui-validate-icon" shape="fui-tick"-->
+          <!--aria-hidden="true"></clr-icon>-->
+          <clr-icon *ngIf="!invalid" class="fui-calendar-icon-wrapper" shape="fui-calendar" aria-hidden="true"></clr-icon>
         </label>
         <fui-default-control-error [on]="invalid">
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
@@ -53,16 +57,20 @@ import { DatepickerEnabledService } from '../datepicker/providers/datepicker-ena
     DateFormControlService,
     LocaleHelperService,
     DatepickerEnabledService,
+    FuiFormLayoutService,
   ],
   host: {
     '[class.fui-form-control-disabled]': 'control?.disabled',
     '[class.fui-form-control]': 'true',
+    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL',
   },
 })
 export class FuiDateContainer implements DynamicWrapper, OnInit, OnDestroy {
   _dynamic: boolean = false;
   invalid: boolean = false;
   control: NgControl;
+
+  @Input() appendTo: string;
 
   @ContentChild(FuiLabel) label: FuiLabel;
 
@@ -77,7 +85,8 @@ export class FuiDateContainer implements DynamicWrapper, OnInit, OnDestroy {
     private ifOpenService: IfOpenService,
     private dateNavigationService: DateNavigationService,
     private dateFormControlService: DateFormControlService,
-    private datepickerEnabledService: DatepickerEnabledService
+    private datepickerEnabledService: DatepickerEnabledService,
+    public formLayoutService: FuiFormLayoutService
   ) {
     this.subscriptions.push(
       this.ngControlService.controlChanges.subscribe(control => {
@@ -109,6 +118,10 @@ export class FuiDateContainer implements DynamicWrapper, OnInit, OnDestroy {
         }
       })
     );
+  }
+
+  controlLayout(): FuiFormLayoutEnum {
+    return this.formLayoutService.layout;
   }
 
   isEnabled(): boolean {

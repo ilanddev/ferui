@@ -24,7 +24,10 @@ import { filter } from 'rxjs/operators';
 
 @Directive({
   selector: '[fuiDatetime]',
-  host: { '[class.fui-datetime]': 'true' },
+  host: {
+    '[class.fui-datetime]': 'true',
+    '[class.fui-layout-small]': 'layout === fuiFormLayoutEnum.SMALL',
+  },
 })
 export class FuiDatetime extends AbstractDateTime<FuiDatetimeContainer> implements AfterViewInit, OnInit, OnDestroy {
   protected index = 1;

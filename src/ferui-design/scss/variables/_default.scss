@@ -19,11 +19,13 @@ $gray-800: #242a3b !default;
 $gray-900: #252a3a !default;
 $gray-1000: #191c28 !default;
 
-$grays: ('1000': $gray-1000);
+$grays: (
+  '1000': $gray-1000,
+);
 
 $colors: (
   'gray': $gray-500,
-  'gray-dark': $gray-900
+  'gray-dark': $gray-900,
 );
 
 $secondary: $gray-500 !default;
@@ -32,6 +34,9 @@ $light: $gray-300 !default;
 
 $grid-columns: 12 !default;
 $grid-gutter-width: 20px !default;
+
+// The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
+$yiq-contrasted-threshold: 160 !default;
 
 $font-family-sans-serif: Roboto, 'Helvetica Neue', Arial, Noto Sans, sans-serif !default;
 $font-family-monospace: Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !default;
@@ -46,7 +51,7 @@ $font-weight-bolder: 900 !default;
 $headings-font-weight: 700 !default;
 
 $zindex-label: 990 !default;
-$zindex-dropdown: 1000 !default;
+$zindex-dropdown: 1001 !default;
 $zindex-sticky: 1020 !default;
 $zindex-fixed: 1030 !default;
 $zindex-modal-backdrop: 1040 !default;
@@ -59,3 +64,4 @@ $fui-default-borderwidth: 1px;
 $fui-popover-box-shadow-color: rgba($gray-900, 0.25);
 
 $default-radius-value: 3px;
+$border-radius: $default-radius-value;

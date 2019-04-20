@@ -1,0 +1,29 @@
+@import '../../_variables.scss';
+@import '../../_mixins.scss';
+
+@include exports('forms.selects-icon') {
+  .fui-select-container.fui-form-control.fui-select-icon {
+    width: auto !important;
+    display: inline-block !important;
+    cursor: pointer;
+
+    .ng-select-container {
+      display: none !important;
+    }
+
+    .ng-dropdown-panel {
+      width: auto !important;
+      left: auto;
+      top: calc(100% + 15px) !important;
+      right: -20px;
+
+      border: 1px solid $gray-300 !important;
+      border-radius: $border-radius !important;
+      box-shadow: 0 4px 6px 0 rgba(54, 71, 82, 0.12);
+    }
+
+    .fui-control-icons {
+      display: none !important;
+    }
+  }
+}

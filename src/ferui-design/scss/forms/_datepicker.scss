@@ -29,7 +29,7 @@
   }
 }
 
-@include exports('datepicker.ferui') {
+@include exports('forms.datepicker.ferui') {
   .date-container {
     display: inline-flex;
     align-items: center;

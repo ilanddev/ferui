@@ -6,11 +6,11 @@ import { IconsComponent } from './icons-list/icons.component';
 import { GetStartedComponent } from './get-started/get-started.component';
 import { IconsLandingComponent } from './icons-landing.component';
 import { ClrIconModule } from '@ferui/components';
+import { HighlightModule } from 'ngx-highlightjs';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ClrIconModule, ROUTING],
+  imports: [CommonModule, FormsModule, ClrIconModule, ROUTING, HighlightModule],
   declarations: [IconsComponent, GetStartedComponent, IconsLandingComponent],
-  exports: [IconsComponent, GetStartedComponent]
+  exports: [IconsComponent, GetStartedComponent],
 })
-export class IconsModule {
-}
+export class IconsModule {}

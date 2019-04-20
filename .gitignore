@@ -2,8 +2,9 @@
 /dist
 /.ng_build
 /tests/tslint/dist
-
 /reports
+/src/ferui-components/package.json
+/src/ferui-components/README.md
 
 # dependencies
 /node_modules

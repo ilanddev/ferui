@@ -101,6 +101,7 @@ export class Popover {
         leftDiff += anchorRect.width;
         break;
       default:
+        break;
     }
 
     // second, adjust positioning based on popover's align point
@@ -143,6 +144,7 @@ export class Popover {
         leftDiff -= popoverRect.width;
         break;
       default:
+        break;
     }
 
     // Third, adjust with popover's margins based on the two align points.

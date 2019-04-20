@@ -12,6 +12,8 @@ import { FormControlClass } from '../../utils/form-control-class/form-control-cl
 import { PlaceholderService } from '../common/providers/placeholder.service';
 import { FocusService } from '../common/providers/focus.service';
 import { RequiredControlService } from '../common/providers/required-control.service';
+import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { FuiFormLayoutEnum } from '../common/layout.enum';
 
 @Component({
   selector: 'fui-input-container',
@@ -23,8 +25,8 @@ import { RequiredControlService } from '../common/providers/required-control.ser
         <ng-content select="[fuiInput]"></ng-content>
         <label class="fui-control-icons">
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-          <clr-icon *ngIf="!invalid && control?.value" class="fui-validate-icon" shape="fui-tick"
-                    aria-hidden="true"></clr-icon>
+          <!--<clr-icon *ngIf="false" class="fui-validate-icon" shape="fui-tick"-->
+          <!--aria-hidden="true"></clr-icon>-->
         </label>
         <fui-default-control-error [on]="invalid">
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
@@ -34,6 +36,7 @@ import { RequiredControlService } from '../common/providers/required-control.ser
   `,
   host: {
     '[class.fui-form-control]': 'true',
+    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL',
     '[class.fui-form-control-disabled]': 'control?.disabled',
   },
   providers: [
@@ -44,6 +47,7 @@ import { RequiredControlService } from '../common/providers/required-control.ser
     PlaceholderService,
     FocusService,
     RequiredControlService,
+    FuiFormLayoutService,
   ],
 })
 export class FuiInputContainer implements DynamicWrapper, OnDestroy {
@@ -60,7 +64,8 @@ export class FuiInputContainer implements DynamicWrapper, OnDestroy {
     private ifErrorService: IfErrorService,
     private controlClassService: ControlClassService,
     private ngControlService: NgControlService,
-    private focusService: FocusService
+    private focusService: FocusService,
+    public formLayoutService: FuiFormLayoutService
   ) {
     this.subscriptions.push(
       this.ifErrorService.statusChanges.subscribe(invalid => {
@@ -90,5 +95,9 @@ export class FuiInputContainer implements DynamicWrapper, OnDestroy {
     if (this.subscriptions) {
       this.subscriptions.map(sub => sub.unsubscribe());
     }
+  }
+
+  controlLayout(): FuiFormLayoutEnum {
+    return this.formLayoutService.layout;
   }
 }

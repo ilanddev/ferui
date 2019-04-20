@@ -19,6 +19,8 @@ import { DatetimeIOService } from './providers/datetime-io.service';
 import { DatetimeFormControlService } from './providers/datetime-form-control.service';
 import { FuiTime } from '../time/time';
 import { FuiDate } from '../date/date';
+import { FuiFormLayoutEnum } from '../common/layout.enum';
+import { FuiFormLayoutService } from '../common/providers/form-layout.service';
 
 export interface DatetimeInterface {
   date: Date;
@@ -29,31 +31,46 @@ export interface DatetimeInterface {
   selector: 'fui-datetime-container',
   template: `
     <div class="fui-control-container" [ngClass]="controlClass()">
-      <div class="fui-datetime-wrapper clearfix"
-           [class.fui-datetime-4]="_numberOfControls === 4"
-           [class.fui-datetime-3]="_numberOfControls === 3"
-           [class.fui-datetime-2]="_numberOfControls === 2">
-
+      <div
+        class="fui-datetime-wrapper clearfix"
+        [class.fui-datetime-4]="_numberOfControls === 4"
+        [class.fui-datetime-3]="_numberOfControls === 3"
+        [class.fui-datetime-2]="_numberOfControls === 2"
+      >
         <ng-content select="label" *ngIf="label"></ng-content>
         <label *ngIf="!label"></label>
         <ng-content select="[fuiDatetime]"></ng-content>
 
         <fui-date-container>
-          <input type="date" [fuiDate]="_dateModelType"
-                 [(ngModel)]="model.date"
-                 (fuiDateChange)="childModelChange('date', $event)"/>
+          <input
+            type="date"
+            [fuiDate]="_dateModelType"
+            [(ngModel)]="model.date"
+            (fuiDateChange)="childModelChange('date', $event)"
+          />
         </fui-date-container>
-        <fui-time-container [showHours]="showHours" [showMinutes]="showMinutes" [showSeconds]="showSeconds"
-                            [twentyFourHourFormat]="twentyFourHourFormat">
-          <input type="time" [fuiTime]="_dateModelType"
-                 [(ngModel)]="model.time"
-                 (fuiDateChange)="childModelChange('time', $event)"/>
+        <fui-time-container
+          [showHours]="showHours"
+          [showMinutes]="showMinutes"
+          [showSeconds]="showSeconds"
+          [twentyFourHourFormat]="twentyFourHourFormat"
+        >
+          <input
+            type="time"
+            [fuiTime]="_dateModelType"
+            [(ngModel)]="model.time"
+            (fuiDateChange)="childModelChange('time', $event)"
+          />
         </fui-time-container>
 
         <label class="fui-control-icons">
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-          <clr-icon *ngIf="!invalid && control?.value" class="fui-validate-icon" shape="fui-tick"
-                    aria-hidden="true"></clr-icon>
+          <clr-icon
+            *ngIf="!invalid && control?.value"
+            class="fui-validate-icon"
+            shape="fui-tick"
+            aria-hidden="true"
+          ></clr-icon>
         </label>
         <fui-default-control-error [on]="invalid">
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
@@ -73,10 +90,12 @@ export interface DatetimeInterface {
     PlaceholderService,
     DatetimeIOService,
     DatetimeFormControlService,
+    FuiFormLayoutService,
   ],
   host: {
     '[class.fui-form-control-disabled]': 'control?.disabled',
     '[class.fui-form-control]': 'true',
+    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL',
   },
 })
 export class FuiDatetimeContainer implements DynamicWrapper, OnInit, OnDestroy {
@@ -115,7 +134,8 @@ export class FuiDatetimeContainer implements DynamicWrapper, OnInit, OnDestroy {
     private requiredService: RequiredControlService,
     private datetimeIOService: DatetimeIOService,
     private dateFormControlService: DateFormControlService,
-    private datetimeFormControlService: DatetimeFormControlService
+    private datetimeFormControlService: DatetimeFormControlService,
+    public formLayoutService: FuiFormLayoutService
   ) {
     this.subscriptions.push(
       this.ifErrorService.statusChanges.subscribe(invalid => {
@@ -157,6 +177,10 @@ export class FuiDatetimeContainer implements DynamicWrapper, OnInit, OnDestroy {
         this.modelType = modelType;
       })
     );
+  }
+
+  controlLayout(): FuiFormLayoutEnum {
+    return this.formLayoutService.layout;
   }
 
   controlClass() {

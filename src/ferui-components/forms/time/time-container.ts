@@ -29,6 +29,8 @@ import { DateFormControlService } from '../common/providers/date-form-control.se
 import { FuiCommonStrings } from '../../utils/i18n/common-strings.service';
 import { TimeModel } from './models/time.model';
 import { NgSelectComponent } from '@ng-select/ng-select';
+import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { FuiFormLayoutEnum } from '../common/layout.enum';
 
 export interface TimeInterface {
   hour: number;
@@ -40,50 +42,72 @@ export interface TimeInterface {
   selector: 'fui-time-container',
   template: `
     <div class="fui-control-container" [ngClass]="controlClass()">
-      <div class="fui-time-wrapper"
-           [class.fui-time-3]="_numberOfControls === 3"
-           [class.fui-time-2]="_numberOfControls === 2"
-           [class.fui-time-1]="_numberOfControls === 1">
-
+      <div
+        class="fui-time-wrapper"
+        [class.fui-time-3]="_numberOfControls === 3"
+        [class.fui-time-2]="_numberOfControls === 2"
+        [class.fui-time-1]="_numberOfControls === 1"
+      >
         <ng-content select="label" *ngIf="label"></ng-content>
         <label *ngIf="!label"></label>
 
         <ng-content select="[fuiTime]"></ng-content>
-        
-        <ng-select #selectElement *ngIf="showHours" [clearable]="false" [class.fui-select]="true"
-                   [placeholder]="commonStrings.hours" [items]="hoursList"
-                   (focus)="setFocusState()"
-                   (blur)="markControlAsTouched()"
-                   [(ngModel)]="model.hour" (change)="updateTime($event)">
+
+        <ng-select
+          #selectElement
+          *ngIf="showHours"
+          [clearable]="false"
+          [class.fui-select]="true"
+          [placeholder]="commonStrings.hours"
+          [items]="hoursList"
+          (focus)="setFocusState()"
+          (blur)="markControlAsTouched()"
+          [(ngModel)]="model.hour"
+          (change)="updateTime($event)"
+        >
           <ng-template ng-option-tmp ng-label-tmp let-item="item">
-            {{formatHour(item)}}
+            {{ formatHour(item) }}
           </ng-template>
         </ng-select>
 
-        <ng-select #selectElement *ngIf="showMinutes" [clearable]="false" [class.fui-select]="true"
-                   [placeholder]="commonStrings.minutes" [items]="minutesList"
-                   (focus)="setFocusState()"
-                   (blur)="markControlAsTouched()"
-                   [(ngModel)]="model.minute" (change)="updateTime(null, $event)">
-          <ng-template ng-option-tmp ng-label-tmp let-item="item">
-            {{item}} min
-          </ng-template>
+        <ng-select
+          #selectElement
+          *ngIf="showMinutes"
+          [clearable]="false"
+          [class.fui-select]="true"
+          [placeholder]="commonStrings.minutes"
+          [items]="minutesList"
+          (focus)="setFocusState()"
+          (blur)="markControlAsTouched()"
+          [(ngModel)]="model.minute"
+          (change)="updateTime(null, $event)"
+        >
+          <ng-template ng-option-tmp ng-label-tmp let-item="item"> {{ item }} min</ng-template>
         </ng-select>
 
-        <ng-select #selectElement *ngIf="showSeconds" [clearable]="false" [class.fui-select]="true"
-                   [placeholder]="commonStrings.seconds" [items]="secondsList"
-                   (focus)="setFocusState()"
-                   (blur)="markControlAsTouched()"
-                   [(ngModel)]="model.second" (change)="updateTime(null, null, $event)">
-          <ng-template ng-option-tmp ng-label-tmp let-item="item">
-            {{item}} s
-          </ng-template>
+        <ng-select
+          #selectElement
+          *ngIf="showSeconds"
+          [clearable]="false"
+          [class.fui-select]="true"
+          [placeholder]="commonStrings.seconds"
+          [items]="secondsList"
+          (focus)="setFocusState()"
+          (blur)="markControlAsTouched()"
+          [(ngModel)]="model.second"
+          (change)="updateTime(null, null, $event)"
+        >
+          <ng-template ng-option-tmp ng-label-tmp let-item="item"> {{ item }} s</ng-template>
         </ng-select>
 
         <label class="fui-control-icons">
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-          <clr-icon *ngIf="!invalid && control?.value" class="fui-validate-icon" shape="fui-tick"
-                    aria-hidden="true"></clr-icon>
+          <clr-icon
+            *ngIf="!invalid && control?.value"
+            class="fui-validate-icon"
+            shape="fui-tick"
+            aria-hidden="true"
+          ></clr-icon>
         </label>
         <fui-default-control-error [on]="invalid">
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
@@ -93,7 +117,9 @@ export interface TimeInterface {
   `,
   host: {
     '[class.fui-form-control]': 'true',
+    '[class.fui-select-container]': 'true',
     '[class.fui-form-control-disabled]': 'control?.disabled',
+    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL',
   },
   providers: [
     IfErrorService,
@@ -107,6 +133,7 @@ export interface TimeInterface {
     LocaleHelperService,
     TimeSelectionService,
     DateFormControlService,
+    FuiFormLayoutService,
   ],
 })
 export class FuiTimeContainer implements DynamicWrapper, AfterViewInit, OnInit, OnDestroy {
@@ -147,7 +174,8 @@ export class FuiTimeContainer implements DynamicWrapper, AfterViewInit, OnInit, 
     private focusService: FocusService,
     private timeIOService: TimeIOService,
     private timeSelectionService: TimeSelectionService,
-    private dateFormControlService: DateFormControlService
+    private dateFormControlService: DateFormControlService,
+    public formLayoutService: FuiFormLayoutService
   ) {
     this.subscriptions.push(
       this.ifErrorService.statusChanges.subscribe(invalid => {
@@ -186,6 +214,10 @@ export class FuiTimeContainer implements DynamicWrapper, AfterViewInit, OnInit, 
     this.timeSelectionService.selectedTimeChange.subscribe((timeModel: TimeModel) => {
       this.updateSelects(timeModel);
     });
+  }
+
+  controlLayout(): FuiFormLayoutEnum {
+    return this.formLayoutService.layout;
   }
 
   controlClass() {

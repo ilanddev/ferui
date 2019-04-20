@@ -1,0 +1,32 @@
+@import '_mixins.scss';
+
+.fui-loader-animation {
+  @include fui-spinning-animation();
+}
+
+// setting shake class to an item will give it a left ot right animation
+// used for the 'left' and 'rigth' arrows when dragging columns and scrolling
+.fui-datagrid-shake-left-to-right {
+  @include fui-shake-left-to-right-animation();
+}
+
+.fui-datagrid-infinite-loader {
+  height: 2px;
+  width: 100%;
+  display: block;
+  position: absolute;
+  bottom: 0;
+
+  &::before {
+    content: ' ';
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 20%;
+    height: 2px;
+    background: $blue;
+    transform: translateX(0px);
+    @include fui-infinite-loader-animation();
+  }
+}

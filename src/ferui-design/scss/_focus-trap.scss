@@ -1,8 +1,0 @@
-@import './_mixins.scss';
-
-@include exports('focus-trap.clarity') {
-  .offscreen-focus-rebounder {
-    @include off-screen-styles();
-    visibility: visible !important;
-  }
-}

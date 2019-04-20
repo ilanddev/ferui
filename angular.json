@@ -23,6 +23,11 @@
                 "output": "/"
               },
               {
+                "glob": "datagrid-10k-data.min.json",
+                "input": "src/dev/src/app/components/datagrid",
+                "output": "/"
+              },
+              {
                 "glob": "**/*.*",
                 "input": "src/ferui-design/font-files",
                 "output": "/font-files"

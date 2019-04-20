@@ -1,0 +1,170 @@
+@import '../../_variables.scss';
+@import '../../_mixins.scss';
+
+@include exports('forms.selects-small') {
+  .fui-select-container.fui-form-control.fui-form-control-small {
+    .fui-control-container {
+      &.fui-error:not(.fui-empty) {
+        .ng-select {
+          .ng-clear-wrapper {
+            margin-right: $controls-small-padding;
+          }
+        }
+
+        &:not(.fui-empty):not(.fui-error) {
+          .ng-select {
+            .ng-clear-wrapper {
+              margin-right: $controls-small-padding;
+            }
+          }
+        }
+      }
+
+      .fui-select-wrapper {
+        .fui-subtext {
+          &::after {
+            right: calc(
+              (
+                  (#{$controls-small-padding} * 2) + #{$select-arrow-size} + #{$controls-small-padding} +
+                    (#{$controls-small-icons-width} / 2)
+                ) - #{$fui-subtext-arrow-width}
+            ) !important;
+            bottom: 2px !important;
+          }
+        }
+      }
+
+      .fui-select.fui-layout-small {
+        padding: 0 !important;
+        border: none !important;
+      }
+
+      .ng-select {
+        .ng-select-container {
+          border: 1px solid $gray-300;
+          min-height: $default-control-small-height !important;
+          height: $default-control-small-height !important;
+          align-items: center;
+
+          .ng-value-container {
+            align-items: center;
+            padding: 0 $controls-small-padding;
+
+            .ng-placeholder {
+              @include control-small-label();
+              display: none;
+            }
+
+            .ng-value {
+              font-size: $font-size-sm;
+              font-weight: $font-weight-normal;
+              background: none;
+              color: $gray-900;
+              padding: 0;
+            }
+          }
+        }
+
+        &.ng-select-opened {
+          > .ng-select-container {
+            background: $white;
+            border-color: $gray-500;
+
+            .ng-arrow {
+              &::after {
+                transform: rotate(-90deg);
+              }
+            }
+          }
+
+          &.ng-select-bottom {
+            > .ng-select-container {
+              border-bottom-right-radius: 0;
+              border-bottom-left-radius: 0;
+            }
+          }
+
+          &.ng-select-top {
+            > .ng-select-container {
+              border-top-right-radius: 0;
+              border-top-left-radius: 0;
+            }
+          }
+        }
+
+        &.ng-select-filtered,
+        .ng-has-value {
+          .ng-placeholder {
+            @include control-small-label-selected();
+            display: none;
+          }
+
+          .ng-value {
+            margin: 0 10px 0 0 !important;
+          }
+
+          .ng-input {
+            > input {
+              padding: $controls-small-padding 2rem $controls-small-padding $controls-small-padding !important;
+              height: $default-control-small-height !important;
+            }
+          }
+        }
+
+        &.ng-select-multiple {
+          .ng-value-container {
+            align-items: center;
+            padding: 0 $controls-small-padding !important;
+            height: $default-control-small-height !important;
+
+            .ng-input {
+              > input {
+                padding: $controls-small-padding 2rem $controls-small-padding 0 !important;
+                height: $default-control-small-height !important;
+              }
+            }
+          }
+
+          &.ng-select-filtered,
+          .ng-has-value {
+            .ng-value-container {
+              padding: calc(#{$controls-small-padding} - 2px) $controls-small-padding 0 $controls-small-padding !important;
+
+              .ng-value {
+                margin: 0 5px 0 0;
+              }
+
+              .ng-input {
+                margin-top: calc((#{$controls-small-padding} - 2px) * -1);
+
+                > input {
+                  padding: $controls-small-padding 2rem $controls-small-padding $controls-small-padding !important;
+                  height: $default-control-small-height !important;
+                }
+              }
+            }
+          }
+        }
+
+        &.ng-select-single {
+          .ng-select-container {
+            height: $default-control-small-height !important;
+
+            .ng-value-container {
+              .ng-input {
+                top: 0;
+                left: 0;
+
+                > input {
+                  box-sizing: border-box !important;
+                  padding: $controls-small-padding 2rem $controls-small-padding $controls-small-padding !important;
+                  height: $default-control-small-height !important;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,163 @@
+@import '../_variables.scss';
+@import '../_mixins.scss';
+
+@include exports('components.datagrid-filters') {
+  .fui-datagrid-filters {
+    display: block;
+    background-color: $gray-100;
+    height: 60px;
+
+    border-width: 1px 1px 0 1px;
+    border-color: $gray-300;
+    border-style: solid;
+    border-radius: $border-radius $border-radius 0 0;
+
+    .col-left {
+      display: flex;
+      height: 59px;
+
+      justify-content: flex-start;
+      align-items: center;
+      align-content: center;
+
+      .fui-datagrid-search-filter-button {
+        position: relative;
+        display: flex;
+        height: 100%;
+        justify-content: flex-start;
+        align-items: center;
+
+        .fui-datagrid-filters-popover-wrapper {
+          position: relative;
+          display: flex;
+          height: 100%;
+          justify-content: flex-start;
+          align-items: center;
+
+          &.with-filter {
+            .fui-datagrid-filters-search {
+              > input {
+                border-width: 1px 0 1px 1px;
+                border-color: $gray-300;
+                border-style: solid;
+                border-radius: $border-radius 0 0 $border-radius;
+              }
+            }
+            .fui-datagrid-filters-button {
+              display: flex;
+            }
+          }
+
+          .fui-datagrid-filters-button {
+            margin: 0;
+            width: 140px;
+            height: 35px;
+            font-size: $font-size-sm;
+            color: $gray-500;
+            text-align: left;
+          }
+
+          .fui-datagrid-filters-search {
+            position: relative;
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+
+            > input {
+              margin: 0;
+              width: 140px;
+              height: 35px;
+              font-size: $font-size-sm;
+              color: $gray-500;
+              text-align: left;
+
+              display: inline-block;
+              border: 1px solid $gray-300;
+              border-radius: $border-radius;
+              padding: 0 30px;
+              @include setPlaceholderStyle($gray-500, $font-size-sm);
+
+              + .fui-datagrid-search-icon {
+                position: absolute;
+                width: 12px;
+                height: 12px;
+                color: $gray-500;
+                left: 10px;
+                top: 50%;
+                margin-top: -6px;
+              }
+
+              &:focus {
+                border: 1px solid $gray-500;
+                color: $gray-900;
+              }
+            }
+          }
+
+          .fui-datagrid-filters-button {
+            display: none;
+            cursor: pointer;
+            border: 1px solid $gray-300;
+            border-radius: 0 $border-radius $border-radius 0;
+            padding: 0 10px;
+            justify-content: space-between;
+            align-items: center;
+            background-color: $white;
+            color: $gray-500;
+
+            &.is-open {
+              background-color: $gray-100;
+              color: $gray-900;
+            }
+
+            .fui-datagrid-filter-label {
+              display: inline-block;
+              color: inherit;
+            }
+
+            .fui-datagrid-filter-icon {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+              color: inherit;
+            }
+
+            &.has-active-filters {
+              .fui-datagrid-filter-label {
+                color: $blue;
+              }
+              .fui-datagrid-filter-icon {
+                .fui-filter-icon-circle {
+                  color: $blue;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .col-right {
+      text-align: right;
+      line-height: 59px;
+      padding-right: 20px;
+
+      * {
+        line-height: normal;
+      }
+
+      .fui-column-visibility {
+        color: $gray-500;
+        fill: $gray-500;
+        width: 18px;
+        height: 18px;
+
+        &:hover,
+        &.focused {
+          color: $gray-900;
+          fill: $gray-900;
+        }
+      }
+    }
+  }
+}

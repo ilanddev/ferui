@@ -3,6 +3,7 @@
 @import 'scss/variables';
 @import 'scss/mixins';
 @import 'scss/normalize';
+@import 'scss/animations';
 @import '../../node_modules/bootstrap/scss/root';
 @import '../../node_modules/bootstrap/scss/reboot';
 @import '../../node_modules/bootstrap/scss/type';
@@ -20,5 +21,7 @@
 @import 'scss/utilities';
 @import '../../node_modules/bootstrap/scss/print';
 @import 'scss/forms/forms';
-@import 'scss/focus-trap';
-@import 'scss/popover';
+@import 'scss/components/components';
+@import 'scss/directives/focus-trap';
+@import 'scss/directives/popover';
+@import 'scss/directives/unselectable';

@@ -13,6 +13,8 @@ import { FuiLabel } from '../common/label';
 import { FormControlClass } from '../../utils/form-control-class/form-control-class';
 import { PlaceholderService } from '../common/providers/placeholder.service';
 import { RequiredControlService } from '../common/providers/required-control.service';
+import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { FuiFormLayoutEnum } from '../common/layout.enum';
 
 /* tslint:disable-next-line:variable-name */
 export const ToggleService = new InjectionToken<any>(undefined);
@@ -31,19 +33,26 @@ export function ToggleServiceProvider() {
         <label *ngIf="!label"></label>
         <ng-content select="[fuiPassword]"></ng-content>
         <label class="fui-control-icons">
+          <clr-icon
+            *ngIf="!show && fuiToggle"
+            shape="fui-eye"
+            class="fui-input-group-icon-action"
+            (click)="toggle()"
+          ></clr-icon>
+          <clr-icon
+            *ngIf="show && fuiToggle"
+            shape="fui-eye-off"
+            class="fui-input-group-icon-action"
+            (click)="toggle()"
+          ></clr-icon>
 
-          <clr-icon *ngIf="!show && fuiToggle"
-                    shape="fui-eye"
-                    class="fui-input-group-icon-action"
-                    (click)="toggle()"></clr-icon>
-          <clr-icon *ngIf="show && fuiToggle"
-                    shape="fui-eye-off"
-                    class="fui-input-group-icon-action"
-                    (click)="toggle()"></clr-icon>
-          
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-          <clr-icon *ngIf="!invalid && control?.value" class="fui-validate-icon" shape="fui-tick"
-                    aria-hidden="true"></clr-icon>
+          <clr-icon
+            *ngIf="!invalid && control?.value"
+            class="fui-validate-icon"
+            shape="fui-tick"
+            aria-hidden="true"
+          ></clr-icon>
         </label>
         <fui-default-control-error [on]="invalid">
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
@@ -54,6 +63,7 @@ export function ToggleServiceProvider() {
   host: {
     '[class.fui-form-control]': 'true',
     '[class.fui-form-control-disabled]': 'control?.disabled',
+    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL',
   },
   providers: [
     IfErrorService,
@@ -64,6 +74,7 @@ export function ToggleServiceProvider() {
     RequiredControlService,
     { provide: ToggleService, useFactory: ToggleServiceProvider },
     PlaceholderService,
+    FuiFormLayoutService,
   ],
 })
 export class FuiPasswordContainer implements DynamicWrapper, OnDestroy {
@@ -95,6 +106,7 @@ export class FuiPasswordContainer implements DynamicWrapper, OnDestroy {
     private controlClassService: ControlClassService,
     private ngControlService: NgControlService,
     private focusService: FocusService,
+    public formLayoutService: FuiFormLayoutService,
     @Inject(ToggleService) private toggleService: BehaviorSubject<boolean>
   ) {
     this.subscriptions.push(
@@ -112,6 +124,10 @@ export class FuiPasswordContainer implements DynamicWrapper, OnDestroy {
         this.focus = state;
       })
     );
+  }
+
+  controlLayout(): FuiFormLayoutEnum {
+    return this.formLayoutService.layout;
   }
 
   toggle() {

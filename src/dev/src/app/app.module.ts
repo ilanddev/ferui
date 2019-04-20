@@ -14,15 +14,27 @@ import { HighlightModule } from 'ngx-highlightjs';
 import xml from 'highlight.js/lib/languages/xml';
 import scss from 'highlight.js/lib/languages/scss';
 import typescript from 'highlight.js/lib/languages/typescript';
+import json from 'highlight.js/lib/languages/json';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { DatagridDataService } from './components/datagrid/server-side-api/datagrid-data.service';
 
 export function hljsLanguages() {
-  return [{ name: 'typescript', func: typescript }, { name: 'scss', func: scss }, { name: 'xml', func: xml }];
+  return [
+    { name: 'typescript', func: typescript },
+    { name: 'scss', func: scss },
+    { name: 'xml', func: xml },
+    { name: 'json', func: json },
+  ];
 }
 
 @NgModule({
   declarations: [AppComponent, LandingComponent, AppContentContainerComponent],
   imports: [
     BrowserAnimationsModule,
+    HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(DatagridDataService, { delay: 10, passThruUnknownUrl: true }),
     CommonModule,
     FormsModule,
     FeruiModule,
@@ -31,6 +43,7 @@ export function hljsLanguages() {
       languages: hljsLanguages,
     }),
   ],
+  exports: [RouterModule],
   bootstrap: [AppComponent],
   providers: [WINDOW_PROVIDERS],
 })

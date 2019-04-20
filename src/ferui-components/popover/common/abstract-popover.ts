@@ -2,12 +2,12 @@ import {
   AfterViewChecked,
   ElementRef,
   HostBinding,
-  Injectable,
   Injector,
   OnDestroy,
   Optional,
   Renderer2,
   SkipSelf,
+  ViewContainerRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -51,6 +51,8 @@ export abstract class AbstractPopover implements AfterViewChecked, OnDestroy {
     // Default anchor is the parent host
     this.anchorElem = parentHost.nativeElement;
 
+    console.log('popover', this.ifOpenService.open, this.el, this.anchorElem);
+
     this.popoverInstance = new Popover(this.el.nativeElement, forcedMarginTop, forcedMarginLeft);
     this.subscription = this.ifOpenService.openChange.subscribe(change => {
       if (change) {
@@ -86,9 +88,17 @@ export abstract class AbstractPopover implements AfterViewChecked, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  appendPopover(appendTo) {
+    const parent = document.querySelector(appendTo);
+    if (!parent) {
+      throw new Error(`appendTo selector ${appendTo} did not found any parent element`);
+    }
+    parent.appendChild(this.el.nativeElement);
+  }
+
   /*
-     * Fallback to hide when *clrIfOpen is not being used
-     */
+   * Fallback to hide when *clrIfOpen is not being used
+   */
 
   @HostBinding('class.is-off-screen')
   get isOffScreen() {
@@ -107,9 +117,9 @@ export abstract class AbstractPopover implements AfterViewChecked, OnDestroy {
   }
 
   /*
-     * Until https://github.com/angular/angular/issues/8785 is supported, we don't have any way to instantiate
-     * a separate directive on the host. So let's do dirty but performant for now.
-     */
+   * Until https://github.com/angular/angular/issues/8785 is supported, we don't have any way to instantiate
+   * a separate directive on the host. So let's do dirty but performant for now.
+   */
   private attachESCListener(): void {
     this.documentESCListener = this.renderer.listen('document', 'keydown', event => {
       if (event && event.keyCode === ESC) {

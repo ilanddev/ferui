@@ -1,0 +1,11 @@
+@import '../_mixins.scss';
+
+@include exports('directives.unselectable') {
+  .fui-unselectable {
+    user-select: none !important; // disable user mouse selection
+  }
+
+  .fui-selectable {
+    user-select: text !important;
+  }
+}

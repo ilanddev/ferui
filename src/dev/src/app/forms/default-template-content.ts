@@ -18,20 +18,27 @@ import { isArray } from 'util';
         </div>
         <div class="row pt-3" *ngIf="code">
           <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12">
-            <p>Result (<button class="btn btn-link p-0"
-                      (click)="toggle([results, idx])">{{ results[idx] ? 'Hide Results' : 'View Results'}}</button>)
+            <p>
+              Result (<button class="btn btn-link p-0" (click)="toggle([results, idx])">
+                {{ results[idx] ? 'Hide Results' : 'View Results' }}</button
+              >)
             </p>
-            <pre *ngIf="results[idx]"><code [highlight]="concatResultModels(model, resultModelNames) | json"></code></pre>
+            <pre
+              *ngIf="results[idx]"
+            ><code [languages]="['json']" [highlight]="concatResultModels(model, resultModelNames) | json"></code></pre>
           </div>
           <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12">
-            <p>Code (<button class="btn btn-link p-0"
-                      (click)="toggle([examples, idx])">{{ examples[idx] ? 'Hide code' : 'View code'}}</button>)
+            <p>
+              Code (<button class="btn btn-link p-0" (click)="toggle([examples, idx])">
+                {{ examples[idx] ? 'Hide code' : 'View code' }}</button
+              >)
             </p>
-            <pre *ngIf="examples[idx]"><code [highlight]="code"></code></pre>
+            <pre *ngIf="examples[idx]"><code [languages]="['xml']" [highlight]="code"></code></pre>
           </div>
         </div>
       </div>
-    </div>`,
+    </div>
+  `,
 })
 export class DefaultTemplateContent {
   @Input() disabled: boolean;

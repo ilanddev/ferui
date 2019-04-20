@@ -1,8 +1,10 @@
-import { Component, ContentChild } from '@angular/core';
+import { Component, ContentChild, Optional } from '@angular/core';
 
 import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
 import { ControlIdService } from '../common/providers/control-id.service';
 import { FuiLabel } from '../common/label';
+import { FuiFormLayoutEnum } from '../common/layout.enum';
+import { FuiFormLayoutService } from '../common/providers/form-layout.service';
 
 @Component({
   selector: 'fui-radio-wrapper',
@@ -19,4 +21,13 @@ import { FuiLabel } from '../common/label';
 export class FuiRadioWrapper implements DynamicWrapper {
   _dynamic = false;
   @ContentChild(FuiLabel) label: FuiLabel;
+
+  constructor(@Optional() public formLayoutService: FuiFormLayoutService) {}
+
+  controlLayout(): FuiFormLayoutEnum {
+    if (!this.formLayoutService) {
+      return null;
+    }
+    return this.formLayoutService.layout;
+  }
 }
