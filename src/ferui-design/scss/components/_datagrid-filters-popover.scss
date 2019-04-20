@@ -1,0 +1,109 @@
+@import '../_variables.scss';
+@import '../_mixins.scss';
+
+@include exports('components.datagrid-filters-popover') {
+  .fui-datagrid-filters-popover {
+    width: 600px;
+    max-width: 600px;
+    min-width: 600px;
+    box-shadow: 0 4px 10px 0 rgba(54, 71, 82, 0.2);
+    border-radius: $border-radius;
+    background-color: $white;
+    z-index: $zindex-popover;
+
+    .fui-datagrid-text-filter,
+    .fui-datagrid-boolean-filter {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .fui-datagrid-filters-popover-header,
+    .fui-datagrid-filters-popover-body {
+      position: relative;
+      padding: 0 20px;
+      min-height: 60px;
+      max-height: 350px;
+      overflow-y: auto;
+
+      > .container-fluid {
+        > .row {
+          border-top: 1px solid $gray-300;
+          min-height: 60px;
+
+          .col-3,
+          .col {
+            font-size: $font-size-base;
+            font-weight: $font-weight-bold;
+            margin-left: 0;
+
+            &.fui-dg-filters-column-name {
+              display: flex;
+              flex-flow: column nowrap;
+              align-items: flex-start;
+              align-content: center;
+              justify-content: center;
+              @include text-truncate();
+            }
+
+            &:not(:last-child) {
+              padding: 12px 10px 12px 0;
+            }
+
+            &:last-child {
+              padding: 12px 0;
+            }
+          }
+        }
+      }
+    }
+
+    .fui-datagrid-filters-popover-header {
+      overflow-y: hidden;
+      > .container-fluid {
+        > .row {
+          border-top: none;
+        }
+      }
+    }
+
+    .fui-datagrid-filters-popover-footer {
+      display: block;
+      height: 60px;
+      border-top: 1px solid $gray-300;
+
+      .col,
+      .col-auto {
+        line-height: 60px;
+        text-align: left;
+
+        .btn {
+          text-transform: uppercase;
+          font-size: $font-size-sm;
+          font-weight: bold;
+
+          &.btn-clear {
+            color: $red;
+
+            &:hover {
+              background-color: $red;
+              color: $white;
+            }
+          }
+
+          &.btn-cancel {
+            color: $gray-500;
+
+            &:hover {
+              color: $gray-900;
+            }
+          }
+        }
+      }
+
+      .col {
+        text-align: right;
+      }
+    }
+  }
+}
