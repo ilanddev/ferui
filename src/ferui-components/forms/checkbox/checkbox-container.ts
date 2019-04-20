@@ -9,6 +9,8 @@ import { NgControlService } from '../common/providers/ng-control.service';
 import { FormControlClass } from '../../utils/form-control-class/form-control-class';
 import { FocusService } from '../common/providers/focus.service';
 import { RequiredControlService } from '../common/providers/required-control.service';
+import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { FuiFormLayoutEnum } from '../common/layout.enum';
 
 @Component({
   selector: 'fui-checkbox-container',
@@ -28,8 +30,16 @@ import { RequiredControlService } from '../common/providers/required-control.ser
   host: {
     '[class.fui-form-control]': 'true',
     '[class.fui-form-control-disabled]': 'control?.disabled',
+    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL',
   },
-  providers: [NgControlService, ControlClassService, IfErrorService, FocusService, RequiredControlService],
+  providers: [
+    NgControlService,
+    ControlClassService,
+    IfErrorService,
+    FocusService,
+    RequiredControlService,
+    FuiFormLayoutService,
+  ],
 })
 export class FuiCheckboxContainer implements OnDestroy {
   invalid = false;
@@ -44,7 +54,8 @@ export class FuiCheckboxContainer implements OnDestroy {
     private ifErrorService: IfErrorService,
     private controlClassService: ControlClassService,
     private ngControlService: NgControlService,
-    private focusService: FocusService
+    private focusService: FocusService,
+    public formLayoutService: FuiFormLayoutService
   ) {
     this.subscriptions.push(
       this.ngControlService.controlChanges.subscribe(control => {
@@ -75,5 +86,9 @@ export class FuiCheckboxContainer implements OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.map(sub => sub.unsubscribe());
+  }
+
+  controlLayout(): FuiFormLayoutEnum {
+    return this.formLayoutService.layout;
   }
 }

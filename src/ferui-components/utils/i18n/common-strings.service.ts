@@ -1,4 +1,4 @@
-import { SkipSelf, Optional, InjectableProvider, forwardRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AbstractFuiCommonStrings } from './common-strings.interface';
 
 export class FuiCommonStringsService implements Required<FuiCommonStrings> {
@@ -23,6 +23,7 @@ export class FuiCommonStringsService implements Required<FuiCommonStrings> {
   seconds = 'Seconds';
   minutes = 'Minutes';
   hours = 'Hours';
+  total = 'total';
 }
 
 export function commonStringsFactory(existing?: FuiCommonStrings): FuiCommonStrings {

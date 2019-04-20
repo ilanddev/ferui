@@ -5,7 +5,7 @@
   .fui-form-control {
     .fui-control-container {
       .fui-input-wrapper {
-        input:not([type='checkbox']):not([type='radio']) {
+        input:not([type='checkbox']):not([type='radio']):not(.fui-layout-small) {
           -webkit-appearance: none;
           -moz-appearance: none;
           width: 100%;
@@ -31,15 +31,36 @@
           }
         }
 
-        input[type='password'] {
+        input[type='password']:not(.fui-layout-small) {
           font-size: $font-size-lg !important;
           font-weight: $font-weight-bolder !important;
+        }
+
+        .fui-layout-small {
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          width: 100%;
+          border: 1px solid $gray-300;
+          font-family: inherit;
+          padding: $controls-small-padding 2rem $controls-small-padding $controls-small-padding;
+          height: $default-control-small-height;
+          font-size: $font-size-sm;
+          font-weight: $font-weight-normal;
+          background: none;
+          color: $gray-900;
+          @include border-radius(3px);
+          @include no-placeholder();
+
+          &[type='password'] {
+            font-size: $font-size-base !important;
+            font-weight: $font-weight-bold !important;
+          }
         }
       }
 
       &:not(.fui-empty):not(.fui-no-label) {
         .fui-input-wrapper {
-          input:not([type='checkbox']):not([type='radio']) {
+          input:not([type='checkbox']):not([type='radio']):not(.fui-layout-small) {
             padding: $controls-padding 3rem 0 $controls-padding !important;
           }
         }
@@ -48,7 +69,7 @@
       &.fui-touched,
       &.fui-dirty {
         .fui-input-wrapper {
-          input:not([type='checkbox']):not([type='radio']) {
+          input:not([type='checkbox']):not([type='radio']):not(.fui-layout-small) {
             &:focus {
               ~ .fui-subtext-wrapper {
                 .fui-subtext:first-child {

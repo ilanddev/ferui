@@ -15,6 +15,7 @@ import { FuiDatetimeContainer } from './datetime-container';
 import { DatetimeIOService } from './providers/datetime-io.service';
 import { DatetimeFormControlService } from './providers/datetime-form-control.service';
 import { DateFormControlService } from '../common/providers/date-form-control.service';
+import { FuiFormLayoutService } from '../common/providers/form-layout.service';
 
 export default function() {
   describe('Datetime Container Component', () => {
@@ -39,6 +40,7 @@ export default function() {
             ControlIdService,
             DateFormControlService,
             DatetimeFormControlService,
+            FuiFormLayoutService,
           ],
         },
       });
@@ -88,7 +90,7 @@ export default function() {
 @Component({
   template: `
     <fui-datetime-container>
-      <input type="datetime-local" fuiDatetime [(ngModel)]="model" [disabled]="disabled">
+      <input type="datetime-local" fuiDatetime [(ngModel)]="model" [disabled]="disabled" />
     </fui-datetime-container>
   `,
 })

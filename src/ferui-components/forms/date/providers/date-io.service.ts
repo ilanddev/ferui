@@ -20,8 +20,8 @@ import { DatetimeIoInterface } from '../../common/datetime-io-interface';
 @Injectable()
 export class DateIOService implements DatetimeIoInterface {
   public cldrLocaleDateFormat: string = DEFAULT_LOCALE_FORMAT;
+  public delimiters: [string, string] = ['/', '/'];
   private localeDisplayFormat: InputDateDisplayFormat = LITTLE_ENDIAN;
-  private delimiters: [string, string] = ['/', '/'];
 
   constructor(private localeHelperService: LocaleHelperService) {
     this.cldrLocaleDateFormat = this.localeHelperService.localeDateFormat;
@@ -53,6 +53,35 @@ export class DateIOService implements DatetimeIoInterface {
     } else {
       // secondPart is month && thirdPart is date
       return this.validateAndGetDate(firstPart, secondPart, thirdPart);
+    }
+  }
+
+  getLocalDate(year: string, month: string, date: string) {
+    const format: string = this.cldrLocaleDateFormat.toLocaleLowerCase();
+    if (LITTLE_ENDIAN_REGEX.test(format)) {
+      return date + this.delimiters[0] + month + this.delimiters[1] + year;
+    } else if (MIDDLE_ENDIAN_REGEX.test(format)) {
+      return month + this.delimiters[0] + date + this.delimiters[1] + year;
+    } else {
+      return year + this.delimiters[0] + month + this.delimiters[1] + date;
+    }
+  }
+
+  convertDateStringToLocalString(dateString: string, dateFormat: string): string {
+    const dateParts: string[] = dateString.match(USER_INPUT_REGEX);
+    if (!dateParts || dateParts.length !== 3) {
+      return null;
+    }
+    const [firstPart, secondPart, thirdPart] = dateParts;
+    if (LITTLE_ENDIAN_REGEX.test(dateFormat)) {
+      // dd/mm/yyyy
+      return this.getLocalDate(thirdPart, secondPart, firstPart);
+    } else if (MIDDLE_ENDIAN_REGEX.test(dateFormat)) {
+      // mm/dd/yyyy
+      return this.getLocalDate(thirdPart, firstPart, secondPart);
+    } else {
+      // yyyy/mm/dd
+      return this.getLocalDate(firstPart, secondPart, thirdPart);
     }
   }
 
@@ -102,7 +131,7 @@ export class DateIOService implements DatetimeIoInterface {
       const delimiters: string[] = localeFormat.split(DELIMITER_REGEX);
 
       // NOTE: The split from the CLDR date format should always result
-      // in an arary with 4 elements. The 1st and the 2nd values are the delimiters
+      // in an array with 4 elements. The 1st and the 2nd values are the delimiters
       // we will use in order.
       // Eg: "dd/MM/y".split(/d+|m+|y+/i) results in ["", "/", "/", ""]
       if (delimiters && delimiters.length === 4) {

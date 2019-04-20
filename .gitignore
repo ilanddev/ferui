@@ -2,8 +2,9 @@
 /dist
 /.ng_build
 /tests/tslint/dist
-
 /reports
+/src/ferui-components/package.json
+/src/ferui-components/README.md
 
 # dependencies
 /node_modules
@@ -37,6 +38,7 @@ testem.log
 /src/clr-angular/package.json
 /src/clr-angular/README.md
 sauceconnect.log
+.netlify/
 
 # System Files
 .DS_Store

@@ -26,8 +26,55 @@ import { PlaceholderService } from './providers/placeholder.service';
 import { FocusService } from './providers/focus.service';
 import { RequiredControlService } from './providers/required-control.service';
 import { filter } from 'rxjs/operators';
+import { FuiFormLayoutEnum } from './layout.enum';
+import { FuiFormLayoutService } from './providers/form-layout.service';
 
 export class WrappedFormControl<W extends DynamicWrapper> implements OnInit, OnDestroy {
+  fuiFormLayoutEnum = FuiFormLayoutEnum;
+  focusService: FocusService;
+  formLayoutService: FuiFormLayoutService;
+
+  protected subscriptions: Subscription[] = [];
+  protected index = 0;
+  protected _required: boolean;
+  protected _placeholder: string;
+  protected _layout: FuiFormLayoutEnum = FuiFormLayoutEnum.DEFAULT;
+
+  private _id: string;
+  private controlIdService: ControlIdService;
+  private requiredService: RequiredControlService;
+  private ngControlService: NgControlService;
+  private ifErrorService: IfErrorService;
+  private controlClassService: ControlClassService;
+  private markControlService: MarkControlService;
+  private placeholderService: PlaceholderService;
+  private containerInjector: Injector;
+
+  private controlClassServiceInit: boolean = false;
+  private markControlServiceInit: boolean = false;
+
+  constructor(
+    protected vcr: ViewContainerRef,
+    protected wrapperType: Type<W>,
+    injector: Injector,
+    private ngControl: NgControl,
+    protected renderer: Renderer2,
+    protected el: ElementRef
+  ) {
+    try {
+      // If we wrap the control with a container, we have all providers loaded already.
+      this.ngControlService = injector.get(NgControlService);
+      this.ifErrorService = injector.get(IfErrorService);
+      this.controlClassService = injector.get(ControlClassService);
+      this.markControlService = injector.get(MarkControlService);
+      this.placeholderService = injector.get(PlaceholderService);
+      this.focusService = injector.get(FocusService);
+      this.requiredService = injector.get(RequiredControlService);
+      this.formLayoutService = injector.get(FuiFormLayoutService);
+    } catch (e) {}
+    this.init();
+  }
+
   @HostBinding()
   @Input()
   get id() {
@@ -68,45 +115,19 @@ export class WrappedFormControl<W extends DynamicWrapper> implements OnInit, OnD
     return this._required;
   }
 
-  public focusService: FocusService;
+  @Input()
+  set layout(value: FuiFormLayoutEnum) {
+    this._layout = value;
+    if (this.formLayoutService) {
+      this.formLayoutService.layout = value;
+    }
+  }
 
-  protected subscriptions: Subscription[] = [];
-  protected index = 0;
-  protected _required: boolean;
-  protected _placeholder: string;
-
-  private _id: string;
-  private controlIdService: ControlIdService;
-  private requiredService: RequiredControlService;
-  private ngControlService: NgControlService;
-  private ifErrorService: IfErrorService;
-  private controlClassService: ControlClassService;
-  private markControlService: MarkControlService;
-  private placeholderService: PlaceholderService;
-  private containerInjector: Injector;
-
-  private controlClassServiceInit: boolean = false;
-  private markControlServiceInit: boolean = false;
-
-  constructor(
-    protected vcr: ViewContainerRef,
-    protected wrapperType: Type<W>,
-    injector: Injector,
-    private ngControl: NgControl,
-    protected renderer: Renderer2,
-    protected el: ElementRef
-  ) {
-    try {
-      // If we wrap the control with a container, we have all providers loaded already.
-      this.ngControlService = injector.get(NgControlService);
-      this.ifErrorService = injector.get(IfErrorService);
-      this.controlClassService = injector.get(ControlClassService);
-      this.markControlService = injector.get(MarkControlService);
-      this.placeholderService = injector.get(PlaceholderService);
-      this.focusService = injector.get(FocusService);
-      this.requiredService = injector.get(RequiredControlService);
-    } catch (e) {}
-    this.init();
+  get layout(): FuiFormLayoutEnum {
+    if (this.formLayoutService) {
+      return this.formLayoutService.layout;
+    }
+    return this._layout;
   }
 
   ngOnInit() {
@@ -126,6 +147,10 @@ export class WrappedFormControl<W extends DynamicWrapper> implements OnInit, OnD
 
     if (this.ngControlService) {
       this.ngControlService.setControl(this.ngControl);
+    }
+
+    if (this.formLayoutService) {
+      this.formLayoutService.layout = this._layout;
     }
 
     this.init();
@@ -156,6 +181,20 @@ export class WrappedFormControl<W extends DynamicWrapper> implements OnInit, OnD
     }
   }
 
+  /**
+   * @name loadServiceFromParent
+   * @param service
+   * @param token
+   * @description If the service is not defined or null we then try to load the provider
+   * from the newly created HostWrapper parent instead.
+   */
+  protected loadServiceFromParent<T>(service: T, token: Type<T> | InjectionToken<T>): T {
+    if (!service) {
+      service = this.getProviderFromContainer(token);
+    }
+    return service;
+  }
+
   private loadProvidersFromContainer() {
     this.focusService = this.loadServiceFromParent(this.focusService, FocusService);
     this.requiredService = this.loadServiceFromParent(this.requiredService, RequiredControlService);
@@ -164,6 +203,7 @@ export class WrappedFormControl<W extends DynamicWrapper> implements OnInit, OnD
     this.controlClassService = this.loadServiceFromParent(this.controlClassService, ControlClassService);
     this.markControlService = this.loadServiceFromParent(this.markControlService, MarkControlService);
     this.placeholderService = this.loadServiceFromParent(this.placeholderService, PlaceholderService);
+    this.formLayoutService = this.loadServiceFromParent(this.formLayoutService, FuiFormLayoutService);
   }
 
   private init(): void {
@@ -184,20 +224,6 @@ export class WrappedFormControl<W extends DynamicWrapper> implements OnInit, OnD
 
   private hasControl(): boolean {
     return !!this.ngControl;
-  }
-
-  /**
-   * @name loadServiceFromParent
-   * @param service
-   * @param token
-   * @description If the service is not defined or null we then try to load the provider
-   * from the newly created HostWrapper parent instead.
-   */
-  private loadServiceFromParent<T>(service: T, token: Type<T> | InjectionToken<T>): T {
-    if (!service) {
-      service = this.getProviderFromContainer(token);
-    }
-    return service;
   }
 
   private setFocus(focus: boolean): void {

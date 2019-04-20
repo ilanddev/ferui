@@ -1,8 +1,8 @@
 @import '../_variables.scss';
 @import '../_mixins.scss';
 
-@include exports('commons') {
-  .fui-form-control {
+@include exports('forms.commons') {
+  .fui-form-control:not(.fui-form-control-small) {
     display: block;
     position: relative;
     width: 100%;
@@ -52,11 +52,12 @@
 
       > *:not(.fui-checkbox-subtext-wrapper):not(.fui-radio-subtext-wrapper) {
         .fui-control-icons {
+          color: $gray-500;
+
           > .fui-validate-icon,
           > .fui-error-icon {
             display: inline-block;
             position: relative;
-            fill: $gray-500;
             margin-left: $controls-padding;
           }
 
@@ -69,6 +70,7 @@
             width: $controls-icons-max-width;
             height: $controls-icons-max-width;
             fill: $red;
+            color: $red;
           }
 
           &:hover ~ .fui-subtext-wrapper {
@@ -117,6 +119,153 @@
         *:not(.fui-checkbox-wrapper):not(.fui-radio-wrapper) {
           .fui-control-label:not(.fui-control-icons) {
             @include control-label-selected();
+          }
+        }
+      }
+    }
+  }
+
+  .fui-form-control-small {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: auto;
+
+    .fui-control-container {
+      .fui-layout-small {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        width: 100%;
+        border: 1px solid $gray-300;
+        font-family: inherit;
+        padding: $controls-small-padding 2rem $controls-small-padding $controls-small-padding;
+        height: $default-control-small-height;
+        font-size: $font-size-sm;
+        font-weight: $font-weight-normal;
+        background: none;
+        color: $gray-900;
+        @include border-radius(3px);
+        @include no-placeholder();
+
+        &[type='password'] {
+          font-size: $font-size-base !important;
+          font-weight: $font-weight-bold !important;
+        }
+      }
+
+      .fui-control-icons {
+        color: $gray-500;
+        position: absolute;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        top: calc(50% - (#{$controls-small-icons-width} / 2));
+        right: $controls-small-padding;
+        width: auto;
+        height: $controls-small-icons-width;
+        max-height: $controls-small-icons-width;
+        margin: 0;
+        text-align: center;
+        cursor: pointer;
+        line-height: normal;
+        z-index: $zindex-dropdown;
+
+        .fui-input-group-icon-action {
+          display: inline-block;
+          position: relative;
+          fill: $gray-500;
+          line-height: $controls-small-icons-width;
+
+          width: auto;
+          min-width: $controls-small-icons-width;
+          max-width: $controls-small-icons-width;
+
+          height: $controls-small-icons-width;
+          min-height: $controls-small-icons-width;
+          max-height: $controls-small-icons-width;
+
+          margin-left: $controls-small-padding;
+          cursor: pointer;
+        }
+      }
+
+      *:not(.fui-checkbox-wrapper):not(.fui-radio-wrapper) {
+        .fui-control-label:not(.fui-control-icons) {
+          @include control-small-label();
+        }
+      }
+
+      > *:not(.fui-checkbox-subtext-wrapper):not(.fui-radio-subtext-wrapper) {
+        .fui-control-icons {
+          > .fui-validate-icon,
+          > .fui-error-icon {
+            display: inline-block;
+            position: relative;
+            fill: $gray-500;
+            margin-left: $controls-small-padding;
+          }
+
+          > .fui-validate-icon {
+            width: $controls-small-icons-width;
+            height: $controls-small-icons-width;
+          }
+
+          > .fui-error-icon {
+            width: $controls-small-icons-width;
+            height: $controls-small-icons-width;
+            fill: $red;
+          }
+
+          &:hover ~ .fui-subtext-wrapper {
+            .fui-subtext:first-child {
+              visibility: visible;
+              opacity: 1;
+              transition-delay: 0s;
+            }
+          }
+        }
+
+        .fui-subtext {
+          display: block;
+          position: absolute;
+          z-index: $zindex-tooltip;
+          padding: 0.3571rem 0.5714rem;
+          background-color: $red;
+          font-size: $font-size-base;
+          font-weight: $font-weight-normal;
+          color: $white;
+          @include border-radius(3px);
+          bottom: calc(100% - 5px);
+          right: 0;
+          visibility: hidden;
+          opacity: 0;
+          transition: visibility 0s ease 0.2s, opacity 0.2s ease;
+
+          &::after {
+            position: absolute;
+            display: block;
+            content: '';
+            width: 0;
+            height: 0;
+            z-index: 1;
+            right: calc(#{$controls-small-padding} + (#{$controls-small-icons-width} / 2) - #{$fui-subtext-arrow-width});
+            bottom: 0;
+            margin: 0 0 ($fui-subtext-arrow-width * -1) ($fui-subtext-arrow-width * -1);
+            border-left: $fui-subtext-arrow-width solid transparent;
+            border-right: $fui-subtext-arrow-width solid transparent;
+            border-top: $fui-subtext-arrow-width solid $red;
+          }
+        }
+      }
+
+      &:not(.fui-empty):not(.fui-no-label) {
+        *:not(.fui-checkbox-wrapper):not(.fui-radio-wrapper) {
+          .fui-layout-small:not(.fui-select) {
+            padding: $controls-small-padding 2rem $controls-small-padding $controls-small-padding !important;
+          }
+
+          .fui-control-label:not(.fui-control-icons) {
+            @include control-small-label-selected();
           }
         }
       }

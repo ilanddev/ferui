@@ -62,7 +62,7 @@ module.exports = function(karma) {
     runnerPort: 9393,
     colors: true,
     logLevel: karma.LOG_INFO,
-    singleRun: process.env.CIRCLECI ? true : false,
+    singleRun: !!process.env.CIRCLECI,
     concurrency: Infinity,
     captureTimeout: 120000,
     customLaunchers: {

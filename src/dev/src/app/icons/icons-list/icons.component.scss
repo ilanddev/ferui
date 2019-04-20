@@ -5,7 +5,7 @@
   display: inline-block;
   vertical-align: top;
   text-align: center;
-  color: #FFF;
+  color: #fff;
   line-height: 30px;
 }
 
@@ -13,6 +13,16 @@ input {
   width: 75px;
 }
 
+input[type='text'] {
+  height: 30px;
+}
+
 .card-columns {
   column-count: 6;
+}
+
+.fixed-header {
+  position: fixed;
+  background: white;
+  z-index: 1000;
 }

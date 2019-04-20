@@ -49,6 +49,14 @@
       }
     }
 
+    > .fui-time-wrapper {
+      .fui-select {
+        .ng-placeholder {
+          display: block !important;
+        }
+      }
+    }
+
     &:not(.fui-no-label) {
       > .fui-time-wrapper {
         .fui-select:first-of-type {

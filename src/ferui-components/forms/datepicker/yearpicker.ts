@@ -23,14 +23,14 @@ import { LocaleHelperService } from './providers/locale-helper.service';
       </div>
       <div class="calendar-switchers">
         <button class="calendar-btn switcher" type="button" (click)="previousDecade()">
-          <clr-icon class="fui-calendar-arrows" shape="fui-arrow-left" [attr.title]="commonStrings.previous"></clr-icon>
+          <clr-icon class="fui-calendar-arrows" shape="fui-caret" dir="left" [attr.title]="commonStrings.previous"></clr-icon>
         </button>
         <button class="calendar-btn switcher" type="button" (click)="currentDecade()">
           <clr-icon shape="fui-calendar" class="fui-calendar-icon has-badge"
                     [attr.title]="commonStrings.current"></clr-icon>
         </button>
         <button class="calendar-btn switcher" type="button" (click)="nextDecade()">
-          <clr-icon class="fui-calendar-arrows" shape="fui-arrow-right" [attr.title]="commonStrings.next"></clr-icon>
+          <clr-icon class="fui-calendar-arrows" shape="fui-caret" dir="right" [attr.title]="commonStrings.next"></clr-icon>
         </button>
       </div>
     </div>

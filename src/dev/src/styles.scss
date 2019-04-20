@@ -1,8 +1,13 @@
-@import '~highlight.js/styles/github.css';
-@import 'ferui-design';
+//@import '~highlight.js/styles/googlecode.css';
+@import '~highlight.js/styles/a11y-dark.css';
+
+@import 'scss/functions';
+@import 'scss/mixins';
+@import 'scss/variables';
 
 .hljs {
-  background-color: $white;
+  //background-color: $white;
+  padding: 10px;
 }
 
 .fui-navbar {
@@ -50,6 +55,16 @@
   .nav-link {
     padding: 0.3rem 0.7rem;
   }
+
+  > ul ul {
+    display: block;
+    overflow: hidden;
+    height: 0;
+  }
+
+  .nav-link.active + ul {
+    height: auto;
+  }
 }
 
 .code-container {
@@ -69,4 +84,9 @@
   .btn:not(:first-child) {
     margin-left: 10px;
   }
+}
+
+pre {
+  max-width: 1200px;
+  max-height: 800px;
 }

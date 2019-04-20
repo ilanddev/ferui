@@ -1,0 +1,87 @@
+@import '../../variables';
+@import '../../mixins';
+
+@include exports('components.datagrid-pager') {
+  .fui-datagrid-pager {
+    display: block;
+    background-color: $white;
+    height: 50px;
+
+    border-width: 0 1px 1px 1px;
+    border-color: $gray-300;
+    border-style: solid;
+    border-radius: 0 0 $border-radius $border-radius;
+
+    &.fui-datagrid-hidden-pager {
+      display: none !important;
+    }
+
+    .col-auto,
+    .col {
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+
+    .item-per-page-selector {
+      display: flex;
+      align-content: center;
+      align-items: center;
+    }
+
+    .fui-datagrid-pagination {
+      display: flex;
+      height: 100%;
+      justify-content: flex-end;
+      align-items: center;
+
+      .fui-pagination-arrow {
+        cursor: pointer;
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        color: $gray-500;
+
+        margin: 0 10px;
+
+        &:hover {
+          color: $gray-900;
+        }
+
+        &.disabled {
+          cursor: default !important;
+          color: $gray-300 !important;
+        }
+      }
+
+      .fui-datagrid-pagination-pages {
+        display: flex;
+        height: 100%;
+        justify-content: flex-end;
+        align-items: center;
+
+        .fui-datagrid-pagination-page {
+          cursor: pointer;
+          padding: 3.5px 9px;
+          margin: 0 2px;
+          border-radius: $border-radius;
+          font-size: $font-size-sm;
+          color: $gray-500;
+
+          &:hover,
+          &.page-selected {
+            background-color: $gray-300;
+            color: $gray-900;
+          }
+        }
+      }
+    }
+
+    .fui-datagrid-pager-total {
+      display: inline-block;
+      height: 100%;
+      line-height: 50px;
+      color: $gray-500;
+      font-size: $font-size-sm;
+    }
+  }
+}

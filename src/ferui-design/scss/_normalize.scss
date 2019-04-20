@@ -1,6 +1,6 @@
 html {
   //  We set the default font-size to let the rem working the same everywhere.
-  font-size: 16px;
+  font-size: 16px !important;
 }
 
 * {
@@ -12,5 +12,18 @@ html {
 
 pre {
   border-radius: 3px;
+  padding: 0;
   border: 1px solid $gray-300;
+
+  code {
+    padding: 10px;
+    border-radius: 3px;
+  }
+}
+
+ol ol,
+ul ul,
+ol ul,
+ul ol {
+  list-style: none;
 }

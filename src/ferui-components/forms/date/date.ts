@@ -33,6 +33,7 @@ import { FuiDateContainer } from './date-container';
   selector: '[fuiDate]',
   host: {
     '[class.fui-input-date]': 'true',
+    '[class.fui-layout-small]': 'layout === fuiFormLayoutEnum.SMALL',
   },
   providers: [DatepickerFocusService],
 })

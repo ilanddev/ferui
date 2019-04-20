@@ -1,5 +1,17 @@
-import { Directive, ElementRef, HostBinding, Input, OnDestroy, OnInit, Optional, Renderer2 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import {
+  Directive,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+  Output,
+  Renderer2,
+} from '@angular/core';
+import { Observable, Subject, Subscription } from 'rxjs';
 
 import { ControlIdService } from './providers/control-id.service';
 import { NgControlService } from './providers/ng-control.service';
@@ -8,10 +20,14 @@ import { RequiredControlService } from './providers/required-control.service';
 
 @Directive({ selector: 'label' })
 export class FuiLabel implements OnInit, OnDestroy {
+  @HostBinding('attr.tabindex') tabindex: number = 0;
   @HostBinding('attr.for')
   @Input('for')
   forAttr: string;
 
+  @Output() focusChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  private _value: Subject<string> = new Subject<string>();
   private placeholderChild: HTMLSpanElement;
   private labelRequiredChild: HTMLSpanElement;
   private subscriptions: Subscription[] = [];
@@ -22,32 +38,51 @@ export class FuiLabel implements OnInit, OnDestroy {
     @Optional() private readonly placeholderService: PlaceholderService,
     @Optional() private readonly requiredControlService: RequiredControlService,
     private renderer: Renderer2,
-    private el: ElementRef
+    public elementRef: ElementRef
   ) {}
 
   ngOnInit() {
     // Only add the fui-control-label if it is inside a control container
     // We also avoid all 'fui-control-icons' labels.
     if (
-      !this.el.nativeElement.classList.contains('fui-control-icons') &&
+      !this.elementRef.nativeElement.classList.contains('fui-control-icons') &&
       (this.controlIdService || this.ngControlService)
     ) {
       this.init();
     }
+    this._value.next(this.elementRef.nativeElement.innerText);
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
+  @HostListener('focus')
+  onLabelFocused() {
+    this.focusChange.emit(true);
+    const element = document.getElementById(this.forAttr);
+    if (element) {
+      element.focus();
+    }
+  }
+
+  @HostListener('blur')
+  onLabelBlured() {
+    this.focusChange.emit(false);
+  }
+
+  get value(): Observable<string> {
+    return this._value.asObservable();
+  }
+
   private init() {
-    this.renderer.addClass(this.el.nativeElement, 'fui-control-label');
+    this.renderer.addClass(this.elementRef.nativeElement, 'fui-control-label');
 
     if (this.requiredControlService) {
       this.subscriptions.push(
         this.requiredControlService.requiredChange.subscribe(isRequired => {
           if (this.labelRequiredChild) {
-            this.renderer.removeChild(this.el.nativeElement, this.labelRequiredChild);
+            this.renderer.removeChild(this.elementRef.nativeElement, this.labelRequiredChild);
           }
           if (isRequired) {
             this.labelRequiredChild = this.renderer.createElement('span');
@@ -64,7 +99,7 @@ export class FuiLabel implements OnInit, OnDestroy {
       this.subscriptions.push(
         this.placeholderService.placeholderChanges.subscribe(value => {
           if (this.placeholderChild) {
-            this.renderer.removeChild(this.el.nativeElement, this.placeholderChild);
+            this.renderer.removeChild(this.elementRef.nativeElement, this.placeholderChild);
           }
           if (value) {
             this.placeholderChild = this.renderer.createElement('span');
@@ -83,10 +118,11 @@ export class FuiLabel implements OnInit, OnDestroy {
 
   private updateLabel() {
     if (this.labelRequiredChild) {
-      this.renderer.appendChild(this.el.nativeElement, this.labelRequiredChild);
+      this.renderer.appendChild(this.elementRef.nativeElement, this.labelRequiredChild);
     }
     if (this.placeholderChild) {
-      this.renderer.appendChild(this.el.nativeElement, this.placeholderChild);
+      this.renderer.appendChild(this.elementRef.nativeElement, this.placeholderChild);
     }
+    this._value.next(this.elementRef.nativeElement.innerText);
   }
 }

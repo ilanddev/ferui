@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/dev",
+    "baseUrl": "./",
+    "module": "es2015",
+    "paths": {
+      "@ferui/components": ["../ferui-components"],
+      "@ferui/icons": ["../ferui-icons"],
+      "@ferui/icons/shapes/*": ["../ferui-icons/shapes", "../ferui-icons/shapes/*"]
+    }
+  },
+  "exclude": ["test.ts", "**/*.spec.ts"]
+}

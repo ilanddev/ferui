@@ -1,36 +1,117 @@
-<h1></h1>
-
-<h2>List of all icons</h2>
-<br>
-<h4>Filters :</h4>
-<label>
-  Color :
-  <span class="bg-color" [ngStyle]="{'background-color': iconsColor }">#</span><input maxlength="6" placeholder="Choose an Hex color without #..." type="text" (ngModelChange)="changeColor($event)" [(ngModel)]="colorHex" />
-</label>
-<label class="ml-3">
-  Solid :
-  <input type="checkbox" (ngModelChange)="changeIconsType($event)" [(ngModel)]="iconsType"  />
-</label>
-<label class="ml-3">
-  Variations :
-  None<input type="radio" (ngModelChange)="changeIconsVariation($event)" [(ngModel)]="iconsVariation" name="variations" value="" />
-  Badge<input type="radio" (ngModelChange)="changeIconsVariation($event)" [(ngModel)]="iconsVariation" name="variations" value="badge" />
-  Alert<input type="radio" (ngModelChange)="changeIconsVariation($event)" [(ngModel)]="iconsVariation" name="variations" value="alert" />
-</label>
-<br>
-<div class="container-fluid p-0" *ngFor="let iconGroup of icons">
-
-  <h4>{{iconGroup.gName | titlecase }} icon set :</h4>
-
-  <div class="card-columns mb-3" *ngFor="let iconRow of iconGroup.rows">
-      <div class="card text-center" *ngFor="let iconItem of iconRow">
-        <div class="card-header">
-          <p class="card-text">{{iconItem.name}}</p>
-        </div>
-        <div class="card-body">
-          <clr-icon size="25" [ngClass]="classes" [ngStyle]="{fill: (iconsColor !== '') ? iconsColor : ''}"  [attr.shape]="iconItem.name"></clr-icon>
-        </div>
+<fui-tabs>
+  <fui-tab class="list-icon" [title]="'Examples'" [active]="true">
+    <div class="fixed-header">
+      <h3 class="mt-3">List of all icons</h3>
+      <br />
+      <h4>Filters :</h4>
+      <label>
+        Color :
+        <span class="bg-color" [ngStyle]="{ 'background-color': iconsColor }">#</span>
+        <input
+          maxlength="6"
+          placeholder="Choose an Hex color without #..."
+          type="text"
+          (ngModelChange)="changeColor($event)"
+          [(ngModel)]="colorHex"
+        />
+      </label>
+      <label class="ml-3">
+        Solid :
+        <input type="checkbox" (ngModelChange)="changeIconsType($event)" [(ngModel)]="iconsType" />
+      </label>
+      <label class="ml-3">
+        Variations : None
+        <input
+          type="radio"
+          (ngModelChange)="changeIconsVariation($event)"
+          [(ngModel)]="iconsVariation"
+          name="variations"
+          value=""
+        />
+        Badge
+        <input
+          type="radio"
+          (ngModelChange)="changeIconsVariation($event)"
+          [(ngModel)]="iconsVariation"
+          name="variations"
+          value="badge"
+        />
+        Alert
+        <input
+          type="radio"
+          (ngModelChange)="changeIconsVariation($event)"
+          [(ngModel)]="iconsVariation"
+          name="variations"
+          value="alert"
+        />
+      </label>
     </div>
-  </div>
-  <br>
-</div>
+    <br />
+    <div class="container-fluid p-0 scrollable-content" *ngFor="let iconGroup of icons">
+      <h4>{{ iconGroup.gName | titlecase }} icon set :</h4>
+
+      <div class="card-columns mb-3" *ngFor="let iconRow of iconGroup.rows">
+        <div class="card text-center" *ngFor="let iconItem of iconRow">
+          <div class="card-header">
+            <p class="card-text">{{ iconItem.name }}</p>
+          </div>
+          <div class="card-body">
+            <clr-icon
+              size="25"
+              [ngClass]="classes"
+              [ngStyle]="{ fill: iconsColor !== '' ? iconsColor : '' }"
+              [attr.shape]="iconItem.name"
+            ></clr-icon>
+          </div>
+        </div>
+      </div>
+      <br />
+    </div>
+  </fui-tab>
+  <fui-tab [title]="'Documentation'">
+    <h3 class="mt-3">Set icon size</h3>
+    <p>
+      By default, the size for FerUI Icons is 16 by 16 pixels, and you have two ways of customizing this default value. One
+      is through the use of the size attribute; the other is manually customizing the width and height values in your
+      icon's style.
+    </p>
+
+    <pre><code [highlight]="iconSizeExamples"></code></pre>
+
+    <p>Both of the methods above will produce this result:</p>
+
+    <clr-icon shape="info-circle" size="12"></clr-icon>
+    <clr-icon shape="info-circle" size="16"></clr-icon>
+    <clr-icon shape="info-circle" size="36"></clr-icon>
+    <clr-icon shape="info-circle" size="48"></clr-icon>
+    <clr-icon shape="info-circle" size="64"></clr-icon>
+    <clr-icon shape="info-circle" size="72"></clr-icon>
+
+    <h3 class="mt-3">Rotate icons</h3>
+    <p>
+      The default rotation for every shape in Clarity Icons is 0 degrees. With directional icons such as arrows and carets,
+      0 degrees means it points up. To rotate an icon to another direction, specify that either in the shape or dir
+      attribute. Alternatively, you can set the rotation values in the icon's style attribute.
+    </p>
+
+    <pre><code [highlight]="iconRotateExample"></code></pre>
+
+    <p>All three methods above will produce this result:</p>
+
+    <clr-icon shape="fui-caret" dir="up"></clr-icon>
+    <clr-icon class="ml-2" shape="fui-caret" dir="right"></clr-icon>
+    <clr-icon class="ml-2" shape="fui-caret" dir="down"></clr-icon>
+    <clr-icon class="ml-2" shape="fui-caret" dir="left"></clr-icon>
+
+    <h3 class="mt-3">Flip Icons</h3>
+    <p>You can flip icons horizontally or vertically through the use of the flip attribute.</p>
+
+    <pre><code [highlight]="iconFlipExample"></code></pre>
+
+    <clr-icon shape="fui-step-forward"></clr-icon>
+    <clr-icon class="ml-2" shape="fui-step-forward" flip="horizontal"></clr-icon>
+    <clr-icon class="ml-2" shape="fui-step-forward" flip="vertical"></clr-icon>
+    <br />
+    <br />
+  </fui-tab>
+</fui-tabs>

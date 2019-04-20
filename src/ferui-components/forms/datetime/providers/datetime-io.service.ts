@@ -19,10 +19,7 @@ export class DatetimeIOService implements DatetimeIoInterface {
   }
 
   toLocaleDisplayFormatString(date: Date): string {
-    if (date) {
-      if (isNaN(date.getTime())) {
-        return '';
-      }
+    if (date && !isNaN(date.getTime())) {
       return this.localeHelperService.toLocaleDatetimeString(date);
     }
     return '';

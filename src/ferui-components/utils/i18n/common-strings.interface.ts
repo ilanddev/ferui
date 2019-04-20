@@ -75,4 +75,7 @@ export abstract class AbstractFuiCommonStrings {
   seconds?: string;
   minutes?: string;
   hours?: string;
+
+  // Display total string
+  total?: string;
 }

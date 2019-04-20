@@ -1,0 +1,57 @@
+@mixin fui-spinning-animation($duration: 1s, $iteration-count: infinite, $timing-func: linear) {
+  animation-name: fui-spin;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@-moz-keyframes fui-spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes fui-spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes fui-spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@mixin fui-infinite-loader-animation($duration: 2s, $iteration-count: infinite, $timing-func: ease-out) {
+  animation: fui-infinite-loader-animation $duration $timing-func $iteration-count;
+}
+
+@keyframes fui-infinite-loader-animation {
+  0% {
+    transform: translateX(-20%);
+  }
+  100% {
+    transform: translateX(500%);
+  }
+}
+
+@mixin fui-shake-left-to-right-animation {
+  animation-direction: alternate;
+  animation-duration: 0.2s;
+  animation-iteration-count: infinite;
+  animation-name: fui-shake-left-to-right;
+}
+
+@keyframes fui-shake-left-to-right {
+  from {
+    padding-left: 6px;
+    padding-right: 2px;
+  }
+
+  to {
+    padding-left: 2px;
+    padding-right: 6px;
+  }
+}

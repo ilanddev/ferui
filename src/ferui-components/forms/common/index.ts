@@ -5,3 +5,4 @@ export * from './label';
 export * from './common.module';
 export * from './datetime-io-interface';
 export * from './datetime-model-types.enum';
+export * from './layout.enum';

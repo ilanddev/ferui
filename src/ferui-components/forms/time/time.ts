@@ -32,6 +32,7 @@ import { FuiTimeContainer } from './time-container';
   selector: '[fuiTime]',
   host: {
     '[class.fui-time]': 'true',
+    '[class.fui-layout-small]': 'layout === fuiFormLayoutEnum.SMALL',
   },
 })
 export class FuiTime extends AbstractDateTime<FuiTimeContainer> implements OnInit, AfterViewInit, OnDestroy {
@@ -125,7 +126,10 @@ export class FuiTime extends AbstractDateTime<FuiTimeContainer> implements OnIni
 
   private listenForControlValueChanges() {
     return of(this.dateInputHasFormControl())
-      .pipe(filter(hasControl => hasControl), switchMap(() => this.control.valueChanges))
+      .pipe(
+        filter(hasControl => hasControl),
+        switchMap(() => this.control.valueChanges)
+      )
       .subscribe((value: string) => {
         this.updateDate(this.iOService.getDateValueFromDateOrString(value));
       });
