@@ -16,6 +16,14 @@
   "license": "BSD-3-clause",
   "main": "ferui-icons.min.js",
   "types": "index.d.ts",
+  "keywords": [
+    "icons",
+    "svg",
+    "framework",
+    "web"
+  ],
+  "sass": "ferui-icons.scss",
+  "style": "ferui-icons.min.js",
   "bugs": {
     "url": "https://github.com/ilanddev/ferui/issues"
   }

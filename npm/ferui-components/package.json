@@ -1,6 +1,6 @@
 {
   "name": "@ferui/components",
-  "author": "ferui",
+  "author": "ferui team",
   "license": "BSD-3-clause",
   "version": "@VERSION",
   "description": "Angular components for FerUI Project",
@@ -17,7 +17,7 @@
     "url": "ssh://git@github.com:ilanddev/ferui.git"
   },
   "dependencies": {
-    "@ng-select/ng-select": "^2.20.0"
+    "@ng-select/ng-select": "^2.20.5"
   },
   "peerDependencies": {
     "@angular/animations": "^7.1.0",
