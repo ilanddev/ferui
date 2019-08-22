@@ -1,32 +1,24 @@
-/*
 import { Injectable } from '@angular/core';
 import { RowRendererService } from './row-renderer.service';
 import { FuiDatagridOptionsWrapperService } from '../datagrid-options-wrapper.service';
 import { Column } from '../../components/entities/column';
+import { HeaderRendererService } from './header-renderer.service';
+import { FuiHeaderCell } from '../../components/header/header-cell';
+import { FuiDatagridSortDirections } from '../../types/sort-directions.enum';
 
 @Injectable()
 export class AutoWidthCalculator {
-  private gridViewport: any;
-  private headerViewport: any;
-
   constructor(
+    private headerRowRendererService: HeaderRendererService,
     private rowRendererService: RowRendererService,
     private optionsWrapperService: FuiDatagridOptionsWrapperService
   ) {}
-
-  public registerGridViewport(gridViewport: any): void {
-    this.gridViewport = gridViewport;
-  }
-
-  public registerHeaderViewport(headerViewport: any): void {
-    this.headerViewport = headerViewport;
-  }
 
   // this is the trick: we create a dummy container and clone all the cells
   // into the dummy, then check the dummy's width. then destroy the dummy
   // as we don't need it any more.
   // drawback: only the cells visible on the screen are considered
-  public getPreferredWidthForColumn(column: Column): number {
+  getPreferredWidthForColumn(column: Column, eBodyContainer: HTMLElement): number {
     const eHeaderCell = this.getHeaderCellForColumn(column);
     // cell isn't visible
     if (!eHeaderCell) {
@@ -39,7 +31,6 @@ export class AutoWidthCalculator {
 
     // we put the dummy into the body container, so it will inherit all the
     // css styles that the real cells are inheriting
-    const eBodyContainer = this.gridPanel.getCenterContainer();
     eBodyContainer.appendChild(eDummyContainer);
 
     // get all the cells that are currently displayed (this only brings back
@@ -62,21 +53,16 @@ export class AutoWidthCalculator {
     // we add padding as I found sometimes the gui still put '...' after some of the texts. so the
     // user can configure the grid to add a few more pixels after the calculated width
     const autoSizePadding = this.optionsWrapperService.getAutoSizePadding();
-    return dummyContainerWidth + autoSizePadding;
+
+    // If the header has sorting, the badges add more size.
+    const sortPadding: number = column.getExtraSortPaddingSize();
+
+    return dummyContainerWidth + autoSizePadding + sortPadding;
   }
 
   private getHeaderCellForColumn(column: Column): HTMLElement {
-    // find the rendered header cell
-    this.headerRootComp.forEachHeaderElement(headerElement => {
-      if (headerElement instanceof HeaderWrapperComp) {
-        const headerWrapperComp = headerElement;
-        if (headerWrapperComp.getColumn() === column) {
-          comp = headerWrapperComp;
-        }
-      }
-    });
-
-    return comp ? comp.getGui() : null;
+    const cell: FuiHeaderCell = this.headerRowRendererService.getCellForColumn(column);
+    return cell ? cell.element : null;
   }
 
   private putRowCellsIntoDummyContainer(column: Column, eDummyContainer: HTMLElement): void {
@@ -107,4 +93,3 @@ export class AutoWidthCalculator {
     eDummyContainer.appendChild(eCloneParent);
   }
 }
-*/

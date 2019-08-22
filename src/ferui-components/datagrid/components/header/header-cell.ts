@@ -22,7 +22,7 @@ import { Column } from '../entities/column';
 import { FuiDatagridSortDirections } from '../../types/sort-directions.enum';
 import { FuiDatagridSortService } from '../../services/datagrid-sort.service';
 import { Subscription } from 'rxjs';
-import { ColumnEvent, FuiDatagridEvents } from '../../events';
+import { ColumnEvent, ColumnResizedEvent, FuiDatagridEvents } from '../../events';
 import { FuiDatagridDragAndDropService } from '../../services/datagrid-drag-and-drop.service';
 import { DragItem, DragSource, DragSourceType } from '../../types/drag-and-drop';
 import { FuiColumnService } from '../../services/rendering/column.service';
@@ -62,7 +62,7 @@ import { ColumnKeyCreator } from '../../services/column-key-creator';
       </span>
     </div>
 
-    <div class="fui-datagrid-header-cell-resize" #headerResize role="presentation"></div>
+    <div class="fui-datagrid-header-cell-resize" (dblclick)="onColumnAutoResize()" #headerResize role="presentation"></div>
 
     <ng-template #sortAscIcon>
       <clr-icon class="fui-datagrid-sort-asc" shape="fui-arrow-thin" dir="up"></clr-icon>
@@ -98,7 +98,7 @@ export class FuiHeaderCell extends FuiDatagridBodyDropTarget implements OnInit, 
   @ViewChild('sortAscIcon') sortAscIcon: TemplateRef<any>;
   @ViewChild('sortDescIcon') sortDescIcon: TemplateRef<any>;
 
-  private readonly element: HTMLElement;
+  public readonly element: HTMLElement;
 
   private destroyFunctions: (() => void)[] = [];
   private subscriptions: Subscription[] = [];
@@ -250,25 +250,30 @@ export class FuiHeaderCell extends FuiDatagridBodyDropTarget implements OnInit, 
       this.lineHeight = this.rowHeight - 1;
     }
     this.subscriptions.push(
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_COLUMN_RESIZED).subscribe(columnEvent => {
+        const ev: ColumnResizedEvent = columnEvent as ColumnResizedEvent;
+        if (ev && ev.column && ev.column.getColId() === this.column.getColId()) {
+          this.updateWidth(ev.column, ev);
+        }
+      }),
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_WIDTH_CHANGED).subscribe(columnEvent => {
         const ev: ColumnEvent = columnEvent as ColumnEvent;
-        if (ev && ev.column.getColId() === this.column.getColId()) {
-          this.width = ev.column.getActualWidth();
-          this.cd.markForCheck();
-          this.resize.emit(ev);
+        if (ev && ev.column && ev.column.getColId() === this.column.getColId()) {
+          this.updateWidth(ev.column, ev);
         }
       }),
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_LEFT_CHANGED).subscribe(columnEvent => {
         const ev: ColumnEvent = columnEvent as ColumnEvent;
-        if (ev && ev.column.getColId() === this.column.getColId()) {
+        if (ev && ev.column && ev.column.getColId() === this.column.getColId()) {
           this.left = ev.column.getLeft();
           this.cd.markForCheck();
         }
       }),
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_VISIBLE_CHANGED).subscribe(columnEvent => {
         const ev: ColumnEvent = columnEvent as ColumnEvent;
-        if (ev && ev.column.getColId() === this.column.getColId()) {
+        if (ev && ev.column && ev.column.getColId() === this.column.getColId()) {
           this.changeVisibility.emit(ev);
+          this.cd.markForCheck();
         }
       }),
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SORT_COLUMN_CHANGED).subscribe(() => {
@@ -300,6 +305,10 @@ export class FuiHeaderCell extends FuiDatagridBodyDropTarget implements OnInit, 
     this.setupResize(this.headerResize.nativeElement);
   }
 
+  onColumnAutoResize() {
+    this.columnService.autoSizeColumn(this.column, this.gridPanel.getCenterContainer());
+  }
+
   displayAscDescIcon(): FuiDatagridSortDirections {
     const hasCol = this.sortService.sortingColumns.findIndex(col => {
       return col.getColId() === this.column.getColId();
@@ -322,7 +331,7 @@ export class FuiHeaderCell extends FuiDatagridBodyDropTarget implements OnInit, 
     if (!this.column.sortable) {
       return;
     }
-    // TODO: Make the shift key a variable that can be change by the developer in grid definition.
+    // TODO: Make the shift key a variable that can be changed by the developer in grid definition.
     const eventKey = event.shiftKey;
 
     if (eventKey && !this.column.isSorted()) {
@@ -342,6 +351,12 @@ export class FuiHeaderCell extends FuiDatagridBodyDropTarget implements OnInit, 
 
   isDragging() {
     return this.dragging;
+  }
+
+  private updateWidth(column: Column, event: ColumnEvent) {
+    this.width = column.getActualWidth();
+    this.cd.markForCheck();
+    this.resize.emit(event);
   }
 
   private setupResize(eHeaderResizeCell: HTMLElement) {

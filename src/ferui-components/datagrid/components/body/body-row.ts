@@ -4,21 +4,24 @@ import {
   Component,
   ContentChildren,
   HostBinding,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   QueryList,
 } from '@angular/core';
 import { FuiBodyCell } from './body-cell';
 import { RowRendererService } from '../../services/rendering/row-renderer.service';
 import { FuiDatagridOptionsWrapperService } from '../../services/datagrid-options-wrapper.service';
 import { Column } from '../entities/column';
+import { FuiDatagridEventService } from '../../services/event.service';
+import { FuiDatagridEvents, RowClickedEvent, RowDoubleClickedEvent } from '../../events';
 
 @Component({
   selector: 'fui-datagrid-body-row',
   template: `
-    <ng-content select="fui-datagrid-body-cell"></ng-content><ng-content></ng-content>
+    <ng-content select="fui-datagrid-body-cell"></ng-content>
+    <ng-content></ng-content>
   `,
   host: {
     '[class.fui-datagrid-body-row]': 'true',
@@ -28,6 +31,8 @@ import { Column } from '../entities/column';
 export class FuiBodyRow implements OnInit, OnDestroy {
   @HostBinding('attr.role') role: string = 'row';
   @HostBinding('style.height.px') rowHeight: number = 0;
+
+  @Input() data: any;
 
   @HostBinding('class.fui-datagrid-first-row')
   get isFirstRow(): boolean {
@@ -61,9 +66,34 @@ export class FuiBodyRow implements OnInit, OnDestroy {
 
   constructor(
     private cd: ChangeDetectorRef,
-    @Optional() private rowRendererService: RowRendererService,
-    @Optional() private optionsWrapperService: FuiDatagridOptionsWrapperService
+    private rowRendererService: RowRendererService,
+    private optionsWrapperService: FuiDatagridOptionsWrapperService,
+    private eventService: FuiDatagridEventService
   ) {}
+
+  @HostListener('click', ['$event'])
+  onRowClick(event) {
+    const evt: RowClickedEvent = {
+      rowNode: this,
+      rowData: this.data,
+      rowIndex: this.rowIndex,
+      event: event,
+      type: FuiDatagridEvents.EVENT_ROW_CLICKED,
+    };
+    this.eventService.dispatchEvent(evt);
+  }
+
+  @HostListener('dblclick', ['$event'])
+  onRowDblClick(event) {
+    const evt: RowDoubleClickedEvent = {
+      rowNode: this,
+      rowData: this.data,
+      rowIndex: this.rowIndex,
+      event: event,
+      type: FuiDatagridEvents.EVENT_ROW_DOUBLE_CLICKED,
+    };
+    this.eventService.dispatchEvent(evt);
+  }
 
   ngOnInit(): void {
     if (this.optionsWrapperService && this.optionsWrapperService.gridOptions) {
@@ -77,8 +107,6 @@ export class FuiBodyRow implements OnInit, OnDestroy {
   }
 
   getCellForCol(column: Column): FuiBodyCell {
-    return this.cells.filter(cell => {
-      return cell.colId === column.getId();
-    })[0];
+    return this.cells.find(cell => cell.column.getColId() === column.getColId());
   }
 }

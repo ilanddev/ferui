@@ -8,5 +8,11 @@
       "rxjs": "rxjs"
     }
   },
-  "whitelistedNonPeerDependencies": ["@angular-devkit/core", "@angular-devkit/schematics", "@ng-select/ng-select"]
+  "whitelistedNonPeerDependencies": [
+    "@angular-devkit/core",
+    "@angular-devkit/schematics",
+    "@ng-select/ng-select",
+    "@tweenjs/tween.js",
+    "@types/tween.js"
+  ]
 }

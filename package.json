@@ -1,7 +1,7 @@
 {
   "name": "@ferui/ferui",
-  "version": "0.0.8",
-  "requiredAngularVersion": ">=7.0.0 <8.0.0",
+  "version": "0.0.12",
+  "requiredAngularVersion": ">=7.1.0 <8.0.0",
   "author": "iLand cloud",
   "bugs": "https://github.com/ilanddev/ferui/issues",
   "keywords": [
@@ -27,27 +27,32 @@
   "scripts": {
     "clean": "del ./dist",
     "clean:dev": "del ./dist/dev",
+
     "build:icons:web": "webpack --config webpack.icons.config.js",
     "build:icons:css": "node-sass --source-map=true --precision=6 ./src/ferui-icons/ferui-icons.scss ./dist/ferui-icons/ferui-icons.css",
     "build:icons:optimize": "csso ./dist/ferui-icons/ferui-icons.css ./dist/ferui-icons/ferui-icons.min.css --map file;",
     "build:icons:scss": "cpy '**/*.scss' '../../dist/ferui-icons/' --cwd=src/ferui-icons --parents",
     "build:icons:package": "cpy ./npm/ferui-icons/package.json ./npm/ferui-icons/README.md ./dist/ferui-icons/; replace '@VERSION' $npm_package_version ./dist/ferui-icons/package.json",
     "build:icons": "npm-run-all build:icons:css build:icons:optimize build:icons:scss build:icons:web build:icons:package",
-    "build:ui:css": "node-sass --include-path=node_modules --source-map=true --precision=6 --indentedSyntax=true ./src/ferui-design/ferui-design.scss ./dist/ferui-design/ferui-design.css",
-    "build:ui:prefix": "postcss ./dist/ferui-design/ferui-design.css -o ./dist/ferui-design/ferui-design.css",
-    "build:ui:optimize": "csso ./dist/ferui-design/ferui-design.css ./dist/ferui-design/ferui-design.min.css --map file",
+
+    "build:ui:css": "node-sass --include-path=node_modules --source-map=true --precision=6 --indentedSyntax=true ./src/ferui-design/scss/ferui-design.scss ./dist/ferui-design/css/ferui-design.css",
+    "build:ui:prefix": "postcss ./dist/ferui-design/css/ferui-design.css -o ./dist/ferui-design/css/ferui-design.css",
+    "build:ui:optimize": "csso ./dist/ferui-design/css/ferui-design.css ./dist/ferui-design/css/ferui-design.min.css --map file",
     "build:ui:scss": "cpy '**/*.scss' '../../dist/ferui-design/' --cwd=src/ferui-design --parents",
     "build:ui:package": "cpy ./npm/ferui-design/package.json ./npm/ferui-design/README.md ./dist/ferui-design/; replace '@VERSION' $npm_package_version ./dist/ferui-design/package.json",
     "build:ui:fonts": "cpy '**/*.*' '../../../dist/ferui-design/font-files' --cwd=src/ferui-design/font-files --parents",
     "build:ui": "npm-run-all build:ui:css build:ui:prefix build:ui:optimize build:ui:scss build:ui:package build:ui:fonts",
+
     "build:angular:package": "cpy ./npm/ferui-components/package.json ./npm/ferui-components/README.md ./src/ferui-components/; replace '@VERSION' $npm_package_version ./src/ferui-components/package.json",
     "build:angular:ngpackagr": "ng build ferui-components",
     "build:angular": "npm-run-all build:angular:package build:angular:ngpackagr",
+
     "build": "npm-run-all clean build:ui build:icons build:angular",
     "build:dev": "npm run clean:dev; ng build dev --prod=true --extractCss=true --baseHref=/",
     "build:dev:circleci": "npm run clean:dev; ng build dev --prod=true --extractCss=true --baseHref=/0/ferui/",
     "deploy:gh-pages": "gh-pages -d dist/dev",
     "build:deploy:dev": "npm-run-all build:dev deploy:gh-pages",
+
     "ng": "ng",
     "start": "npm run pretest:lint; ng serve dev --port 9090",
     "start:prod": "npm run pretest:lint; ng serve dev --port 9090 --prod=true",
@@ -102,7 +107,6 @@
     "angular-in-memory-web-api": "^0.8.0",
     "autoprefixer": "^9.5.0",
     "awesome-typescript-loader": "^5.2.1",
-    "bootstrap": "^4.3.1",
     "cheerio": "^1.0.0-rc.2",
     "codelyzer": "^4.5.0",
     "cpy-cli": "^1.0.1",

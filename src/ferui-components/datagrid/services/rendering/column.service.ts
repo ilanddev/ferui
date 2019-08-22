@@ -1,10 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Column } from '../../components/entities/column';
 import { DatagridUtils } from '../../utils/datagrid-utils';
-import { ColumnMovedEvent, ColumnVisibleEvent, FuiDatagridEvents } from '../../events';
+import {
+  ColumnEvent,
+  ColumnMovedEvent,
+  ColumnResizedEvent,
+  ColumnVisibleEvent,
+  DisplayedColumnsWidthChangedEvent,
+  FuiDatagridEvents,
+} from '../../events';
 import { FuiDatagridApiService } from '../datagrid-api.service';
 import { FuiDatagridColumnApiService } from '../datagrid-column-api.service';
 import { FuiDatagridEventService } from '../event.service';
+import { AutoWidthCalculator } from './autoWidthCalculator';
 
 @Injectable()
 export class FuiColumnService {
@@ -17,7 +25,8 @@ export class FuiColumnService {
   constructor(
     private gridApi: FuiDatagridApiService,
     private columnApi: FuiDatagridColumnApiService,
-    private eventService: FuiDatagridEventService
+    private eventService: FuiDatagridEventService,
+    private autoWidthColumnService: AutoWidthCalculator
   ) {}
 
   moveColumns(columnsToMoveKeys: (string | Column)[], toIndex: number): void {
@@ -196,51 +205,53 @@ export class FuiColumnService {
 
   sizeColumnsToFit(gridWidth: any): void {
     // avoid divide by zero
-    const allDisplayedColumns = this.getAllDisplayedColumns();
+    const allDisplayedColumns: Column[] = this.getAllDisplayedColumns();
 
     if (gridWidth <= 0 || allDisplayedColumns.length === 0) {
       return;
     }
 
-    const colsToNotSpread = allDisplayedColumns.filter((column: Column) => {
+    const colsToNotSpread: Column[] = allDisplayedColumns.filter((column: Column) => {
       return column.getColumnDefinition().suppressSizeToFit === true;
     });
 
-    const colsToSpread = allDisplayedColumns.filter((column: Column) => {
+    const colsToSpread: Column[] = allDisplayedColumns.filter((column: Column) => {
       return column.getColumnDefinition().suppressSizeToFit !== true;
     });
 
     // make a copy of the cols that are going to be resized
-    //const colsToFireEventFor = colsToSpread.slice(0);
+    const colsToFireEventFor: Column[] = [...colsToSpread];
 
-    let finishedResizing = false;
+    let finishedResizing: boolean = false;
+
     while (!finishedResizing) {
       finishedResizing = true;
-      const availablePixels = gridWidth - this.getWidthOfColsInList(colsToNotSpread);
+      const availablePixels: number = gridWidth - this.getWidthOfColsInList(colsToNotSpread);
       if (availablePixels <= 0) {
         // no width, set everything to minimum
         colsToSpread.forEach((column: Column) => {
           column.setMinimum();
         });
       } else {
-        const scale = availablePixels / this.getWidthOfColsInList(colsToSpread);
+        const scale: number = availablePixels / this.getWidthOfColsInList(colsToSpread);
         // we set the pixels for the last col based on what's left, as otherwise
         // we could be a pixel or two short or extra because of rounding errors.
-        let pixelsForLastCol = availablePixels;
+        let pixelsForLastCol: number = availablePixels;
         // backwards through loop, as we are removing items as we go
         for (let i = colsToSpread.length - 1; i >= 0; i--) {
-          const column = colsToSpread[i];
-          const newWidth = Math.round(column.getActualWidth() * scale);
-          if (newWidth < column.getMinWidth()) {
+          const column: Column = colsToSpread[i];
+          const extraSortPaddingSize: number = column.getExtraSortPaddingSize();
+          const newWidth: number = Math.round(column.getActualWidth() * scale);
+          if (column.isLessThanMin(newWidth)) {
             column.setMinimum();
             moveToNotSpread(column);
             finishedResizing = false;
           } else if (column.isGreaterThanMax(newWidth)) {
-            column.setActualWidth(column.getMaxWidth());
+            column.setToMaximum();
             moveToNotSpread(column);
             finishedResizing = false;
           } else {
-            const onLastCol = i === 0;
+            const onLastCol: boolean = i === 0;
             if (onLastCol) {
               column.setActualWidth(pixelsForLastCol);
             } else {
@@ -255,17 +266,17 @@ export class FuiColumnService {
     this.setLeftValues();
     this.updateBodyWidths();
 
-    // colsToFireEventFor.forEach((column: Column) => {
-    //   const event: ColumnResizedEvent = {
-    //     type: FuiDatagridEvents.EVENT_COLUMN_RESIZED,
-    //     column: column,
-    //     columns: [column],
-    //     finished: true,
-    //     api: this.gridApi,
-    //     columnApi: this.columnApi
-    //   };
-    //   this.eventService.dispatchEvent(event);
-    // });
+    colsToFireEventFor.forEach((column: Column) => {
+      const event: ColumnResizedEvent = {
+        type: FuiDatagridEvents.EVENT_COLUMN_RESIZED,
+        column: column,
+        columns: [column],
+        finished: true,
+        api: this.gridApi,
+        columnApi: this.columnApi,
+      };
+      this.eventService.dispatchEvent(event);
+    });
 
     function moveToNotSpread(column: Column) {
       DatagridUtils.removeFromArray(colsToSpread, column);
@@ -313,6 +324,126 @@ export class FuiColumnService {
     // });
   }
 
+  autoSizeColumns(keys: (string | Column)[], eBodyContainer: HTMLElement): void {
+    // because of column virtualisation, we can only do this function on columns that are
+    // actually rendered, as non-rendered columns (outside the viewport and not rendered
+    // due to column virtualisation) are not present. this can result in all rendered columns
+    // getting narrowed, which in turn introduces more rendered columns on the RHS which
+    // did not get autosized in the original run, leaving the visible grid with columns on
+    // the LHS sized, but RHS no. so we keep looping through teh visible columns until
+    // no more cols are available (rendered) to be resized
+
+    // keep track of which cols we have resized in here
+    const columnsAutosized: Column[] = [];
+    // initialise with anything except 0 so that while loop executes at least once
+    let changesThisTimeAround = -1;
+
+    while (changesThisTimeAround !== 0) {
+      changesThisTimeAround = 0;
+      this.actionOnGridColumns(keys, (column: Column): boolean => {
+        // if already autosized, skip it
+        if (columnsAutosized.indexOf(column) >= 0) {
+          return false;
+        }
+
+        // get how wide this col should be
+        const preferredWidth = this.autoWidthColumnService.getPreferredWidthForColumn(column, eBodyContainer);
+        // preferredWidth = -1 if this col is not on the screen
+        if (preferredWidth > 0) {
+          const newWidth = this.normaliseColumnWidth(column, preferredWidth);
+          column.setActualWidth(newWidth);
+          columnsAutosized.push(column);
+          changesThisTimeAround++;
+        }
+        return true;
+      });
+    }
+
+    this.setLeftValues();
+
+    if (columnsAutosized.length > 0) {
+      const event: ColumnResizedEvent = {
+        type: FuiDatagridEvents.EVENT_COLUMN_RESIZED,
+        columns: columnsAutosized,
+        column: columnsAutosized.length === 1 ? columnsAutosized[0] : null,
+        finished: true,
+        api: this.gridApi,
+        columnApi: this.columnApi,
+      };
+      this.eventService.dispatchEvent(event);
+    }
+  }
+
+  autoSizeColumn(key: string | Column | null, eBodyContainer: HTMLElement): void {
+    if (key) {
+      this.autoSizeColumns([key], eBodyContainer);
+    }
+  }
+
+  autoSizeAllColumns(eBodyContainer: HTMLElement): void {
+    const allDisplayedColumns = this.getAllDisplayedColumns();
+    this.autoSizeColumns(allDisplayedColumns, eBodyContainer);
+  }
+
+  // does an action on a set of columns. provides common functionality for looking up the
+  // columns based on key, getting a list of effected columns, and then updated the event
+  // with either one column (if it was just one col) or a list of columns
+  // used by: autoResize, setVisible, setPinned
+  private actionOnGridColumns(
+    // the column keys this action will be on
+    keys: (string | Column)[],
+    // the action to do - if this returns false, the column was skipped
+    // and won't be included in the event
+    action: (column: Column) => boolean,
+    // should return back a column event of the right type
+    createEvent?: () => ColumnEvent
+  ): void {
+    if (DatagridUtils.missingOrEmpty(keys)) {
+      return;
+    }
+
+    const updatedColumns: Column[] = [];
+
+    keys.forEach((key: string | Column) => {
+      const column = this.getGridColumn(key);
+      if (!column) {
+        return;
+      }
+      // need to check for false with type (ie !== instead of !=)
+      // as not returning anything (undefined) would also be false
+      const resultOfAction = action(column);
+      if (resultOfAction !== false) {
+        updatedColumns.push(column);
+      }
+    });
+    if (updatedColumns.length === 0) {
+      return;
+    }
+
+    this.updateDisplayedColumns();
+
+    if (DatagridUtils.exists(createEvent) && createEvent) {
+      const event = createEvent();
+      event.columns = updatedColumns;
+      event.column = updatedColumns.length === 1 ? updatedColumns[0] : null;
+
+      this.eventService.dispatchEvent(event);
+    }
+  }
+
+  // returns the width we can set to this col, taking into consideration min and max widths
+  private normaliseColumnWidth(column: Column, newWidth: number): number {
+    if (newWidth < column.getMinWidth()) {
+      newWidth = column.getMinWidth();
+    }
+    if (column.isGreaterThanMax(newWidth)) {
+      newWidth = column.getMaxWidth();
+    }
+    return newWidth;
+  }
+
+  private updateDisplayedColumns(): void {}
+
   private getColumn(key: string | Column, columnList: Column[]): Column | null {
     if (!key) {
       return null;
@@ -336,16 +467,16 @@ export class FuiColumnService {
       this.bodyWidth = newBodyWidth;
       // when this fires, it is picked up by the gridPanel, which ends up in
       // gridPanel calling setWidthAndScrollPosition(), which in turn calls setVirtualViewportPosition()
-      // const event: DisplayedColumnsWidthChangedEvent = {
-      //   type: Events.EVENT_DISPLAYED_COLUMNS_WIDTH_CHANGED,
-      //   api: this.gridApi,
-      //   columnApi: this.columnApi
-      // };
-      // this.eventService.dispatchEvent(event);
+      const event: DisplayedColumnsWidthChangedEvent = {
+        type: FuiDatagridEvents.EVENT_DISPLAYED_COLUMNS_WIDTH_CHANGED,
+        api: this.gridApi,
+        columnApi: this.columnApi,
+      };
+      this.eventService.dispatchEvent(event);
     }
   }
 
-  private getWidthOfColsInList(columnList: Column[]) {
+  private getWidthOfColsInList(columnList: Column[]): number {
     let result = 0;
     for (const column of columnList) {
       result += column.getActualWidth();

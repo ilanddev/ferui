@@ -7,7 +7,8 @@ import { Column } from '../entities/column';
 @Component({
   selector: 'fui-datagrid-header-row',
   template: `
-    <ng-content select="fui-datagrid-header-cell"></ng-content>`,
+    <ng-content select="fui-datagrid-header-cell"></ng-content>
+  `,
   host: {
     '[class.fui-datagrid-header-row]': 'true',
     '[style.top.px]': '0',
@@ -21,24 +22,13 @@ export class FuiHeaderRow {
   @ContentChildren(FuiHeaderCell) cells: QueryList<FuiHeaderCell>;
 
   constructor(
-    @Optional() private rowRendererService: HeaderRendererService,
+    @Optional() private headerRowRendererService: HeaderRendererService,
     @Optional() private optionsWrapperService: FuiDatagridOptionsWrapperService
   ) {}
 
-  getCellForCol(column: Column): FuiHeaderCell {
-    let cell: FuiHeaderCell = null;
-    this.cells.forEach(item => {
-      if (item.colId === column.getId()) {
-        cell = item;
-      }
-    });
-
-    return cell;
-  }
-
   ngOnInit(): void {
-    if (this.rowRendererService) {
-      this.rowRendererService.storeRowElement(this);
+    if (this.headerRowRendererService) {
+      this.headerRowRendererService.storeRowElement(this);
     }
     if (this.optionsWrapperService && this.optionsWrapperService.gridOptions) {
       this.headerHeight = this.optionsWrapperService.gridOptions.headerHeight;

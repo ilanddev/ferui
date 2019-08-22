@@ -206,8 +206,12 @@ export class Column {
     this.columnService.setLastLeftValue(this.actualWidth);
     this.columnService.addColumn(this);
 
-    // Add the column to the sorting service if the column has initial sorting.
+    // Add the column to the sorting service in case the column has initial sorting.
     this.sortService.addSortingColumn(this);
+  }
+
+  isMultisort(): boolean {
+    return this.sortService.isMultiSort();
   }
 
   isFilterAllowed(): boolean {
@@ -322,8 +326,19 @@ export class Column {
     return false;
   }
 
+  isLessThanMin(width: number): boolean {
+    if (this.minWidth) {
+      return width < this.minWidth;
+    }
+    return false;
+  }
+
   setMinimum(): void {
-    this.setActualWidth(this.minWidth);
+    this.setActualWidth(this.getMinWidth());
+  }
+
+  setToMaximum(): void {
+    this.setActualWidth(this.getMaxWidth());
   }
 
   setOldLeft(left: number) {
@@ -373,6 +388,18 @@ export class Column {
       filterable: this.isFilterAllowed(),
       filterType: this.filter,
     };
+  }
+
+  getExtraSortPaddingSize(): number {
+    // If the header has sorting, the badges add more size.
+    let sortPadding: number = 0;
+    if (this.getSort() !== FuiDatagridSortDirections.NONE) {
+      sortPadding += 14;
+      if (this.isMultisort()) {
+        sortPadding += 18;
+      }
+    }
+    return sortPadding;
   }
 
   private createColumnEvent(type: string): ColumnEvent {

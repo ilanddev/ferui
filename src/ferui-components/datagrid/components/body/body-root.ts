@@ -33,11 +33,11 @@ import { FuiVirtualScrollerComponent } from '../../../virtual-scroller/virtual-s
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FuiBodyRoot implements OnInit, AfterViewInit, AfterContentInit {
+  @HostBinding('attr.role') role: string = 'presentation';
   @HostBinding('style.height') height: string;
+
   @Input() isLoading: boolean = false;
   @Input() headerHeight: number = 50;
-
-  @HostBinding('attr.role') role: string = 'presentation';
 
   @ViewChild('viewportSpacer') viewportSpacer: ElementRef;
   @ViewChild('bodyCliper') bodyCliper: ElementRef;

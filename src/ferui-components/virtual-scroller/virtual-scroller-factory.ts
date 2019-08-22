@@ -4,7 +4,7 @@ export function VIRTUAL_SCROLLER_DEFAULT_OPTIONS_FACTORY(): VirtualScrollerDefau
   return {
     scrollThrottlingTime: 0,
     scrollDebounceTime: 0,
-    scrollAnimationTime: 750,
+    scrollAnimationTime: 300, // 750
     checkResizeInterval: 1000,
     resizeBypassRefreshThreshold: 5,
     modifyOverflowStyleOfParentScroll: true,

@@ -46,7 +46,6 @@ export class FuiDatagridFilterColumnVisibility implements OnInit, OnDestroy {
           this.visibleColumns = [...this.columnService.getVisibleColumns()].map(col => col.toJson());
         }),
         this.eventService.listenToEvent(FuiDatagridEvents.EVENT_COLUMN_ORDER_CHANGED).subscribe(event => {
-          console.log(FuiDatagridEvents.EVENT_COLUMN_ORDER_CHANGED, event);
           this.columns = [...this.columnService.getAllDisplayedColumns()].map(col => col.toJson());
           this.visibleColumns = [...this.columnService.getVisibleColumns()].map(col => col.toJson());
         })

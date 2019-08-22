@@ -1,7 +1,12 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { FuiDatagridBaseFilter, Column, IDoesFilterPassParams, IComparableFilterParams } from '@ferui/components';
+import {
+  FuiDatagridBaseFilter,
+  Column,
+  IDoesFilterPassParams,
+  IComparableFilterParams,
+  FilterType,
+} from '@ferui/components';
 import { DatagridService } from './datagrid.service';
-import { FilterType } from '../../../../../ferui-components/datagrid/components/filters/interfaces/filter.enum';
 
 export interface IBrowserFilterParams extends IComparableFilterParams {}
 
@@ -24,7 +29,7 @@ export interface IBrowserFilterParams extends IComparableFilterParams {}
                     (ngModelChange)="onChange($event, browser)"
                     [(ngModel)]="modelValues[browser]"
                   />
-                  <label [title]="browser" [innerHTML]="datagridService.getIconFor(browser) | safeHtml"> </label>
+                  <label [title]="browser" [innerHTML]="datagridService.getIconFor(browser) | safeHtml"></label>
                 </fui-checkbox-wrapper>
               </div>
             </div>

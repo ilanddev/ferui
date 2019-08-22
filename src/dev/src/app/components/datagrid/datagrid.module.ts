@@ -2,27 +2,28 @@ import { NgModule, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HighlightModule } from 'ngx-highlightjs';
-import { FeruiModule } from '@ferui/components';
+import { FeruiModule, DateIOService, LocaleHelperService } from '@ferui/components';
 import { DatagridDemo } from './datagrid.demo';
-import { DatagridComponent } from './datagrid.component';
-import { DatagridServerSideComponent } from './datagrid-server-side.component';
+import { DatagridClientSideComponent } from './pages/datagrid-client-side.component';
+import { DatagridServerSideComponent } from './pages/datagrid-server-side.component';
 import { CustomBrowserFilter } from './custom-browser-filter';
 import { RouterModule } from '@angular/router';
 import { RowDataApiService } from './server-side-api/datagrid-row.service';
-import { DateIOService } from '../../../../../ferui-components/forms/date/providers/date-io.service';
-import { LocaleHelperService } from '../../../../../ferui-components/forms/datepicker/providers/locale-helper.service';
+
 import { SafeHTML } from './safe-html.pipe';
-import { DatagridInfiniteServerSideComponent } from './datagrid-infinite-server-side.component';
+import { DatagridInfiniteServerSideComponent } from './pages/datagrid-infinite-server-side.component';
 import { DefaultDatagridOptionsMenu } from './default-datagrid-options-menu';
+import { DatagridHome } from './pages/datagrid-home';
 
 const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [
   SafeHTML,
   DatagridDemo,
-  DatagridComponent,
+  DatagridClientSideComponent,
   DatagridServerSideComponent,
   DatagridInfiniteServerSideComponent,
   DefaultDatagridOptionsMenu,
   CustomBrowserFilter,
+  DatagridHome,
 ];
 
 @NgModule({

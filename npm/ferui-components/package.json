@@ -17,7 +17,9 @@
     "url": "ssh://git@github.com:ilanddev/ferui.git"
   },
   "dependencies": {
-    "@ng-select/ng-select": "^2.20.5"
+    "@ng-select/ng-select": "^2.20.5",
+    "@tweenjs/tween.js": "17.3.0",
+    "@types/tween.js": "17.2.0"
   },
   "peerDependencies": {
     "@angular/animations": "^7.1.0",

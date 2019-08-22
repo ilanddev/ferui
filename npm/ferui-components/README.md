@@ -54,10 +54,10 @@
 
 Include the `ferui-icons.min.js` in your HTML file (don't forget the _custom-elements_ polyfill) :
 
-    ```
-    <script src="path/to/node_modules/@webcomponents/custom-elements/custom-elements.min.js"></script>
-    <script src="path/to/node_modules/@ferui/icons/ferui-icons.min.js"></script>
-    ```
+```
+<script src="path/to/node_modules/@webcomponents/custom-elements/custom-elements.min.js"></script>
+<script src="path/to/node_modules/@ferui/icons/ferui-icons.min.js"></script>
+```
 
 ### Enable ferui-design
 
@@ -67,10 +67,10 @@ You can either add the compiled css files or the precompiled scss files directly
 
 1.  Include the `ferui-design.min.css` and `ferui-icons.min.css` files in your HTML file:
 
-    ```
-    <link rel="stylesheet" href="path/to/node_modules/@ferui/design/ferui-design.min.css">
-    <link rel="stylesheet" href="path/to/node_modules/@ferui/icons/ferui-icons.min.css">
-    ```
+```
+<link rel="stylesheet" href="path/to/node_modules/@ferui/design/ferui-design.min.css">
+<link rel="stylesheet" href="path/to/node_modules/@ferui/icons/ferui-icons.min.css">
+```
 
 2.  Write your HTML with the Ferui Design CSS class names and markup.
 

@@ -121,9 +121,6 @@ export class FuiDatagridGlobalSearchFilter implements FuiDatagridIGlobalSearchFi
 
   onFilterInputChanged(value: string) {
     this.selectedSearch = value;
-
-    console.log('onFilterInputChanged', value, this.filterService);
-
     this.addOrRemoveFilter(this.selectedSearch !== '', this);
   }
 }

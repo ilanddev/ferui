@@ -33,7 +33,6 @@ export class InfiniteBlock {
     this.blockNumber = this.offset / this.limit;
     this.datasource = datasource;
     this.params = params;
-    console.log('InfiniteBlock init', this.params, this.offset, this.blockNumber);
     this.loadFromDatasource().catch(error => {
       throw error;
     });
@@ -45,7 +44,6 @@ export class InfiniteBlock {
 
   async loadFromDatasource(): Promise<RowNode[]> {
     if (this.datasource) {
-      console.log('test loadFromDatasource', this.params);
       this.state = InfiniteBlockState.STATE_LOADING;
       return this.datasource.getRows
         .bind(this.datasource.context, this.params)()

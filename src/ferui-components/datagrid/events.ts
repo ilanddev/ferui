@@ -4,7 +4,12 @@ import { FuiDatagridColumnApiService } from './services/datagrid-column-api.serv
 import { DragItem, DragSource, HDirection, VDirection } from './types/drag-and-drop';
 import { FuiPagerPage } from './types/pager';
 import { IDatagridResultObject } from './types/server-side-row-model';
+import { FuiBodyRow } from './components/body/body-row';
+import { FuiBodyCell } from './components/body/body-cell';
 
+// --------------*/
+// * BASIC EVENTS */
+// -------------*/
 export interface DatagridEvent {
   type: string;
 }
@@ -14,11 +19,63 @@ export interface FuiDatagridEvent extends DatagridEvent {
   columnApi: FuiDatagridColumnApiService;
 }
 
+// --------------*/
+// * ROW EVENTS */
+// -------------*/
+export interface RowEvent extends DatagridEvent {
+  rowNode: FuiBodyRow;
+  rowData: any;
+  rowIndex: number;
+  event?: Event | null;
+}
+
+export interface RowSelectedEvent extends RowEvent {}
+
+export interface RowClickedEvent extends RowEvent {}
+
+export interface RowDoubleClickedEvent extends RowEvent {}
+
+// --------------*/
+// * CELLS EVENTS */
+// -------------*/
+export interface CellEvent extends DatagridEvent {
+  cellNode: FuiBodyCell;
+  column: Column;
+  value: any;
+  rowIndex: number;
+  rowData: any;
+  event?: Event | null;
+}
+
+export interface CellClickedEvent extends CellEvent {}
+
+export interface CellDoubleClickedEvent extends CellEvent {}
+
+export interface CellContextMenuEvent extends CellEvent {}
+
+// --------------*/
+// * COLUMN EVENTS */
+// -------------*/
 export interface ColumnEvent extends FuiDatagridEvent {
   column: Column | null;
   columns: Column[] | null;
 }
 
+export interface ColumnResizedEvent extends ColumnEvent {
+  finished: boolean;
+}
+
+export interface ColumnMovedEvent extends ColumnEvent {
+  toIndex: number | undefined;
+}
+
+export interface ColumnVisibleEvent extends ColumnEvent {
+  visible: boolean | undefined;
+}
+
+// --------------*/
+// * DATAGRID EVENTS */
+// -------------*/
 export interface FuiSortEvent extends FuiDatagridEvent {
   sortedRows: any[];
 }
@@ -37,17 +94,7 @@ export interface BodyScrollEvent extends FuiDatagridEvent {
   top: number;
 }
 
-export interface ColumnResizedEvent extends ColumnEvent {
-  finished: boolean;
-}
-
-export interface ColumnMovedEvent extends ColumnEvent {
-  toIndex: number | undefined;
-}
-
-export interface ColumnVisibleEvent extends ColumnEvent {
-  visible: boolean | undefined;
-}
+export interface DisplayedColumnsWidthChangedEvent extends FuiDatagridEvent {}
 
 export interface DraggingEvent {
   event: MouseEvent;
@@ -78,6 +125,13 @@ export interface FuiFilterEvent extends FuiDatagridEvent {
 }
 
 export class FuiDatagridEvents {
+  public static EVENT_CELL_CLICKED = 'cellClicked';
+  public static EVENT_CELL_DOUBLE_CLICKED = 'cellDoubleClicked';
+  public static EVENT_CELL_CONTEXT_MENU = 'cellContextMenu';
+  public static EVENT_ROW_SELECTED = 'rowSelected';
+  public static EVENT_ROW_CLICKED = 'rowClicked';
+  public static EVENT_ROW_DOUBLE_CLICKED = 'rowDoubleClicked';
+
   /** A column drag has started, either resizing a column or moving a column. */
   public static EVENT_DRAG_STARTED = 'dragStarted';
   /** A column drag has stopped */
@@ -94,6 +148,9 @@ export class FuiDatagridEvents {
   public static EVENT_COLUMN_MOVED = 'columnMoved';
   /** One or more columns was shown / hidden */
   public static EVENT_COLUMN_VISIBLE = 'columnVisible';
+
+  public static EVENT_COLUMN_RESIZED = 'columnResized';
+
   public static EVENT_COLUMN_ORDER_CHANGED = 'columnOrderChanged';
   // + every time the filter changes, used in the floating filters
   public static EVENT_FILTER_CHANGED = 'filterChanged';
@@ -113,4 +170,6 @@ export class FuiDatagridEvents {
   public static EVENT_BODY_SCROLL = 'bodyScroll';
 
   public static EVENT_PAGER_SELECTED_PAGE = 'pagerSelectedPage';
+
+  public static EVENT_DISPLAYED_COLUMNS_WIDTH_CHANGED = 'displayedColumnsWidthChanged';
 }

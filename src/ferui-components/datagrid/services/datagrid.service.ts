@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { DatagridUtils } from '../utils/datagrid-utils';
-import { BodyScrollEvent, FuiDatagridEvents } from '../events';
 import { FuiDatagridApiService } from './datagrid-api.service';
 import { FuiDatagridColumnApiService } from './datagrid-column-api.service';
 import { Observable, Subject } from 'rxjs';
 import { FuiVirtualScrollerComponent } from '../../virtual-scroller/virtual-scroller';
 import { FuiDatagridEventService } from './event.service';
+import { FuiColumnService } from './rendering/column.service';
+import { ScrollbarHelper } from './datagrid-scrollbar-helper.service';
 
 @Injectable()
 export class FuiDatagridService {
@@ -30,12 +31,20 @@ export class FuiDatagridService {
 
   private scrollLeft: number = -1;
   private scrollTop: number = -1;
+  private readonly resetLastHorizontalScrollElementDebounce: () => void;
 
   constructor(
+    private scrollbarHelper: ScrollbarHelper,
     private gridApi: FuiDatagridApiService,
     private columnApi: FuiDatagridColumnApiService,
-    private eventService: FuiDatagridEventService
-  ) {}
+    private eventService: FuiDatagridEventService,
+    private columnService: FuiColumnService
+  ) {
+    this.resetLastHorizontalScrollElementDebounce = DatagridUtils.debounce(
+      this.resetLastHorizontalScrollElement.bind(this),
+      500
+    );
+  }
 
   get virtualScrollViewport(): FuiVirtualScrollerComponent {
     return this._virtualScrollViewport;
@@ -156,6 +165,37 @@ export class FuiDatagridService {
     return this._isReady.asObservable();
   }
 
+  // method will call itself if no available width. this covers if the grid
+  // isn't visible, but is just about to be visible.
+  public sizeColumnsToFit(nextTimeout?: number) {
+    // If there is a scrollbar, we need to remove its size from the available grid width.
+    const availableWidth = this.eBodyViewport.clientWidth - this.scrollbarHelper.getWidth();
+
+    if (availableWidth > 0) {
+      this.columnService.sizeColumnsToFit(availableWidth);
+      return;
+    }
+
+    if (nextTimeout === undefined) {
+      window.setTimeout(() => {
+        this.sizeColumnsToFit(100);
+      }, 0);
+    } else if (nextTimeout === 100) {
+      window.setTimeout(() => {
+        this.sizeColumnsToFit(500);
+      }, 100);
+    } else if (nextTimeout === 500) {
+      window.setTimeout(() => {
+        this.sizeColumnsToFit(-1);
+      }, 500);
+    } else {
+      console.warn(
+        'ag-Grid: tried to call sizeColumnsToFit() but the grid is coming back with ' +
+          'zero width, maybe the grid is not visible yet on the screen?'
+      );
+    }
+  }
+
   // used by autoWidthCalculator and autoHeightCalculator
   getCenterContainer(): HTMLElement {
     return this._eCenterContainer;
@@ -197,23 +237,62 @@ export class FuiDatagridService {
     if (scrollWentPastBounds || offset > 0) {
       return;
     }
-
     DatagridUtils.setScrollLeft(this._eHeaderViewport, scrollLeft, false);
-    DatagridUtils.setScrollLeft(this._eCenterViewport, scrollLeft, false);
+    const partner =
+      this.lastHorizontalScrollElement === this.eCenterViewport
+        ? this.eBodyHorizontalScrollViewport
+        : this.eCenterViewport;
+    DatagridUtils.setScrollLeft(partner, scrollLeft, false);
+  }
+
+  onFakeHorizontalScroll(): void {
+    if (!this.isControllingScroll(this.eBodyHorizontalScrollViewport)) {
+      return;
+    }
+    this.onBodyHorizontalScroll(this.eBodyHorizontalScrollViewport);
+  }
+
+  onCenterViewportScroll(): void {
+    if (!this.isControllingScroll(this.eCenterViewport)) {
+      return;
+    }
+    this.onBodyHorizontalScroll(this.eCenterViewport);
+  }
+
+  private onBodyHorizontalScroll(eSource: HTMLElement): void {
+    const { scrollWidth, clientWidth } = this.eCenterViewport;
+    // in chrome, fractions can be in the scroll left, eg 250.342234 - which messes up our 'scrollWentPastBounds'
+    // formula. so we floor it to allow the formula to work.
+    const scrollLeft = Math.floor(DatagridUtils.getScrollLeft(eSource, false));
+
+    // touch devices allow elastic scroll - which temporally scrolls the panel outside of the viewport
+    // (eg user uses touch to go to the left of the grid, but drags past the left, the rows will actually
+    // scroll past the left until the user releases the mouse). when this happens, we want ignore the scroll,
+    // as otherwise it was causing the rows and header to flicker.
+    const scrollWentPastBounds = scrollLeft < 0 || scrollLeft + clientWidth > scrollWidth;
+
+    if (scrollWentPastBounds) {
+      return;
+    }
+
+    this.doHorizontalScroll(scrollLeft);
+    this.resetLastHorizontalScrollElementDebounce();
+  }
+
+  private isControllingScroll(eDiv: HTMLElement): boolean {
+    if (!this.lastHorizontalScrollElement) {
+      this.lastHorizontalScrollElement = eDiv;
+      return true;
+    }
+    return eDiv === this.lastHorizontalScrollElement;
+  }
+
+  private resetLastHorizontalScrollElement() {
+    this.lastHorizontalScrollElement = null;
   }
 
   private doHorizontalScroll(scrollLeft: number): void {
     this.scrollLeft = scrollLeft;
-
-    const event: BodyScrollEvent = {
-      type: FuiDatagridEvents.EVENT_BODY_SCROLL,
-      api: this.gridApi,
-      columnApi: this.columnApi,
-      direction: 'horizontal',
-      left: this.scrollLeft,
-      top: this.scrollTop,
-    };
-    this.eventService.dispatchEvent(event);
     this.horizontallyScrollHeaderCenterAndFloatingCenter(scrollLeft);
   }
 

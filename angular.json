@@ -33,7 +33,11 @@
                 "output": "/font-files"
               }
             ],
-            "styles": ["src/ferui-icons/ferui-icons.scss", "src/dev/src/styles.scss"],
+            "styles": [
+              "src/ferui-icons/ferui-icons.scss",
+              "src/ferui-design/scss/ferui-design.scss",
+              "src/dev/src/styles.scss"
+            ],
             "stylePreprocessorOptions": {
               "includePaths": ["node_modules", "src/ferui-design", "src/ferui-design/font-files"]
             },

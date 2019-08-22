@@ -85,14 +85,6 @@ export class FuiDatagridResizeService {
     const underMaxWidth = !this.maxWidth || newWidth <= this.maxWidth;
 
     if (overMinWidth && underMaxWidth) {
-      console.log(
-        'resize onMouseMove',
-        this.getCurrentColumn().name,
-        this.getCurrentColumn().colIndex,
-        ':::',
-        this.columnService.getNextColumnsFrom(this.getCurrentColumn())
-      );
-
       // We change the column width.
       this.getCurrentColumn().setActualWidth(newWidth);
       // We change the left value for all next columns.

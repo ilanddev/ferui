@@ -1,12 +1,24 @@
 import { FuiDatagridFilterService } from './datagrid-filter.service';
 import { Injectable } from '@angular/core';
+import { FuiColumnService } from './rendering/column.service';
+import { FuiDatagridService } from './datagrid.service';
 
 @Injectable()
 export class FuiDatagridApiService {
+  private columnService: FuiColumnService;
+  private gridPanel: FuiDatagridService;
+
   constructor(public filterService: FuiDatagridFilterService) {}
 
+  init(columnService: FuiColumnService, gridPanel: FuiDatagridService) {
+    this.columnService = columnService;
+    this.gridPanel = gridPanel;
+  }
+
   // Gets columns to adjust in size to fit the grid horizontally.
-  sizeColumnsToFit() {}
+  sizeColumnsToFit(): void {
+    this.gridPanel.sizeColumnsToFit();
+  }
 
   // Call to set new column definitions into the grid.
   // The grid will redraw all the column headers, and then redraw all of the rows.

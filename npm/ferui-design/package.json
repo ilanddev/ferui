@@ -6,9 +6,6 @@
     "type": "git",
     "url": "ssh://git@github.com:ilanddev/ferui.git"
   },
-  "dependencies": {
-    "bootstrap": "^4.3.1"
-  },
   "peerDependencies": {
     "@ferui/icons": "@VERSION"
   },
@@ -22,12 +19,9 @@
   ],
   "author": "ferui team",
   "license": "BSD-3-clause",
-  "sass": "ferui-design.scss",
-  "style": "ferui-design.min.css",
-  "files": [
-    "font-files/",
-    "scss/"
-  ],
+  "main": "scss/ferui-design.scss",
+  "sass": "scss/ferui-design.scss",
+  "style": "css/ferui-design.min.css",
   "bugs": {
     "url": "https://github.com/ilanddev/ferui/issues"
   }

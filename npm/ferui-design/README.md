@@ -25,7 +25,7 @@ You can either add the compiled css files or the precompiled scss files directly
 1.  Include the `ferui-design.min.css` and `ferui-icons.min.css` files in your HTML file:
 
     ```
-    <link rel="stylesheet" href="path/to/node_modules/@ferui/design/ferui-design.min.css">
+    <link rel="stylesheet" href="path/to/node_modules/@ferui/design/css/ferui-design.min.css">
     <link rel="stylesheet" href="path/to/node_modules/@ferui/icons/ferui-icons.min.css">
     ```
 
@@ -39,7 +39,7 @@ You can either add the compiled css files or the precompiled scss files directly
 ...
 @import "custom";
 // This will import everything from FerUI design.
-@import '@ferui/design/ferui-design';
+@import '@ferui/design/scss/ferui-design';
 ...
 
 // This will load all the style for icons from FerUI Icons.
@@ -54,7 +54,7 @@ You can either add the compiled css files or the precompiled scss files directly
 ```
 ...
 {
-  test: /\.(scss)$/,
+  test: /\.scss$/,
   use: [{
     loader: 'style-loader', // inject CSS to page
   }, {

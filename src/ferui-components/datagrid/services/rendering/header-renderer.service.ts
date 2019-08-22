@@ -11,12 +11,18 @@ export class HeaderRendererService {
     this.headerRow = rowElement;
   }
 
-  public getAllCellsForColumn(column: Column): FuiHeaderCell[] {
-    const eCells: FuiHeaderCell[] = [];
-    const eCell = this.headerRow.getCellForCol(column);
-    if (eCell) {
-      eCells.push(eCell);
-    }
-    return eCells;
+  getCellForCol(column: Column): FuiHeaderCell {
+    let cell: FuiHeaderCell = null;
+    this.headerRow.cells.forEach(item => {
+      if (item.colId === column.getId()) {
+        cell = item;
+      }
+    });
+
+    return cell;
+  }
+
+  public getCellForColumn(column: Column): FuiHeaderCell {
+    return this.getCellForCol(column);
   }
 }

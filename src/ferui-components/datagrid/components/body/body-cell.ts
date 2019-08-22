@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -12,14 +13,19 @@ import {
 } from '@angular/core';
 import { Column } from '../entities/column';
 import { Subscription } from 'rxjs';
-import { ColumnEvent, FuiDatagridEvents } from '../../events';
+import {
+  CellClickedEvent,
+  CellContextMenuEvent,
+  CellDoubleClickedEvent,
+  ColumnEvent,
+  FuiDatagridEvents,
+} from '../../events';
 import { FuiDatagridBodyDropTarget } from '../entities/body-drop-target';
 import { FuiDatagridDragAndDropService } from '../../services/datagrid-drag-and-drop.service';
 import { FuiColumnService } from '../../services/rendering/column.service';
 import { FuiDatagridService } from '../../services/datagrid.service';
 import { FuiDatagridEventService } from '../../services/event.service';
 import { FuiDatagridBodyCellContext } from '../../types/body-cell-context';
-import { FuiColumnDefinitions } from '../../types/column-definitions';
 
 @Component({
   selector: 'fui-datagrid-body-cell',
@@ -47,11 +53,9 @@ export class FuiBodyCell extends FuiDatagridBodyDropTarget implements OnInit, On
   @HostBinding('style.left.px') left: number = 0;
   @HostBinding('style.line-height.px') lineHeight: number = null;
 
-  @Input() columnDefinition: FuiColumnDefinitions;
-  @Input() columns: Array<Column>;
   @Input() column: Column;
   @Input() rowHeight: number;
-  @Input() rowDef: any;
+  @Input() rowData: any;
   @Input() rowIndex: number;
   @Input() colId: string;
 
@@ -73,6 +77,48 @@ export class FuiBodyCell extends FuiDatagridBodyDropTarget implements OnInit, On
     this.element = elementRef.nativeElement;
   }
 
+  @HostListener('click', ['$event'])
+  onCellClick(event) {
+    const evt: CellClickedEvent = {
+      cellNode: this,
+      column: this.column,
+      value: this.templateContext.value,
+      rowIndex: this.rowIndex,
+      rowData: this.rowData,
+      event: event,
+      type: FuiDatagridEvents.EVENT_CELL_CLICKED,
+    };
+    this.eventService.dispatchEvent(evt);
+  }
+
+  @HostListener('dblclick', ['$event'])
+  onCellDblClick(event) {
+    const evt: CellDoubleClickedEvent = {
+      cellNode: this,
+      column: this.column,
+      value: this.templateContext.value,
+      rowIndex: this.rowIndex,
+      rowData: this.rowData,
+      event: event,
+      type: FuiDatagridEvents.EVENT_CELL_DOUBLE_CLICKED,
+    };
+    this.eventService.dispatchEvent(evt);
+  }
+
+  @HostListener('contextmenu', ['$event'])
+  onCellContextMenu(event) {
+    const evt: CellContextMenuEvent = {
+      cellNode: this,
+      column: this.column,
+      value: this.templateContext.value,
+      rowIndex: this.rowIndex,
+      rowData: this.rowData,
+      event: event,
+      type: FuiDatagridEvents.EVENT_CELL_CONTEXT_MENU,
+    };
+    this.eventService.dispatchEvent(evt);
+  }
+
   ngOnInit(): void {
     this.left = this.column.getLeft();
     this.width = this.column.getActualWidth();
@@ -88,9 +134,9 @@ export class FuiBodyCell extends FuiDatagridBodyDropTarget implements OnInit, On
     }
 
     this.templateContext = {
-      value: this.rowDef ? this.rowDef[this.column.getColumnDefinition().field] : null,
+      value: this.rowData ? this.rowData[this.column.getColumnDefinition().field] : null,
       column: this.column,
-      row: this.rowDef,
+      row: this.rowData,
     };
     this.cd.markForCheck();
 
@@ -117,7 +163,7 @@ export class FuiBodyCell extends FuiDatagridBodyDropTarget implements OnInit, On
   }
 
   ngOnDestroy(): void {
-    if (this.subscriptions.length > 1) {
+    if (this.subscriptions.length > 0) {
       this.subscriptions.forEach(sub => sub.unsubscribe());
       this.subscriptions = undefined;
     }

@@ -58,43 +58,27 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
   window = window;
 
   @Input() executeRefreshOutsideAngularZone: boolean = false;
-
   @Input() useMarginInsteadOfTranslate: boolean = false;
-
   @Input() modifyOverflowStyleOfParentScroll: boolean;
-
   @Input() stripedTable: boolean;
-
   @Input() scrollbarWidth: number;
-
   @Input() scrollbarHeight: number;
-
   @Input() childWidth: number;
-
   @Input() childHeight: number;
-
   @Input() ssrChildWidth: number;
-
   @Input() ssrChildHeight: number;
-
   @Input() ssrViewportWidth: number = 1920;
-
   @Input() ssrViewportHeight: number = 1080;
+  @Input() scrollAnimationTime: number;
+  @Input() resizeBypassRefreshThreshold: number;
 
   @Output() vsUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
-
   @Output() vsChange: EventEmitter<IPageInfo> = new EventEmitter<IPageInfo>();
-
   @Output() vsStart: EventEmitter<IPageInfo> = new EventEmitter<IPageInfo>();
-
   @Output() vsEnd: EventEmitter<IPageInfo> = new EventEmitter<IPageInfo>();
 
   @ViewChild('content', { read: ElementRef })
   contentElementRef: ElementRef;
-
-  @Input() scrollAnimationTime: number;
-
-  @Input() resizeBypassRefreshThreshold: number;
 
   get viewPortInfo(): IPageInfo {
     const pageInfo: IViewport = this.previousViewPort || <any>{};
@@ -568,7 +552,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
       this._pageOffsetType = 'pageXOffset';
       this._childScrollDim = 'childWidth';
       this._marginDir = 'margin-left';
-      this._translateDir = 'translateX';
+      this._translateDir = 'x';
       this._scrollType = 'scrollLeft';
     } else {
       this._invisiblePaddingProperty = 'height';
@@ -576,7 +560,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
       this._pageOffsetType = 'pageYOffset';
       this._childScrollDim = 'childHeight';
       this._marginDir = 'margin-top';
-      this._translateDir = 'translateY';
+      this._translateDir = 'y';
       this._scrollType = 'scrollTop';
     }
   }
@@ -700,15 +684,17 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
           if (this.useMarginInsteadOfTranslate) {
             this.renderer.setStyle(this.contentElementRef.nativeElement, this._marginDir, `${viewport.padding}px`);
           } else {
-            this.renderer.setStyle(
-              this.contentElementRef.nativeElement,
-              'transform',
-              `${this._translateDir}(${viewport.padding}px)`
-            );
+            let translateValue: string = '';
+            if (this._translateDir === 'x') {
+              translateValue = `${viewport.padding}px, 0, 0`;
+            } else if (this._translateDir === 'y') {
+              translateValue = `0, ${viewport.padding}px, 0`;
+            }
+            this.renderer.setStyle(this.contentElementRef.nativeElement, 'transform', `translate3d(${translateValue})`);
             this.renderer.setStyle(
               this.contentElementRef.nativeElement,
               'webkitTransform',
-              `${this._translateDir}(${viewport.padding}px)`
+              `translate3d(${translateValue})`
             );
           }
         }
@@ -720,12 +706,15 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
             scrollPosition - viewport.padding - containerOffset + this.headerElementRef.nativeElement.clientHeight,
             0
           );
-          this.renderer.setStyle(this.headerElementRef.nativeElement, 'transform', `${this._translateDir}(${offset}px)`);
-          this.renderer.setStyle(
-            this.headerElementRef.nativeElement,
-            'webkitTransform',
-            `${this._translateDir}(${offset}px)`
-          );
+
+          let translateValue: string = '';
+          if (this._translateDir === 'x') {
+            translateValue = `${offset}px, 0, 0`;
+          } else if (this._translateDir === 'y') {
+            translateValue = `0, ${offset}px, 0`;
+          }
+          this.renderer.setStyle(this.headerElementRef.nativeElement, 'transform', `translate3d(${translateValue})`);
+          this.renderer.setStyle(this.headerElementRef.nativeElement, 'webkitTransform', `translate3d(${translateValue})`);
         }
 
         const changeEventArg: IPageInfo =

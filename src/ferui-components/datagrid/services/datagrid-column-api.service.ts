@@ -1,6 +1,15 @@
 import { Column } from '../components/entities/column';
+import { FuiColumnService } from './rendering/column.service';
+import { FuiDatagridService } from './datagrid.service';
 
 export class FuiDatagridColumnApiService {
+  private columnService: FuiColumnService;
+  private gridPanel: FuiDatagridService;
+
+  init(columnService: FuiColumnService, gridPanel: FuiDatagridService) {
+    this.columnService = columnService;
+    this.gridPanel = gridPanel;
+  }
   // Some of the API methods take Column Key (named colKey) which has type Column|string.
   // This means you can pass either a Column object (that you receive from calling one of the other methods)
   // or you pass in the Column ID (which is a string). The Column ID is a property of the column definition.
@@ -24,16 +33,6 @@ export class FuiDatagridColumnApiService {
   // The key can either be the colId (a string) or the colDef (an object).
   getColumn(colKey) {}
 
-  // Gets the state of the columns. Typically used when saving column state.
-  getColumnState() {}
-
-  // Sets the state of the columns from a previous state.
-  // Returns false if one or more columns could not be found.
-  setColumnState(columnState) {}
-
-  // Sets the state back to match the originally provided column definitions.
-  resetColumnState() {}
-
   // Sets the visibility of a column. Key can be the column id or Column object.
   setColumnVisible(colKey, visible) {}
 
@@ -41,20 +40,23 @@ export class FuiDatagridColumnApiService {
   setColumnsVisible(colKeys, visible) {}
 
   // Auto-sizes a column based on its contents.
-  autoSizeColumn(colKey) {}
+  autoSizeColumn(colKey: string | Column | null): void {
+    this.columnService.autoSizeColumn(colKey, this.gridPanel.getCenterContainer());
+  }
 
   // Same as autoSizeColumn, but provide a list of column keys.
-  autoSizeColumns(colKeys) {}
+  autoSizeColumns(colKeys: (string | Column)[]) {
+    this.columnService.autoSizeColumns(colKeys, this.gridPanel.getCenterContainer());
+  }
+
+  autoSizeAllColumns() {
+    this.columnService.autoSizeAllColumns(this.gridPanel.getCenterContainer());
+  }
 
   // Returns all the columns, regardless of visible or not.
   getAllColumns(): Column[] {
-    return [];
+    return this.columnService.getAllDisplayedColumns();
   }
-
-  // Returns all the grid columns, same as getAllColumns(), except a)
-  // it has the order of the columns that are presented in the grid and b) it's after the 'pivot' step,
-  // so if pivoting, has the value columns for the pivot.
-  getAllGridColumns() {}
 
   // Sets the column width. The finished flag gets included in the resulting event and not used internally by
   // the grid. The finished flag is intended for dragging, where a dragging action will

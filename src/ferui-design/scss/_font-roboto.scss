@@ -1,0 +1,131 @@
+/**
+* Fonts
+* We try to load the font from computer local first if the user have it
+* Otherwise we load one of our font file.
+*/
+@import 'variables/default.scss';
+
+/* BEGIN Thin */
+@font-face {
+  font-family: Roboto;
+  src: local('Roboto'), local('Roboto-Thin'), url('#{$fui-font-path}/Thin/Roboto-Thin.woff2') format('woff2'),
+    url('#{$fui-font-path}/Thin/Roboto-Thin.woff') format('woff'),
+    url('#{$fui-font-path}/Thin/Roboto-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+/* BEGIN Thin Italic */
+@font-face {
+  font-family: Roboto;
+  src: local('Roboto'), local('Roboto-ThinItalic'),
+    url('#{$fui-font-path}/ThinItalic/Roboto-ThinItalic.woff2') format('woff2'),
+    url('#{$fui-font-path}/ThinItalic/Roboto-ThinItalic.woff') format('woff'),
+    url('#{$fui-font-path}/ThinItalic/Roboto-ThinItalic.ttf') format('truetype');
+  font-weight: 100;
+  font-style: italic;
+}
+
+/* BEGIN Light */
+@font-face {
+  font-family: Roboto;
+  src: local('Roboto'), local('Roboto-Light'), url('#{$fui-font-path}/Light/Roboto-Light.woff2') format('woff2'),
+    url('#{$fui-font-path}/Light/Roboto-Light.woff') format('woff'),
+    url('#{$fui-font-path}/Light/Roboto-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* BEGIN Light Italic */
+@font-face {
+  font-family: Roboto;
+  src: local('Roboto'), local('Roboto-LightItalic'),
+    url('#{$fui-font-path}/LightItalic/Roboto-LightItalic.woff2') format('woff2'),
+    url('#{$fui-font-path}/LightItalic/Roboto-LightItalic.woff') format('woff'),
+    url('#{$fui-font-path}/LightItalic/Roboto-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* BEGIN Regular */
+@font-face {
+  font-family: Roboto;
+  src: local('Roboto'), local('Roboto-Regular'), url('#{$fui-font-path}/Regular/Roboto-Regular.woff2') format('woff2'),
+    url('#{$fui-font-path}/Regular/Roboto-Regular.woff') format('woff'),
+    url('#{$fui-font-path}/Regular/Roboto-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* BEGIN Italic */
+@font-face {
+  font-family: Roboto;
+  src: local('Roboto'), local('Roboto-Italic'), url('#{$fui-font-path}/Italic/Roboto-Italic.woff2') format('woff2'),
+    url('#{$fui-font-path}/Italic/Roboto-Italic.woff') format('woff'),
+    url('#{$fui-font-path}/Italic/Roboto-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* BEGIN Medium */
+@font-face {
+  font-family: Roboto;
+  src: local('Roboto'), local('Roboto-Medium'), url('#{$fui-font-path}/Medium/Roboto-Medium.woff2') format('woff2'),
+    url('#{$fui-font-path}/Medium/Roboto-Medium.woff') format('woff'),
+    url('#{$fui-font-path}/Medium/Roboto-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+/* BEGIN Medium Italic */
+@font-face {
+  font-family: Roboto;
+  src: local('Roboto'), local('Roboto-MediumItalic'),
+    url('#{$fui-font-path}/MediumItalic/Roboto-MediumItalic.woff2') format('woff2'),
+    url('#{$fui-font-path}/MediumItalic/Roboto-MediumItalic.woff') format('woff'),
+    url('#{$fui-font-path}/MediumItalic/Roboto-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* BEGIN Bold */
+@font-face {
+  font-family: Roboto;
+  src: local('Roboto'), local('Roboto-Bold'), url('#{$fui-font-path}/Bold/Roboto-Bold.woff2') format('woff2'),
+    url('#{$fui-font-path}/Bold/Roboto-Bold.woff') format('woff'),
+    url('#{$fui-font-path}/Bold/Roboto-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* BEGIN Bold Italic */
+@font-face {
+  font-family: Roboto;
+  src: local('Roboto'), local('Roboto-BoldItalic'),
+    url('#{$fui-font-path}/BoldItalic/Roboto-BoldItalic.woff2') format('woff2'),
+    url('#{$fui-font-path}/BoldItalic/Roboto-BoldItalic.woff') format('woff'),
+    url('#{$fui-font-path}/BoldItalic/Roboto-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* BEGIN Black */
+@font-face {
+  font-family: Roboto;
+  src: local('Roboto'), local('Roboto-Black'), url('#{$fui-font-path}/Black/Roboto-Black.woff2') format('woff2'),
+    url('#{$fui-font-path}/Black/Roboto-Black.woff') format('woff'),
+    url('#{$fui-font-path}/Black/Roboto-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+/* BEGIN Black Italic */
+@font-face {
+  font-family: Roboto;
+  src: local('Roboto'), local('Roboto-BlackItalic'),
+    url('#{$fui-font-path}/BlackItalic/Roboto-BlackItalic.woff2') format('woff2'),
+    url('#{$fui-font-path}/BlackItalic/Roboto-BlackItalic.woff') format('woff'),
+    url('#{$fui-font-path}/BlackItalic/Roboto-BlackItalic.ttf') format('truetype');
+  font-weight: 900;
+  font-style: italic;
+}
