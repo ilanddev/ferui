@@ -240,7 +240,6 @@ export class FuiColumnService {
         // backwards through loop, as we are removing items as we go
         for (let i = colsToSpread.length - 1; i >= 0; i--) {
           const column: Column = colsToSpread[i];
-          const extraSortPaddingSize: number = column.getExtraSortPaddingSize();
           const newWidth: number = Math.round(column.getActualWidth() * scale);
           if (column.isLessThanMin(newWidth)) {
             column.setMinimum();

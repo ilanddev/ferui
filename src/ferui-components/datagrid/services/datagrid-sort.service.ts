@@ -10,6 +10,8 @@ import { FuiDatagridColumnApiService } from './datagrid-column-api.service';
 @Injectable()
 export class FuiDatagridSortService {
   private _sortingColumns: Array<Column> = [];
+  private _initialSortingColumns: Column[] = [];
+  private _sortingColumnInitialized: boolean = false;
   private _rows: Array<any>[];
   private _sortedRows: Array<any> = [];
 
@@ -41,6 +43,14 @@ export class FuiDatagridSortService {
       type: FuiDatagridEvents.EVENT_SORT_COLUMN_CHANGED,
     };
     this.eventService.dispatchEvent(event);
+
+    console.log('sortingColumns', this._sortingColumns);
+
+    if (!this._sortingColumnInitialized) {
+      this._initialSortingColumns = [...this._sortingColumns];
+
+      this._sortingColumnInitialized = true;
+    }
   }
 
   addSortingColumn(column: Column): void {
@@ -107,9 +117,7 @@ export class FuiDatagridSortService {
   }
 
   resetColumnsSortOrder(): void {
-    this._sortingColumns.forEach(column => {
-      column.sortOrder = 0;
-    });
+    this.sortingColumns = this._initialSortingColumns;
   }
 
   hasSortingColumns(): boolean {

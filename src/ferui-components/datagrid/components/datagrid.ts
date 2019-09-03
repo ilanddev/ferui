@@ -210,7 +210,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, OnChanges, AfterViewInit 
   @Output() onCellDoubleClicked: EventEmitter<CellDoubleClickedEvent> = new EventEmitter<CellDoubleClickedEvent>();
   @Output() onCellContextmenu: EventEmitter<CellContextMenuEvent> = new EventEmitter<CellContextMenuEvent>();
 
-  @Input() columnDefs: Array<FuiColumnDefinitions> = [];
+  @Input() columnDefs: FuiColumnDefinitions[] = [];
   @Input() defaultColDefs: FuiColumnDefinitions = {};
   @Input() headerHeight: number = 50; // In px.
   @Input() rowHeight: number = 50; // In px.
@@ -235,8 +235,8 @@ export class FuiDatagrid implements OnInit, OnDestroy, OnChanges, AfterViewInit 
   columns: FuiColumnDefinitions[] = [];
   totalWidth: number;
   scrollSize: number = 0;
-  isLoading: boolean = false;
 
+  private _isLoading: boolean = false;
   private _rowDataModel: FuiRowModel = FuiRowModel.CLIENT_SIDE;
   private _gridWidth: string = '100%';
   private _gridHeight: string = 'auto';
@@ -271,6 +271,17 @@ export class FuiDatagrid implements OnInit, OnDestroy, OnChanges, AfterViewInit 
     private serverSideRowModel: FuiDatagridServerSideRowModel,
     private infiniteRowModel: FuiDatagridInfinteRowModel
   ) {}
+
+  get isLoading(): boolean {
+    return this._isLoading;
+  }
+
+  set isLoading(value: boolean) {
+    if (value !== this._isLoading) {
+      this._isLoading = value;
+      this.cd.markForCheck();
+    }
+  }
 
   getGridApi(): FuiDatagridApiService {
     return this.gridApi;
@@ -694,14 +705,20 @@ export class FuiDatagrid implements OnInit, OnDestroy, OnChanges, AfterViewInit 
     }
     // We do not reset the sorting columns by default, only if the dev decide to.
     if (resetSorting) {
-      this.sortService.resetColumnsSortOrder();
       this.setupColumns();
+      this.sortService.resetColumnsSortOrder();
     }
 
     this.datagridPager.resetPager();
 
     if (this.isClientSideRowModel()) {
-      this.clientSideRowModel.rowData = this.rowData;
+      const originalRowData = [...this.rowData];
+      this.rowData = [];
+      this.isLoading = true;
+      setTimeout(() => {
+        this.rowData = originalRowData;
+        this.isLoading = false;
+      }, 10);
     } else if (this.isServerSideRowModel()) {
       this.serverSideRowModel.reset();
       this.serverSideRowModel.init(this.datasource);
