@@ -193,7 +193,14 @@ export class DatagridServerSideComponent {
     };
 
     this.columnDefs = [
-      { headerName: 'Avatar', field: 'avatar', filter: false, cellRenderer: this.avatarRenderer, sortable: false },
+      {
+        headerName: 'Avatar',
+        field: 'avatar',
+        hide: true,
+        filter: false,
+        cellRenderer: this.avatarRenderer,
+        sortable: false,
+      },
       { headerName: 'Username', field: 'username', minWidth: 150, sortOrder: 1, sort: FuiDatagridSortDirections.ASC },
       {
         headerName: 'Creation date',
