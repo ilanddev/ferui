@@ -233,11 +233,13 @@ export class FuiDragEventsService {
   private getFirstActiveTouch(touchList: TouchList): Touch {
     // Ignore Webstorm check for this for loop. TouchList is not a common Iterable, but it act like one.
     // so it's safe to loop over it.
+    // tslint:disable-next-line
     for (let i = 0; i < touchList.length; i++) {
       if (touchList[i].identifier === this.touchStart.identifier) {
         return touchList[i];
       }
     }
+
     return null;
   }
 

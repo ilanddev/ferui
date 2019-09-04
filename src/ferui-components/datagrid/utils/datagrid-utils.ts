@@ -49,6 +49,7 @@ export class DatagridUtils {
     // Calling debounce returns a new anonymous function
     return function(...args: any[]) {
       // reference the context and args for the setTimeout function
+      // tslint:disable-next-line
       const context = this;
 
       // Should the function be called now? If immediate is true

@@ -24,7 +24,7 @@ import { FilterType } from './interfaces/filter.enum';
         <div class="row">
           <div class="col-3 fui-dg-filters-column-name" unselectable="on">Columns</div>
           <div class="col">
-            <ng-select
+            <fui-select
               fuiSelect
               name="fuiDatagridFilterColumns"
               [layout]="fuiFormLayoutEnum.SMALL"
@@ -37,7 +37,7 @@ import { FilterType } from './interfaces/filter.enum';
               placeholder="Select a column to filter"
             >
               <ng-option *ngFor="let column of columns" [value]="column">{{ column.name }}</ng-option>
-            </ng-select>
+            </fui-select>
           </div>
         </div>
       </div>

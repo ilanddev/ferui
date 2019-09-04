@@ -35,7 +35,7 @@ import { FuiFormLayoutEnum } from '../../../../../../ferui-components/forms/comm
           [resultModelNames]="'selectedCity'"
         >
           <h5 #title>Basic example (without error handling)</h5>
-          <ng-select fuiSelect name="city" [items]="defaultBindingsList" [(ngModel)]="model.selectedCity"></ng-select>
+          <fui-select fuiSelect name="city" [items]="defaultBindingsList" [(ngModel)]="model.selectedCity"></fui-select>
         </default-template-content>
 
         <default-template-content
@@ -50,7 +50,7 @@ import { FuiFormLayoutEnum } from '../../../../../../ferui-components/forms/comm
           <h5 #title>Basic example (including error handling)</h5>
           <fui-select-container>
             <label>Select value</label>
-            <ng-select
+            <fui-select
               fuiSelect
               name="country"
               [items]="countries"
@@ -59,7 +59,7 @@ import { FuiFormLayoutEnum } from '../../../../../../ferui-components/forms/comm
               [(ngModel)]="model.selectedCountryId"
               required
             >
-            </ng-select>
+            </fui-select>
           </fui-select-container>
         </default-template-content>
 
@@ -75,7 +75,7 @@ import { FuiFormLayoutEnum } from '../../../../../../ferui-components/forms/comm
           <h5 #title>Multiple select</h5>
           <fui-select-container>
             <label>Countries</label>
-            <ng-select
+            <fui-select
               fuiSelect
               name="countries"
               [items]="countries"
@@ -86,7 +86,7 @@ import { FuiFormLayoutEnum } from '../../../../../../ferui-components/forms/comm
               [(ngModel)]="model.selectedCountries"
               required
             >
-            </ng-select>
+            </fui-select>
           </fui-select-container>
         </default-template-content>
 
@@ -102,7 +102,7 @@ import { FuiFormLayoutEnum } from '../../../../../../ferui-components/forms/comm
           <h5 #title>Icon example</h5>
           <fui-select-container>
             <clr-icon shape="fui-columns" fuiSelectIcon></clr-icon>
-            <ng-select
+            <fui-select
               fuiSelect
               name="countriesIcon"
               [items]="countries"
@@ -112,7 +112,7 @@ import { FuiFormLayoutEnum } from '../../../../../../ferui-components/forms/comm
               [closeOnSelect]="false"
               [(ngModel)]="model.selectedMultipleCountry"
             >
-            </ng-select>
+            </fui-select>
           </fui-select-container>
         </default-template-content>
 
@@ -128,7 +128,7 @@ import { FuiFormLayoutEnum } from '../../../../../../ferui-components/forms/comm
           <h5 #title>Small layout (single-select)</h5>
           <fui-select-container>
             <label>Countries</label>
-            <ng-select
+            <fui-select
               fuiSelect
               name="countriesSmall"
               [items]="countries"
@@ -138,7 +138,7 @@ import { FuiFormLayoutEnum } from '../../../../../../ferui-components/forms/comm
               [layout]="fuiFormLayoutEnum.SMALL"
               [(ngModel)]="model.smallLayoutCountry"
             >
-            </ng-select>
+            </fui-select>
           </fui-select-container>
         </default-template-content>
 
@@ -154,7 +154,7 @@ import { FuiFormLayoutEnum } from '../../../../../../ferui-components/forms/comm
           <h5 #title>Small layout (multi-select)</h5>
           <fui-select-container>
             <label>Countries</label>
-            <ng-select
+            <fui-select
               fuiSelect
               name="countriesSmallMultiple"
               [items]="countries"
@@ -165,7 +165,7 @@ import { FuiFormLayoutEnum } from '../../../../../../ferui-components/forms/comm
               [multiple]="true"
               [(ngModel)]="model.smallLayoutCountries"
             >
-            </ng-select>
+            </fui-select>
           </fui-select-container>
         </default-template-content>
 
@@ -236,17 +236,17 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
   };
 
   exampleCodes: Array<string> = [
-    `<ng-select fuiSelect name="city" [items]="defaultBindingsList"
+    `<fui-select fuiSelect name="city" [items]="defaultBindingsList"
   [(ngModel)]="model.selectedCity">
-</ng-select>`,
+</fui-select>`,
     `<fui-select-container>
   <label>Select value</label>
-  <ng-select fuiSelect name="country" [items]="countries"
+  <fui-select fuiSelect name="country" [items]="countries"
              bindLabel="nested.name"
              bindValue="nested.countryId"
              [(ngModel)]="model.selectedCountryId"
              required>
-  </ng-select>
+  </fui-select>
 </fui-select-container>`,
     `<fui-select-container>
   <label>City</label>
@@ -256,45 +256,45 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
 </fui-select-container>`,
     `<fui-select-container>
   <clr-icon shape="fui-columns" fuiSelectIcon></clr-icon>
-  <ng-select fuiSelect name="countriesIcon" [items]="countries"
+  <fui-select fuiSelect name="countriesIcon" [items]="countries"
              bindLabel="nested.name"
              bindValue="nested.countryId"
              [multiple]="true"
              [closeOnSelect]="false"
              [(ngModel)]="model.selectedMultipleCountry">
-  </ng-select>
+  </fui-select>
 </fui-select-container>`,
     `<fui-select-container>
   <label>Countries</label>
-  <ng-select fuiSelect name="countries" [items]="countries"
+  <fui-select fuiSelect name="countries" [items]="countries"
              bindLabel="nested.name"
              bindValue="nested.countryId"
              placeholder="Select countries"
              [multiple]="true"
              [(ngModel)]="model.selectedCountries"
              required>
-  </ng-select>
+  </fui-select>
 </fui-select-container>`,
     `<fui-select-container>
   <label>Countries</label>
-  <ng-select fuiSelect name="countriesSmallMultiple" [items]="countries"
+  <fui-select fuiSelect name="countriesSmallMultiple" [items]="countries"
              bindLabel="nested.name"
              bindValue="nested.countryId"
              placeholder="Select countries"
              [layout]="fuiFormLayoutEnum.SMALL"
              [multiple]="true"
              [(ngModel)]="model.smallLayoutCountries">
-  </ng-select>
+  </fui-select>
 </fui-select-container>`,
     `<fui-select-container>
   <label>Countries</label>
-  <ng-select fuiSelect name="countriesSmall" [items]="countries"
+  <fui-select fuiSelect name="countriesSmall" [items]="countries"
              bindLabel="nested.name"
              bindValue="nested.countryId"
              placeholder="Select countries"
              [layout]="fuiFormLayoutEnum.SMALL"
              [(ngModel)]="model.smallLayoutCountry">
-  </ng-select>
+  </fui-select>
 </fui-select-container>`,
   ];
 

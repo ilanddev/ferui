@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   template: `
     <fui-select-container>
       <clr-icon class="fui-column-visibility" shape="fui-columns" fuiSelectIcon></clr-icon>
-      <ng-select
+      <fui-select
         fuiSelect
         name="columnsVisibility"
         [items]="columns"
@@ -21,7 +21,7 @@ import { Subscription } from 'rxjs';
         [closeOnSelect]="false"
         [(ngModel)]="visibleColumns"
       >
-      </ng-select>
+      </fui-select>
     </fui-select-container>
   `,
 })

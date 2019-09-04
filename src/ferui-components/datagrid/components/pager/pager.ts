@@ -71,7 +71,7 @@ import { FuiDatagridInfinteRowModel } from '../row-models/infinite/infinite-row-
           </div>
         </div>
         <div class="col-auto item-per-page-selector" *ngIf="customNumberPageSelection">
-          <ng-select
+          <fui-select
             [layout]="'small'"
             fuiSelect
             name="itemPerPage"
@@ -83,7 +83,7 @@ import { FuiDatagridInfinteRowModel } from '../row-models/infinite/infinite-row-
             <ng-option *ngFor="let itemPerPage of itemPerPagesList" [value]="itemPerPage">
               {{ itemPerPage }} items per page
             </ng-option>
-          </ng-select>
+          </fui-select>
         </div>
       </div>
     </div>

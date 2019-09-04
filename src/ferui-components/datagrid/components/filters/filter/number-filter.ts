@@ -18,7 +18,7 @@ export interface INumberFilterParams extends IScalarFilterParams {
       <div class="col-3">
         <fui-select-container>
           <label></label>
-          <ng-select
+          <fui-select
             fuiSelect
             name="fuiDatagridNumberFilterType"
             appendTo=".fui-datagrid-filters-popover"
@@ -28,7 +28,7 @@ export interface INumberFilterParams extends IScalarFilterParams {
             [(ngModel)]="selectedType"
           >
             <ng-option *ngFor="let type of getApplicableFilterTypes()" [value]="type">{{ translate(type) }}</ng-option>
-          </ng-select>
+          </fui-select>
         </fui-select-container>
       </div>
       <div class="col-3">

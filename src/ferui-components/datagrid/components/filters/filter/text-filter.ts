@@ -60,7 +60,7 @@ export function DEFAULT_TEXT_COMPARATOR(filter: string, value: any, filterText: 
       <div class="col-3">
         <fui-select-container>
           <label></label>
-          <ng-select
+          <fui-select
             fuiSelect
             name="fuiDatagridTextFilterType"
             appendTo=".fui-datagrid-filters-popover"
@@ -70,7 +70,7 @@ export function DEFAULT_TEXT_COMPARATOR(filter: string, value: any, filterText: 
             [(ngModel)]="selectedType"
           >
             <ng-option *ngFor="let type of getApplicableFilterTypes()" [value]="type">{{ translate(type) }}</ng-option>
-          </ng-select>
+          </fui-select>
         </fui-select-container>
       </div>
       <div class="col-3">

@@ -135,7 +135,6 @@ export class FuiSelectContainer implements DynamicWrapper, OnInit, OnDestroy, Af
         this.selectService.fuiSelect.ngSelect.placeholder = this.placeholder;
       }
       let isNgSelectOpen: boolean = false;
-
       if (this.selectIcon) {
         this.subscriptions.push(
           this.selectIcon.onClick.subscribe(() => {

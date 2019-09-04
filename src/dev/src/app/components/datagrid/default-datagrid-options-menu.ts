@@ -9,7 +9,7 @@ import { FuiDatagrid, FuiRowModel, FuiDatagridApiService, FuiDatagridColumnApiSe
         <div class="col col-auto" *ngIf="isInfiniteOrServerSideRowModel()">
           <fui-select-container>
             <label>Bandwidth speed</label>
-            <ng-select
+            <fui-select
               fuiSelect
               [name]="bandwidthSpeedName"
               [addTag]="true"
@@ -24,7 +24,7 @@ import { FuiDatagrid, FuiRowModel, FuiDatagridApiService, FuiDatagridColumnApiSe
                 {{ bandwidthSpeedLayout(item || search) }}
               </ng-template>
               <ng-template ng-tag-tmp let-search="searchTerm"> {{ bandwidthSpeedLayout(search) }}</ng-template>
-            </ng-select>
+            </fui-select>
           </fui-select-container>
         </div>
         <div class="col pt-2">
@@ -100,7 +100,7 @@ export class DefaultDatagridOptionsMenu {
   }
 
   private generateUniqueName(type: string = 'datagrid'): string {
-    var randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+    const randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
     return type + randLetter + Date.now();
   }
 }

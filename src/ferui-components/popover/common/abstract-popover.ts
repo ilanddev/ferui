@@ -50,9 +50,6 @@ export abstract class AbstractPopover implements AfterViewChecked, OnDestroy {
     this.renderer = injector.get(Renderer2);
     // Default anchor is the parent host
     this.anchorElem = parentHost.nativeElement;
-
-    console.log('popover', this.ifOpenService.open, this.el, this.anchorElem);
-
     this.popoverInstance = new Popover(this.el.nativeElement, forcedMarginTop, forcedMarginLeft);
     this.subscription = this.ifOpenService.openChange.subscribe(change => {
       if (change) {

@@ -6,16 +6,23 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { DynamicWrapper } from './dynamic-wrapper';
 import { HostWrapper } from './host-wrapper';
 import { FuiHostWrappingModule } from './host-wrapping.module';
+import { FuiFormLayoutEnum } from '../../forms/common/layout.enum';
 
 const WRAPPER_SERVICE = new InjectionToken<number>('WrapperService');
 
 @Component({
   selector: 'wrapper-component',
-  template: `Hello <ng-content></ng-content>!`,
+  template: `
+    Hello <ng-content></ng-content>!
+  `,
   providers: [{ provide: WRAPPER_SERVICE, useValue: 42 }],
 })
 class WrapperComponent implements DynamicWrapper {
   _dynamic = false;
+
+  controlLayout() {
+    return FuiFormLayoutEnum.DEFAULT;
+  }
 }
 
 @Directive({ selector: '[wrappedDirective]' })
@@ -38,22 +45,22 @@ class HostWrappingTestModule {}
 
 @Component({
   template: `
-        <span wrappedDirective>World</span>
-    `,
+    <span wrappedDirective>World</span>
+  `,
 })
 class WrappingTest {}
 
 @Component({
   template: `
-        <wrapper-component><span wrappedDirective>World</span></wrapper-component>
-    `,
+    <wrapper-component><span wrappedDirective>World</span></wrapper-component>
+  `,
 })
 class ExplicitTest {}
 
 @Component({
   template: `
-        <span *ngIf="show" wrappedDirective>World</span>
-    `,
+    <span *ngIf="show" wrappedDirective>World</span>
+  `,
 })
 class NgIfTest {
   show = true;

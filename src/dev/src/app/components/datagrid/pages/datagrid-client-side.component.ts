@@ -27,7 +27,7 @@ import { DatagridService } from '../datagrid.service';
             <div class="row">
               <div class="col-auto pt-2">Displayed rows count</div>
               <div class="col-auto">
-                <ng-select
+                <fui-select
                   [layout]="'small'"
                   fuiSelect
                   name="itemPerPage"
@@ -43,7 +43,7 @@ import { DatagridService } from '../datagrid.service';
                     {{ item || search }} items per page
                   </ng-template>
                   <ng-template ng-tag-tmp let-search="searchTerm"> {{ search }} items per page</ng-template>
-                </ng-select>
+                </fui-select>
               </div>
               <div class="col-auto pt-1">
                 (You can automatically add a new value within this select. Just type a number an it will be added as a new

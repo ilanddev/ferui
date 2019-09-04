@@ -16,7 +16,7 @@ import { FilterType } from '../interfaces/filter.enum';
       <div class="col-3">
         <fui-select-container>
           <label></label>
-          <ng-select
+          <fui-select
             fuiSelect
             name="fuiDatagridDateFilterType"
             appendTo=".fui-datagrid-filters-popover"
@@ -26,7 +26,7 @@ import { FilterType } from '../interfaces/filter.enum';
             [(ngModel)]="selectedType"
           >
             <ng-option *ngFor="let type of getApplicableFilterTypes()" [value]="type">{{ translate(type) }}</ng-option>
-          </ng-select>
+          </fui-select>
         </fui-select-container>
       </div>
       <div class="col-3">

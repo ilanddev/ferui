@@ -1,14 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  Inject,
-  Injector,
-  Input,
-  OnInit,
-  Optional,
-  SkipSelf,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, ElementRef, Inject, Injector, Input, OnInit, Optional, SkipSelf } from '@angular/core';
 
 import { DatepickerFocusService } from './providers/datepicker-focus.service';
 import { ViewManagerService } from './providers/view-manager.service';

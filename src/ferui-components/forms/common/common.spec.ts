@@ -8,6 +8,7 @@ import { ControlIdService } from './providers/control-id.service';
 import { WrappedFormControl } from './wrapped-control';
 import { FuiHostWrappingModule } from '../../utils/host-wrapping/host-wrapping.module';
 import { FuiCommonFormsModule } from './common.module';
+import { FuiFormLayoutEnum } from './layout.enum';
 
 /*
  * Components representing generic form controls.
@@ -23,6 +24,10 @@ import { FuiCommonFormsModule } from './common.module';
 })
 class GenericWrapper implements DynamicWrapper {
   _dynamic = false;
+
+  controlLayout() {
+    return FuiFormLayoutEnum.DEFAULT;
+  }
 }
 
 @Directive({ selector: '[genericControl]' })
@@ -43,17 +48,25 @@ class CommonFormsTestModule {}
 /*
  * Actual test components, one for each case we support
  */
-@Component({ template: `<input genericControl/>` })
+@Component({
+  template: `
+    <input genericControl />
+  `,
+})
 class NoWrapperNoId {}
 
-@Component({ template: `<input genericControl id="hello"/>` })
+@Component({
+  template: `
+    <input genericControl id="hello" />
+  `,
+})
 class NoWrapperWithId {}
 
 @Component({
   template: `
     <generic-wrapper>
       <label id="test-view-label-before"></label>
-      <input genericControl/>
+      <input genericControl />
       <label id="test-view-label-after"></label>
     </generic-wrapper>
   `,
@@ -64,7 +77,7 @@ class WithWrapperNoId {}
   template: `
     <generic-wrapper>
       <label id="test-view-label-before"></label>
-      <input genericControl id="hello"/>
+      <input genericControl id="hello" />
       <label id="test-view-label-after"></label>
     </generic-wrapper>
   `,

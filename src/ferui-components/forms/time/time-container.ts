@@ -28,9 +28,9 @@ import { TimeSelectionService } from './providers/time-selection.service';
 import { DateFormControlService } from '../common/providers/date-form-control.service';
 import { FuiCommonStrings } from '../../utils/i18n/common-strings.service';
 import { TimeModel } from './models/time.model';
-import { NgSelectComponent } from '@ng-select/ng-select';
 import { FuiFormLayoutService } from '../common/providers/form-layout.service';
 import { FuiFormLayoutEnum } from '../common/layout.enum';
+import { NgSelectComponent } from '../select/ng-select/ng-select.component';
 
 export interface TimeInterface {
   hour: number;
@@ -53,7 +53,7 @@ export interface TimeInterface {
 
         <ng-content select="[fuiTime]"></ng-content>
 
-        <ng-select
+        <fui-select
           #selectElement
           *ngIf="showHours"
           [clearable]="false"
@@ -68,9 +68,9 @@ export interface TimeInterface {
           <ng-template ng-option-tmp ng-label-tmp let-item="item">
             {{ formatHour(item) }}
           </ng-template>
-        </ng-select>
+        </fui-select>
 
-        <ng-select
+        <fui-select
           #selectElement
           *ngIf="showMinutes"
           [clearable]="false"
@@ -83,9 +83,9 @@ export interface TimeInterface {
           (change)="updateTime(null, $event)"
         >
           <ng-template ng-option-tmp ng-label-tmp let-item="item"> {{ item }} min</ng-template>
-        </ng-select>
+        </fui-select>
 
-        <ng-select
+        <fui-select
           #selectElement
           *ngIf="showSeconds"
           [clearable]="false"
@@ -98,7 +98,7 @@ export interface TimeInterface {
           (change)="updateTime(null, null, $event)"
         >
           <ng-template ng-option-tmp ng-label-tmp let-item="item"> {{ item }} s</ng-template>
-        </ng-select>
+        </fui-select>
 
         <label class="fui-control-icons">
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
