@@ -1,128 +1,35 @@
 import { Component } from '@angular/core';
 import { AbstractControlDemoComponent } from '../abstract-control-demo.component';
 import { OnInit } from '@angular/core';
+import { DemoComponentData } from '../../../utils/demo-component-data';
 
 @Component({
   template: `
     <form fuiForm class="container-fluid" #demoForm="ngForm">
-      <default-template-wrapper
-        [pageTitle]="'Password Page'"
-        [(disabled)]="disabled"
-        [examples]="examples"
-        [results]="results"
-        (toggleEvent)="toggle($event)"
-      >
-        <default-template-content
-          [disabled]="disabled"
-          [model]="model"
-          [code]="exampleCodes[0]"
-          [examples]="examples"
-          [results]="results"
-          [idx]="0"
-          [resultModelNames]="'one'"
-        >
-          <h5 #title>No label, no wrapper :</h5>
-          <textarea fuiTextarea name="one" [(ngModel)]="model.one"></textarea>
-        </default-template-content>
-
-        <default-template-content
-          [disabled]="disabled"
-          [model]="model"
-          [code]="exampleCodes[1]"
-          [examples]="examples"
-          [results]="results"
-          [idx]="1"
-          [resultModelNames]="'two'"
-        >
-          <h5 #title>No label, wrapper :</h5>
-          <fui-textarea-container>
-            <textarea fuiTextarea name="two" [(ngModel)]="model.two"></textarea>
-          </fui-textarea-container>
-        </default-template-content>
-
-        <default-template-content
-          [disabled]="disabled"
-          [model]="model"
-          [code]="exampleCodes[2]"
-          [examples]="examples"
-          [results]="results"
-          [idx]="2"
-          [resultModelNames]="'three'"
-        >
-          <h5 #title>Label, wrapper and <span class="text-danger">required</span> validator :</h5>
-          <fui-textarea-container>
-            <label for="three">Full example</label>
-            <textarea
-              placeholder="With placeholder"
-              fuiTextarea
-              id="three"
-              name="three"
-              [(ngModel)]="model.three"
-              required
-            ></textarea>
-          </fui-textarea-container>
-        </default-template-content>
-
-        <default-template-content
-          [disabled]="disabled"
-          [model]="model"
-          [code]="exampleCodes[3]"
-          [examples]="examples"
-          [results]="results"
-          [idx]="3"
-          [resultModelNames]="'four'"
-        >
-          <h5 #title>
-            Label, wrapper, <span class="text-danger">required</span> validator but
-            <span class="text-danger">disabled</span> :
-          </h5>
-          <fui-textarea-container>
-            <label for="four">Full example (disabled)</label>
-            <textarea fuiTextarea id="four" name="four" [(ngModel)]="model.four" required [disabled]="disabled"></textarea>
-            <fui-control-error>This field is required</fui-control-error>
-          </fui-textarea-container>
-        </default-template-content>
-
-        <default-template-content
-          [disabled]="disabled"
-          [model]="model"
-          [code]="exampleCodes[4]"
-          [examples]="examples"
-          [results]="results"
-          [idx]="4"
-          [resultModelNames]="'five'"
-        >
-          <h5 #title>Label, wrapper, <span class="text-danger">required</span> validator, disabled and filled :</h5>
-          <fui-textarea-container>
-            <label for="five">Full example (disabled, filled)</label>
-            <textarea fuiTextarea id="five" name="five" [(ngModel)]="model.five" required [disabled]="disabled"></textarea>
-            <fui-control-error>This field is required</fui-control-error>
-          </fui-textarea-container>
-        </default-template-content>
-
-        <default-template-content
-          [disabled]="disabled"
-          [model]="model"
-          [code]="exampleCodes[5]"
-          [examples]="examples"
-          [results]="results"
-          [idx]="5"
-          [resultModelNames]="'six'"
-        >
-          <h5 #title>Multiple validators</h5>
-          <fui-textarea-container>
-            <label for="six">Full example (multiple validators)</label>
-            <textarea fuiTextarea id="six" name="six" [(ngModel)]="model.six" required email></textarea>
-            <fui-control-error *fuiIfError="'required'">This field is required</fui-control-error>
-            <fui-control-error *fuiIfError="'email'">You didn't type an email address</fui-control-error>
-          </fui-textarea-container>
-        </default-template-content>
-      </default-template-wrapper>
-      <div class="footer">
-        <button class="btn btn-primary" [disabled]="!demoForm.form.valid" type="submit">Submit</button>
-        <button class="btn btn-success" type="button" (click)="validate()">Validate</button>
-        <button class="btn btn-light" type="button" (click)="demoForm.reset()">Reset</button>
-      </div>
+      <fui-tabs>
+        <fui-tab [title]="'Examples'" [active]="true">
+          <demo-page [filtersDisplayed]="true" pageTitle="Input component">
+            <demo-component [form]="demoForm" [componentData]="inputOne"></demo-component>
+            <demo-component [form]="demoForm" [componentData]="inputTwo"></demo-component>
+            <demo-component [form]="demoForm" [componentData]="inputThree"></demo-component>
+            <demo-component [form]="demoForm" [componentData]="inputFour"></demo-component>
+            <demo-component [form]="demoForm" [componentData]="inputFive"></demo-component>
+            <demo-component [form]="demoForm" [componentData]="inputSix"></demo-component>
+            <div class="footer">
+              <button class="btn btn-primary" type="submit">
+                Submit [disabled]="!demoForm.form.valid" (click)="promptSubmitInfos()"
+              </button>
+              <button class="btn btn-success" type="button" (click)="validate()">Validate</button>
+              <button class="btn btn-light" type="button" (click)="demoForm.reset()">Reset</button>
+            </div>
+          </demo-page>
+        </fui-tab>
+        <fui-tab [title]="'Documentation'">
+          <div class="row">
+            <p>In construction...</p>
+          </div>
+        </fui-tab>
+      </fui-tabs>
     </form>
   `,
 })
@@ -137,44 +44,78 @@ export class TextareaComponent extends AbstractControlDemoComponent implements O
     six: '',
   };
 
-  exampleCodes: Array<string> = [
-    `<textarea fuiTextarea name="one" [(ngModel)]="model.one"></textarea>`,
-    `<fui-textarea-container>
-  <textarea fuiTextarea name="two" [(ngModel)]="model.two"></textarea>
-</fui-textarea-container>`,
-    `<fui-textarea-container>
-  <label for="three">Full example</label>
-  <textarea placeholder="With placeholder" fuiTextarea id="three" name="three" [(ngModel)]="model.three" required></textarea>
-  <!-- All the validator messages are default ones -->
-</fui-textarea-container>`,
-    `<fui-textarea-container>
-  <label for="four">Full example (disabled)</label>
-  <textarea fuiTextarea id="four" name="four" [(ngModel)]="model.four" required [disabled]="disabled"></textarea>
-  <fui-control-error>This field is required</fui-control-error>
-</fui-textarea-container>`,
-    `<fui-textarea-container>
-  <label for="five">Full example (disabled, filled)</label>
-  <textarea fuiTextarea id="five" name="five" [(ngModel)]="model.five" required [disabled]="disabled"></textarea>
-  <fui-control-error>This field is required</fui-control-error>
-</fui-textarea-container>`,
-    `<fui-textarea-container>
-  <label for="six">Full example (multiple validators)</label>
-  <textarea fuiTextarea id="six" name="six" [(ngModel)]="model.six" required email></textarea>
-  <fui-control-error *fuiIfError="'required'">This field is required</fui-control-error>
-  <fui-control-error *fuiIfError="'email'">You didn't type an email address</fui-control-error>
-</fui-textarea-container>`,
-  ];
+  inputOne: DemoComponentData;
+  inputTwo: DemoComponentData;
+  inputThree: DemoComponentData;
+  inputFour: DemoComponentData;
+  inputFive: DemoComponentData;
+  inputSix: DemoComponentData;
 
   constructor() {
     super();
   }
 
   ngOnInit(): void {
-    for (const idx in this.exampleCodes) {
-      if (this.exampleCodes[idx]) {
-        this.examples[idx] = this.defaultExampleValue;
-        this.results[idx] = this.defaultResultValue;
-      }
-    }
+    this.inputOne = new DemoComponentData({
+      title: `<h5>No label, no wrapper :</h5>`,
+      models: { one: this.model.one },
+      canDisable: false,
+      source: `<textarea #code fuiTextarea name="one" [(ngModel)]="models.one"></textarea>`,
+    });
+    this.inputTwo = new DemoComponentData({
+      title: `<h5>No label, wrapper :</h5>`,
+      models: { two: this.model.two },
+      canDisable: false,
+      source: `
+        <fui-textarea-container #code>
+          <textarea fuiTextarea name="two" [(ngModel)]="models.two"></textarea>
+        </fui-textarea-container>`,
+    });
+    this.inputThree = new DemoComponentData({
+      title: `<h5>Label, wrapper and <span class="text-danger">required</span> validator :</h5>`,
+      models: { three: this.model.three },
+      canDisable: false,
+      source: `
+        <fui-textarea-container #code>
+          <label for="three">Full example</label>
+          <textarea placeholder="With placeholder" fuiTextarea id="three" name="three" [(ngModel)]="models.three" required></textarea>
+        </fui-textarea-container>`,
+    });
+    this.inputFour = new DemoComponentData({
+      title: `<h5>Label, wrapper, <span class="text-danger">required</span> validator but <span class="text-danger">disabled</span> :</h5>`,
+      models: { four: this.model.four },
+      params: { disabled: this.disabled },
+      canDisable: true,
+      source: `
+        <fui-textarea-container #code>
+          <label for="four">Full example (disabled)</label>
+          <textarea fuiTextarea id="four" name="four" [(ngModel)]="models.four" required [disabled]="params.disabled"></textarea>
+          <fui-control-error>This field is required</fui-control-error>
+        </fui-textarea-container>`,
+    });
+    this.inputFive = new DemoComponentData({
+      title: `<h5>Label, wrapper, <span class="text-danger">required</span> validator, disabled and filled :</h5>`,
+      models: { five: this.model.five },
+      params: { disabled: this.disabled },
+      canDisable: true,
+      source: `
+        <fui-textarea-container #code>
+          <label for="five">Full example (disabled, filled)</label>
+          <textarea fuiTextarea id="five" name="five" [(ngModel)]="models.five" required [disabled]="disabled"></textarea>
+          <fui-control-error>This field is required</fui-control-error>
+        </fui-textarea-container>`,
+    });
+    this.inputSix = new DemoComponentData({
+      title: `<h5>Multiple validators</h5>`,
+      models: { six: this.model.six },
+      canDisable: false,
+      source: `
+        <fui-textarea-container #code>
+          <label for="six">Full example (multiple validators)</label>
+          <textarea fuiTextarea id="six" name="six" [(ngModel)]="models.six" required email></textarea>
+          <fui-control-error *fuiIfError="'required'">This field is required</fui-control-error>
+          <fui-control-error *fuiIfError="'email'">You didn't type an email address</fui-control-error>
+        </fui-textarea-container>`,
+    });
   }
 }

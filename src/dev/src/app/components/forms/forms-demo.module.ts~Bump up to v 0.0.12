@@ -13,10 +13,10 @@ import { PasswordComponent } from './password/password.component';
 import { DefaultTemplateWrapper } from './default-template-wrapper';
 import { DefaultTemplateContent } from './default-template-content';
 import { DatetimeComponent } from './datetime/datetime.component';
-import { DemoComponent } from '../../utils/demo.component';
-import { DemoPageComponent } from '../../utils/demo-page.component';
 import { FormsDashboardComponent } from './dashboard/forms-dashboard.component';
 import { RouterModule } from '@angular/router';
+import { DemoPageComponent } from '../../utils/demo-page.component';
+import { DemoComponent } from '../../utils/demo.component';
 
 export const FUI_DEMO_FROMS_DIRECTIVES: Type<any>[] = [
   DemoComponent,
