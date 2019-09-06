@@ -1,5 +1,6 @@
-import { AfterContentInit, Component, ContentChildren, Input, QueryList } from '@angular/core';
+import { AfterContentInit, Component, ContentChildren, Input, QueryList, ViewChild } from '@angular/core';
 import { DemoComponent } from './demo.component';
+import { NgForm } from '@angular/forms';
 
 /**
  * Class:  Demo-page.component.ts
@@ -19,18 +20,28 @@ import { DemoComponent } from './demo.component';
  */
 @Component({
   selector: 'demo-page',
-  template: `<h2 class="mt-2 mb-2">{{pageTitle}}</h2>
-  <p class="mt-4">Filters :
-    <button class="btn btn-sm btn-info" *ngIf="canDisable" (click)="setDisable()">Toggle Disabled ({{disabled ? 'true' : 'false'}})</button>
-    <button class="btn btn-sm btn-info ml-2" (click)="toggleAllCodes()">Toggle all code</button>
-    <button class="btn btn-sm btn-info ml-2" *ngIf="canToggleResults" (click)="toggleAllResults()">Toggle all results</button>
-  </p>
-  <ng-content></ng-content>`,
+  template: `
+    <h2 class="mt-2 mb-2">{{ pageTitle }}</h2>
+    <p class="mt-4" *ngIf="filtersDisplayed">
+      Filters :
+      <button class="btn btn-sm btn-info" *ngIf="canDisable" (click)="setDisable()">
+        Toggle Disabled ({{ disabled ? 'true' : 'false' }})
+      </button>
+      <button class="btn btn-sm btn-info ml-2" (click)="toggleAllCodes()">Toggle all code</button>
+      <button class="btn btn-sm btn-info ml-2" *ngIf="canToggleResults" (click)="toggleAllResults()">
+        Toggle all results
+      </button>
+    </p>
+    <ng-content></ng-content>
+  `,
 })
 export class DemoPageComponent implements AfterContentInit {
   @ContentChildren(DemoComponent) demoComponents: QueryList<DemoComponent>;
+
+  @Input() filtersDisplayed: boolean = false;
   @Input() pageTitle: string = 'Demo Page';
   @Input() disabled: boolean = false;
+
   canDisable: boolean = false;
   canToggleResults: boolean = false;
 

@@ -32,7 +32,6 @@ export function hljsLanguages() {
 }
 
 @NgModule({
-  declarations: [AppContentContainerComponent, AppComponent, LandingComponent],
   imports: [
     BrowserAnimationsModule,
     HttpClientModule,
@@ -47,6 +46,7 @@ export function hljsLanguages() {
       languages: hljsLanguages,
     }),
   ],
+  declarations: [AppContentContainerComponent, AppComponent, LandingComponent],
   exports: [RouterModule, AppContentContainerComponent],
   bootstrap: [AppComponent],
   providers: [WINDOW_PROVIDERS],

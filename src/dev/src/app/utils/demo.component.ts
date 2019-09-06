@@ -7,13 +7,23 @@ import {
   NgModule,
   ViewChild,
   ViewContainerRef,
+  ComponentRef,
+  ModuleWithComponentFactories,
+  ComponentFactory,
+  OnInit,
+  TemplateRef,
+  ViewChildren,
+  QueryList,
+  ContentChildren,
 } from '@angular/core';
 import { FeruiModule } from '@ferui/components';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgControl, NgForm, NgModel } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as jsBeautify from 'js-beautify';
 import { DemoComponentData } from './demo-component-data';
+import { IconsModule } from '../icons/icons.module';
+import { WINDOW_PROVIDERS } from '../services/window.service';
 
 /**
  * Class:  Demo.component.ts
@@ -65,33 +75,54 @@ import { DemoComponentData } from './demo-component-data';
   template: `
     <div class="row">
       <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12">
-        <h5 class="mt-3">{{title}} <span *ngIf="canDisable && models">(<button class="btn btn-link p-0" (click)="disable(!this.params.disabled)">{{ this.params.disabled ? 'Enable' : 'Disable'}}</button>)</span></h5>
-        <div #demo></div>
+        <h5 class="mt-3">
+          <span [innerHTML]="title"></span>
+          <span *ngIf="canDisable && models">
+            (<button class="btn btn-link p-0" (click)="disable(!this.params.disabled)">
+              {{ this.params.disabled ? 'Enable' : 'Disable' }}</button
+            >)
+          </span>
+        </h5>
+        <div #container></div>
       </div>
       <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12" *ngIf="sourceCode && !models">
-        <h5 class="mt-3">Code (<button class="btn btn-link p-0" (click)="toggleCode()">{{ codeHidden ? 'View Code' : 'Hide Code'}}</button>)</h5>
-        <pre *ngIf="!codeHidden"><code [highlight]="codeBlock"></code></pre>
+        <h5 class="mt-3">
+          Code (
+          <button class="btn btn-link p-0" (click)="toggleCode()">{{ codeHidden ? 'View Code' : 'Hide Code' }}</button>
+          )
+        </h5>
+        <pre *ngIf="!codeHidden"><code [languages]="['xml']" [highlight]="codeBlock"></code></pre>
       </div>
     </div>
     <!--Second row if models are provided and results are available-->
     <div class="row pt-3" *ngIf="sourceCode && models">
       <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12">
-        <p>Data (<button class="btn btn-link p-0" (click)="toggleResult()">{{ resultHidden ? 'View Data' : 'Hide Data'}}</button>)</p>
-        <pre *ngIf="!resultHidden"><code [highlight]="resultsData() | json"></code></pre>
+        <p>
+          Data (
+          <button class="btn btn-link p-0" (click)="toggleResult()">{{ resultHidden ? 'View Data' : 'Hide Data' }}</button>
+          )
+        </p>
+        <pre *ngIf="!resultHidden"><code [languages]="['json']" [highlight]="resultsData() | json"></code></pre>
       </div>
       <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12">
-        <p>Code (<button class="btn btn-link p-0" (click)="toggleCode()">{{ codeHidden ? 'View Code' : 'Hide Code'}}</button>)</p>
-        <pre *ngIf="!codeHidden"><code [highlight]="codeBlock"></code></pre>
+        <p>
+          Code (
+          <button class="btn btn-link p-0" (click)="toggleCode()">{{ codeHidden ? 'View Code' : 'Hide Code' }}</button>
+          )
+        </p>
+        <pre *ngIf="!codeHidden"><code [languages]="['xml']" [highlight]="codeBlock"></code></pre>
       </div>
-    </div>`,
+    </div>
+  `,
 })
-export class DemoComponent implements AfterViewInit, AfterContentInit {
+export class DemoComponent implements OnInit {
   @Input() componentData: DemoComponentData;
   @Input() disabled: boolean = false;
   @Input() codeHidden: boolean = false;
   @Input() resultHidden: boolean = false;
-  @ViewChild('demo', { read: ViewContainerRef })
-  _vcr;
+  @Input() form: NgForm;
+
+  @ViewChild('container', { read: ViewContainerRef }) _vcr: ViewContainerRef;
 
   title: string;
   sourceCode: string;
@@ -100,9 +131,11 @@ export class DemoComponent implements AfterViewInit, AfterContentInit {
   canDisable: boolean;
   codeBlock: string;
 
+  private _componentRef: ComponentRef<any>;
+
   constructor(private _compiler: Compiler) {}
 
-  ngAfterContentInit() {
+  ngOnInit(): void {
     this.title = this.componentData.title;
     this.sourceCode = this.componentData.source;
     this.models = this.componentData.models;
@@ -115,28 +148,57 @@ export class DemoComponent implements AfterViewInit, AfterContentInit {
 
     const codeBlocks = this.extractCodeBlocks(this.sourceCode);
     this.codeBlock = jsBeautify.html(codeBlocks.length > 0 ? codeBlocks.join('') : this.sourceCode);
+
+    const _params: any = this.params;
+    const _models: any = this.models;
+    const _form: NgForm = this.form;
+
+    class DemoSubComponent implements AfterViewInit {
+      params: any = _params;
+      models: any = _models;
+      form: NgForm = _form;
+
+      @ViewChildren(NgControl) formControls: QueryList<NgControl>;
+
+      ngAfterViewInit(): void {
+        if (this.form && this.formControls.length > 0) {
+          this.formControls.forEach(control => {
+            if (control instanceof NgModel) {
+              this.form.addControl(control);
+            }
+          });
+        }
+      }
+    }
+    this.compileTemplate(this.sourceCode, DemoSubComponent);
   }
 
-  ngAfterViewInit() {
-    const _params = this.params;
-    const _models = this.models;
+  private compileTemplate(template, componentClass?: any) {
+    let metadata = {
+      selector: `runtime-component-sample`,
+      template: template,
+    };
+    let factory = this.createComponentFactorySync(this._compiler, metadata, componentClass);
+    if (this._componentRef) {
+      this._componentRef.destroy();
+      this._componentRef = null;
+    }
+    this._componentRef = this._vcr.createComponent(factory);
+  }
 
-    const tmpCmp = Component({ template: this.sourceCode })(
-      class DemoSubComponent {
-        public params: object = _params;
-        public models: object = _models;
-      }
-    );
+  private createComponentFactorySync(compiler: Compiler, metadata: Component, componentClass: any): ComponentFactory<any> {
+    const cmpClass = componentClass || class RuntimeComponent {};
+    const decoratedCmp = Component(metadata)(cmpClass);
 
-    const tmpModule = NgModule({
-      imports: [BrowserAnimationsModule, CommonModule, FormsModule, FeruiModule],
-      declarations: [tmpCmp],
-    })(class {});
+    @NgModule({
+      imports: [BrowserAnimationsModule, CommonModule, FormsModule, IconsModule, FeruiModule],
+      declarations: [decoratedCmp],
+      providers: [WINDOW_PROVIDERS],
+    })
+    class RuntimeComponentModule {}
 
-    this._compiler.compileModuleAndAllComponentsAsync(tmpModule).then(factories => {
-      const f = factories.componentFactories[factories.componentFactories.length - 1];
-      this._vcr.createComponent(f);
-    });
+    let module: ModuleWithComponentFactories<any> = compiler.compileModuleAndAllComponentsSync(RuntimeComponentModule);
+    return module.componentFactories.find(f => f.componentType === decoratedCmp);
   }
 
   resultsData() {
@@ -146,11 +208,24 @@ export class DemoComponent implements AfterViewInit, AfterContentInit {
     }
     data.models = {};
     for (const modelName in this.models) {
-      if (this.models.hasOwnProperty(modelName)) {
+      if (modelName) {
         data.models[modelName] = this.models[modelName];
       }
     }
     return data;
+  }
+
+  concatResultModels(models: any): Array<any> {
+    const results: Array<any> = [];
+    for (const modelName in models) {
+      if (modelName) {
+        results.push({
+          'field-name': modelName,
+          value: models[modelName],
+        });
+      }
+    }
+    return results;
   }
 
   toggleCode() {
@@ -174,7 +249,7 @@ export class DemoComponent implements AfterViewInit, AfterContentInit {
   private extractCodeBlocks(code: string) {
     const el = document.createElement('div');
     el.innerHTML = code;
-    let codeBlocks = this.getAllElementsWithAttribute('#code', el);
+    let codeBlocks = this.getAllElementsWithAttributeOrClass('#code', 'code', el);
     if (codeBlocks.length > 0) {
       codeBlocks = codeBlocks.map(block => block.outerHTML);
     }
@@ -185,21 +260,25 @@ export class DemoComponent implements AfterViewInit, AfterContentInit {
   /**
    * Get HTML elements that have the specified attribute
    * @param attribute
+   * @param klass
    * @param html
    * @return Array[HtmlElement] Array of matching HTML elements
    */
-  private getAllElementsWithAttribute(attribute: string, html: HTMLElement) {
+  private getAllElementsWithAttributeOrClass(attribute: string, klass: string, html: HTMLElement) {
     const matchingElements = [];
     const allElements = html.getElementsByTagName('*');
     for (let i = 0, n = allElements.length; i < n; i++) {
-      if (allElements[i].getAttribute(attribute) !== null) {
+      const element = allElements[i];
+      if (element.getAttribute(attribute) !== null) {
         // Element exists with attribute. Add to array.
-        matchingElements.push(allElements[i]);
+        element.removeAttribute(attribute);
+        matchingElements.push(element);
+      } else if (element.classList.contains(klass)) {
+        // Element exists with attribute. Add to array.
+        const classList = element.classList;
+        classList.remove(klass);
+        matchingElements.push(element);
       }
-    }
-
-    if (matchingElements.length > 0) {
-      matchingElements.forEach(elm => elm.removeAttribute(attribute));
     }
 
     return matchingElements;

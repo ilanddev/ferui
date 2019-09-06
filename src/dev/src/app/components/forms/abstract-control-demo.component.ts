@@ -38,4 +38,8 @@ export abstract class AbstractControlDemoComponent {
       }
     }
   }
+
+  promptSubmitInfos() {
+    console.log('Form submited : ', this.form.controls, 'valid :', this.form.valid);
+  }
 }
