@@ -22,8 +22,8 @@ export default function(): void {
       it('should set items from primitive numbers array', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="[0, 30, 60, 90, 120, 180, 240]">
-                </fui-select>`
+          `<ng-select [items]="[0, 30, 60, 90, 120, 180, 240]">
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -40,10 +40,10 @@ export default function(): void {
       it('should create items from ng-option', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [(ngModel)]="selectedCity">
+          `<ng-select [(ngModel)]="selectedCity">
                 <ng-option [value]="true">Yes</ng-option>
                 <ng-option [value]="false">No</ng-option>
-            </fui-select>`
+            </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -73,11 +73,11 @@ export default function(): void {
       it('should update ngModel on value change', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         bindLabel="name"
                         [clearable]="true"
                         [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         selectOption(fixture, KeyCode.ArrowDown, 1);
@@ -96,11 +96,11 @@ export default function(): void {
       it('should update internal model on ngModel change', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         bindLabel="name"
                         [clearable]="true"
                         [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.selectedCity = fixture.componentInstance.cities[0];
@@ -121,12 +121,12 @@ export default function(): void {
       it('should update internal model after it was toggled with *ngIf', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select *ngIf="visible"
+          `<ng-select *ngIf="visible"
                         [items]="cities"
                         bindLabel="name"
                         [clearable]="true"
                         [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         // select first city
@@ -148,12 +148,12 @@ export default function(): void {
       it('should set items correctly after ngModel set first when bindValue is used', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         bindLabel="name"
                         bindValue="id"
                         [clearable]="true"
                         [(ngModel)]="selectedCityId">
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.cities = [];
@@ -175,11 +175,11 @@ export default function(): void {
       it('should set items correctly after ngModel set first when bindValue is not used', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         bindLabel="name"
                         [clearable]="true"
                         [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.cities = [];
@@ -201,11 +201,11 @@ export default function(): void {
       it('should map label correctly', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         bindLabel="name"
                         [clearable]="true"
                         [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.cities = [{ label: 'Vilnius city', name: 'Vilnius' }];
@@ -218,12 +218,12 @@ export default function(): void {
       it('should set items correctly after ngModel set first when typeahead and single select is used', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                     bindLabel="name"
                     [typeahead]="filter"
                     placeholder="select value"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         select = fixture.componentInstance.select;
@@ -247,13 +247,13 @@ export default function(): void {
       it('should set items correctly after ngModel set first when typeahead and multi-select is used', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                     bindLabel="name"
                     [multiple]="true"
                     [typeahead]="filter"
                     placeholder="select value"
                     [(ngModel)]="selectedCities">
-                </fui-select>`
+                </ng-select>`
         );
 
         select = fixture.componentInstance.select;
@@ -281,11 +281,11 @@ export default function(): void {
       it('should set items correctly if there is no bindLabel', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select 
+          `<ng-select 
                     [items]="cities"
                     [clearable]="true"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         const cities = [{ id: 7, name: 'Pailgis' }];
@@ -303,11 +303,11 @@ export default function(): void {
       it('should bind ngModel object even if items are empty', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         bindLabel="name"
                         [clearable]="true"
                         [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.cities = [];
@@ -327,10 +327,10 @@ export default function(): void {
       it('should bind ngModel simple value even if items are empty', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="citiesNames"
+          `<ng-select [items]="citiesNames"
                         [clearable]="true"
                         [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.cities = [];
@@ -350,11 +350,11 @@ export default function(): void {
       it('should preserve latest selected value when items are changing', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         bindLabel="name"
                         [clearable]="true"
                         [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.selectedCity = fixture.componentInstance.cities[0];
@@ -378,11 +378,11 @@ export default function(): void {
       it('should map selected items with items in dropdown', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         bindLabel="name"
                         [clearable]="true"
                         [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         select = fixture.componentInstance.select;
@@ -403,12 +403,12 @@ export default function(): void {
       it('should keep selected item while setting new items and bindValue is incorrect', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         bindLabel="name"
                         bindValue="value"
                         [clearable]="true"
                         [(ngModel)]="selectedCityId">
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture); // triggers write value
@@ -430,11 +430,11 @@ export default function(): void {
       it('should clear previous single select value when setting new model', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         bindLabel="name"
                         [clearable]="true"
                         [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.selectedCity = fixture.componentInstance.cities[0];
@@ -451,12 +451,12 @@ export default function(): void {
       it('should clear disbled selected values when setting new model', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         bindLabel="name"
                         [multiple]="true"
                         [clearable]="true"
                         [(ngModel)]="selectedCities">
-                </fui-select>`
+                </ng-select>`
         );
 
         const disabled = { ...fixture.componentInstance.cities[1], disabled: true };
@@ -475,11 +475,11 @@ export default function(): void {
       it('should clear previous selected value even if it is disabled', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         bindLabel="name"
                         [clearable]="true"
                         [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.cities[0].disabled = true;
@@ -495,12 +495,12 @@ export default function(): void {
       it('should clear previous multiple select value when setting new model', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         bindLabel="name"
                         [multiple]="true"
                         [clearable]="true"
                         [(ngModel)]="selectedCities">
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.selectedCities = [fixture.componentInstance.cities[0]];
@@ -520,12 +520,12 @@ export default function(): void {
       it('should not add selected items to new items list when [items] are changed', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         bindLabel="name"
                         [multiple]="true"
                         [clearable]="true"
                         [(ngModel)]="selectedCities">
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.selectedCities = [...fixture.componentInstance.cities.slice(0, 2)];
@@ -542,11 +542,11 @@ export default function(): void {
       it('should reset marked item when [items] are changed and dropdown is opened', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         bindLabel="name"
                         [clearable]="true"
                         [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
         select = fixture.componentInstance.select;
 
@@ -565,11 +565,11 @@ export default function(): void {
       it('should bind to custom object properties', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             bindLabel="name"
                             bindValue="id"
                             [(ngModel)]="selectedCityId">
-                </fui-select>`
+                </ng-select>`
         );
 
         selectOption(fixture, KeyCode.ArrowDown, 0);
@@ -588,10 +588,10 @@ export default function(): void {
       it('should bind to nested label property', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="countries"
+          `<ng-select [items]="countries"
                             bindLabel="description.name"
                             [(ngModel)]="selectedCountry">
-                </fui-select>`
+                </ng-select>`
         );
 
         selectOption(fixture, KeyCode.ArrowDown, 1);
@@ -616,11 +616,11 @@ export default function(): void {
       it('should bind to nested value property', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="countries"
+          `<ng-select [items]="countries"
                             bindLabel="description.name"
                             bindValue="description.id"
                             [(ngModel)]="selectedCountry">
-                </fui-select>`
+                </ng-select>`
         );
 
         selectOption(fixture, KeyCode.ArrowDown, 1);
@@ -644,9 +644,9 @@ export default function(): void {
       it('should bind to simple array', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="citiesNames"
+          `<ng-select [items]="citiesNames"
                             [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         selectOption(fixture, KeyCode.ArrowDown, 0);
@@ -662,10 +662,10 @@ export default function(): void {
       it('should bind to object', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             bindLabel="name"
                             [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         // from component to model
@@ -689,9 +689,9 @@ export default function(): void {
         it('should reset to empty array', fakeAsync(() => {
           const fixture = createTestingModule(
             NgSelectTestCmp,
-            `<fui-select [(ngModel)]="selectedCityId">
+            `<ng-select [(ngModel)]="selectedCityId">
                         <ng-option *ngFor="let city of cities" [value]="city.id">{{city.name}}</ng-option>
-                    </fui-select>`
+                    </ng-select>`
           );
 
           select = fixture.componentInstance.select;
@@ -706,10 +706,10 @@ export default function(): void {
         it('should bind value', fakeAsync(() => {
           const fixture = createTestingModule(
             NgSelectTestCmp,
-            `<fui-select [(ngModel)]="selectedCityId">
+            `<ng-select [(ngModel)]="selectedCityId">
                     <ng-option [value]="1">A</ng-option>
                     <ng-option [value]="2">B</ng-option>
-                </fui-select>`
+                </ng-select>`
           );
 
           // from component to model
@@ -733,10 +733,10 @@ export default function(): void {
         it('should not fail while resolving selected item from object', fakeAsync(() => {
           const fixture = createTestingModule(
             NgSelectTestCmp,
-            `<fui-select [(ngModel)]="selectedCity">
+            `<ng-select [(ngModel)]="selectedCity">
                         <ng-option [value]="cities[0]">Vilnius</ng-option>
                         <ng-option [value]="cities[1]">Kaunas</ng-option>
-                </fui-select>`
+                </ng-select>`
           );
 
           const selected = { name: 'Vilnius', id: 1 };
@@ -755,12 +755,12 @@ export default function(): void {
       it('should not set internal model when single select ngModel is not valid', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         bindLabel="name"
                         [clearable]="true"
                         [multiple]="false"
                         [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         const invalidValues = [undefined, null];
@@ -775,12 +775,12 @@ export default function(): void {
       it('should not set internal model when multiselect ngModel is not valid', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         bindLabel="name"
                         [clearable]="true"
                         [multiple]="true"
                         [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         const invalidValues = [{}, '', undefined, 0, 1, 'false', 'true', false];
@@ -797,12 +797,12 @@ export default function(): void {
           it('should select by bindValue when primitive type', fakeAsync(() => {
             const fixture = createTestingModule(
               NgSelectTestCmp,
-              `<fui-select [items]="cities"
+              `<ng-select [items]="cities"
                             bindLabel="name"
                             bindValue="id"
                             placeholder="select value"
                             [(ngModel)]="selectedCityId">
-                        </fui-select>`
+                        </ng-select>`
             );
 
             fixture.componentInstance.selectedCityId = 2;
@@ -820,20 +820,20 @@ export default function(): void {
           it('should apply host css classes', fakeAsync(() => {
             const fixture = createTestingModule(
               NgSelectTestCmp,
-              `<fui-select [items]="cities"
+              `<ng-select [items]="cities"
                             bindLabel="name"
                             bindValue="id"
                             placeholder="select value"
                             [(ngModel)]="selectedCityId">
-                        </fui-select>`
+                        </ng-select>`
             );
 
             fixture.componentInstance.selectedCityId = 2;
             tickAndDetectChanges(fixture);
             tickAndDetectChanges(fixture);
 
-            const classes = ['ng-select', 'ng-select-single', 'fui-select-searchable'];
-            const selectEl = fixture.nativeElement.querySelector('fui-select');
+            const classes = ['ng-select', 'ng-select-single', 'ng-select-searchable'];
+            const selectEl = fixture.nativeElement.querySelector('ng-select');
             for (const c of classes) {
               expect(selectEl.classList.contains(c)).toBeTruthy(`expected to contain "${c}" class`);
             }
@@ -850,12 +850,12 @@ export default function(): void {
           it('should select by bindValue ', fakeAsync(() => {
             const fixture = createTestingModule(
               NgSelectTestCmp,
-              `<fui-select [items]="cities"
+              `<ng-select [items]="cities"
                             bindLabel="name"
                             bindValue="id"
                             placeholder="select value"
                             [(ngModel)]="selectedCityId">
-                        </fui-select>`
+                        </ng-select>`
             );
 
             fixture.componentInstance.cities = [{ id: 0, name: 'Vilnius' }];
@@ -875,11 +875,11 @@ export default function(): void {
           it('should select by bindLabel when binding to object', fakeAsync(() => {
             const fixture = createTestingModule(
               NgSelectTestCmp,
-              `<fui-select [items]="cities"
+              `<ng-select [items]="cities"
                             bindLabel="name"
                             placeholder="select value"
                             [(ngModel)]="selectedCity">
-                        </fui-select>`
+                        </ng-select>`
             );
 
             fixture.componentInstance.selectedCity = { id: 2, name: 'Kaunas' };
@@ -896,11 +896,11 @@ export default function(): void {
           it('should select by object reference', fakeAsync(() => {
             const fixture = createTestingModule(
               NgSelectTestCmp,
-              `<fui-select [items]="cities"
+              `<ng-select [items]="cities"
                             bindLabel="name"
                             placeholder="select value"
                             [(ngModel)]="selectedCity">
-                        </fui-select>`
+                        </ng-select>`
             );
 
             fixture.componentInstance.selectedCity = fixture.componentInstance.cities[1];
@@ -917,12 +917,12 @@ export default function(): void {
           it('should select by compareWith function when bindValue is not used', fakeAsync(() => {
             const fixture = createTestingModule(
               NgSelectTestCmp,
-              `<fui-select [items]="cities"
+              `<ng-select [items]="cities"
                             bindLabel="name"
                             placeholder="select value"
                             [compareWith]="compareWith"
                             [(ngModel)]="selectedCity">
-                        </fui-select>`
+                        </ng-select>`
             );
 
             const city = { name: 'Vilnius', id: 7, district: 'Ozo parkas' };
@@ -937,13 +937,13 @@ export default function(): void {
           it('should select by compareWith function when bindValue is used', fakeAsync(() => {
             const fixture = createTestingModule(
               NgSelectTestCmp,
-              `<fui-select [items]="cities"
+              `<ng-select [items]="cities"
                             bindLabel="name"
                             bindValue="id"
                             placeholder="select value"
                             [compareWith]="compareWith"
                             [(ngModel)]="selectedCityId">
-                        </fui-select>`
+                        </ng-select>`
             );
 
             const cmp = fixture.componentInstance;
@@ -958,12 +958,12 @@ export default function(): void {
           it('should select selected when there is no items', fakeAsync(() => {
             const fixture = createTestingModule(
               NgSelectTestCmp,
-              `<fui-select [items]="cities"
+              `<ng-select [items]="cities"
                             bindLabel="name"
                             bindValue="id"
                             placeholder="select value"
                             [(ngModel)]="selectedCityId">
-                        </fui-select>`
+                        </ng-select>`
             );
 
             fixture.componentInstance.cities = [];
@@ -990,13 +990,13 @@ export default function(): void {
           it('should select by bindValue when primitive type', fakeAsync(() => {
             const fixture = createTestingModule(
               NgSelectTestCmp,
-              `<fui-select [items]="cities"
+              `<ng-select [items]="cities"
                             bindLabel="name"
                             bindValue="id"
                             multiple="true"
                             placeholder="select value"
                             [(ngModel)]="selectedCityIds">
-                        </fui-select>`
+                        </ng-select>`
             );
 
             fixture.componentInstance.selectedCityIds = [2, 3];
@@ -1008,12 +1008,12 @@ export default function(): void {
           it('should select by bindLabel when binding to object', fakeAsync(() => {
             const fixture = createTestingModule(
               NgSelectTestCmp,
-              `<fui-select [items]="cities"
+              `<ng-select [items]="cities"
                             bindLabel="name"
                             multiple="true"
                             placeholder="select value"
                             [(ngModel)]="selectedCities">
-                        </fui-select>`
+                        </ng-select>`
             );
 
             fixture.componentInstance.selectedCities = [{ id: 2, name: 'Kaunas' }, { id: 3, name: 'Pabrade' }];
@@ -1028,10 +1028,10 @@ export default function(): void {
       it('should set and render items in dropdown panel', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             bindLabel="name"
                             [(ngModel)]="city">
-                </fui-select>`
+                </ng-select>`
         );
 
         const select = fixture.componentInstance.select;
@@ -1057,11 +1057,11 @@ export default function(): void {
       it('should set and render items in dropdown panel with virtual scroll', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             bindLabel="name"
                             [virtualScroll]="true"
                             [(ngModel)]="city">
-                </fui-select>`
+                </ng-select>`
         );
 
         const select = fixture.componentInstance.select;
@@ -1091,12 +1091,12 @@ export default function(): void {
       it('should open empty dropdown panel with virtual scroll', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="[]"
+          `<ng-select [items]="[]"
                             bindLabel="name"
                             [virtualScroll]="true"
                             appendTo="body"
                             [(ngModel)]="city">
-                </fui-select>`
+                </ng-select>`
         );
 
         const select = fixture.componentInstance.select;
@@ -1112,12 +1112,12 @@ export default function(): void {
       it('should scroll to selected item on first open when virtual scroll is enabled', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             bindLabel="name"
                             [virtualScroll]="true"
                             [appendTo]="body"
                             [(ngModel)]="city">
-                </fui-select>`
+                </ng-select>`
         );
 
         const select = fixture.componentInstance.select;
@@ -1144,10 +1144,10 @@ export default function(): void {
       it('should scroll to item and do not change scroll position when scrolled to visible item', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             bindLabel="name"
                             [(ngModel)]="city">
-                </fui-select>`
+                </ng-select>`
         );
         const cmp = fixture.componentInstance;
         const el: HTMLElement = fixture.debugElement.nativeElement;
@@ -1168,10 +1168,10 @@ export default function(): void {
       it('should scroll to item and change scroll position when scrolled to not visible item', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             bindLabel="name"
                             [(ngModel)]="city">
-                </fui-select>`
+                </ng-select>`
         );
         const cmp = fixture.componentInstance;
         const el: HTMLElement = fixture.debugElement.nativeElement;
@@ -1190,10 +1190,10 @@ export default function(): void {
       it('should close on option select by default', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             bindLabel="name"
                             [(ngModel)]="city">
-                </fui-select>`
+                </ng-select>`
         );
 
         selectOption(fixture, KeyCode.ArrowDown, 0);
@@ -1207,9 +1207,9 @@ export default function(): void {
       it('should select item with encapsulation = native', fakeAsync(() => {
         const fixture = createTestingModule(
           EncapsulatedTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             bindLabel="name"
-                            [(ngModel)]="city"></fui-select>`
+                            [(ngModel)]="city"></ng-select>`
         );
 
         expect((<NgOption[]>fixture.componentInstance.select.selectedItems).length).toBe(0);
@@ -1243,11 +1243,11 @@ export default function(): void {
       it('should not close when isOpen is true', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             [isOpen]="true"
                             bindLabel="name"
                             [(ngModel)]="city">
-                </fui-select>`
+                </ng-select>`
         );
 
         selectOption(fixture, KeyCode.ArrowDown, 0);
@@ -1261,11 +1261,11 @@ export default function(): void {
       it('should not close on option select when [closeOnSelect]="false"', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             bindLabel="name"
                             [closeOnSelect]="false"
                             [(ngModel)]="city">
-                </fui-select>`
+                </ng-select>`
         );
 
         selectOption(fixture, KeyCode.ArrowDown, 0);
@@ -1278,10 +1278,10 @@ export default function(): void {
         const fixture = createTestingModule(
           NgSelectTestCmp,
           `
-                <fui-select [items]="cities"
+                <ng-select [items]="cities"
                         appendTo="body"
                         [(ngModel)]="city">
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.select.open();
@@ -1303,13 +1303,13 @@ export default function(): void {
       beforeEach(() => {
         fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         bindLabel="name"
                         [loading]="citiesLoading"
                         [selectOnTab]="selectOnTab"
                         [multiple]="multiple"
                         [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
         select = fixture.componentInstance.select;
       });
@@ -1642,13 +1642,13 @@ export default function(): void {
         fixture = createTestingModule(
           NgSelectTestCmp,
           `<div id="outside">Outside</div><br />
-                <fui-select id="select" [items]="cities"
+                <ng-select id="select" [items]="cities"
                     bindLabel="name"
                     multiple="true"
                     [closeOnSelect]="false"
                     appendTo="body"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
         select = fixture.componentInstance.select;
       });
@@ -1685,13 +1685,13 @@ export default function(): void {
 
     describe('Dropdown position', () => {
       it('should auto position dropdown to bottom by default', fakeAsync(() => {
-        const fixture = createTestingModule(NgSelectTestCmp, `<fui-select [items]="cities"></fui-select>`);
+        const fixture = createTestingModule(NgSelectTestCmp, `<ng-select [items]="cities"></ng-select>`);
 
         const select = fixture.componentInstance.select;
         select.open();
         tickAndDetectChanges(fixture);
 
-        const selectClasses = (<HTMLElement>fixture.nativeElement).querySelector('.fui-select').classList;
+        const selectClasses = (<HTMLElement>fixture.nativeElement).querySelector('.ng-select').classList;
         const panelClasses = (<HTMLElement>fixture.nativeElement).querySelector('.ng-dropdown-panel').classList;
         expect(select.dropdownPosition).toBe('auto');
         expect(selectClasses.contains('ng-select-bottom')).toBeTruthy();
@@ -1703,7 +1703,7 @@ export default function(): void {
       it('should auto position dropdown to top if position input is set', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select dropdownPosition="top" [items]="cities"></fui-select>`
+          `<ng-select dropdownPosition="top" [items]="cities"></ng-select>`
         );
 
         const select = fixture.componentInstance.select;
@@ -1720,7 +1720,7 @@ export default function(): void {
       }));
 
       it('should auto position appended to body dropdown to bottom', fakeAsync(() => {
-        const fixture = createTestingModule(NgSelectTestCmp, `<fui-select [items]="cities" appendTo="body"></fui-select>`);
+        const fixture = createTestingModule(NgSelectTestCmp, `<ng-select [items]="cities" appendTo="body"></ng-select>`);
 
         const select = fixture.componentInstance.select;
         select.open();
@@ -1736,7 +1736,7 @@ export default function(): void {
       }));
 
       it('should return current panel position', fakeAsync(() => {
-        const fixture = createTestingModule(NgSelectTestCmp, `<fui-select [items]="cities" appendTo="body"></fui-select>`);
+        const fixture = createTestingModule(NgSelectTestCmp, `<ng-select [items]="cities" appendTo="body"></ng-select>`);
 
         const select = fixture.componentInstance.select;
         select.open();
@@ -1746,8 +1746,7 @@ export default function(): void {
       }));
 
       it('should return undefined for current panel position if dropdown is closed', fakeAsync(() => {
-        const fixture = createTestingModule(NgSelectTestCmp, `<fui-select [items]="cities" appendTo="body"></fui-select>`);
-
+        const fixture = createTestingModule(NgSelectTestCmp, `<ng-select [items]="cities" appendTo="body"></ng-select>`);
         const select = fixture.componentInstance.select;
         select.open();
         tickAndDetectChanges(fixture);
@@ -1762,11 +1761,11 @@ export default function(): void {
       it('should display custom header template', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities" [(ngModel)]="selectedCity">
+          `<ng-select [items]="cities" [(ngModel)]="selectedCity">
                     <ng-template ng-label-tmp let-item="item">
                         <div class="custom-header">{{item.name}}</div>
                     </ng-template>
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.selectedCity = fixture.componentInstance.cities[0];
@@ -1781,10 +1780,10 @@ export default function(): void {
       it('should clear item using value', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             bindLabel="name"
                             [(ngModel)]="city">
-                </fui-select>`
+                </ng-select>`
         );
 
         selectOption(fixture, KeyCode.ArrowDown, 0);
@@ -1799,10 +1798,10 @@ export default function(): void {
       it('should clear item even if there are no items loaded', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             bindLabel="name"
                             [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         selectOption(fixture, KeyCode.ArrowDown, 0);
@@ -1820,11 +1819,11 @@ export default function(): void {
       it('should display custom dropdown option template', async(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities" [(ngModel)]="selectedCity">
+          `<ng-select [items]="cities" [(ngModel)]="selectedCity">
                     <ng-template ng-option-tmp let-item="item">
                         <div class="custom-option">{{item.name}}</div>
                     </ng-template>
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.select.open();
@@ -1839,11 +1838,11 @@ export default function(): void {
       it('should display custom multiple label template', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities" [multiple]="true" [(ngModel)]="selectedCities">
+          `<ng-select [items]="cities" [multiple]="true" [(ngModel)]="selectedCities">
                     <ng-template ng-multi-label-tmp let-items="items">
                         <div class="custom-multi-label">selected {{items.length}}</div>
                     </ng-template>
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.selectedCities = [fixture.componentInstance.cities[0]];
@@ -1857,14 +1856,14 @@ export default function(): void {
       it('should display custom footer and header template', async(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities" [(ngModel)]="selectedCity">
+          `<ng-select [items]="cities" [(ngModel)]="selectedCity">
                     <ng-template ng-header-tmp>
                         <span class="header-label">header</span>
                     </ng-template>
                     <ng-template ng-footer-tmp>
                         <span class="footer-label">footer</span>
                     </ng-template>
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.select.open();
@@ -1882,11 +1881,11 @@ export default function(): void {
       it('should display custom tag template', async(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities" [(ngModel)]="selectedCity" [addTag]="true">
+          `<ng-select [items]="cities" [(ngModel)]="selectedCity" [addTag]="true">
                     <ng-template ng-tag-tmp let-search="searchTerm">
                         <span class="tag-template">{{searchTerm}}</span>
                     </ng-template>
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.select.filterValue = 'tag';
@@ -1902,7 +1901,7 @@ export default function(): void {
       it('should display custom loading and no data found template', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities" 
+          `<ng-select [items]="cities" 
                             [loading]="citiesLoading"
                             [(ngModel)]="selectedCity">
                     
@@ -1916,7 +1915,7 @@ export default function(): void {
                             Fetching Data for "{{searchTerm}}"
                         </div>
                     </ng-template>
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.whenStable().then(() => {
@@ -1940,7 +1939,7 @@ export default function(): void {
       it('should display custom type for search template', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities" 
+          `<ng-select [items]="cities" 
                             [typeahead]="filter" 
                             [(ngModel)]="selectedCity">
                     <ng-template ng-typetosearch-tmp>
@@ -1949,7 +1948,7 @@ export default function(): void {
                         </div>
                     </ng-template>
                    
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.whenStable().then(() => {
@@ -1967,7 +1966,7 @@ export default function(): void {
       it('should display custom loading spinner template', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities" 
+          `<ng-select [items]="cities" 
                             [loading]="true"
                             [(ngModel)]="selectedCity">
                     
@@ -1976,7 +1975,7 @@ export default function(): void {
                             Custom loading spinner
                         </div>
                     </ng-template>
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.whenStable().then(() => {
@@ -1989,10 +1988,10 @@ export default function(): void {
       it('should update ng-option state', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [(ngModel)]="selectedCity">
+          `<ng-select [(ngModel)]="selectedCity">
                     <ng-option [disabled]="disabled" [value]="true">Yes</ng-option>
                     <ng-option [value]="false">No</ng-option>
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -2010,12 +2009,12 @@ export default function(): void {
       beforeEach(() => {
         fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                     bindLabel="name"
                     placeholder="select value"
                     [(ngModel)]="selectedCities"
                     [multiple]="true">
-                </fui-select>`
+                </ng-select>`
         );
       });
 
@@ -2182,12 +2181,12 @@ export default function(): void {
       it('should select default tag', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                     bindLabel="name"
                     [addTag]="true"
                     placeholder="select value"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -2200,11 +2199,11 @@ export default function(): void {
       it('should add tag as string', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="citiesNames"
+          `<ng-select [items]="citiesNames"
                     [addTag]="true"
                     placeholder="select value"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -2217,10 +2216,10 @@ export default function(): void {
       it('should add tag as string when there are no items', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="[]"
+          `<ng-select [items]="[]"
                     [addTag]="true"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -2234,11 +2233,11 @@ export default function(): void {
       it('should not add item to list when select is closed', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="[]"
+          `<ng-select [items]="[]"
                     [isOpen]="false"
                     [addTag]="true"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -2251,12 +2250,12 @@ export default function(): void {
       it('should add tag as string when tab pressed', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="citiesNames"
+          `<ng-select [items]="citiesNames"
                     [addTag]="true"
                     [selectOnTab]="true"
                     placeholder="select value"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -2269,12 +2268,12 @@ export default function(): void {
       it('should select tag even if there are filtered items that matches search term', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                     bindLabel="name"
                     [addTag]="true"
                     placeholder="select value"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -2288,12 +2287,12 @@ export default function(): void {
       it('should select custom tag', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                     bindLabel="name"
                     [addTag]="tagFunc"
                     placeholder="select value"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -2312,12 +2311,12 @@ export default function(): void {
       it('should select custom tag with promise', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                     bindLabel="name"
                     [addTag]="tagFuncPromise"
                     placeholder="select value"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -2340,13 +2339,13 @@ export default function(): void {
         beforeEach(() => {
           fixture = createTestingModule(
             NgSelectTestCmp,
-            `<fui-select [items]="cities"
+            `<ng-select [items]="cities"
                     bindLabel="name"
                     [multiple]="true"
                     [addTag]="true"
                     placeholder="select value"
                     [(ngModel)]="selectedCities">
-                </fui-select>`
+                </ng-select>`
           );
           select = fixture.componentInstance.select;
         });
@@ -2391,11 +2390,11 @@ export default function(): void {
       beforeEach(() => {
         fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                     bindLabel="name"
                     placeholder="select value"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
       });
 
@@ -2441,10 +2440,10 @@ export default function(): void {
       it('should filter using default implementation', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                     bindLabel="name"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         tick(200);
@@ -2462,11 +2461,11 @@ export default function(): void {
       it('should filter using custom searchFn', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                     bindLabel="name"
                     [searchFn]="searchFn"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.searchFn = (term: string, item: any) => {
@@ -2493,11 +2492,11 @@ export default function(): void {
       it('should toggle dropdown when searchable false', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                     bindLabel="name"
                     [searchable]="false"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         const selectInput = fixture.debugElement.query(By.css('.ng-select-container'));
@@ -2515,11 +2514,11 @@ export default function(): void {
       it('should not filter when searchable false', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                     bindLabel="name"
                     [searchable]="false"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         const select = fixture.componentInstance.select;
@@ -2536,10 +2535,10 @@ export default function(): void {
       it('should mark first item on filter', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                     bindLabel="name"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         tick(200);
@@ -2557,11 +2556,11 @@ export default function(): void {
       it('should not mark first item when isOpen is false', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                     bindLabel="name"
                     [isOpen]="false"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         tick(200);
@@ -2574,10 +2573,10 @@ export default function(): void {
       it('should mark first item on filter when selected is not among filtered items', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                     bindLabel="name"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.selectedCity = fixture.componentInstance.cities[0];
@@ -2596,11 +2595,11 @@ export default function(): void {
       it('should not mark first item on filter when markFirst disabled', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                     bindLabel="name"
                     [markFirst]="false"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         tick(200);
@@ -2612,11 +2611,11 @@ export default function(): void {
       it('should clear filterValue on selected item', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                     bindLabel="name"
                     [(ngModel)]="selectedCity"
                     [multiple]="true">
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -2630,11 +2629,11 @@ export default function(): void {
       it('should not reset items when selecting option', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                     bindLabel="name"
                     [(ngModel)]="selectedCity"
                     [multiple]="true">
-                </fui-select>`
+                </ng-select>`
         );
 
         const resetFilteredItemsSpy = spyOn(fixture.componentInstance.select.itemsList, 'resetFilteredItems');
@@ -2649,11 +2648,11 @@ export default function(): void {
       it('should filter grouped items', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectGroupingTestCmp,
-          `<fui-select [items]="accounts"
+          `<ng-select [items]="accounts"
                         groupBy="country"
                         bindLabel="name"
                         [(ngModel)]="selectedAccount">
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -2671,10 +2670,10 @@ export default function(): void {
       it('should continue filtering items on update of items', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                     bindLabel="name"
                     [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
         tickAndDetectChanges(fixture);
 
@@ -2712,12 +2711,12 @@ export default function(): void {
         beforeEach(() => {
           fixture = createTestingModule(
             NgSelectTestCmp,
-            `<fui-select [items]="cities"
+            `<ng-select [items]="cities"
                         [typeahead]="filter"
                         bindLabel="name"
                         [hideSelected]="hideSelected"
                         [(ngModel)]="selectedCity">
-                    </fui-select>`
+                    </ng-select>`
           );
         });
 
@@ -2784,12 +2783,12 @@ export default function(): void {
         it('should clear search term by default', fakeAsync(() => {
           const fixture = createTestingModule(
             NgSelectTestCmp,
-            `<fui-select [items]="cities"
+            `<ng-select [items]="cities"
                         [typeahead]="filter"
                         bindLabel="name"
                         [hideSelected]="hideSelected"
                         [(ngModel)]="selectedCity">
-                    </fui-select>`
+                    </ng-select>`
           );
 
           expect(fixture.componentInstance.select.clearSearchOnAdd).toBeTruthy();
@@ -2808,13 +2807,13 @@ export default function(): void {
         it('should not clear search term by default when closeOnSelect is false ', fakeAsync(() => {
           const fixture = createTestingModule(
             NgSelectTestCmp,
-            `<fui-select [items]="cities"
+            `<ng-select [items]="cities"
                         [typeahead]="filter"
                         bindLabel="name"
                         [hideSelected]="hideSelected"
                         [closeOnSelect]="false"
                         [(ngModel)]="selectedCity">
-                    </fui-select>`
+                    </ng-select>`
           );
 
           expect(fixture.componentInstance.select.clearSearchOnAdd).toBeFalsy();
@@ -2832,14 +2831,14 @@ export default function(): void {
         it('should not clear search term when clearSearchOnAdd is false', fakeAsync(() => {
           const fixture = createTestingModule(
             NgSelectTestCmp,
-            `<fui-select [items]="cities"
+            `<ng-select [items]="cities"
                         [typeahead]="filter"
                         bindLabel="name"
                         [hideSelected]="hideSelected"
                         [clearSearchOnAdd]="false"
                         [closeOnSelect]="false"
                         [(ngModel)]="selectedCity">
-                    </fui-select>`
+                    </ng-select>`
           );
 
           expect(fixture.componentInstance.select.clearSearchOnAdd).toBeFalsy();
@@ -2863,11 +2862,11 @@ export default function(): void {
       beforeEach(fakeAsync(() => {
         fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         labelForId="lbl"
                         (change)="onChange($event)" 
                         bindLabel="name">
-                </fui-select>`
+                </ng-select>`
         );
         select = fixture.componentInstance.select;
         input = fixture.debugElement.query(By.css('input')).nativeElement;
@@ -2913,15 +2912,15 @@ export default function(): void {
       it('should set aria-activedescendant absent on dropdown close', fakeAsync(() => {
         triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Space);
         tickAndDetectChanges(fixture);
-        triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Enter);
+        triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Esc);
         tickAndDetectChanges(fixture);
         expect(input.hasAttribute('aria-activedescendant')).toBe(false);
       }));
 
-      it('should set aria-owns  absent on dropdown close', fakeAsync(() => {
+      it('should set aria-owns absent on dropdown close', fakeAsync(() => {
         triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Space);
         tickAndDetectChanges(fixture);
-        triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Enter);
+        triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Esc);
         tickAndDetectChanges(fixture);
         expect(input.hasAttribute('aria-owns')).toBe(false);
       }));
@@ -2936,10 +2935,10 @@ export default function(): void {
       it('should fire open event once', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             (open)="onOpen()"
                             [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         spyOn(fixture.componentInstance, 'onOpen');
@@ -2954,10 +2953,10 @@ export default function(): void {
       it('should fire search event', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             (search)="onSearch($event)"
                             [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         spyOn(fixture.componentInstance, 'onSearch');
@@ -2972,10 +2971,10 @@ export default function(): void {
       it('should fire close event once', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             (close)="onClose()"
                             [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         spyOn(fixture.componentInstance, 'onClose');
@@ -2991,12 +2990,12 @@ export default function(): void {
       it('should fire change when changed', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             bindValue="id"
                             bindLabel="name"
                             (change)="onChange($event)"
                             [(ngModel)]="selectedCityId">
-                </fui-select>`
+                </ng-select>`
         );
 
         spyOn(fixture.componentInstance, 'onChange');
@@ -3015,10 +3014,10 @@ export default function(): void {
       it('should not fire change when item not changed', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             (change)="onChange()"
                             [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         spyOn(fixture.componentInstance, 'onChange');
@@ -3035,11 +3034,11 @@ export default function(): void {
       it('should fire addEvent when item is added', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             (add)="onAdd($event)"
                             [multiple]="true"
                             [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         spyOn(fixture.componentInstance, 'onAdd');
@@ -3053,11 +3052,11 @@ export default function(): void {
       it('should not fire addEvent for single select', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             (add)="onAdd($event)"
                             [multiple]="false"
                             [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         spyOn(fixture.componentInstance, 'onAdd');
@@ -3070,11 +3069,11 @@ export default function(): void {
       it('should fire remove when item is removed', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             (remove)="onRemove($event)"
                             [multiple]="true"
                             [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         spyOn(fixture.componentInstance, 'onRemove');
@@ -3090,11 +3089,11 @@ export default function(): void {
       it('should fire clear when model is cleared using clear icon', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             (clear)="onClear($event)"
                             [multiple]="true"
                             [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         spyOn(fixture.componentInstance, 'onClear');
@@ -3112,12 +3111,12 @@ export default function(): void {
       it('should focus dropdown', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                             autofocus
                             bindLabel="name"
                             [multiple]="true"
                             [(ngModel)]="selectedCities">
-                </fui-select>`
+                </ng-select>`
         );
         const select = fixture.componentInstance.select;
         const focus = spyOn(select, 'focus');
@@ -3135,11 +3134,11 @@ export default function(): void {
         beforeEach(fakeAsync(() => {
           fixture = createTestingModule(
             NgSelectTestCmp,
-            `<fui-select [items]="cities"
+            `<ng-select [items]="cities"
                             bindLabel="name"
                             [multiple]="true"
                             [(ngModel)]="selectedCities">
-                    </fui-select>`
+                    </ng-select>`
           );
           select = fixture.componentInstance.select;
 
@@ -3164,11 +3163,11 @@ export default function(): void {
         beforeEach(fakeAsync(() => {
           fixture = createTestingModule(
             NgSelectTestCmp,
-            `<fui-select [items]="cities"
+            `<ng-select [items]="cities"
                             bindLabel="name"
                             [multiple]="true"
                             [(ngModel)]="selectedCities">
-                    </fui-select>`
+                    </ng-select>`
           );
           select = fixture.componentInstance.select;
 
@@ -3191,13 +3190,13 @@ export default function(): void {
         beforeEach(fakeAsync(() => {
           fixture = createTestingModule(
             NgSelectTestCmp,
-            `<fui-select [items]="cities"
+            `<ng-select [items]="cities"
                             (change)="onChange($event)"
                             bindLabel="name"
                             [multiple]="true"
                             [disabled]="disabled"
                             [(ngModel)]="selectedCities">
-                    </fui-select>`
+                    </ng-select>`
           );
 
           spyOn(fixture.componentInstance, 'onChange');
@@ -3255,11 +3254,11 @@ export default function(): void {
         beforeEach(fakeAsync(() => {
           fixture = createTestingModule(
             NgSelectTestCmp,
-            `<fui-select [items]="cities"
+            `<ng-select [items]="cities"
                             bindLabel="name"
                             [multiple]="true"
                             [(ngModel)]="selectedCities">
-                    </fui-select>`
+                    </ng-select>`
           );
           select = fixture.componentInstance.select;
 
@@ -3295,10 +3294,10 @@ export default function(): void {
         beforeEach(fakeAsync(() => {
           fixture = createTestingModule(
             NgSelectTestCmp,
-            `<fui-select [items]="cities"
+            `<ng-select [items]="cities"
                             bindLabel="name"
                             [(ngModel)]="selectedCity">
-                    </fui-select>`
+                    </ng-select>`
           );
 
           fixture.componentInstance.selectedCity = fixture.componentInstance.cities[0];
@@ -3337,10 +3336,10 @@ export default function(): void {
       it('should append dropdown to body', async(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<fui-select [items]="cities"
+          `<ng-select [items]="cities"
                         appendTo="body"
                         [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.select.open();
@@ -3359,10 +3358,10 @@ export default function(): void {
           NgSelectTestCmp,
           `
                 <div class="container"></div>
-                <fui-select [items]="cities"
+                <ng-select [items]="cities"
                         appendTo=".container"
                         [(ngModel)]="selectedCity">
-                </fui-select>`
+                </ng-select>`
         );
 
         fixture.componentInstance.select.open();
@@ -3380,10 +3379,10 @@ export default function(): void {
       it('should group flat items list by group key', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectGroupingTestCmp,
-          `<fui-select [items]="accounts"
+          `<ng-select [items]="accounts"
                         groupBy="country"
                         [(ngModel)]="selectedAccount">
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -3413,10 +3412,10 @@ export default function(): void {
       it('should group items with children array by group key', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectGroupingTestCmp,
-          `<fui-select [items]="groupedAccounts"
+          `<ng-select [items]="groupedAccounts"
                         groupBy="accounts"
                         [(ngModel)]="selectedAccount">
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -3444,10 +3443,10 @@ export default function(): void {
       it('should not group items without key', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectGroupingTestCmp,
-          `<fui-select [items]="accounts"
+          `<ng-select [items]="accounts"
                         groupBy="country"
                         [(ngModel)]="selectedAccount">
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -3474,11 +3473,11 @@ export default function(): void {
       it('should group by group fn', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectGroupingTestCmp,
-          `<fui-select [items]="accounts"
+          `<ng-select [items]="accounts"
                         bindLabel="name"
                         [groupBy]="groupByFn"
                         [(ngModel)]="selectedAccount">
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -3497,12 +3496,12 @@ export default function(): void {
       it('should set group value using custom fn', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectGroupingTestCmp,
-          `<fui-select [items]="accounts"
+          `<ng-select [items]="accounts"
                         bindLabel="name"
                         [groupBy]="groupByFn"
                         [groupValue]="groupValueFn"
                         [(ngModel)]="selectedAccount">
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -3521,11 +3520,11 @@ export default function(): void {
       it('should not mark optgroup item as marked', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectGroupingTestCmp,
-          `<fui-select [items]="accounts"
+          `<ng-select [items]="accounts"
                         groupBy="country"
                         bindValue="name"
                         [(ngModel)]="selectedAccountName">
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -3540,11 +3539,11 @@ export default function(): void {
       it('should filter grouped items', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectGroupingTestCmp,
-          `<fui-select [items]="accounts"
+          `<ng-select [items]="accounts"
                         groupBy="country"
                         bindLabel="name"
                         [(ngModel)]="selectedAccount">
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -3563,13 +3562,13 @@ export default function(): void {
       it('should allow select optgroup items when [selectableGroup]="true"', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectGroupingTestCmp,
-          `<fui-select [items]="accounts"
+          `<ng-select [items]="accounts"
                         groupBy="country"
                         bindLabel="name"
                         bindValue="email"
                         [selectableGroup]="true"
                         [(ngModel)]="selectedAccount">
-                </fui-select>`
+                </ng-select>`
         );
 
         tickAndDetectChanges(fixture);
@@ -3583,13 +3582,13 @@ export default function(): void {
       it('should select group by default when [selectableGroup]="true", [excludeGroupsFromDefaultSelection]="false', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectGroupingTestCmp,
-          `<fui-select [items]="accounts"
+          `<ng-select [items]="accounts"
                         groupBy="country"
                         bindLabel="name"
                         bindValue="email"
                         [selectableGroup]="true"
                         [(ngModel)]="selectedAccount">
-                </fui-select>`
+                </ng-select>`
         );
 
         const select = fixture.componentInstance.select;
@@ -3604,14 +3603,14 @@ export default function(): void {
       it('should not select group by default when [selectableGroup]="true", [excludeGroupsFromDefaultSelection]="true', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectGroupingTestCmp,
-          `<fui-select [items]="accounts"
+          `<ng-select [items]="accounts"
                         groupBy="country"
                         bindLabel="name"
                         bindValue="email"
                         [selectableGroup]="true"
                         [excludeGroupsFromDefaultSelection]="true"
                         [(ngModel)]="selectedAccount">
-                </fui-select>`
+                </ng-select>`
         );
 
         const select = fixture.componentInstance.select;

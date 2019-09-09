@@ -24,6 +24,7 @@ import { FuiDatepickerModule } from '../datepicker/datepicker.module';
 import { FuiDateContainer } from './date-container';
 import { IfErrorService } from '../common/if-error/if-error.service';
 import { ControlClassService } from '../common/providers/control-class.service';
+import { FuiFormLayoutService } from '../common/providers/form-layout.service';
 
 export default function() {
   describe('Date Input Component', () => {
@@ -63,11 +64,12 @@ export default function() {
           DateIOService,
           ControlIdService,
           DateFormControlService,
+          FuiFormLayoutService,
         ]);
 
-        enabledService = <MockDatepickerEnabledService>context.fixture.debugElement
-          .query(By.directive(FuiDateContainer))
-          .injector.get(DatepickerEnabledService);
+        enabledService = <MockDatepickerEnabledService>(
+          context.fixture.debugElement.query(By.directive(FuiDateContainer)).injector.get(DatepickerEnabledService)
+        );
         dateIOService = context.fixture.debugElement.query(By.directive(FuiDateContainer)).injector.get(DateIOService);
         dateNavigationService = context.fixture.debugElement
           .query(By.directive(FuiDateContainer))
@@ -237,26 +239,23 @@ export default function() {
         dateNavigationService = dateContainerDebugElement.injector.get(DateNavigationService);
       });
 
-      it(
-        'updates the selectedDay when the app changes the ngModel value',
-        fakeAsync(() => {
-          fixture.componentInstance.dateValue = '01/02/2015';
+      it('updates the selectedDay when the app changes the ngModel value', fakeAsync(() => {
+        fixture.componentInstance.dateValue = '01/02/2015';
 
-          fixture.detectChanges();
-          tick();
+        fixture.detectChanges();
+        tick();
 
-          expect(dateInputDebugElement.nativeElement.value).toBe('01/02/2015');
-          expect(dateNavigationService.selectedDay).toEqual(new DayModel(2015, 0, 2));
+        expect(dateInputDebugElement.nativeElement.value).toBe('01/02/2015');
+        expect(dateNavigationService.selectedDay).toEqual(new DayModel(2015, 0, 2));
 
-          fixture.componentInstance.dateValue = '05/05/2015';
+        fixture.componentInstance.dateValue = '05/05/2015';
 
-          fixture.detectChanges();
-          tick();
+        fixture.detectChanges();
+        tick();
 
-          expect(dateInputDebugElement.nativeElement.value).toBe('05/05/2015');
-          expect(dateNavigationService.selectedDay).toEqual(new DayModel(2015, 4, 5));
-        })
-      );
+        expect(dateInputDebugElement.nativeElement.value).toBe('05/05/2015');
+        expect(dateNavigationService.selectedDay).toEqual(new DayModel(2015, 4, 5));
+      }));
 
       it('updates the model and the input element when selectedDay updated notification is received', () => {
         expect(fixture.componentInstance.dateValue).toBeUndefined();
@@ -269,31 +268,28 @@ export default function() {
         expect(fixture.componentInstance.dateValue).toBe('02/01/2015');
       });
 
-      it(
-        'allows you to reset the model',
-        fakeAsync(() => {
-          fixture.componentInstance.dateValue = '01/02/2015';
-          fixture.detectChanges();
-          tick();
+      it('allows you to reset the model', fakeAsync(() => {
+        fixture.componentInstance.dateValue = '01/02/2015';
+        fixture.detectChanges();
+        tick();
 
-          expect(dateInputDebugElement.nativeElement.value).toBe('01/02/2015');
-          expect(dateNavigationService.selectedDay).toEqual(new DayModel(2015, 0, 2));
+        expect(dateInputDebugElement.nativeElement.value).toBe('01/02/2015');
+        expect(dateNavigationService.selectedDay).toEqual(new DayModel(2015, 0, 2));
 
-          fixture.nativeElement.querySelector('#reset').click();
-          fixture.detectChanges();
-          tick();
+        fixture.nativeElement.querySelector('#reset').click();
+        fixture.detectChanges();
+        tick();
 
-          expect(dateInputDebugElement.nativeElement.value).toBe('');
-          expect(dateNavigationService.selectedDay).toEqual(null);
+        expect(dateInputDebugElement.nativeElement.value).toBe('');
+        expect(dateNavigationService.selectedDay).toEqual(null);
 
-          fixture.componentInstance.dateValue = '01/02/2015';
-          fixture.detectChanges();
-          tick();
+        fixture.componentInstance.dateValue = '01/02/2015';
+        fixture.detectChanges();
+        tick();
 
-          expect(dateInputDebugElement.nativeElement.value).toBe('01/02/2015');
-          expect(dateNavigationService.selectedDay).toEqual(new DayModel(2015, 0, 2));
-        })
-      );
+        expect(dateInputDebugElement.nativeElement.value).toBe('01/02/2015');
+        expect(dateNavigationService.selectedDay).toEqual(new DayModel(2015, 0, 2));
+      }));
 
       // IE doesn't handle Event constructor
       itIgnore(
@@ -463,7 +459,7 @@ export default function() {
 
 @Component({
   template: `
-    <input type="date" fuiDate (fuiDateChange)="dateChanged($event)" class="test-class">
+    <input type="date" fuiDate (fuiDateChange)="dateChanged($event)" class="test-class" />
   `,
 })
 class TestComponent {
@@ -476,7 +472,7 @@ class TestComponent {
 
 @Component({
   template: `
-    <input type="date" fuiDate [(ngModel)]="dateValue" #picker="ngModel">
+    <input type="date" fuiDate [(ngModel)]="dateValue" #picker="ngModel" />
     <button id="reset" (click)="picker.reset()">Reset</button>
   `,
 })
@@ -488,7 +484,7 @@ class TestComponentWithNgModel {
 @Component({
   template: `
     <form [formGroup]="testForm">
-      <input id="dateControl" type="date" fuiDate (fuiDateChange)="dateChanged($event)" formControlName="date">
+      <input id="dateControl" type="date" fuiDate (fuiDateChange)="dateChanged($event)" formControlName="date" />
     </form>
   `,
 })
@@ -506,7 +502,7 @@ class TestComponentWithReactiveForms {
 @Component({
   template: `
     <form #templateForm="ngForm">
-      <input type="date" fuiDate (fuiDateChange)="dateChanged($event)" [(ngModel)]="dateInput" name="date">
+      <input type="date" fuiDate (fuiDateChange)="dateChanged($event)" [(ngModel)]="dateInput" name="date" />
     </form>
   `,
 })

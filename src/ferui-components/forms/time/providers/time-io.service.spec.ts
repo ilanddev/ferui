@@ -29,25 +29,23 @@ export default function() {
       });
 
       it('supports a method to convert a Date object to time string based on the locale', () => {
+        const date: Date = new Date(2015, 1, 1, 16, 20, 30);
+
         const localeHelperServ: LocaleHelperService = new LocaleHelperService('en-US');
         const timeIOServ: TimeIOService = new TimeIOService(localeHelperServ);
-
-        expect(timeIOServ.toLocaleDisplayFormatString(new Date(2015, 1, 1, 16, 20, 30))).toBe('4:20:30 PM');
+        expect(timeIOServ.toLocaleDisplayFormatString(date)).toBe('4:20:30 PM');
 
         const localeHelperServAK: LocaleHelperService = new LocaleHelperService('ak');
         const timeIOServAK: TimeIOService = new TimeIOService(localeHelperServAK);
-
-        expect(timeIOServAK.toLocaleDisplayFormatString(new Date(2015, 1, 1, 16, 20, 30))).toBe('16:20:30');
+        expect(timeIOServAK.toLocaleDisplayFormatString(date)).toBe('4:20:30 PM');
 
         const localeHelperServHR: LocaleHelperService = new LocaleHelperService('hr');
         const timeIOServHR: TimeIOService = new TimeIOService(localeHelperServHR);
-
-        expect(timeIOServHR.toLocaleDisplayFormatString(new Date(2015, 1, 1, 16, 20, 30))).toBe('16:20:30');
+        expect(timeIOServHR.toLocaleDisplayFormatString(date)).toBe('16:20:30');
 
         const localeHelperServKKJ: LocaleHelperService = new LocaleHelperService('kkj');
         const timeIOServKKJ: TimeIOService = new TimeIOService(localeHelperServKKJ);
-
-        expect(timeIOServKKJ.toLocaleDisplayFormatString(new Date(2016, 1, 15, 16, 20, 30))).toBe('4:20:30 PM');
+        expect(timeIOServKKJ.toLocaleDisplayFormatString(date)).toBe('4:20:30 PM');
       });
 
       it('processes an invalid date object as an empty string', () => {

@@ -173,34 +173,6 @@ export class DemoComponent implements OnInit {
     this.compileTemplate(this.sourceCode, DemoSubComponent);
   }
 
-  private compileTemplate(template, componentClass?: any) {
-    let metadata = {
-      selector: `runtime-component-sample`,
-      template: template,
-    };
-    let factory = this.createComponentFactorySync(this._compiler, metadata, componentClass);
-    if (this._componentRef) {
-      this._componentRef.destroy();
-      this._componentRef = null;
-    }
-    this._componentRef = this._vcr.createComponent(factory);
-  }
-
-  private createComponentFactorySync(compiler: Compiler, metadata: Component, componentClass: any): ComponentFactory<any> {
-    const cmpClass = componentClass || class RuntimeComponent {};
-    const decoratedCmp = Component(metadata)(cmpClass);
-
-    @NgModule({
-      imports: [BrowserAnimationsModule, CommonModule, FormsModule, IconsModule, FeruiModule],
-      declarations: [decoratedCmp],
-      providers: [WINDOW_PROVIDERS],
-    })
-    class RuntimeComponentModule {}
-
-    let module: ModuleWithComponentFactories<any> = compiler.compileModuleAndAllComponentsSync(RuntimeComponentModule);
-    return module.componentFactories.find(f => f.componentType === decoratedCmp);
-  }
-
   resultsData() {
     const data: any = {};
     if (this.canDisable) {
@@ -240,6 +212,34 @@ export class DemoComponent implements OnInit {
     if (this.canDisable) {
       this.params.disabled = disabled;
     }
+  }
+
+  private compileTemplate(template, componentClass?: any) {
+    const metadata = {
+      selector: `runtime-component-sample`,
+      template: template,
+    };
+    const factory = this.createComponentFactorySync(this._compiler, metadata, componentClass);
+    if (this._componentRef) {
+      this._componentRef.destroy();
+      this._componentRef = null;
+    }
+    this._componentRef = this._vcr.createComponent(factory);
+  }
+
+  private createComponentFactorySync(compiler: Compiler, metadata: Component, componentClass: any): ComponentFactory<any> {
+    const cmpClass = componentClass || class RuntimeComponent {};
+    const decoratedCmp = Component(metadata)(cmpClass);
+
+    @NgModule({
+      imports: [BrowserAnimationsModule, CommonModule, FormsModule, IconsModule, FeruiModule],
+      declarations: [decoratedCmp],
+      providers: [WINDOW_PROVIDERS],
+    })
+    class RuntimeComponentModule {}
+
+    const module: ModuleWithComponentFactories<any> = compiler.compileModuleAndAllComponentsSync(RuntimeComponentModule);
+    return module.componentFactories.find(f => f.componentType === decoratedCmp);
   }
 
   /**

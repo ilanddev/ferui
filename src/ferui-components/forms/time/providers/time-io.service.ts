@@ -12,10 +12,7 @@ export class TimeIOService implements DatetimeIoInterface {
   }
 
   toLocaleDisplayFormatString(date: Date): string {
-    if (date) {
-      if (isNaN(date.getTime())) {
-        return '';
-      }
+    if (date && !isNaN(date.getTime())) {
       return this.localeHelperService.toLocaleTimeString(date);
     }
     return '';

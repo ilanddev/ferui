@@ -24,9 +24,11 @@ export function getNgSelectElement(fixture: ComponentFixture<any>): DebugElement
 }
 
 export function triggerKeyDownEvent(element: DebugElement, which: number, key = ''): void {
-  element.triggerEventHandler('keydown', {
-    which: which,
-    key: key,
-    preventDefault: () => {},
-  });
+  try {
+    element.triggerEventHandler('keydown', {
+      which: which,
+      key: key,
+      preventDefault: () => {},
+    });
+  } catch (e) {}
 }

@@ -15,6 +15,7 @@ import { TestContext } from '../tests/helpers.spec';
 import { LocaleHelperService } from '../datepicker/providers/locale-helper.service';
 import { PlaceholderService } from '../common/providers/placeholder.service';
 import { RequiredControlService } from '../common/providers/required-control.service';
+import { FuiFormLayoutService } from '../common/providers/form-layout.service';
 
 export default function() {
   describe('Time Container Component', () => {
@@ -39,6 +40,7 @@ export default function() {
             TimeIOService,
             ControlIdService,
             DateFormControlService,
+            FuiFormLayoutService,
           ],
         },
       });
@@ -88,7 +90,7 @@ export default function() {
 @Component({
   template: `
     <fui-time-container>
-      <input type="time" fuiTime [(ngModel)]="model" [disabled]="disabled">
+      <input type="time" fuiTime [(ngModel)]="model" [disabled]="disabled" />
     </fui-time-container>
   `,
 })

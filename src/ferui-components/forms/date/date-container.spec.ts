@@ -18,6 +18,7 @@ import { DatepickerEnabledService } from '../datepicker/providers/datepicker-ena
 import { LocaleHelperService } from '../datepicker/providers/locale-helper.service';
 import { PlaceholderService } from '../common/providers/placeholder.service';
 import { RequiredControlService } from '../common/providers/required-control.service';
+import { FuiFormLayoutService } from '../common/providers/form-layout.service';
 
 export default function() {
   describe('Date Container Component', () => {
@@ -46,6 +47,7 @@ export default function() {
             DateFormControlService,
             PlaceholderService,
             RequiredControlService,
+            FuiFormLayoutService,
           ],
         },
       });
@@ -98,7 +100,7 @@ export default function() {
 @Component({
   template: `
     <fui-date-container>
-      <input type="date" fuiDate [(ngModel)]="model" [disabled]="disabled">
+      <input type="date" fuiDate [(ngModel)]="model" [disabled]="disabled" />
     </fui-date-container>
   `,
 })

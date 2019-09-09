@@ -61,7 +61,7 @@ export type CompareWithFn = (a: any, b: any) => boolean;
 export type GroupValueFn = (key: string | object, children: any[]) => string | object;
 
 @Component({
-  selector: 'fui-select',
+  selector: 'ng-select, fui-select',
   templateUrl: './ng-select.component.html',
   styleUrls: ['./ng-select.component.scss'],
   providers: [
@@ -201,8 +201,6 @@ export class NgSelectComponent implements OnDestroy, OnChanges, AfterViewInit, C
   private _pressedKeys: string[] = [];
   private _compareWith: CompareWithFn;
   private _clearSearchOnAdd: boolean;
-  private _onChange: (_: any) => void;
-  private _onTouched: () => void;
 
   private readonly _destroy$ = new Subject<void>();
   private readonly _keyPress$ = new Subject<string>();
@@ -426,6 +424,7 @@ export class NgSelectComponent implements OnDestroy, OnChanges, AfterViewInit, C
     this.itemsList.unmarkItem();
     this._onTouched();
     this.closeEvent.emit();
+    this._cd.markForCheck();
     this.detectChanges();
   }
 
@@ -581,6 +580,9 @@ export class NgSelectComponent implements OnDestroy, OnChanges, AfterViewInit, C
       this._cd.detectChanges();
     }
   }
+
+  private _onChange: (_: any) => void = () => {};
+  private _onTouched: () => void = () => {};
 
   private _setItems(items: any[]) {
     const firstItem = items[0];
