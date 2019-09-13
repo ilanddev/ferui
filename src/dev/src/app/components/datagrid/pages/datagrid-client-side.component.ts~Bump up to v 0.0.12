@@ -57,7 +57,6 @@ import { DatagridService } from '../datagrid.service';
             #datagrid
             [isLoading]="isLoading"
             [maxDisplayedRows]="itemPerPage"
-            [gridHeight]="'677px'"
             [defaultColDefs]="defaultColumnDefs"
             [columnDefs]="columnDefs"
             [rowData]="rowData"
