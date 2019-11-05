@@ -17,12 +17,7 @@ import { DemoComponentData } from '../../../utils/demo-component-data';
             <demo-component [form]="demoForm" [componentData]="inputSix"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputSeven"></demo-component>
             <div class="footer">
-              <button
-                class="btn btn-primary"
-                [disabled]="!demoForm.form.valid"
-                (click)="promptSubmitInfos()"
-                type="submit"
-              >
+              <button class="btn btn-primary" [disabled]="!demoForm.form.valid" (click)="promptSubmitInfos()" type="submit">
                 Submit
               </button>
               <button class="btn btn-success" type="button" (click)="validate()">Validate</button>
@@ -43,10 +38,10 @@ import { DemoComponentData } from '../../../utils/demo-component-data';
                 <a href="https://github.com/ng-select/ng-select/tree/v2.20.5" target="_blank">their documentation</a>.
               </p>
               <p>
-                Note : We've forked their project and changed the name of the main component to follow our naming
-                convention. You'll need to replace <code>&lt;ng-select&gt;...&lt;/ng-select&gt;</code> by
-                <code>&lt;fui-select&gt;...&lt;/fui-select&gt;</code>. But everything else is the exact same thing. You
-                don't need to add extra lib, everything is tied to <code>ferui-components</code>.
+                Note : We've forked their project and changed the name of the main component to follow our naming convention.
+                You'll need to replace <code>&lt;ng-select&gt;...&lt;/ng-select&gt;</code> by
+                <code>&lt;fui-select&gt;...&lt;/fui-select&gt;</code>. But everything else is the exact same thing. You don't
+                need to add extra lib, everything is tied to <code>ferui-components</code>.
               </p>
             </div>
           </div>

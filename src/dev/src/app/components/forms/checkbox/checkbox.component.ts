@@ -14,12 +14,7 @@ import { DemoComponentData } from '../../../utils/demo-component-data';
             <demo-component [form]="demoForm" [componentData]="inputThree"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputFour"></demo-component>
             <div class="footer">
-              <button
-                class="btn btn-primary"
-                [disabled]="!demoForm.form.valid"
-                (click)="promptSubmitInfos()"
-                type="submit"
-              >
+              <button class="btn btn-primary" [disabled]="!demoForm.form.valid" (click)="promptSubmitInfos()" type="submit">
                 Submit
               </button>
               <button class="btn btn-success" type="button" (click)="validate()">Validate</button>
