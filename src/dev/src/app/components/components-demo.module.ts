@@ -10,17 +10,21 @@ import { DatagridDemoModule } from './datagrid/datagrid.module';
 import { ComponentsDashboardComponent } from './default/default.component';
 import { ComponentsRoutingModule } from './components-demo.routing';
 import { FormsDemoModule } from './forms/forms-demo.module';
+import { DropdownDemoModule } from './dropdown/dropdown.module';
+import { UtilsModule } from '../utils/utils.module';
 
 export const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [ComponentsDashboardComponent, ComponentsLandingComponent];
 
 @NgModule({
   imports: [
+    UtilsModule,
     CommonModule,
     FormsModule,
     ComponentsRoutingModule,
     FormsDemoModule,
     FeruiModule,
     DatagridDemoModule,
+    DropdownDemoModule,
     HighlightModule,
   ],
   declarations: [FUI_DEMO_COMPONENTS_DIRECTIVES],

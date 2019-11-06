@@ -1,0 +1,278 @@
+@import '../../variables';
+@import '../../mixins';
+
+%dropdown-content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+@include exports('components.dropdown') {
+  .fui-dropdown {
+    position: relative;
+    display: inline-block;
+
+    .fui-dropdown-trigger {
+      display: inline-block;
+      position: relative;
+      margin: 0;
+      white-space: nowrap;
+      cursor: pointer;
+
+      //No margins on any immediate dropdown-toggle children
+      & > * {
+        margin: 0;
+      }
+
+      clr-icon[shape^='caret'] {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        color: inherit;
+        height: $fui-dropdown-caret-icon-dimension;
+        width: $fui-dropdown-caret-icon-dimension;
+      }
+
+      &.btn {
+        padding-right: $fui-button-horizontal-padding + $fui-dropdown-caret-icon-dimension + $fui-dropdown-caret-left-margin;
+
+        clr-icon[shape^='caret'] {
+          right: $fui-button-horizontal-padding;
+        }
+      }
+
+      &:not(.btn) {
+        padding: 0.625rem 0.625rem 0.625rem 0;
+        color: $fui-dropdown-active-text-color;
+        clr-icon[shape^='caret'] {
+          right: 0;
+        }
+      }
+    }
+
+    button.fui-dropdown-trigger:not(.btn) {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: $fui-dropdown-active-text-color;
+    }
+  }
+
+  //Dropdown Menu
+  .fui-dropdown-menu > * {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .fui-dropdown-menu {
+    @include generate-dropdown-menu();
+
+    .dropdown-header {
+      font-size: 0.625rem;
+      font-weight: $font-weight-bold;
+      letter-spacing: normal;
+      text-transform: uppercase;
+
+      padding: 0 0.625rem;
+      line-height: 1.5625rem;
+      margin: 0;
+      color: $fui-dropdown-header-color;
+
+      @extend %dropdown-content;
+    }
+
+    .btn,
+    .btn-secondary,
+    .btn-info,
+    .btn-outline,
+    .btn-outline-primary,
+    .btn-outline-secondary,
+    .btn-outline-warning,
+    .btn-outline-danger,
+    .btn-outline-success,
+    .btn-danger,
+    .btn-primary,
+    .btn-warning,
+    .btn-success,
+    .btn-link,
+    .fui-dropdown-item {
+      @include generate-dropdown-item();
+
+      @extend %dropdown-content;
+
+      &.expandable {
+        $fui-dropdown-caret-margin-top: 0.375rem;
+
+        margin-right: 1rem;
+        padding-right: 0.5rem;
+
+        &:before {
+          content: '';
+          float: right;
+          height: 0.5rem;
+          width: 0.5rem;
+          @include font-icon($icon-content-arrow, 0.5625rem);
+          margin-top: $fui-dropdown-caret-margin-top;
+        }
+      }
+    }
+
+    .btn,
+    .fui-dropdown-item {
+      @include generate-dropdown-item-height();
+    }
+
+    @media screen and (max-width: map-get($grid-breakpoints, sm)) {
+      .btn,
+      .fui-dropdown-item {
+        $fui-dropdown-caret-margin-top: 0.5rem;
+
+        &.expandable::before {
+          margin-top: $fui-dropdown-caret-margin-top;
+        }
+      }
+    }
+
+    .fui-dropdown-divider {
+      border-bottom: $fui-default-borderwidth solid $fui-dropdown-divider-color;
+      margin: 0.625rem -0.625rem;
+    }
+  }
+
+  //Directions
+  .btn-group-overflow,
+  .tabs-overflow,
+  .fui-dropdown {
+    $dropdown-menu-positional-nudge: 2 * $fui-rem-1px;
+
+    &.open > .fui-dropdown-menu,
+    &.open > .fui-dropdown-menu-wrapper > .fui-dropdown-menu {
+      visibility: visible;
+    }
+
+    &.bottom-left > .fui-dropdown-menu,
+    &.bottom-right > .fui-dropdown-menu {
+      top: 100%;
+      bottom: auto;
+      margin: $dropdown-menu-positional-nudge 0 0 0;
+    }
+
+    &.bottom-left > .fui-dropdown-menu {
+      left: 0;
+      right: auto;
+    }
+
+    &.bottom-right > .fui-dropdown-menu {
+      right: 0;
+      left: auto;
+    }
+
+    &.top-left > .fui-dropdown-menu,
+    &.top-right > .fui-dropdown-menu {
+      top: auto;
+      bottom: 100%;
+      margin: 0 0 $dropdown-menu-positional-nudge 0;
+    }
+
+    &.top-left > .fui-dropdown-menu {
+      left: 0;
+      right: auto;
+    }
+
+    &.top-right > .fui-dropdown-menu {
+      right: 0;
+      left: auto;
+    }
+
+    &.left-top > .fui-dropdown-menu,
+    &.left-bottom > .fui-dropdown-menu {
+      right: 100%;
+      left: auto;
+      margin: 0 $dropdown-menu-positional-nudge 0 0;
+    }
+
+    &.left-bottom > .fui-dropdown-menu {
+      top: 0;
+      bottom: auto;
+    }
+
+    &.left-top > .fui-dropdown-menu {
+      bottom: 0;
+      top: auto;
+    }
+
+    &.right-top > .fui-dropdown-menu,
+    &.right-bottom > .fui-dropdown-menu {
+      left: 100%;
+      right: auto;
+      margin: 0 0 0 $dropdown-menu-positional-nudge;
+    }
+
+    &.right-bottom > .fui-dropdown-menu {
+      top: 0;
+      bottom: auto;
+    }
+
+    &.right-top > .fui-dropdown-menu {
+      bottom: 0;
+      top: auto;
+    }
+
+    // nested dropdown (submenu)
+    .fui-dropdown {
+      $fui-dropdown-submenu-overlap-margin: -0.166667rem;
+      $fui-dropdown-submenu-vertical-margin: (-1 * 0.75rem) - $fui-rem-1px;
+      // -1 is to account for the border that shifts the menu down by 1 pixel
+
+      .fui-dropdown-menu {
+        border-color: $fui-dropdown-child-border-color;
+        position: absolute;
+      }
+
+      &.left-top {
+        > .fui-dropdown-menu,
+        > .fui-dropdown-menu-wrapper > .fui-dropdown-menu {
+          top: 0;
+          bottom: auto;
+          left: auto;
+          right: 100%;
+          margin-top: $fui-dropdown-submenu-vertical-margin;
+          margin-right: $fui-dropdown-submenu-overlap-margin;
+        }
+      }
+      &.right-top {
+        > .fui-dropdown-menu,
+        > .fui-dropdown-menu-wrapper > .fui-dropdown-menu {
+          top: 0;
+          bottom: auto;
+          left: 100%;
+          right: auto;
+          margin-top: $fui-dropdown-submenu-vertical-margin;
+          margin-left: $fui-dropdown-submenu-overlap-margin;
+        }
+      }
+      &.left-bottom {
+        > .fui-dropdown-menu,
+        > .fui-dropdown-menu-wrapper > .fui-dropdown-menu {
+          top: auto;
+          bottom: 0;
+          left: auto;
+          right: 100%;
+          margin-bottom: $fui-dropdown-submenu-vertical-margin;
+          margin-right: $fui-dropdown-submenu-overlap-margin;
+        }
+      }
+      &.right-bottom {
+        > .fui-dropdown-menu,
+        > .fui-dropdown-menu-wrapper > .fui-dropdown-menu {
+          top: auto;
+          bottom: 0;
+          left: 100%;
+          right: auto;
+          margin-bottom: $fui-dropdown-submenu-vertical-margin;
+          margin-left: $fui-dropdown-submenu-overlap-margin;
+        }
+      }
+    }
+  }
+}

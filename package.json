@@ -62,8 +62,10 @@
     "format:fix": "pretty-quick --staged",
     "pretest:lint": "tsc -p tests/tslint/tsconfig.json",
     "netlify": "netlify",
-    "netlify:publish": "netlify deploy --prod",
-    "netlify:deploy": "npm-run-all build:dev netlify:publish"
+    "netlify:publish": "netlify deploy",
+    "netlify:publish:prod": "netlify deploy --prod",
+    "netlify:deploy": "npm-run-all build:dev netlify:publish",
+    "netlify:deploy:prod": "npm-run-all build:dev netlify:publish:prod"
   },
   "dependencies": {
     "@angular/animations": "^7.1.0",

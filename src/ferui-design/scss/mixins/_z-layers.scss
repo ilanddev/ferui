@@ -1,0 +1,16 @@
+$fui-layers: (
+  content: 0,
+  select-box: 2,
+  datagrid-header: 500,
+  datagrid-host: 590,
+  datagrid-popover: 595,
+  column-switch: 600,
+  dropdown-menu: $zindex-dropdown,
+  alert: 1033,
+  sidepanel-bg: 1038,
+  sidepanel: 1039,
+  modal-bg: 1040,
+  modal: 1050,
+  tooltips: $zindex-tooltip,
+  draggable-ghost: 2147483647 // maximum possible value for z-index across all browsers,
+) !default;

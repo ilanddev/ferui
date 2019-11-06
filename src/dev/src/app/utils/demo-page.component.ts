@@ -1,6 +1,5 @@
-import { AfterContentInit, Component, ContentChildren, Input, QueryList, ViewChild } from '@angular/core';
+import { AfterContentInit, Component, ContentChildren, Input, QueryList } from '@angular/core';
 import { DemoComponent } from './demo.component';
-import { NgForm } from '@angular/forms';
 
 /**
  * Class:  Demo-page.component.ts
