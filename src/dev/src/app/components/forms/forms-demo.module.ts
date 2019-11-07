@@ -15,12 +15,9 @@ import { DefaultTemplateContent } from './default-template-content';
 import { DatetimeComponent } from './datetime/datetime.component';
 import { FormsDashboardComponent } from './dashboard/forms-dashboard.component';
 import { RouterModule } from '@angular/router';
-import { DemoPageComponent } from '../../utils/demo-page.component';
-import { DemoComponent } from '../../utils/demo.component';
+import { UtilsModule } from '../../utils/utils.module';
 
 export const FUI_DEMO_FROMS_DIRECTIVES: Type<any>[] = [
-  DemoComponent,
-  DemoPageComponent,
   DefaultTemplateWrapper,
   DefaultTemplateContent,
   FormsDashboardComponent,
@@ -36,7 +33,7 @@ export const FUI_DEMO_FROMS_DIRECTIVES: Type<any>[] = [
 ];
 
 @NgModule({
-  imports: [CommonModule, FormsModule, RouterModule, FeruiModule, HighlightModule],
+  imports: [CommonModule, FormsModule, RouterModule, UtilsModule, FeruiModule, HighlightModule],
   declarations: [FUI_DEMO_FROMS_DIRECTIVES],
   exports: [FUI_DEMO_FROMS_DIRECTIVES, RouterModule],
 })

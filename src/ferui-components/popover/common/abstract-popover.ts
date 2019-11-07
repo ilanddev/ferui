@@ -7,7 +7,6 @@ import {
   Optional,
   Renderer2,
   SkipSelf,
-  ViewContainerRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 

@@ -5,6 +5,7 @@ import { FuiDatagridModule } from './datagrid/datagrid.module';
 import { FuiUnselectableModule } from './unselectable/unselectable.module';
 import { FuiVirtualScrollerModule } from './virtual-scroller/virtual-scroller.module';
 import { FuiTabsModule } from './tabs/tabs.module';
+import { FuiDropdownModule } from './dropdown/dropdown.module';
 
 @NgModule({
   exports: [
@@ -14,6 +15,7 @@ import { FuiTabsModule } from './tabs/tabs.module';
     FuiDatagridModule,
     FuiUnselectableModule,
     FuiVirtualScrollerModule,
+    FuiDropdownModule,
   ],
 })
 export class FeruiModule {}

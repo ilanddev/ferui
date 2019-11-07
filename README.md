@@ -154,7 +154,17 @@ Then, open Ferui project with your favorite IDE and create the `.netlify/state.j
 }
 ```
 
-Once you've did this, you'll be able to run `npm run netlify:deploy` to publish your work through your netlify account. That will generate a new link that you can share with anybody :-)
+Once you've did this, you'll be able to run the deploy command to publish your work through your netlify account. That will generate a new link that you can share with anybody :-)
+
+```
+npm run netlify:deploy
+```
+
+You can note that this command will generate you draft URL to share with anybody. This won't be your prod version yet. If you want to make your deploy your prod version, consider using the prod command bellow :
+
+```bash
+npm run netlify:deploy:prod
+```
 
 Good luck !
 

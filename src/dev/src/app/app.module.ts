@@ -21,6 +21,7 @@ import { DatagridDataService } from './components/datagrid/server-side-api/datag
 import { ComponentsDemoModule } from './components/components-demo.module';
 import { IconsModule } from './icons/icons.module';
 import { AppRoutingModule } from './app.routing';
+import { UtilsModule } from './utils/utils.module';
 
 export function hljsLanguages() {
   return [
@@ -33,6 +34,7 @@ export function hljsLanguages() {
 
 @NgModule({
   imports: [
+    UtilsModule,
     BrowserAnimationsModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(DatagridDataService, { delay: 10, passThruUnknownUrl: true }),
