@@ -1,0 +1,77 @@
+@include exports('components.tree-node') {
+  .fui-tree-node-component {
+    display: block;
+    .fui-node-tree {
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .node-tree {
+      height: 34px;
+      width: max-content;
+    }
+    .label {
+      line-height: 34px;
+      font-size: 14px;
+      padding-right: 10px;
+    }
+    .icon-template {
+      margin-right: 5px;
+    }
+    .fui-loader-animation {
+      color: #87a1b5;
+    }
+    .fui-error-icon {
+      height: 14px;
+      width: 14px;
+      color: #87a1b5;
+    }
+    .error-msg {
+      padding-left: 5px;
+      font-size: 12px;
+      vertical-align: bottom;
+      color: #87a1b5;
+    }
+    .expand-icon {
+      height: 12px;
+      width: 10px;
+      margin-bottom: 2px;
+      color: #87a1b5;
+    }
+    .expand-icon:hover {
+      color: #252a3a;
+      cursor: pointer;
+    }
+
+    &.dark-blue .fui-node-tree:not(.node-tree-selected):hover {
+      background: #353f4e;
+    }
+    &.dark-blue .node-tree-selected {
+      color: #fff;
+      background: #03a6ff;
+    }
+    &.light-blue .fui-node-tree:not(.node-tree-selected):hover {
+      background: #0295e6;
+    }
+    &.light-blue .node-tree-selected {
+      color: #252a3a;
+      background: #fff;
+    }
+    &.gray .fui-node-tree:not(.node-tree-selected):hover {
+      background: #fff;
+    }
+    &.gray .node-tree-selected {
+      color: #fff;
+      background: #03a6ff;
+    }
+    &.white .fui-node-tree:not(.node-tree-selected):hover {
+      background-color: #e5eaee;
+    }
+    &.white .node-tree-selected {
+      background: #e4f5ff;
+    }
+    &.borders .fui-node-tree {
+      border-bottom: #e5eaee 1px solid;
+      border-radius: 0;
+    }
+  }
+}

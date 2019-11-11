@@ -1,0 +1,48 @@
+@include exports('components.tree-view') {
+  .fui-tree-view-component {
+    &.show-border {
+      .fui-tree-view {
+        padding: 0;
+        border: #e5eaee 1px solid;
+      }
+    }
+    .fui-tree-view {
+      padding: 10px;
+
+      .fui-loader {
+        color: #87a1b5;
+        position: relative;
+        top: calc(50% - 8px);
+        left: calc(50% - 8px);
+      }
+      .error {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        color: #87a1b5;
+        text-align: center;
+        transform: translateX(-50%);
+      }
+      &.dark-blue {
+        background: #252a3a;
+        color: #fff;
+      }
+      &.light-blue {
+        background: #03a6ff;
+        color: #fff;
+      }
+      &.gray {
+        background: #f5f8f9;
+        color: #252a3a;
+      }
+      &.white {
+        background: #fff;
+        color: #252a3a;
+      }
+      .fui-virtual-scroller {
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+}

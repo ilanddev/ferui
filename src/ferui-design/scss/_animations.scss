@@ -10,7 +10,8 @@
   @include fui-shake-left-to-right-animation();
 }
 
-.fui-datagrid-infinite-loader {
+.fui-datagrid-infinite-loader,
+.fui-tree-view-infinite-loader {
   height: 2px;
   width: 100%;
   display: block;
@@ -29,4 +30,8 @@
     transform: translateX(0px);
     @include fui-infinite-loader-animation();
   }
+}
+
+.fui-tree-view-infinite-loader {
+  position: relative;
 }

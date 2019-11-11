@@ -20,6 +20,7 @@ import { SelectsComponent } from './forms/select/selects.component';
 import { DatagridClientSideComponent } from './datagrid/pages/datagrid-client-side.component';
 import { DropdownDemo } from './dropdown/dropdown.demo';
 import { DropdownExample } from './dropdown/pages/dropdown-example';
+import { TreeViewClientSideDemo } from './tree-view/tree-view-client-side-demo';
 
 export const COMPONENTS_ROUTES: Routes = [
   {
@@ -58,6 +59,10 @@ export const COMPONENTS_ROUTES: Routes = [
         path: 'dropdown',
         component: DropdownDemo,
         children: [{ path: '', redirectTo: 'home', pathMatch: 'full' }, { path: 'home', component: DropdownExample }],
+      },
+      {
+        path: 'treeview',
+        component: TreeViewClientSideDemo,
       },
     ],
   },
