@@ -79,8 +79,8 @@ export class FuiBodyRow implements OnInit, OnDestroy {
   private mouseLeaveTimeout;
 
   constructor(
-    private actionMenuService: FuiActionMenuService,
     @Self() private el: ElementRef,
+    private actionMenuService: FuiActionMenuService,
     private cd: ChangeDetectorRef,
     private rowRendererService: RowRendererService,
     private optionsWrapperService: FuiDatagridOptionsWrapperService,
@@ -112,13 +112,13 @@ export class FuiBodyRow implements OnInit, OnDestroy {
   }
 
   @HostListener('mouseenter', ['$event'])
-  onRowEnter() {
+  onRowEnter(event) {
     this.actionMenuService.setSelectedRowContext(this.getContextForActionMenu());
     this.actionMenuService.isActionMenuVisible = true;
   }
 
   @HostListener('mouseleave', ['$event'])
-  onRowLeave() {
+  onRowLeave(event) {
     this.mouseLeaveTimeout = setTimeout(() => {
       const context: FuiDatagridBodyRowContext = this.actionMenuService.curentlySelectedRowContext || null;
       if (!this.actionMenuService.isActionMenuHovered && context && context.rowIndex === this.rowIndex) {

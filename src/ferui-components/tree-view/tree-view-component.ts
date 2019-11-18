@@ -94,13 +94,14 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
   hasBorders: boolean;
   domBufferAmount: number = 10;
   scrollPromise: boolean = false;
+  serverSideComponent: boolean = false;
+
   private rootNode: TreeNode<T>;
   private nonRootArray: TreeNode<T>[];
   private scrollSubscription: Subscription;
   private scrollWidthChangeSub: Subscription;
   private originalWidth: number;
   private bufferAmount: number = 50;
-  private serverSideComponent: boolean = false;
   private defaultWidth: string = 'auto';
   private defaultHeight: string = '100%';
   private defaultColorScheme: TreeViewColorTheme = TreeViewColorTheme.WHITE;
@@ -178,9 +179,9 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
   /**
    * Public method to select a Tree Node
    *
-   * @param {TreeNodeData<T>} nodeData
+   * @param nodeData
    */
-  public selectNode(nodeData: TreeNodeData<T>): void {
+  selectNode(nodeData: TreeNodeData<T>): void {
     this.scrollViewArray.forEach(it => (it.selected = JSON.stringify(it.data) === JSON.stringify(nodeData)));
     this.cd.markForCheck();
   }
@@ -188,9 +189,9 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
   /**
    * Public method to expand a Tree Node
    *
-   * @param {TreeNodeData<T>} nodeData
+   * @param nodeData
    */
-  public expandNode(nodeData: TreeNodeData<T>): void {
+  expandNode(nodeData: TreeNodeData<T>): void {
     const treeNode = this.scrollViewArray.find(it => JSON.stringify(it.data) === JSON.stringify(nodeData));
     if (treeNode) {
       this.selectOneNode(treeNode);
@@ -201,9 +202,9 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
   /**
    * Public method to collapse a Tree Node
    *
-   * @param {TreeNodeData<T>} nodeData
+   * @param nodeData
    */
-  public collapseNode(nodeData: TreeNodeData<T>): void {
+  collapseNode(nodeData: TreeNodeData<T>): void {
     const treeNode = this.scrollViewArray.find(it => JSON.stringify(it.data) === JSON.stringify(nodeData));
     if (treeNode) {
       this.handleCollapseNode(treeNode);
@@ -211,21 +212,10 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
   }
 
   /**
-   * Updates virtual scroller width based on the view's children Tree Nodes widths to expand according to largest child
-   */
-  private updateScrollerWidth(): void {
-    let max = this.treeViewUtils.virtualScrollerWidth;
-    // takes into consideration padding
-    max = max > this.originalWidth ? (this.border ? max : max + 20) : this.border ? this.originalWidth : this.originalWidth - 20;
-    this.vs.setInternalWidth(max + 'px');
-    this.cd.markForCheck();
-  }
-
-  /**
    * Emits the Node Event for outside Tree View Component usage as well as ensures tree nodes properties are updated
-   * @param {TreeViewEvent<any>} event
+   * @param event
    */
-  private nodeEvent(event: TreeNodeEvent<T>): void {
+  nodeEvent(event: TreeNodeEvent<T>): void {
     this.emitTreeViewEvent(event);
     switch (event.getType()) {
       case TreeViewEventType.NODE_EXPANDED:
@@ -243,8 +233,19 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
   }
 
   /**
+   * Updates virtual scroller width based on the view's children Tree Nodes widths to expand according to largest child
+   */
+  private updateScrollerWidth(): void {
+    let max = this.treeViewUtils.virtualScrollerWidth;
+    // takes into consideration padding
+    max = max > this.originalWidth ? (this.border ? max : max + 20) : this.border ? this.originalWidth : this.originalWidth - 20;
+    this.vs.setInternalWidth(max + 'px');
+    this.cd.markForCheck();
+  }
+
+  /**
    * Selects a TreeNode and deselects all other on the entire Tree View
-   * @param {TreeNode<any>} node
+   * @param node
    */
   private selectOneNode(node: TreeNode<T>): void {
     this.scrollViewArray.forEach(scrollItem => (scrollItem.selected = scrollItem === node));
@@ -268,9 +269,8 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
 
   /**
    * Returns whether the child node branch is complete and all its children loaded
-   * @param {TreeNode<T>} node
-   * @param {Array<TreeNode<T>>} aggregator
-   * @returns {boolean}
+   * @param node
+   * @param aggregator
    */
   private addNodeAndChildrenToVirtualScrollerArray(node: TreeNode<T>, aggregator: Array<TreeNode<T>>): boolean {
     aggregator.push(node);
@@ -284,8 +284,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
 
   /**
    * Gets the first child node with more children to load
-   * @param {TreeNode<T>} node
-   * @returns {TreeNode<T>}
+   * @param node
    */
   private getFirstNodeWithMoreChildrenToLoad(node: TreeNode<T>): TreeNode<T> | null {
     if (node.expanded === true && !node.allChildrenLoaded) {
@@ -302,10 +301,9 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
 
   /**
    * Handles the expansion of a Tree Node component
-   * @param {TreeNode<T>} node
-   * @param {number} firstIdxInView
-   * @param {number} lastIdxInView
-   * @returns {Promise<void>}
+   * @param node
+   * @param firstIdxInView
+   * @param lastIdxInView
    */
   private async handleExpandNode(node: TreeNode<T>, firstIdxInView: number, lastIdxInView: number): Promise<void> {
     node.showLoader = node.expanded = true;
@@ -316,8 +314,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
 
   /**
    * Handles the collapse event of a Tree Node Component
-   * @param {TreeNode<T>} node
-   * @returns {void}
+   * @param node
    */
   private handleCollapseNode(node: TreeNode<T>): void {
     node.children = [];
@@ -330,8 +327,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
 
   /**
    * Handles the scroll event of the Tree View
-   * @param {number} lastIdxInView
-   * @returns {Promise<void>}
+   * @param lastIdxInView
    */
   private async handleScroll(lastIdxInView: number): Promise<void> {
     const numberNeeded = this.bufferAmount - (this.scrollViewArray.length - lastIdxInView);
@@ -347,12 +343,11 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
   /**
    * Load more Tree Nodes
    *
-   * @param {TreeNode<T>} node
-   * @param {number} numberToLoad the number of new nodes wanted
-   * @param {boolean} recurse when true, continues to load up to the number of nodes needed from the next
+   * @param node
+   * @param numberToLoad the number of new nodes wanted
+   * @param recurse when true, continues to load up to the number of nodes needed from the next
    * expanded node that has more children or the full set of tree nodes is loaded from current node. When false, only
    * attempts to load up to 'numberToLoad' from the selected node with an incomplete set of children.
-   * @returns {Promise<void>}
    */
   private async loadMoreNodes(node: TreeNode<T>, numberToLoad: number, recurse: boolean) {
     const firstNodeWithMoreChildrenToLoad = this.getFirstNodeWithMoreChildrenToLoad(node);
@@ -404,7 +399,6 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
   /**
    * Wrap promise to add cancel method
    * @param promise
-   * @returns {WrappedPromise<any>}
    */
   private makeCancelablePromise(promise: any): WrappedPromise<any> {
     let rejectFn;
@@ -423,9 +417,8 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
   /**
    * Creates a TreeNode object
    *
-   * @param {TreeNodeData<T>} treeNodeData
-   * @param {TreeNode<T>} parentTreeNode
-   * @returns {TreeNode<T>}
+   * @param treeNodeData
+   * @param parentTreeNode
    */
   private createTreeNode(treeNodeData: TreeNodeData<T>, parentTreeNode: TreeNode<T> | null): TreeNode<T> {
     return {
@@ -443,7 +436,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
   /**
    * Emits the Tree View Event
    *
-   * @param {TreeNodeEvent<T>} event
+   * @param event
    */
   private emitTreeViewEvent(event: TreeNodeEvent<T>): void {
     this.onNodeEvent.emit({

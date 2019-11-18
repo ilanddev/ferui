@@ -135,8 +135,6 @@ export class FuiTreeNodeComponent<T> implements OnInit {
 
   /**
    * Gets the icon template reference the developer can use on a Tree Node with its current state
-   *
-   * @returns {TemplateRef<any> | null}
    */
   getIconTemplate(): TemplateRef<any> | null {
     return this.dataRetriever.hasOwnProperty('getIconTemplate') ? this.dataRetriever.getIconTemplate() : null;
@@ -144,26 +142,22 @@ export class FuiTreeNodeComponent<T> implements OnInit {
 
   /**
    * Gets the node template reference the developer can use on the Tree Node with its current state
-   * @returns {TemplateRef<any>}
    */
   getNodeTemplate(): TemplateRef<any> | null {
     return this.dataRetriever.hasOwnProperty('getNodeTemplate') ? this.dataRetriever.getNodeTemplate() : null;
   }
 
   /**
-   * Gets the Node Tree width including padding
-   * @returns {number}
+   * Calculates the needed padding based on nodes level and if it has children
    */
-  private getNodeWidth(): number {
-    return this.nodeTreeElement.nativeElement.offsetWidth;
+  calculatePadding(): number {
+    return this.hasChildren ? this.level * 20 + 10 : this.level * 20 + 30;
   }
 
   /**
-   * Calculates the needed padding based on nodes level and if it has children
-   *
-   * @returns {number}
+   * Gets the Node Tree width including padding
    */
-  private calculatePadding(): number {
-    return this.hasChildren ? this.level * 20 + 10 : this.level * 20 + 30;
+  private getNodeWidth(): number {
+    return this.nodeTreeElement.nativeElement.offsetWidth;
   }
 }

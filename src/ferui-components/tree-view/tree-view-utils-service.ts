@@ -1,5 +1,4 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { TreeViewColorTheme } from './interfaces';
 
 @Injectable()
 export class FuiTreeViewUtilsService {
@@ -9,7 +8,7 @@ export class FuiTreeViewUtilsService {
 
   /**
    * Set a new virtual scroller width if tree node width passed in is greater than
-   * @param {number} treeNodeWidth
+   * @param treeNodeWidth
    */
   set virtualScrollerWidth(treeNodeWidth: number) {
     if (treeNodeWidth > this.currentVsWidth) {
@@ -20,7 +19,6 @@ export class FuiTreeViewUtilsService {
 
   /**
    * Gets the current virtual scroller width
-   * @returns {number}
    */
   get virtualScrollerWidth(): number {
     return this.currentVsWidth;
@@ -29,7 +27,7 @@ export class FuiTreeViewUtilsService {
   /**
    * Set the initial default virtual scroller width
    *
-   * @param {number} defaultWidth
+   * @param defaultWidth
    */
   set defaultScrollerWidth(defaultWidth: number) {
     this.currentVsWidth = defaultWidth;

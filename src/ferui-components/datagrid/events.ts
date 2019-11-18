@@ -88,12 +88,6 @@ export interface FuiPageChangeEvent extends FuiDatagridEvent {
   page: FuiPagerPage;
 }
 
-export interface BodyScrollEvent extends FuiDatagridEvent {
-  direction: string;
-  left: number;
-  top: number;
-}
-
 export interface DisplayedColumnsWidthChangedEvent extends FuiDatagridEvent {}
 
 export interface DraggingEvent {

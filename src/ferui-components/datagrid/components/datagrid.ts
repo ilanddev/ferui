@@ -79,13 +79,13 @@ import { FuiActionMenuService } from '../services/action-menu/action-menu.servic
                 <fui-datagrid-header-row [style.width.px]="totalWidth + scrollSize">
                   <fui-datagrid-header-cell
                     unselectable="on"
-                    *ngFor="let column of columns; trackBy: columnTrackByFn; let i = index"
+                    *ngFor="let hColumn of columns; index as i; trackBy: columnTrackByFn"
                     [colIndex]="i"
                     (changeVisibility)="onColumnChangeVisibility($event)"
                     (changeWidth)="onColumnChangeWidth($event)"
                     (resize)="onColumnResize($event)"
                     [rowHeight]="rowHeight"
-                    [columnDefinition]="column"
+                    [columnDefinition]="hColumn"
                   ></fui-datagrid-header-cell>
                 </fui-datagrid-header-row>
               </fui-datagrid-header-container>
@@ -119,16 +119,16 @@ import { FuiActionMenuService } from '../services/action-menu/action-menu.servic
               ></fui-datagrid-action-menu>
 
               <fui-datagrid-body-row
-                *ngFor="let row of scroll.viewPortItems; trackBy: rowTrackByFn; let i = index"
+                *ngFor="let row of scroll.viewPortItems; index as idx; trackBy: rowTrackByFn"
                 [data]="row"
-                [rowIndex]="i + scroll.viewPortInfo.startIndex"
+                [rowIndex]="idx + scroll.viewPortInfo.startIndex"
                 [style.width.px]="totalWidth"
               >
                 <fui-datagrid-body-cell
                   *ngFor="let column of getVisibleColumns(); trackBy: columnTrackByIndexFn"
                   unselectable="on"
                   [column]="column"
-                  [rowIndex]="i + scroll.viewPortInfo.startIndex"
+                  [rowIndex]="idx + scroll.viewPortInfo.startIndex"
                   [rowHeight]="rowHeight"
                   [rowData]="row"
                 ></fui-datagrid-body-cell>
