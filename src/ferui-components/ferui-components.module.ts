@@ -6,6 +6,7 @@ import { FuiUnselectableModule } from './unselectable/unselectable.module';
 import { FuiVirtualScrollerModule } from './virtual-scroller/virtual-scroller.module';
 import { FuiTabsModule } from './tabs/tabs.module';
 import { FuiDropdownModule } from './dropdown/dropdown.module';
+import { TreeViewModule } from './tree-view/tree-view.module';
 
 @NgModule({
   exports: [
@@ -16,6 +17,7 @@ import { FuiDropdownModule } from './dropdown/dropdown.module';
     FuiUnselectableModule,
     FuiVirtualScrollerModule,
     FuiDropdownModule,
+    TreeViewModule,
   ],
 })
 export class FeruiModule {}

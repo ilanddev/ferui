@@ -12,6 +12,7 @@ import { ComponentsRoutingModule } from './components-demo.routing';
 import { FormsDemoModule } from './forms/forms-demo.module';
 import { DropdownDemoModule } from './dropdown/dropdown.module';
 import { UtilsModule } from '../utils/utils.module';
+import { TreeViewDemoModule } from './tree-view/tree-view.module';
 
 export const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [ComponentsDashboardComponent, ComponentsLandingComponent];
 
@@ -26,6 +27,7 @@ export const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [ComponentsDashboardC
     DatagridDemoModule,
     DropdownDemoModule,
     HighlightModule,
+    TreeViewDemoModule,
   ],
   declarations: [FUI_DEMO_COMPONENTS_DIRECTIVES],
   exports: [FUI_DEMO_COMPONENTS_DIRECTIVES],

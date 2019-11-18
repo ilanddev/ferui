@@ -7,3 +7,4 @@ export * from './datagrid/index';
 export * from './forms/index';
 export * from './virtual-scroller/index';
 export * from './hilitor/index';
+export * from './tree-view/index';
