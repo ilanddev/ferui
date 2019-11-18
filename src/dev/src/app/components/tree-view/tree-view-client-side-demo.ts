@@ -1,13 +1,11 @@
-import { Component, ViewChild, TemplateRef, HostBinding } from '@angular/core';
+import { Component, ViewChild, TemplateRef } from '@angular/core';
 import {
   PagingParams,
   TreeNodeDataRetriever,
   TreeNodeData,
   PagedTreeNodeDataRetriever,
   NonRootTreeNode,
-  TreeViewColorTheme,
   FuiTreeViewComponent,
-  TreeViewConfiguration,
 } from '@ferui/components';
 
 @Component({
@@ -382,7 +380,7 @@ export class TreeViewClientSideDemo {
       return this.nodeTemplate;
     },
   };
-  treeDataRetriever = {
+  treeDataRetriever: TreeNodeDataRetriever<FoodNode> = {
     hasChildNodes: (node: TreeNodeData<FoodNode>) => {
       return Promise.resolve(!!node.data.children && node.data.children.length > 0);
     },
@@ -393,11 +391,11 @@ export class TreeViewClientSideDemo {
         })
       );
     },
-  } as TreeNodeDataRetriever<FoodNode>;
+  };
 
   // Server side node
   loading = true;
-  serverDataRetriever = {
+  serverDataRetriever: PagedTreeNodeDataRetriever<FoodNode> = {
     hasChildNodes: (node: TreeNodeData<FoodNode>) => {
       return Promise.resolve(!!node.data.children && node.data.children.length > 0);
     },
@@ -425,7 +423,7 @@ export class TreeViewClientSideDemo {
         }
       });
     },
-  } as PagedTreeNodeDataRetriever<FoodNode>;
+  };
 
   ngOnInit() {
     setTimeout(() => {
