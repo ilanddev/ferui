@@ -7,6 +7,7 @@ import { FuiVirtualScrollerComponent } from '../../virtual-scroller/virtual-scro
 import { FuiDatagridEventService } from './event.service';
 import { FuiColumnService } from './rendering/column.service';
 import { ScrollbarHelper } from './datagrid-scrollbar-helper.service';
+import { BodyScrollEvent, FuiDatagridEvents } from '../events';
 
 @Injectable()
 export class FuiDatagridService {
@@ -21,6 +22,7 @@ export class FuiDatagridService {
   private _eCenterContainer: HTMLElement;
   private _eCenterViewport: HTMLElement;
   private _eCenterColsClipper: HTMLElement;
+  private _eCenterViewportVsClipper: HTMLElement;
 
   private _eHorizontalScrollBody: HTMLElement;
   private _eBodyHorizontalScrollViewport: HTMLElement;
@@ -41,10 +43,11 @@ export class FuiDatagridService {
     private eventService: FuiDatagridEventService,
     private columnService: FuiColumnService
   ) {
-    this.resetLastHorizontalScrollElementDebounce = DatagridUtils.debounce(
-      this.resetLastHorizontalScrollElement.bind(this),
-      500
-    );
+    this.resetLastHorizontalScrollElementDebounce = DatagridUtils.debounce(this.resetLastHorizontalScrollElement.bind(this), 500);
+  }
+
+  get getScrollbarHelper(): ScrollbarHelper {
+    return this.scrollbarHelper;
   }
 
   get virtualScrollViewport(): FuiVirtualScrollerComponent {
@@ -57,6 +60,15 @@ export class FuiDatagridService {
 
   get eHeaderRoot(): HTMLElement {
     return this._eHeaderRoot;
+  }
+
+  get eCenterViewportVsClipper(): HTMLElement {
+    return this._eCenterViewportVsClipper;
+  }
+
+  set eCenterViewportVsClipper(value: HTMLElement) {
+    this._eCenterViewportVsClipper = value;
+    this.checkIfReady();
   }
 
   set eHeaderRoot(value: HTMLElement) {
@@ -203,29 +215,29 @@ export class FuiDatagridService {
   }
 
   getDropTargetBodyContainers(): HTMLElement[] {
-    return [this._eCenterViewport];
+    return [this._eCenterViewportVsClipper];
   }
 
   getCenterViewportScrollLeft(): number {
     // we defer to a util, as how you calculated scrollLeft when doing RTL depends on the browser
-    return DatagridUtils.getScrollLeft(this._eCenterViewport, false);
+    return DatagridUtils.getScrollLeft(this._eCenterViewportVsClipper, false);
   }
 
   getCenterWidth(): number {
-    return this._eCenterViewport.clientWidth;
+    return this._eCenterViewportVsClipper.clientWidth;
   }
 
   setHorizontalScrollPosition(hScrollPosition: number): void {
-    this.eCenterViewport.scrollLeft = hScrollPosition;
+    this.eCenterViewportVsClipper.scrollLeft = hScrollPosition;
 
     this.doHorizontalScroll(hScrollPosition);
   }
 
   scrollHorizontally(pixels: number): number {
-    const oldScrollPosition = this.eCenterViewport.scrollLeft;
+    const oldScrollPosition = this.eCenterViewportVsClipper.scrollLeft;
 
     this.setHorizontalScrollPosition(oldScrollPosition + pixels);
-    return this.eCenterViewport.scrollLeft - oldScrollPosition;
+    return this.eCenterViewportVsClipper.scrollLeft - oldScrollPosition;
   }
 
   horizontallyScrollHeaderCenterAndFloatingCenter(scrollLeft?: number): void {
@@ -234,19 +246,22 @@ export class FuiDatagridService {
     }
 
     const offset = -scrollLeft;
-    const { clientWidth, scrollWidth } = this._eCenterViewport;
+    const { clientWidth, scrollWidth } = this.eCenterViewportVsClipper; // this._eCenterViewport;
     const scrollWentPastBounds = Math.abs(offset) + clientWidth > scrollWidth;
 
     if (scrollWentPastBounds || offset > 0) {
       return;
     }
     const partner =
-      this.lastHorizontalScrollElement === this.eCenterViewport ? this.eBodyHorizontalScrollViewport : this.eCenterViewport;
+      this.lastHorizontalScrollElement === this.eCenterViewportVsClipper
+        ? this.eBodyHorizontalScrollViewport
+        : this.eCenterViewportVsClipper;
     DatagridUtils.setScrollLeft(partner, scrollLeft, false);
     DatagridUtils.setScrollLeft(this._eHeaderViewport, scrollLeft, false);
   }
 
   onFakeHorizontalScroll(): void {
+    console.log('onFakeHorizontalScroll', this.eBodyHorizontalScrollViewport);
     if (!this.isControllingScroll(this.eBodyHorizontalScrollViewport)) {
       return;
     }
@@ -254,10 +269,23 @@ export class FuiDatagridService {
   }
 
   onCenterViewportScroll(): void {
-    if (!this.isControllingScroll(this.eCenterViewport)) {
+    if (!this.isControllingScroll(this.eCenterViewportVsClipper)) {
       return;
     }
-    this.onBodyHorizontalScroll(this.eCenterViewport);
+    this.onBodyHorizontalScroll(this.eCenterViewportVsClipper);
+  }
+
+  onVerticalScroll(): void {
+    this.scrollTop = this.eBodyViewport.scrollTop;
+    const event: BodyScrollEvent = {
+      type: FuiDatagridEvents.EVENT_BODY_SCROLL,
+      api: this.gridApi,
+      columnApi: this.columnApi,
+      direction: 'vertical',
+      left: this.scrollLeft,
+      top: this.scrollTop,
+    };
+    this.eventService.dispatchEvent(event);
   }
 
   setCenterContainerSize(): void {
@@ -268,7 +296,7 @@ export class FuiDatagridService {
   }
 
   private onBodyHorizontalScroll(eSource: HTMLElement): void {
-    const { scrollWidth, clientWidth } = this.eCenterViewport;
+    const { scrollWidth, clientWidth } = this.eCenterViewportVsClipper;
     // in chrome, fractions can be in the scroll left, eg 250.342234 - which messes up our 'scrollWentPastBounds'
     // formula. so we floor it to allow the formula to work.
     const scrollLeft = Math.floor(DatagridUtils.getScrollLeft(eSource, false));
@@ -301,6 +329,16 @@ export class FuiDatagridService {
 
   private doHorizontalScroll(scrollLeft: number): void {
     this.scrollLeft = scrollLeft;
+
+    const event: BodyScrollEvent = {
+      type: FuiDatagridEvents.EVENT_BODY_SCROLL,
+      api: this.gridApi,
+      columnApi: this.columnApi,
+      direction: 'horizontal',
+      left: this.scrollLeft,
+      top: this.scrollTop,
+    };
+    this.eventService.dispatchEvent(event);
     this.horizontallyScrollHeaderCenterAndFloatingCenter(scrollLeft);
   }
 
@@ -317,7 +355,8 @@ export class FuiDatagridService {
       this.eBodyHorizontalScrollViewport &&
       this.eBodyHorizontalScrollContainer &&
       this.eFullWidthContainer &&
-      this.virtualScrollViewport
+      this.virtualScrollViewport &&
+      this.eCenterViewportVsClipper
     ) {
       this.setReady();
     }

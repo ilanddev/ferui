@@ -124,6 +124,16 @@ export interface FuiFilterEvent extends FuiDatagridEvent {
   totalRows?: number;
 }
 
+export interface FuiDatagridBodyScrollEvent extends FuiDatagridEvent {
+  scrollEvent: Event;
+}
+
+export interface BodyScrollEvent extends FuiDatagridEvent {
+  direction: string;
+  left: number;
+  top: number;
+}
+
 export class FuiDatagridEvents {
   public static EVENT_CELL_CLICKED = 'cellClicked';
   public static EVENT_CELL_DOUBLE_CLICKED = 'cellDoubleClicked';

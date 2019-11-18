@@ -5,13 +5,35 @@
 }
 
 :host.horizontal.selfScroll {
-  overflow-y: visible;
+  overflow-y: hidden;
   overflow-x: auto;
+
+  .fui-virtual-scroller-clipper {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 }
 
 :host.vertical.selfScroll {
   overflow-y: auto;
-  overflow-x: visible;
+  overflow-x: hidden;
+
+  .fui-virtual-scroller-clipper {
+    overflow-y: hidden;
+    overflow-x: auto;
+  }
+}
+
+.fui-virtual-scroller-clipper-wrapper {
+  min-height: 100%;
+  box-sizing: border-box;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+
+  .fui-virtual-scroller-clipper {
+    height: 100%;
+  }
 }
 
 .scrollable-content {
@@ -43,7 +65,14 @@
 }
 
 .total-padding {
+  //width: 1px;
+  //opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
   width: 1px;
+  transform-origin: 0 0;
   opacity: 0;
 }
 

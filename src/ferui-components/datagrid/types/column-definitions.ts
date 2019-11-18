@@ -5,6 +5,7 @@ import { FuiFieldTypes } from './field-types.enum';
 import { FilterType } from '../components/filters/interfaces/filter.enum';
 import { FuiDatagridBaseFilter } from '../components/filters/filter/base-filter';
 import { IFilterParams } from '../components/filters/interfaces/filter';
+import { FuiDatagridBodyRowContext } from './body-row-context';
 
 export interface FuiColumnDefinitions {
   //The unique ID to give the column. This is optional.
@@ -69,14 +70,7 @@ export interface FuiColumnDefinitions {
   suppressSizeToFit?: boolean;
 
   // A callback that takes (value, valueFormatted, data, node , colDef, rowIndex and api) It must return the string used as a tooltip. tooltipField takes precedence.
-  tooltip?: (
-    value: any,
-    valueFormatted: string,
-    data: any,
-    colDef: FuiColumnDefinitions,
-    rowIndex: number,
-    api: any
-  ) => string;
+  tooltip?: (value: any, valueFormatted: string, data: any, colDef: FuiColumnDefinitions, rowIndex: number, api: any) => string;
 
   // Initial width, min width and max width for the cell. Always stated in pixels (never percentage values).
   width?: number;

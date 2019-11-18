@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DatagridService } from '../datagrid.service';
 import { RowDataApiService } from '../server-side-api/datagrid-row.service';
-import * as jsBeautify from 'js-beautify';
 import {
   FuiColumnDefinitions,
   IServerSideDatasource,
@@ -82,7 +81,8 @@ import {
         </ng-template>
       </fui-tab>
       <fui-tab [title]="'Documentation'">
-        ...
+        <h3 class="mb-4">Overview</h3>
+        <p>The <b>Infinite server side</b> row model works exactly</p>
       </fui-tab>
     </fui-tabs>
   `,
@@ -102,7 +102,6 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
   defaultColumnDefs: FuiColumnDefinitions;
   isLoading: boolean = true;
   dataSource: IServerSideDatasource;
-  restrictTypescriptLang = ['typescript'];
   rowDataModel: FuiRowModel = FuiRowModel.INFINITE;
 
   dataSource2: IServerSideDatasource;
@@ -131,7 +130,7 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
     };
 
     this.columnDefs = [
-      { headerName: 'ID', field: 'id', cellRenderer: this.idRenderer },
+      { headerName: 'ID', field: 'id', cellRenderer: this.idRenderer, filter: FilterType.NUMBER },
       {
         headerName: 'Avatar',
         field: 'avatar',

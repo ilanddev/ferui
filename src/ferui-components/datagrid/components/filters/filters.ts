@@ -10,6 +10,7 @@ import { Component, ElementRef, Input, OnInit, Self } from '@angular/core';
         </div>
         <div class="col col-right">
           <fui-datagrid-filter-column-visibility *ngIf="!isLoading"></fui-datagrid-filter-column-visibility>
+          <ng-content></ng-content>
         </div>
       </div>
     </div>

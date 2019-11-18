@@ -14,6 +14,7 @@ import {
   Renderer2,
   ViewChild,
   ChangeDetectorRef,
+  HostBinding,
 } from '@angular/core';
 
 import { PLATFORM_ID } from '@angular/core';
@@ -28,13 +29,14 @@ import {
   WrapGroupDimension,
   WrapGroupDimensions,
 } from './types/virtual-scroller-interfaces';
+import { ScrollbarHelper } from '../datagrid/services/datagrid-scrollbar-helper.service';
 
 export interface CancelableFunction extends Function {
   cancel: Function;
 }
 
 /**
- * Fork of https://github.com/rintoj/ngx-virtual-scroller.
+ * Fork of https://github.com/rintoj/ngx-virtual-scroller. v3.0.3
  * Remove all Deprecated variables.
  * Initial authors : Rinto Jose, Devin Garner, Pavel Kukushkin.
  */
@@ -42,10 +44,15 @@ export interface CancelableFunction extends Function {
   selector: 'fui-virtual-scroller,[fuiVirtualScroller]',
   exportAs: 'virtualScroller',
   template: `
-    <div class="total-padding" #invisiblePadding></div>
-    <div class="scrollable-content" #content>
-      <ng-content></ng-content>
+    <div class="fui-virtual-scroller-clipper-wrapper" #horizontalScrollClipperWrapper>
+      <div class="fui-virtual-scroller-clipper" #horizontalScrollClipper>
+        <div class="scrollable-content" #content>
+          <ng-content></ng-content>
+        </div>
+      </div>
+      <ng-content select="[virtualScrollClipperContent]"></ng-content>
     </div>
+    <div class="total-padding" #invisiblePadding></div>
   `,
   host: {
     '[class.horizontal]': 'horizontal',
@@ -53,6 +60,7 @@ export interface CancelableFunction extends Function {
     '[class.selfScroll]': '!parentScroll',
   },
   styleUrls: ['./virtual-scroller.scss'],
+  providers: [ScrollbarHelper],
 })
 export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy {
   viewPortItems: any[];
@@ -72,6 +80,11 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
   @Input() scrollAnimationTime: number;
   @Input() resizeBypassRefreshThreshold: number;
 
+  @Input() scrollbarSize: number = null;
+
+  @Output('horizontalScroll') hScroll: EventEmitter<Event> = new EventEmitter<Event>();
+  @Output('verticalScroll') vScroll: EventEmitter<Event> = new EventEmitter<Event>();
+
   @Output() vsUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
   @Output() vsChange: EventEmitter<IPageInfo> = new EventEmitter<IPageInfo>();
   @Output() vsStart: EventEmitter<IPageInfo> = new EventEmitter<IPageInfo>();
@@ -79,6 +92,12 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
 
   @ViewChild('content', { read: ElementRef })
   contentElementRef: ElementRef;
+  @ViewChild('horizontalScrollClipper', { read: ElementRef })
+  horizontalScrollClipperElementRef: ElementRef;
+  @ViewChild('invisiblePadding', { read: ElementRef })
+  invisiblePaddingElementRef: ElementRef;
+  @ViewChild('horizontalScrollClipperWrapper', { read: ElementRef })
+  horizontalScrollClipperWrapper: ElementRef;
 
   get viewPortInfo(): IPageInfo {
     const pageInfo: IViewport = this.previousViewPort || <any>{};
@@ -189,13 +208,10 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
     const scrollElement = this.getScrollElement();
     if (this.modifyOverflowStyleOfParentScroll && scrollElement !== this.element.nativeElement) {
       this.oldParentScrollOverflow = { x: scrollElement.style['overflow-x'], y: scrollElement.style['overflow-y'] };
-      scrollElement.style['overflow-y'] = this.horizontal ? 'visible' : 'auto';
-      scrollElement.style['overflow-x'] = this.horizontal ? 'auto' : 'visible';
+      scrollElement.style['overflow-y'] = this.horizontal ? 'hidden' : 'auto';
+      scrollElement.style['overflow-x'] = this.horizontal ? 'auto' : 'hidden';
     }
   }
-
-  @ViewChild('invisiblePadding', { read: ElementRef })
-  protected invisiblePaddingElementRef: ElementRef;
 
   @ContentChild('header', { read: ElementRef })
   protected headerElementRef: ElementRef;
@@ -207,7 +223,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
   protected _enableUnequalChildrenSizes: boolean = false;
   protected _bufferAmount: number = 0;
   protected _scrollDebounceTime: number;
-  protected onScroll: () => void;
+  protected onScroll: (event) => void;
   protected checkScrollElementResizedTimer: number;
   protected _checkResizeInterval: number;
   protected _horizontal: boolean;
@@ -233,6 +249,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
   protected cachedItemsLength: number;
 
   protected disposeScrollHandler: () => void | undefined;
+  protected disposeXScrollHandler: () => void | undefined;
   protected disposeResizeHandler: () => void | undefined;
 
   protected minMeasuredChildWidth: number;
@@ -241,6 +258,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
   protected wrapGroupDimensions: WrapGroupDimensions;
 
   constructor(
+    private scrollbarHelper: ScrollbarHelper,
     readonly element: ElementRef,
     protected readonly renderer: Renderer2,
     protected readonly zone: NgZone,
@@ -250,6 +268,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
     @Inject('virtual-scroller-default-options')
     options: VirtualScrollerDefaultOptions
   ) {
+    this.scrollbarSize = scrollbarHelper.getWidth() || 0;
     this.isAngularUniversalSSR = isPlatformServer(platformId);
 
     this.scrollThrottlingTime = options.scrollThrottlingTime;
@@ -264,6 +283,10 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
     this.horizontal = false;
     this.resetWrapGroupDimensions();
   }
+
+  onHorizontalScroll = (event: Event) => {
+    this.hScroll.emit(event);
+  };
 
   @Input() compareItems: (item1: any, item2: any) => boolean = (item1: any, item2: any) => item1 === item2;
 
@@ -465,16 +488,19 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
 
   protected updateOnScrollFunction(): void {
     if (this.scrollDebounceTime) {
-      this.onScroll = <any>this.debounce(() => {
+      this.onScroll = <any>this.debounce(event => {
         this.refresh_internal(false);
+        this.vScroll.emit(event);
       }, this.scrollDebounceTime);
     } else if (this.scrollThrottlingTime) {
-      this.onScroll = <any>this.throttleTrailing(() => {
+      this.onScroll = <any>this.throttleTrailing(event => {
         this.refresh_internal(false);
+        this.vScroll.emit(event);
       }, this.scrollThrottlingTime);
     } else {
-      this.onScroll = () => {
+      this.onScroll = event => {
         this.refresh_internal(false);
+        this.vScroll.emit(event);
       };
     }
   }
@@ -678,6 +704,16 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
             this._invisiblePaddingProperty,
             `${viewport.scrollLength}px`
           );
+          this.renderer.setStyle(
+            this.horizontalScrollClipperWrapper.nativeElement,
+            this._invisiblePaddingProperty,
+            `${viewport.scrollLength}px`
+          );
+          this.renderer.setStyle(
+            this.horizontalScrollClipperElementRef.nativeElement,
+            this._invisiblePaddingProperty,
+            `calc(100% + ${this.scrollbarSize}px)`
+          );
         }
 
         if (paddingChanged) {
@@ -691,11 +727,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
               translateValue = `0, ${viewport.padding}px, 0`;
             }
             this.renderer.setStyle(this.contentElementRef.nativeElement, 'transform', `translate3d(${translateValue})`);
-            this.renderer.setStyle(
-              this.contentElementRef.nativeElement,
-              'webkitTransform',
-              `translate3d(${translateValue})`
-            );
+            this.renderer.setStyle(this.contentElementRef.nativeElement, 'webkitTransform', `translate3d(${translateValue})`);
           }
         }
 
@@ -792,16 +824,21 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
       return;
     }
 
-    const scrollElement = this.getScrollElement();
+    const yScrollElement = this.getScrollElement();
+    const xScrollElement = this.horizontalScrollClipperElementRef ? this.horizontalScrollClipperElementRef.nativeElement : null;
 
     this.removeScrollEventHandlers();
 
     this.zone.runOutsideAngular(() => {
       if (this.parentScroll instanceof Window) {
         this.disposeScrollHandler = this.renderer.listen('window', 'scroll', this.onScroll);
+        this.disposeXScrollHandler = this.renderer.listen('window', 'scroll', this.onHorizontalScroll);
         this.disposeResizeHandler = this.renderer.listen('window', 'resize', this.onScroll);
       } else {
-        this.disposeScrollHandler = this.renderer.listen(scrollElement, 'scroll', this.onScroll);
+        this.disposeScrollHandler = this.renderer.listen(yScrollElement, 'scroll', this.onScroll);
+        if (xScrollElement) {
+          this.disposeXScrollHandler = this.renderer.listen(xScrollElement, 'scroll', this.onHorizontalScroll);
+        }
         if (this._checkResizeInterval > 0) {
           this.checkScrollElementResizedTimer = <any>setInterval(() => {
             this.checkScrollElementResized();
@@ -819,6 +856,11 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
     if (this.disposeScrollHandler) {
       this.disposeScrollHandler();
       this.disposeScrollHandler = undefined;
+    }
+
+    if (this.disposeXScrollHandler) {
+      this.disposeXScrollHandler();
+      this.disposeXScrollHandler = undefined;
     }
 
     if (this.disposeResizeHandler) {
@@ -953,8 +995,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
       scrollElement.offsetHeight -
       (this.scrollbarHeight || this.calculatedScrollbarHeight || (this.horizontal ? maxCalculatedScrollBarSize : 0));
 
-    const content =
-      (this.containerElementRef && this.containerElementRef.nativeElement) || this.contentElementRef.nativeElement;
+    const content = (this.containerElementRef && this.containerElementRef.nativeElement) || this.contentElementRef.nativeElement;
 
     const itemsPerWrapGroup = this.countItemsPerWrapGroup();
     let wrapGroupsPerPage;
@@ -1030,10 +1071,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
           this.wrapGroupDimensions.sumOfKnownWrapGroupChildHeights += maxHeightForWrapGroup;
 
           if (this.horizontal) {
-            let maxVisibleWidthForWrapGroup = Math.min(
-              maxWidthForWrapGroup,
-              Math.max(viewportWidth - sumOfVisibleMaxWidths, 0)
-            );
+            let maxVisibleWidthForWrapGroup = Math.min(maxWidthForWrapGroup, Math.max(viewportWidth - sumOfVisibleMaxWidths, 0));
             if (scrollOffset > 0) {
               const scrollOffsetToRemove = Math.min(scrollOffset, maxVisibleWidthForWrapGroup);
               maxVisibleWidthForWrapGroup -= scrollOffsetToRemove;
