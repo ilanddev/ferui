@@ -3,11 +3,16 @@ import { DOCUMENT } from '@angular/common';
 
 @Injectable()
 export class ScrollbarHelper {
-  width: number = this.getWidth();
+  private readonly width: number = null;
 
-  constructor(@Inject(DOCUMENT) private document: any) {}
+  constructor(@Inject(DOCUMENT) private document: any) {
+    this.width = this.getWidth();
+  }
 
   getWidth(): number {
+    if (this.width !== null) {
+      return this.width;
+    }
     const outer = this.document.createElement('div');
     outer.style.visibility = 'hidden';
     outer.style.width = '100px';

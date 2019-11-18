@@ -42,8 +42,8 @@ import * as jsBeautify from 'js-beautify';
         </div>
         <h3 class="mb-4">Datagrid without known total rows</h3>
         <p>
-          If there is no way to know the total amount of rows the server would send you back, then the pager will adapt
-          itself automatically. You don't need to do anything else.
+          If there is no way to know the total amount of rows the server would send you back, then the pager will adapt itself
+          automatically. You don't need to do anything else.
         </p>
         <div class="mb-4">
           <fui-demo-datagrid-option-menu
@@ -79,8 +79,8 @@ import * as jsBeautify from 'js-beautify';
         <h3 class="mb-4">Overview</h3>
         <h5>Client-side Row Model</h5>
         <p>
-          The simplest approach is to send all row data to the browser in response to a single request at initialisation. For
-          this use case the Client-side Row Model has been designed.
+          The simplest approach is to send all row data to the browser in response to a single request at initialisation. For this
+          use case the Client-side Row Model has been designed.
         </p>
         <p>
           The Client-side Row Model only renders the rows currently visible, so the upper limit of rows is governed by the
@@ -88,13 +88,13 @@ import * as jsBeautify from 'js-beautify';
         </p>
         <h5>Server-side Row Model</h5>
         <p>
-          However many real world applications contain much larger data sets, often involving millions of records. In this
-          case it simply isn't feasible to load all the data into the browser in one go. Instead, data will somehow need to
-          be lazy-loaded as required and then purged to limit the memory footprint in the browser.
+          However many real world applications contain much larger data sets, often involving millions of records. In this case it
+          simply isn't feasible to load all the data into the browser in one go. Instead, data will somehow need to be lazy-loaded
+          as required and then purged to limit the memory footprint in the browser.
         </p>
         <p>
-          This is precisely the problem the Server-side Row Model addresses, along with delegating server-side operations
-          such as filtering and sorting.
+          This is precisely the problem the Server-side Row Model addresses, along with delegating server-side operations such as
+          filtering and sorting.
         </p>
 
         <h3>Server-side Datasource</h3>
@@ -104,14 +104,14 @@ import * as jsBeautify from 'js-beautify';
 
         <p>
           Each time the grid requires more rows, it will call the <code>getRows()</code> method. The method is passed a
-          <code>params</code> object that contains a request object with details what row the grid is looking for. The
-          interface for the params is as follows:
+          <code>params</code> object that contains a request object with details what row the grid is looking for. The interface
+          for the params is as follows:
         </p>
         <pre><code [languages]="restrictTypescriptLang" [highlight]="serverSideDatasourceParamsCode"></code></pre>
 
         <p>
-          The request gives details on what the grid is looking for. The request object can be serialised (eg via JSON) and
-          sent to your server. The request has the following interface:
+          The request gives details on what the grid is looking for. The request object can be serialised (eg via JSON) and sent
+          to your server. The request has the following interface:
         </p>
         <pre><code [languages]="restrictTypescriptLang" [highlight]="serverSideDatasourceRequestCode"></code></pre>
 

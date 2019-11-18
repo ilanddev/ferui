@@ -11,15 +11,15 @@ import { DemoComponentData } from '../../../utils/demo-component-data';
           <ul>
             <li>Clicking on the toggle opens the dropdown</li>
             <li>
-              By default, selecting a menu item or clicking outside the menu dismisses the menu. You can change this behavior
-              to keep the menu open on item selection
+              By default, selecting a menu item or clicking outside the menu dismisses the menu. You can change this behavior to
+              keep the menu open on item selection
             </li>
           </ul>
 
           <h3>Placement</h3>
           <p>
-            By default, a dropdown opens from the bottom of the toggle, along the left side. You can change the placement by
-            using one of the eight direction classes.
+            By default, a dropdown opens from the bottom of the toggle, along the left side. You can change the placement by using
+            one of the eight direction classes.
           </p>
 
           <h3>Nested Menu</h3>
@@ -35,7 +35,7 @@ import { DemoComponentData } from '../../../utils/demo-component-data';
 
           <demo-component [componentData]="dropdown1"></demo-component>
 
-          <h5>Position bottom-right (default)</h5>
+          <h5>Position bottom-left</h5>
 
           <demo-component [componentData]="dropdown2"></demo-component>
 
@@ -49,16 +49,15 @@ import { DemoComponentData } from '../../../utils/demo-component-data';
           <demo-component [componentData]="dropdown3"></demo-component>
 
           <p class="mt-3">
-            But If you place fui-dropdown inside a <code>position: absolute|fixed;</code> container with fixed height/width
-            and hidden overflow the dropdown will not be visible.
+            But If you place fui-dropdown inside a <code>position: absolute|fixed;</code> container with fixed height/width and
+            hidden overflow the dropdown will not be visible.
           </p>
 
           <demo-component [componentData]="dropdown4"></demo-component>
 
           <p class="mt-3">
             The solution is to use the <code>[appendTo]="ELEMENT_TAG_OR_ID_OR_CLASS_STRING"</code> property over the first
-            <code>fui-dropdown-menu</code> element and append the menu to whatever parent container that works for your
-            case.<br />
+            <code>fui-dropdown-menu</code> element and append the menu to whatever parent container that works for your case.<br />
             Note that we are using <code>document.querySelector(appendTo);</code> selector internally.
           </p>
           <p>In our example below, we've assigned the menu to the body to make it work.</p>
@@ -66,8 +65,8 @@ import { DemoComponentData } from '../../../utils/demo-component-data';
           <demo-component [componentData]="dropdown5"></demo-component>
 
           <p class="mt-3">
-            This last dropdown will automatically open its menu at the top because there is not enough space bellow it to add
-            the menu. (Hide the code section to see this working)
+            This last dropdown will automatically open its menu at the top because there is not enough space bellow it to add the
+            menu. (Hide the code section to see this working)
           </p>
 
           <demo-component [componentData]="dropdown6"></demo-component>
@@ -257,7 +256,7 @@ export class DropdownExample implements OnInit {
               Dropdown
               <clr-icon style="width: 9px; height: 9px;" shape="fui-caret" dir="down"></clr-icon>
             </span>
-            <fui-dropdown-menu *fuiIfOpen>
+            <fui-dropdown-menu [parentContainer]="'#main-content'" *fuiIfOpen>
               <label class="dropdown-header" aria-hidden="true">Dropdown header</label>
               <div aria-label="Dropdown header Action 1" fuiDropdownItem>Action 1</div>
               <div aria-label="Dropdown header Disabled Action" [class.disabled]="true" fuiDropdownItem>Disabled Action</div>

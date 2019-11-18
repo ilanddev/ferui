@@ -32,8 +32,11 @@ import { FuiDatagridGlobalSearchFilter } from './components/filters/filter/globa
 import { FuiDatagridDateFilter } from './components/filters/filter/date-filter';
 import { FuiDateModule } from '../forms/date/date.module';
 import { FuiBodyEmpty } from './components/body/body-empty';
+import { FuiDatagridActionMenu } from './components/action-menu/action-menu';
+import { FuiDropdownModule } from '../dropdown/dropdown.module';
 
 export const FUI_DATAGRID_DIRECTIVES: Type<any>[] = [
+  FuiDatagridActionMenu,
   FuiDatagridGlobalSearchFilter,
   FuiDatagridDateFilter,
   FuiDatagridTextFilter,
@@ -71,6 +74,7 @@ export const FUI_DATAGRID_DIRECTIVES: Type<any>[] = [
     FuiUnselectableModule,
     FuiSelectModule,
     FuiConditionalModule,
+    FuiDropdownModule,
   ],
   declarations: [FUI_DATAGRID_DIRECTIVES],
   exports: [FUI_DATAGRID_DIRECTIVES],

@@ -90,3 +90,12 @@ pre {
   max-width: 1200px;
   max-height: 800px;
 }
+
+.dropdown-icon {
+  color: $gray-500;
+
+  &:hover,
+  .active {
+    color: $gray-900;
+  }
+}

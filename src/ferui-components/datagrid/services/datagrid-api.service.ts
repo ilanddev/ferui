@@ -20,6 +20,27 @@ export class FuiDatagridApiService {
     this.gridPanel.sizeColumnsToFit();
   }
 
+  getViewportWidth(): number {
+    return this.gridPanel.eBodyViewport.clientWidth;
+  }
+
+  getViewportScrollLeft(): number {
+    return this.gridPanel.eBodyHorizontalScrollContainer.scrollLeft;
+  }
+
+  getViewportScrollTop(): number {
+    return this.gridPanel.eCenterViewport.scrollTop;
+  }
+
+  getViewportContentOffsetTop(): number {
+    const translateValues: string[] = this.getTranslate3d(this.gridPanel.virtualScrollViewport.contentElementRef.nativeElement);
+    return parseInt(translateValues[1], 10);
+  }
+
+  getGridPanel(): FuiDatagridService {
+    return this.gridPanel;
+  }
+
   // Call to set new column definitions into the grid.
   // The grid will redraw all the column headers, and then redraw all of the rows.
   setColumnDefs(colDefs) {}
@@ -94,4 +115,12 @@ export class FuiDatagridApiService {
 
   // Sets the height for the row containing the column label header.
   setHeaderHeight(heightInPx) {}
+
+  private getTranslate3d(el): string[] {
+    const values = el.style.transform.split(/\w+\(|\);?/);
+    if (!values[1] || !values[1].length) {
+      return [];
+    }
+    return values[1].split(/,\s?/g);
+  }
 }

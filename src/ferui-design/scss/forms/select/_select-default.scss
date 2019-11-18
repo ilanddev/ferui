@@ -241,6 +241,8 @@
         }
 
         &.ng-select-multiple {
+          height: auto;
+
           &.ng-select-disabled {
             > .ng-select-container .ng-value-container .ng-value {
               background-color: $gray-200;

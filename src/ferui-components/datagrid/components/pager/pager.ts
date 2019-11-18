@@ -2,13 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, 
 import { FuiCommonStrings } from '../../../utils/i18n/common-strings.service';
 import { FuiDatagridEventService } from '../../services/event.service';
 import { Subscription } from 'rxjs';
-import {
-  FuiDatagridEvents,
-  FuiFilterEvent,
-  FuiPageChangeEvent,
-  RowDataChanged,
-  ServerSideRowDataChanged,
-} from '../../events';
+import { FuiDatagridEvents, FuiFilterEvent, FuiPageChangeEvent, RowDataChanged, ServerSideRowDataChanged } from '../../events';
 import { FuiDatagridService } from '../../services/datagrid.service';
 import { FuiDatagridServerSideRowModel } from '../row-models/server-side-row-model';
 import { FuiPagerPage } from '../../types/pager';
@@ -524,8 +518,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
     if (
       this.isPageExist(index) ||
       (this.pages.length > 0 &&
-        (this.pages[this.pages.length - 1].startIndex === firstIndex ||
-          this.pages[this.pages.length - 1].endIndex === lastIndex))
+        (this.pages[this.pages.length - 1].startIndex === firstIndex || this.pages[this.pages.length - 1].endIndex === lastIndex))
     ) {
       return;
     }

@@ -167,8 +167,7 @@
           user-select: none !important;
 
           .fui-datagrid-horizontal-scroll {
-            position: absolute;
-            bottom: 0;
+            position: relative;
 
             display: flex;
             width: 100%;
@@ -176,27 +175,15 @@
             -webkit-box-orient: horizontal;
             flex-direction: row;
 
-            .fui-datagrid-scroller-corner {
-              overflow-x: hidden;
-
-              &.fui-datagrid-horizontal-left-spacer {
-                border-right: none;
-              }
-
-              &.fui-datagrid-horizontal-right-spacer {
-                border-left: none;
-              }
-
-              &.fui-datagrid-horizontal-left-spacer,
-              &.fui-datagrid-horizontal-right-spacer {
-                height: 100%;
-                min-width: 0;
-                flex-grow: 1000;
-              }
+            .fui-horizontal-right-spacer {
+              overflow: hidden;
+              height: 100%;
+              flex-grow: 1000;
             }
 
             .fui-datagrid-body-horizontal-scroll-viewport {
-              overflow: auto;
+              overflow-x: scroll;
+              overflow-y: hidden;
 
               position: relative;
               height: 100%;
@@ -431,10 +418,54 @@
                 width: 100%;
                 height: 100%;
 
-                overflow: auto;
-
                 position: relative;
                 min-width: 0;
+
+                .fui-datagrid-body-row-action-menu {
+                  position: absolute;
+                  right: 0;
+                  top: 0;
+                  margin-top: 1px;
+                  width: 40px;
+                  display: none;
+                  flex-flow: column nowrap;
+                  justify-content: center;
+                  align-items: center;
+                  align-content: center;
+                  z-index: $zindex-dropdown - 1;
+                  background: $gray-100;
+
+                  .action-menu-icon {
+                    display: inline-block;
+                    width: 16px;
+                    height: 16px;
+                    color: $gray-500;
+                  }
+
+                  &.fui-datagrid-action-menu-visible {
+                    display: flex;
+                  }
+
+                  &.fui-datagrid-action-menu-open {
+                    background-color: $blue-selected;
+                    &:hover {
+                      background-color: $blue-selected;
+                    }
+                  }
+
+                  &:hover {
+                    background-color: $gray-100;
+                    display: flex;
+
+                    .action-menu-icon {
+                      color: $gray-900;
+                    }
+                  }
+                }
+
+                .fui-virtual-scroller-clipper {
+                  position: relative;
+                }
 
                 .fui-datagrid-full-width-container {
                   width: 100%;
@@ -446,11 +477,8 @@
                 }
 
                 .fui-datagrid-body-container,
-                .scrollable-content,
-                .cdk-virtual-scroll-content-wrapper {
+                .scrollable-content {
                   display: block;
-
-                  //position: relative;
 
                   .fui-datagrid-body-row {
                     position: relative;
@@ -459,6 +487,18 @@
                     width: 100%;
 
                     display: block;
+
+                    &.selectable:hover,
+                    &.selectable.hovered {
+                      background-color: $gray-100;
+                    }
+
+                    &.selectable.selected {
+                      background-color: $blue-selected;
+                      &:hover {
+                        background-color: $blue-selected;
+                      }
+                    }
 
                     &:not(.fui-datagrid-first-row) {
                       border-style: solid;

@@ -107,11 +107,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
   private nodeTreeHeight: number = 34;
   private cancelablePromises: WrappedPromise<T>[] = [];
 
-  constructor(
-    @Self() private el: ElementRef,
-    private cd: ChangeDetectorRef,
-    private treeViewUtils: FuiTreeViewUtilsService
-  ) {}
+  constructor(@Self() private el: ElementRef, private cd: ChangeDetectorRef, private treeViewUtils: FuiTreeViewUtilsService) {}
 
   /**
    * Initializes the Tree View component and all properties needed depending on inputs configuration
@@ -220,9 +216,8 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
   private updateScrollerWidth(): void {
     let max = this.treeViewUtils.virtualScrollerWidth;
     // takes into consideration padding
-    max =
-      max > this.originalWidth ? (this.border ? max : max + 20) : this.border ? this.originalWidth : this.originalWidth - 20;
-    this.vs.contentElementRef.nativeElement.style.width = max + 'px';
+    max = max > this.originalWidth ? (this.border ? max : max + 20) : this.border ? this.originalWidth : this.originalWidth - 20;
+    this.vs.setInternalWidth(max + 'px');
     this.cd.markForCheck();
   }
 

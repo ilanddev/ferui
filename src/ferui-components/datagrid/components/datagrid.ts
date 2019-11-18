@@ -11,6 +11,7 @@ import {
   OnInit,
   Output,
   Renderer2,
+  TemplateRef,
   TrackByFunction,
   ViewChild,
 } from '@angular/core';
@@ -30,7 +31,6 @@ import {
   CellContextMenuEvent,
   CellDoubleClickedEvent,
   ColumnEvent,
-  ColumnMovedEvent,
   ColumnResizedEvent,
   ColumnVisibleEvent,
   DisplayedColumnsWidthChangedEvent,
@@ -60,11 +60,15 @@ import { HeaderRendererService } from '../services/rendering/header-renderer.ser
 import { DatagridStateEnum, DatagridStateService } from '../services/datagrid-state.service';
 import { HilitorService } from '../../hilitor/hilitor';
 import { FuiPagerPage } from '../types/pager';
+import { FuiDatagridBodyRowContext } from '../types/body-row-context';
+import { FuiActionMenuService } from '../services/action-menu/action-menu.service';
 
 @Component({
   selector: 'fui-datagrid',
   template: `
-    <fui-datagrid-filters [hidden]="!withHeader" [isLoading]="isInitialLoading"></fui-datagrid-filters>
+    <fui-datagrid-filters [hidden]="!withHeader" [isLoading]="isInitialLoading">
+      <ng-content></ng-content>
+    </fui-datagrid-filters>
 
     <div class="fui-datagrid-root-wrapper" #rootWrapper>
       <div class="fui-datagrid-root-body-wrapper">
@@ -97,13 +101,23 @@ import { FuiPagerPage } from '../types/pager';
           >
             <fui-virtual-scroller
               #scroll
+              id="testDivId"
               class="fui-datagrid-body-viewport"
+              [hideXScrollbar]="true"
               [bufferAmount]="virtualScrollBufferAmount"
-              (scroll)="onCenterViewportScroll()"
+              (verticalScroll)="onVerticalScroll()"
+              (horizontalScroll)="onCenterViewportScroll()"
               [items]="displayedRows"
               role="presentation"
               unselectable="on"
             >
+              <fui-datagrid-action-menu
+                *ngIf="actionMenuTemplate"
+                [actionMenuTemplate]="actionMenuTemplate"
+                [style.height.px]="rowHeight - 2"
+                virtualScrollClipperContent
+              ></fui-datagrid-action-menu>
+
               <fui-datagrid-body-row
                 *ngFor="let row of scroll.viewPortItems; trackBy: rowTrackByFn; let i = index"
                 [data]="row"
@@ -141,7 +155,7 @@ import { FuiPagerPage } from '../types/pager';
             <div
               class="fui-datagrid-body-horizontal-scroll-viewport"
               #horizontalScrollViewport
-              (scroll)="onFakeHorizontalScroll()"
+              (scroll)="onFakeHorizontalScroll($event)"
               [style.height.px]="scrollSize"
               [style.min-height.px]="scrollSize"
               [style.max-height.px]="scrollSize"
@@ -155,6 +169,12 @@ import { FuiPagerPage } from '../types/pager';
                 [style.max-height.px]="scrollSize"
               ></div>
             </div>
+            <div
+              class="fui-horizontal-right-spacer"
+              [style.width.px]="scrollSize"
+              [style.min-width.px]="scrollSize"
+              [style.max-width.px]="scrollSize"
+            ></div>
           </div>
         </div>
       </div>
@@ -214,6 +234,7 @@ import { FuiPagerPage } from '../types/pager';
     FuiDatagridInfinteRowModel,
     DatagridStateService,
     HilitorService,
+    FuiActionMenuService,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -232,6 +253,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   @Input() withFooterItemPerPage: boolean = true;
   @Input() withFooterPager: boolean = true;
 
+  @Input() actionMenuTemplate: TemplateRef<FuiDatagridBodyRowContext>;
   @Input() columnDefs: FuiColumnDefinitions[] = [];
   @Input() defaultColDefs: FuiColumnDefinitions = {};
   @Input() headerHeight: number = 50; // In px.
@@ -404,7 +426,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
         initialLoadHeight +
         this.headerPagerHeight +
         this.scrollSize +
-        2;
+        3;
 
       this._gridHeight = gridHeight + 'px';
     } else {
@@ -483,27 +505,22 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
     // Track all events that needs to be output.
     this.subscriptions.push(
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_ROW_CLICKED).subscribe(event => {
-        console.log(FuiDatagridEvents.EVENT_ROW_CLICKED, event);
         const ev: RowClickedEvent = event as RowClickedEvent;
         this.onRowClicked.emit(ev);
       }),
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_ROW_DOUBLE_CLICKED).subscribe(event => {
-        console.log(FuiDatagridEvents.EVENT_ROW_DOUBLE_CLICKED, event);
         const ev: RowDoubleClickedEvent = event as RowDoubleClickedEvent;
         this.onRowDoubleClicked.emit(ev);
       }),
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_CELL_CLICKED).subscribe(event => {
-        console.log(FuiDatagridEvents.EVENT_CELL_CLICKED, event);
         const ev: CellClickedEvent = event as CellClickedEvent;
         this.onCellClicked.emit(ev);
       }),
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_CELL_DOUBLE_CLICKED).subscribe(event => {
-        console.log(FuiDatagridEvents.EVENT_CELL_DOUBLE_CLICKED, event);
         const ev: CellDoubleClickedEvent = event as CellDoubleClickedEvent;
         this.onCellDoubleClicked.emit(ev);
       }),
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_CELL_CONTEXT_MENU).subscribe(event => {
-        console.log(FuiDatagridEvents.EVENT_CELL_CONTEXT_MENU, event);
         const ev: CellContextMenuEvent = event as CellContextMenuEvent;
         this.onCellContextmenu.emit(ev);
       })
@@ -564,7 +581,6 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
       // Server-side only
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_PAGER_SELECTED_PAGE).subscribe(event => {
         const ev: FuiPageChangeEvent = event as FuiPageChangeEvent;
-        console.log(FuiDatagridEvents.EVENT_PAGER_SELECTED_PAGE, ev);
         if (ev && ev.page && (!this.selectedPage || (this.selectedPage && ev.page.index !== this.selectedPage.index))) {
           this.selectedPage = ev.page;
           if (this.isInfiniteServerSideRowModel()) {
@@ -576,26 +592,22 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
         this.highlightSearchTerms();
       }),
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SERVER_ROW_DATA_CHANGED).subscribe(event => {
-        console.log(FuiDatagridEvents.EVENT_SERVER_ROW_DATA_CHANGED, event);
         const ev: ServerSideRowDataChanged = event as ServerSideRowDataChanged;
         this.renderGridRows(ev.resultObject);
       }),
 
       // All row-models
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_DISPLAYED_COLUMNS_WIDTH_CHANGED).subscribe(event => {
-        console.log(FuiDatagridEvents.EVENT_DISPLAYED_COLUMNS_WIDTH_CHANGED, event);
         const ev = event as DisplayedColumnsWidthChangedEvent;
         this.calculateSizes();
       }),
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_ROW_DATA_CHANGED).subscribe(event => {
-        console.log(FuiDatagridEvents.EVENT_ROW_DATA_CHANGED, event);
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_ROW_DATA_CHANGED).subscribe(() => {
         if (this.isClientSideRowModel()) {
           this.onGridRowsUpdated();
         }
       }),
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SORT_COLUMN_CHANGED).subscribe(event => {
         const ev: FuiSortColumnsEvent = event as FuiSortColumnsEvent;
-        console.log(FuiDatagridEvents.EVENT_SORT_COLUMN_CHANGED, event);
         if (this.isClientSideRowModel()) {
           this.onGridColumnsChanged();
         } else if (this.isServerSideRowModel()) {
@@ -604,8 +616,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
           this.infiniteUpdateParams(0, true);
         }
       }),
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SORT_CHANGED).subscribe(event => {
-        console.log(FuiDatagridEvents.EVENT_SORT_CHANGED, event);
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SORT_CHANGED).subscribe(() => {
         if (this.isClientSideRowModel()) {
           this.onGridSort();
         } else if (this.isServerSideRowModel()) {
@@ -614,8 +625,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
           this.infiniteUpdateParams(0, true);
         }
       }),
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_FILTER_CHANGED).subscribe(event => {
-        console.log(FuiDatagridEvents.EVENT_FILTER_CHANGED, event);
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_FILTER_CHANGED).subscribe(() => {
         if (this.isClientSideRowModel()) {
           this.onGridFilter();
         } else if (this.isServerSideRowModel()) {
@@ -625,9 +635,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
           this.infiniteUpdateParams(0, true);
         }
       }),
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_COLUMN_MOVED).subscribe(event => {
-        const ev = event as ColumnMovedEvent;
-        console.log(FuiDatagridEvents.EVENT_COLUMN_MOVED, ev);
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_COLUMN_MOVED).subscribe(() => {
         this.cd.markForCheck();
       })
     );
@@ -652,6 +660,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
     this.gridPanel.eHorizontalScrollBody = this.horizontalScrollBody.nativeElement;
     this.gridPanel.eBodyHorizontalScrollViewport = this.horizontalScrollViewport.nativeElement;
     this.gridPanel.eBodyHorizontalScrollContainer = this.horizontalScrollContainer.nativeElement;
+    this.gridPanel.eCenterViewportVsClipper = this.viewport.horizontalScrollClipperElementRef.nativeElement;
 
     // Setup Hilitor
     this.hilitor.setTargetNode(this.virtualBodyId);
@@ -782,12 +791,16 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
     this.maxDisplayedRows = itemPerPage;
   }
 
-  onFakeHorizontalScroll(): void {
+  onFakeHorizontalScroll(event: Event): void {
     this.gridPanel.onFakeHorizontalScroll();
   }
 
   onCenterViewportScroll(): void {
     this.gridPanel.onCenterViewportScroll();
+  }
+
+  onVerticalScroll(): void {
+    this.gridPanel.onVerticalScroll();
   }
 
   isClientSideRowModel() {
@@ -800,10 +813,6 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
 
   isInfiniteServerSideRowModel() {
     return this.rowDataModel === FuiRowModel.INFINITE;
-  }
-
-  isServerOrInfiniteRowModel() {
-    return this.isServerSideRowModel() || this.isInfiniteServerSideRowModel();
   }
 
   refreshGrid(resetFilters: boolean = false, resetSorting: boolean = false) {
@@ -893,8 +902,8 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
 
   private calculateSizes(): void {
     this.totalWidth = this.columnService.getTotalColumnWidth();
-    if (this.scrollbarHelper.width) {
-      this.scrollSize = this.scrollbarHelper.width;
+    if (this.scrollbarHelper.getWidth()) {
+      this.scrollSize = this.scrollbarHelper.getWidth();
     }
     this.gridPanel.setCenterContainerSize();
     this.cd.markForCheck();

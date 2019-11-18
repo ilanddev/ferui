@@ -3,9 +3,11 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnDestroy,
   Optional,
+  Output,
   SkipSelf,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -25,6 +27,8 @@ import { ROOT_DROPDOWN_PROVIDER, RootDropdownService } from './services/dropdown
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FuiDropdown implements OnDestroy {
+  @Output() dropdownOpenChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   @Input('fuiCloseMenuOnItemClick') isMenuClosable: boolean = true;
 
   private subscriptions: Subscription[] = [];
@@ -36,7 +40,12 @@ export class FuiDropdown implements OnDestroy {
     dropdownService: RootDropdownService
   ) {
     this.subscriptions.push(dropdownService.changes.subscribe(value => (this.ifOpenService.open = value)));
-    this.subscriptions.push(ifOpenService.openChange.subscribe(value => this.cdr.markForCheck()));
+    this.subscriptions.push(
+      ifOpenService.openChange.subscribe(value => {
+        this.dropdownOpenChange.emit(value);
+        this.cdr.markForCheck();
+      })
+    );
   }
 
   ngOnDestroy() {
