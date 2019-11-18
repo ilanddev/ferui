@@ -12,6 +12,11 @@
     overflow-y: auto;
     overflow-x: hidden;
   }
+
+  &.has-x-scroll {
+    overflow-y: auto;
+    overflow-x: auto;
+  }
 }
 
 :host.vertical.selfScroll {
@@ -20,6 +25,11 @@
 
   .fui-virtual-scroller-clipper {
     overflow-y: hidden;
+    overflow-x: auto;
+  }
+
+  &.has-x-scroll {
+    overflow-y: auto;
     overflow-x: auto;
   }
 }

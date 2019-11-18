@@ -103,6 +103,7 @@ import { FuiActionMenuService } from '../services/action-menu/action-menu.servic
               #scroll
               id="testDivId"
               class="fui-datagrid-body-viewport"
+              [hideXScrollbar]="true"
               [bufferAmount]="virtualScrollBufferAmount"
               (verticalScroll)="onVerticalScroll()"
               (horizontalScroll)="onCenterViewportScroll()"

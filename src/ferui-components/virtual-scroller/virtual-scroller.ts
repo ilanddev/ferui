@@ -57,6 +57,7 @@ export interface CancelableFunction extends Function {
   host: {
     '[class.horizontal]': 'horizontal',
     '[class.vertical]': '!horizontal',
+    '[class.has-x-scroll]': '!hideXScrollbar',
     '[class.selfScroll]': '!parentScroll',
   },
   styleUrls: ['./virtual-scroller.scss'],
@@ -65,6 +66,8 @@ export interface CancelableFunction extends Function {
 export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy {
   viewPortItems: any[];
   window = window;
+
+  @Input() hideXScrollbar: boolean = false;
 
   @Input() executeRefreshOutsideAngularZone: boolean = false;
   @Input() useMarginInsteadOfTranslate: boolean = false;
@@ -79,8 +82,6 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
   @Input() ssrViewportHeight: number = 1080;
   @Input() scrollAnimationTime: number;
   @Input() resizeBypassRefreshThreshold: number;
-
-  @Input() scrollbarSize: number = null;
 
   @Output('horizontalScroll') hScroll: EventEmitter<Event> = new EventEmitter<Event>();
   @Output('verticalScroll') vScroll: EventEmitter<Event> = new EventEmitter<Event>();
@@ -255,6 +256,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
   protected minMeasuredChildWidth: number;
   protected minMeasuredChildHeight: number;
 
+  protected scrollbarSize: number = 0;
   protected wrapGroupDimensions: WrapGroupDimensions;
 
   constructor(
@@ -268,7 +270,6 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
     @Inject('virtual-scroller-default-options')
     options: VirtualScrollerDefaultOptions
   ) {
-    this.scrollbarSize = scrollbarHelper.getWidth() || 0;
     this.isAngularUniversalSSR = isPlatformServer(platformId);
 
     this.scrollThrottlingTime = options.scrollThrottlingTime;
@@ -291,6 +292,9 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
   @Input() compareItems: (item1: any, item2: any) => boolean = (item1: any, item2: any) => item1 === item2;
 
   ngOnInit(): void {
+    if (this.hideXScrollbar) {
+      this.scrollbarSize = this.scrollbarHelper.getWidth();
+    }
     this.addScrollEventHandlers();
   }
 
@@ -326,6 +330,11 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
         this.refresh_internal(true);
       }
     }
+  }
+
+  setInternalWidth(width: string) {
+    this.renderer.setStyle(this.contentElementRef.nativeElement, 'width', width);
+    this.renderer.setStyle(this.horizontalScrollClipperWrapper.nativeElement, 'width', width);
   }
 
   refresh(): void {
