@@ -8,25 +8,24 @@
     flex-direction: column;
     background-color: $white;
     border: 1px solid $gray-300;
-    border-radius: 3px;
+    border-radius: $border-radius;
 
     .fui-widget-header {
       position: relative;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      min-height: 60px;
+      min-height: 3.75rem; // 60px
       width: 100%;
       border-bottom: 1px solid $gray-300;
-      border-top-left-radius: 3px;
-      border-top-right-radius: 3px;
-      padding: 0 15px;
+      border-top-left-radius: $border-radius;
+      border-top-right-radius: $border-radius;
+      padding: 0 0.9375rem; // 15px
 
       .fui-widget-header-left-cell {
         display: flex;
         flex-direction: column;
         justify-content: center;
-
         text-align: left;
         flex-basis: 80%;
         flex-grow: 1;
@@ -81,9 +80,9 @@
       display: block;
       width: 100%;
       border-top: 1px solid $gray-300;
-      padding: 15px;
-      border-bottom-left-radius: 3px;
-      border-bottom-right-radius: 3px;
+      padding: 0.9375rem; // 15px
+      border-bottom-left-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
     }
   }
 }
