@@ -1,0 +1,88 @@
+@import '../../variables';
+@import '../../mixins';
+
+@include exports('components.widget') {
+  .fui-widget {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: $white;
+    border: 1px solid $gray-300;
+    border-radius: $border-radius;
+
+    .fui-widget-header {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      min-height: 3.75rem; // 60px
+      width: 100%;
+      border-bottom: 1px solid $gray-300;
+      border-top-left-radius: $border-radius;
+      border-top-right-radius: $border-radius;
+      padding: 0 0.9375rem; // 15px
+
+      .fui-widget-header-left-cell {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: left;
+        flex-basis: 80%;
+        flex-grow: 1;
+        flex-shrink: 1;
+        overflow: hidden;
+      }
+
+      .fui-widget-header-right-cell {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        text-align: right;
+        flex-basis: 20%;
+        flex-grow: 1;
+        flex-shrink: 1;
+      }
+
+      .fui-widget-title {
+        white-space: nowrap;
+        .fui-widget-title-text {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-size: $font-size-lg;
+          font-weight: $font-weight-bolder;
+        }
+      }
+
+      .fui-widget-subtitle {
+        font-size: $font-size-sm;
+        color: $gray-500;
+        white-space: nowrap;
+        .fui-widget-subtitle-text {
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      .fui-widget-actions {
+        white-space: nowrap;
+      }
+    }
+
+    .fui-widget-body {
+      position: relative;
+      display: block;
+      width: 100%;
+    }
+
+    .fui-widget-footer {
+      position: relative;
+      display: block;
+      width: 100%;
+      border-top: 1px solid $gray-300;
+      padding: 0.9375rem; // 15px
+      border-bottom-left-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
+  }
+}

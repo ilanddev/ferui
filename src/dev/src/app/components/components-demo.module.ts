@@ -13,6 +13,7 @@ import { FormsDemoModule } from './forms/forms-demo.module';
 import { DropdownDemoModule } from './dropdown/dropdown.module';
 import { UtilsModule } from '../utils/utils.module';
 import { TreeViewDemoModule } from './tree-view/tree-view.module';
+import { WidgetDemoModule } from './widget/widget.module';
 
 export const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [ComponentsDashboardComponent, ComponentsLandingComponent];
 
@@ -28,6 +29,7 @@ export const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [ComponentsDashboardC
     DropdownDemoModule,
     HighlightModule,
     TreeViewDemoModule,
+    WidgetDemoModule,
   ],
   declarations: [FUI_DEMO_COMPONENTS_DIRECTIVES],
   exports: [FUI_DEMO_COMPONENTS_DIRECTIVES],
