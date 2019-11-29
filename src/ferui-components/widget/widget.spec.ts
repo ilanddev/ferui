@@ -93,7 +93,7 @@ export default function(): void {
 
         it('FuiWidgetBody has text content', () => {
           const elmt = fixture.debugElement.query(By.directive(FuiWidgetBody));
-          expect(elmt.nativeElement.innerText).toEqual('Widget Body');
+          expect(elmt.nativeElement.textContent).toEqual('Widget Body');
         });
       });
 
@@ -110,7 +110,7 @@ export default function(): void {
 
         it('FuiWidgetTitle has text content', () => {
           const elmt = fixture.debugElement.query(By.directive(FuiWidgetTitle));
-          expect(elmt.nativeElement.innerText).toEqual('Widget title');
+          expect(elmt.nativeElement.textContent).toEqual('Widget title');
         });
 
         it('FuiWidgetSubtitle directive is created', () => {
@@ -120,7 +120,7 @@ export default function(): void {
 
         it('FuiWidgetSubtitle has text content', () => {
           const elmt = fixture.debugElement.query(By.directive(FuiWidgetSubtitle));
-          expect(elmt.nativeElement.innerText).toEqual('Widget subtitle');
+          expect(elmt.nativeElement.textContent).toEqual('Widget subtitle');
         });
       });
 
@@ -132,7 +132,7 @@ export default function(): void {
 
         it('FuiWidgetTitle has text content', () => {
           const elmt = fixture.debugElement.query(By.directive(FuiWidgetFooter));
-          expect(elmt.nativeElement.innerText).toEqual('Widget footer');
+          expect(elmt.nativeElement.textContent).toEqual('Widget footer');
         });
       });
     });
