@@ -1,6 +1,6 @@
 {
   "name": "@ferui/ferui",
-  "version": "0.0.15",
+  "version": "0.0.18",
   "requiredAngularVersion": ">=7.1.0 <8.0.0",
   "author": "iLand cloud",
   "bugs": "https://github.com/ilanddev/ferui/issues",
@@ -51,10 +51,6 @@
     "ng": "ng",
     "start": "npm run pretest:lint; ng serve dev --port 9090",
     "start:prod": "npm run pretest:lint; ng serve dev --port 9090 --prod=true",
-    "publish:latest": "npm publish dist/ferui-design --access public; npm publish dist/ferui-icons --access public; npm publish dist/ferui-components --access public",
-    "publish:alpha": "npm publish dist/ferui-design --tag alpha --access public; npm publish dist/ferui-icons --tag alpha --access public; npm publish dist/ferui-components --tag alpha --access public",
-    "publish:beta": "npm publish dist/ferui-design --tag beta --access public; npm publish dist/ferui-icons --tag beta --access public; npm publish dist/ferui-components --tag beta --access public",
-    "publish:rc": "npm publish dist/ferui-design --tag rc --access public; npm publish dist/ferui-icons --tag rc --access public; npm publish dist/ferui-components --tag rc --access public",
     "test:lint": "tslint -p './' -c tslint.json 'src/**/*.ts'",
     "test:components": "ng test ferui-components --watch=false",
     "test:components:watch": "ng test ferui-components --watch",
@@ -65,7 +61,12 @@
     "netlify:publish": "netlify deploy",
     "netlify:publish:prod": "netlify deploy --prod",
     "netlify:deploy": "npm-run-all build:dev netlify:publish",
-    "netlify:deploy:prod": "npm-run-all build:dev netlify:publish:prod"
+    "netlify:deploy:prod": "npm-run-all build:dev netlify:publish:prod publish:latest",
+    "publish:latest": "npm publish dist/ferui-design --access public; npm publish dist/ferui-icons --access public; npm publish dist/ferui-components --access public",
+    "publish:alpha": "npm publish dist/ferui-design --tag alpha --access public; npm publish dist/ferui-icons --tag alpha --access public; npm publish dist/ferui-components --tag alpha --access public",
+    "publish:beta": "npm publish dist/ferui-design --tag beta --access public; npm publish dist/ferui-icons --tag beta --access public; npm publish dist/ferui-components --tag beta --access public",
+    "publish:rc": "npm publish dist/ferui-design --tag rc --access public; npm publish dist/ferui-icons --tag rc --access public; npm publish dist/ferui-components --tag rc --access public",
+    "publish:prod": "npm-run-all test build netlify:deploy:prod publish:latest"
   },
   "dependencies": {
     "@angular/animations": "^7.1.0",
