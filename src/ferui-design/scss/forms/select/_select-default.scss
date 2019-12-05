@@ -181,8 +181,7 @@
 
             .ng-input {
               > input {
-                padding: calc(#{$controls-padding} * 2) 5rem $controls-padding $controls-padding !important;
-                height: $default-control-height !important;
+                @include ng-select-input-with-label();
               }
             }
           }
@@ -232,8 +231,7 @@
 
                 > input {
                   box-sizing: border-box !important;
-                  padding: #{$controls-padding} 3rem $controls-padding $controls-padding;
-                  height: $default-control-height;
+                  @include ng-select-single-input-with-label();
                 }
               }
             }
@@ -328,8 +326,7 @@
 
                 > input {
                   box-sizing: border-box !important;
-                  padding: $controls-padding 3rem $controls-padding $controls-padding;
-                  height: $default-control-height;
+                  @include ng-select-single-input-with-label();
                 }
               }
             }
@@ -406,8 +403,7 @@
 
             .ng-input {
               > input {
-                padding: $controls-padding 5rem $controls-padding $controls-padding !important;
-                height: $default-control-height !important;
+                @include ng-select-input-without-label();
               }
             }
           }

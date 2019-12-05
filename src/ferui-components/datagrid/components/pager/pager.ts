@@ -100,10 +100,10 @@ import { FuiDatagridInfinteRowModel } from '../row-models/infinite/infinite-row-
 export class FuiDatagridPager implements OnInit, OnDestroy {
   @Output() pagerReset: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() pagerItemPerPage: EventEmitter<number> = new EventEmitter<number>();
+  @Output() heightChange: EventEmitter<number> = new EventEmitter<number>();
 
   numberOfRowsInViewport: number | null = null;
   totalRows: number | null = null;
-  height: number;
   pages: FuiPagerPage[] = [];
   lastPageIndex: number = 0;
   maxPages: number = 0;
@@ -124,7 +124,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
   @Input() itemPerPage: number = this.itemPerPagesList[1];
 
   private _selectedPage: FuiPagerPage;
-
+  private _height: number = 0;
   private subscriptions: Subscription[] = [];
   private serverSideReachLastPage: boolean = false;
   private serverSidePages: FuiPagerPage[] = [];
@@ -163,11 +163,33 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
     }
   }
 
+  get height(): number {
+    return this._height;
+  }
+
+  /**
+   * We set the height at ngOnInit stage. But if, for some reason, the height is 0, we then loop until the height is != 0.
+   * @param value
+   */
+  set height(value: number) {
+    this._height = value;
+    if (this._height === 0) {
+      setTimeout(() => {
+        this.height = this.elementRef.nativeElement.offsetHeight;
+        this.heightChange.emit(this._height);
+      }, 10);
+    }
+  }
+
+  getElementHeight(): number {
+    return this.height;
+  }
+
   /**
    *
    */
   ngOnInit(): void {
-    this.height = this.elementRef.nativeElement.getBoundingClientRect().height;
+    this.height = this.elementRef.nativeElement.offsetHeight;
 
     this.subscriptions.push(
       this.serverSideRowModel.isReady.subscribe(isReady => {
@@ -239,7 +261,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
    * @param page
    */
   isPageSelected(page: FuiPagerPage): boolean {
-    return DatagridUtils.inRange(this.startIndex + 1, page.startIndex, page.endIndex);
+    return DatagridUtils.inRange(this.endIndex - 1, page.startIndex, page.endIndex);
   }
 
   /**
@@ -449,7 +471,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
       this.numberOfRowsInViewport =
         this.serverSideRowModel.datasource && this.getLimit() !== null ? this.getLimit() : this.endIndex - this.startIndex;
 
-      let totalPages: number = Math.floor(this.totalRows / this.numberOfRowsInViewport);
+      let totalPages: number = Math.ceil(this.totalRows / this.numberOfRowsInViewport);
       if (totalPages === 0) {
         totalPages = 1;
       }

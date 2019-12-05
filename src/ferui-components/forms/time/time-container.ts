@@ -102,12 +102,7 @@ export interface TimeInterface {
 
         <label class="fui-control-icons">
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-          <clr-icon
-            *ngIf="!invalid && control?.value"
-            class="fui-validate-icon"
-            shape="fui-tick"
-            aria-hidden="true"
-          ></clr-icon>
+          <clr-icon *ngIf="!invalid && control?.value" class="fui-validate-icon" shape="fui-tick" aria-hidden="true"></clr-icon>
         </label>
         <fui-default-control-error [on]="invalid">
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
@@ -116,6 +111,7 @@ export interface TimeInterface {
     </div>
   `,
   host: {
+    '[class.fui-time-container]': 'true',
     '[class.fui-form-control]': 'true',
     '[class.fui-select-container]': 'true',
     '[class.fui-form-control-disabled]': 'control?.disabled',

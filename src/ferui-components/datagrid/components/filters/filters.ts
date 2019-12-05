@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, Self } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Self } from '@angular/core';
 
 @Component({
   selector: 'fui-datagrid-filters',
@@ -20,13 +20,37 @@ import { Component, ElementRef, Input, OnInit, Self } from '@angular/core';
   },
 })
 export class FuiDatagridFilters implements OnInit {
-  height: number;
+  @Output() heightChange: EventEmitter<number> = new EventEmitter<number>();
 
   @Input() isLoading: boolean = false;
 
+  private _height: number = 0;
+
   constructor(@Self() public elementRef: ElementRef) {}
 
+  get height(): number {
+    return this._height;
+  }
+
+  /**
+   * We set the height at ngOnInit stage. But if, for some reason, the height is 0, we then loop until the height is != 0.
+   * @param value
+   */
+  set height(value: number) {
+    this._height = value;
+    if (this._height === 0) {
+      setTimeout(() => {
+        this.height = this.elementRef.nativeElement.offsetHeight;
+        this.heightChange.emit(this._height);
+      }, 10);
+    }
+  }
+
   ngOnInit(): void {
-    this.height = this.elementRef.nativeElement.getBoundingClientRect().height;
+    this.height = this.elementRef.nativeElement.offsetHeight;
+  }
+
+  getElementHeight(): number {
+    return this.height;
   }
 }

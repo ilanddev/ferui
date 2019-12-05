@@ -33,9 +33,13 @@ import { FuiFormLayoutEnum } from '../common/layout.enum';
         <fui-datepicker-view-manager *fuiIfOpen fuiFocusTrap [appendTo]="appendTo"></fui-datepicker-view-manager>
         <label class="fui-control-icons">
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-          <!--<clr-icon *ngIf="!invalid && control?.value" class="fui-validate-icon" shape="fui-tick"-->
-          <!--aria-hidden="true"></clr-icon>-->
-          <clr-icon *ngIf="!invalid" class="fui-calendar-icon-wrapper" shape="fui-calendar" aria-hidden="true"></clr-icon>
+          <clr-icon
+            *ngIf="!invalid"
+            class="fui-calendar-icon-wrapper"
+            (click)="toggleDatepicker($event)"
+            shape="fui-calendar"
+            aria-hidden="true"
+          ></clr-icon>
         </label>
         <fui-default-control-error [on]="invalid">
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
@@ -65,7 +69,7 @@ import { FuiFormLayoutEnum } from '../common/layout.enum';
     '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL',
   },
 })
-export class FuiDateContainer implements DynamicWrapper, OnInit, OnDestroy {
+export class FuiDateContainer implements DynamicWrapper, OnDestroy {
   _dynamic: boolean = false;
   invalid: boolean = false;
   control: NgControl;
@@ -144,8 +148,6 @@ export class FuiDateContainer implements DynamicWrapper, OnInit, OnDestroy {
       FormControlClass.extractControlClass(this.control, this.label, this.focus)
     );
   }
-
-  ngOnInit(): void {}
 
   /**
    * Unsubscribe from subscriptions.

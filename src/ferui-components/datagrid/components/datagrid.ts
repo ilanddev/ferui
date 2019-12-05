@@ -66,11 +66,15 @@ import { FuiActionMenuService } from '../services/action-menu/action-menu.servic
 @Component({
   selector: 'fui-datagrid',
   template: `
-    <fui-datagrid-filters [hidden]="!withHeader" [isLoading]="isInitialLoading">
+    <fui-datagrid-filters
+      [hidden]="!withHeader"
+      [isLoading]="isInitialLoading"
+      (heightChange)="onFilterPagerHeightChange($event)"
+    >
       <ng-content></ng-content>
     </fui-datagrid-filters>
 
-    <div class="fui-datagrid-root-wrapper" #rootWrapper>
+    <div class="fui-datagrid-root-wrapper" [style.height]="rootWrapperHeight" #rootWrapper>
       <div class="fui-datagrid-root-body-wrapper">
         <div class="fui-datagrid-root-body" role="grid" unselectable="on">
           <fui-datagrid-header unselectable="on" [style.height.px]="rowHeight" [style.min-height.px]="rowHeight">
@@ -187,6 +191,7 @@ import { FuiActionMenuService } from '../services/action-menu/action-menu.servic
       [rowDataModel]="rowDataModel"
       [isLoading]="isInitialLoading"
       (pagerReset)="pagerReset($event)"
+      (heightChange)="onFilterPagerHeightChange($event)"
       (pagerItemPerPage)="onPagerItemPerPageChange($event)"
       [itemPerPage]="maxDisplayedRows"
     >
@@ -275,6 +280,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(FuiDatagridFilters) datagridFilters: FuiDatagridFilters;
   @ViewChild(FuiDatagridPager) datagridPager: FuiDatagridPager;
 
+  rootWrapperHeight: string = '100%';
   columns: FuiColumnDefinitions[] = [];
   totalWidth: number;
   scrollSize: number = 0;
@@ -290,7 +296,6 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   private _totalRows: number = 0;
   private _isFirstLoad: boolean = true;
   private gridPanelReady: boolean = false;
-  private headerPagerHeight: number = 0;
   private isAutoGridHeight: boolean = true;
   private userGridHeight: number = 0;
   private subscriptions: Subscription[] = [];
@@ -352,6 +357,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.stateService.setInitialLoaded();
     }
+    this.rootWrapperHeight = `calc(100% - ${this.getHeaderPagerHeight()}px)`;
     this.inputGridHeight = 'refresh';
     this.cd.markForCheck();
   }
@@ -424,9 +430,9 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
         this.headerHeight +
         emptyDataHeight +
         initialLoadHeight +
-        this.headerPagerHeight +
+        this.getHeaderPagerHeight() +
         this.scrollSize +
-        3;
+        2;
 
       this._gridHeight = gridHeight + 'px';
     } else {
@@ -640,6 +646,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
       })
     );
 
+    this.rootWrapperHeight = this.withHeader ? 'calc(100% - 60px)' : '100%';
     this.cd.markForCheck();
   }
 
@@ -653,10 +660,6 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const filterHeight: number = this.datagridFilters.height ? this.datagridFilters.height : 0;
-    const pagerHeight: number = this.datagridPager.height ? this.datagridPager.height : 0;
-    this.headerPagerHeight = filterHeight + pagerHeight;
-    this.renderer.setStyle(this.rootWrapper.nativeElement, 'height', `calc(100% - ${this.headerPagerHeight}px)`);
     this.gridPanel.eHorizontalScrollBody = this.horizontalScrollBody.nativeElement;
     this.gridPanel.eBodyHorizontalScrollViewport = this.horizontalScrollViewport.nativeElement;
     this.gridPanel.eBodyHorizontalScrollContainer = this.horizontalScrollContainer.nativeElement;
@@ -864,6 +867,11 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
     this.onColumnResized.emit(event);
   }
 
+  onFilterPagerHeightChange(value: number) {
+    this.rootWrapperHeight = `calc(100% - ${this.getHeaderPagerHeight()}px)`;
+    this.cd.markForCheck();
+  }
+
   private isGridLoadedOnce(): boolean {
     return (
       !this.stateService.hasState(DatagridStateEnum.EMPTY) &&
@@ -907,6 +915,19 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
     }
     this.gridPanel.setCenterContainerSize();
     this.cd.markForCheck();
+  }
+
+  /**
+   * Return the sum of pager height and filters height if any.
+   */
+  private getHeaderPagerHeight(): number {
+    const filterHeight: number =
+      this.withHeader && this.datagridFilters.getElementHeight() ? this.datagridFilters.getElementHeight() : 0;
+    const pagerHeight: number =
+      this.withFooter && !this.isInitialLoading && this.datagridPager.getElementHeight()
+        ? this.datagridPager.getElementHeight()
+        : 0;
+    return filterHeight + pagerHeight;
   }
 
   private setupColumns(): void {

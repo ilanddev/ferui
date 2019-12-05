@@ -1,3 +1,5 @@
+@import '../_variables.scss';
+
 @mixin font-icon($content: '', $icon-size: 1rem) {
   content: $content;
   font-style: normal !important;
@@ -12,4 +14,19 @@
   font-family: 'ferui-design-icons' !important;
   width: $icon-size !important;
   height: $icon-size !important;
+}
+
+@mixin ng-select-single-input-with-label() {
+  padding: $controls-padding 3rem $controls-padding $controls-padding;
+  height: $default-control-height;
+}
+
+@mixin ng-select-input-with-label() {
+  padding: calc(#{$controls-padding} * 2) 5rem $controls-padding $controls-padding !important;
+  height: $default-control-height !important;
+}
+
+@mixin ng-select-input-without-label() {
+  padding: $controls-padding 5rem $controls-padding $controls-padding !important;
+  height: $default-control-height !important;
 }

@@ -1000,9 +1000,11 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
     let viewportWidth =
       scrollElement.offsetWidth -
       (this.scrollbarWidth || this.calculatedScrollbarWidth || (this.horizontal ? 0 : maxCalculatedScrollBarSize));
+    // We add 1px to the calculated height because when we have borders, it doesn't calculate it right.
     let viewportHeight =
       scrollElement.offsetHeight -
-      (this.scrollbarHeight || this.calculatedScrollbarHeight || (this.horizontal ? maxCalculatedScrollBarSize : 0));
+      (this.scrollbarHeight || this.calculatedScrollbarHeight || (this.horizontal ? maxCalculatedScrollBarSize : 0)) +
+      1;
 
     const content = (this.containerElementRef && this.containerElementRef.nativeElement) || this.contentElementRef.nativeElement;
 
