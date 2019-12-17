@@ -6,6 +6,7 @@ import {
   ElementRef,
   EventEmitter,
   HostBinding,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -301,6 +302,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   private subscriptions: Subscription[] = [];
   private highlightSearchTermsDebounce = null;
   private selectedPage: FuiPagerPage;
+  private resizeEventDebounce: NodeJS.Timer;
 
   constructor(
     private renderer: Renderer2,
@@ -675,6 +677,23 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
     setTimeout(() => {
       this.inputGridHeight = 'refresh';
     });
+  }
+
+  /**
+   * When we resize the window, we need to automatically adapt the datagrid to fill the new size.
+   * After some tests, I've found out that 60ms was a good compromise between performance and UI.
+   * @param event
+   */
+  @HostListener('window:resize', ['$event'])
+  onResize(event: UIEvent) {
+    if (this.resizeEventDebounce) {
+      clearTimeout(this.resizeEventDebounce);
+      this.resizeEventDebounce = undefined;
+    }
+    // We set 60ms delay performance-wise.
+    this.resizeEventDebounce = setTimeout(() => {
+      this.autoSizeColumns();
+    }, 60);
   }
 
   pagerReset(reset: boolean) {
