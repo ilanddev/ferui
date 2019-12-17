@@ -137,60 +137,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
     private gridPanel: FuiDatagridService,
     private serverSideRowModel: FuiDatagridServerSideRowModel,
     private infiniteRowModel: FuiDatagridInfinteRowModel
-  ) {}
-
-  /**
-   *
-   */
-  get selectedPage(): FuiPagerPage {
-    return this._selectedPage;
-  }
-
-  /**
-   *
-   * @param value
-   */
-  set selectedPage(value: FuiPagerPage) {
-    if (!this._selectedPage || (this._selectedPage && value && value.index !== this._selectedPage.index)) {
-      this._selectedPage = value;
-      const event: FuiPageChangeEvent = {
-        api: null,
-        columnApi: null,
-        page: this._selectedPage,
-        type: FuiDatagridEvents.EVENT_PAGER_SELECTED_PAGE,
-      };
-      this.eventService.dispatchEvent(event);
-    }
-  }
-
-  get height(): number {
-    return this._height;
-  }
-
-  /**
-   * We set the height at ngOnInit stage. But if, for some reason, the height is 0, we then loop until the height is != 0.
-   * @param value
-   */
-  set height(value: number) {
-    this._height = value;
-    if (this._height === 0) {
-      setTimeout(() => {
-        this.height = this.elementRef.nativeElement.offsetHeight;
-        this.heightChange.emit(this._height);
-      }, 10);
-    }
-  }
-
-  getElementHeight(): number {
-    return this.height;
-  }
-
-  /**
-   *
-   */
-  ngOnInit(): void {
-    this.height = this.elementRef.nativeElement.offsetHeight;
-
+  ) {
     this.subscriptions.push(
       this.serverSideRowModel.isReady.subscribe(isReady => {
         if (isReady) {
@@ -247,6 +194,59 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
         }
       })
     );
+  }
+
+  /**
+   *
+   */
+  get selectedPage(): FuiPagerPage {
+    return this._selectedPage;
+  }
+
+  /**
+   *
+   * @param value
+   */
+  set selectedPage(value: FuiPagerPage) {
+    if (!this._selectedPage || (this._selectedPage && value && value.index !== this._selectedPage.index)) {
+      this._selectedPage = value;
+      const event: FuiPageChangeEvent = {
+        api: null,
+        columnApi: null,
+        page: this._selectedPage,
+        type: FuiDatagridEvents.EVENT_PAGER_SELECTED_PAGE,
+      };
+      this.eventService.dispatchEvent(event);
+    }
+  }
+
+  get height(): number {
+    return this._height;
+  }
+
+  /**
+   * We set the height at ngOnInit stage. But if, for some reason, the height is 0, we then loop until the height is != 0.
+   * @param value
+   */
+  set height(value: number) {
+    this._height = value;
+    if (this._height === 0) {
+      setTimeout(() => {
+        this.height = this.elementRef.nativeElement.offsetHeight;
+        this.heightChange.emit(this._height);
+      }, 10);
+    }
+  }
+
+  getElementHeight(): number {
+    return this.height;
+  }
+
+  /**
+   *
+   */
+  ngOnInit(): void {
+    this.height = this.elementRef.nativeElement.offsetHeight;
   }
 
   /**
@@ -391,13 +391,6 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
         this.serverSideLoading = false;
         throw Error(reason);
       });
-  }
-
-  /**
-   *
-   */
-  getCurrentPage(): FuiPagerPage {
-    return this.selectedPage;
   }
 
   /**

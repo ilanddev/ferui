@@ -51,6 +51,7 @@ export class FuiDatagridClientSideRowModel {
       columnApi: this.columnApi,
     };
     this.eventService.dispatchEvent(event);
+    this.doFilter();
   }
 
   doFilter(): void {

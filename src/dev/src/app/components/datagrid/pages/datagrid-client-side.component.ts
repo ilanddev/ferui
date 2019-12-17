@@ -159,6 +159,21 @@ import { DatagridService } from '../datagrid.service';
             <span [title]="row.user_agent" [innerHTML]="datagridService.getIconFor(value) | safeHtml"> </span>
           </ng-template>
         </div>
+
+        <div id="testgrid" class="mb-4" style="width: 100%;">
+          <div class="mb-2">
+            <h3>Synchronous row data</h3>
+          </div>
+          <fui-datagrid
+            #datagrid2
+            [isLoading]="isLoadingSynchronous"
+            [maxDisplayedRows]="itemPerPageSynchronous"
+            [defaultColDefs]="defaultColumnDefs"
+            [columnDefs]="columnDefsSynchronous"
+            [rowData]="synchronousRowData"
+          >
+          </fui-datagrid>
+        </div>
       </fui-tab>
       <fui-tab [title]="'Documentation'">
         <p>
@@ -226,10 +241,15 @@ import { DatagridService } from '../datagrid.service';
 })
 export class DatagridClientSideComponent {
   rowData: Array<any>;
+  synchronousRowData: Array<any>;
   columnDefs: Array<FuiColumnDefinitions>;
+  columnDefsSynchronous: Array<FuiColumnDefinitions>;
   defaultColumnDefs: FuiColumnDefinitions;
   isLoading: boolean = true;
+  isLoadingSynchronous: boolean = true;
+
   itemPerPage: number = 10;
+  itemPerPageSynchronous: number = 5;
   rowDataModel: FuiRowModel = FuiRowModel.CLIENT_SIDE;
 
   withHeader: boolean = true;
@@ -293,6 +313,65 @@ export class DatagridClientSideComponent {
         filterFramework: this.browserFilter,
       },
     ];
+
+    this.columnDefsSynchronous = [
+      { headerName: 'GUID', field: 'id' },
+      { headerName: 'Name', field: 'name' },
+      { headerName: 'email', field: 'email' },
+      { headerName: 'Address', field: 'address' },
+    ];
+
+    this.synchronousRowData = [
+      {
+        id: 'ec9fb57f-2aab-4675-8048-9e8d9e362e7a',
+        name: 'Pixoboo',
+        email: 'spoll0@wufoo.com',
+        address: '7429 Ohio Plaza',
+      },
+      {
+        id: 'f3bbf3fe-0eec-4cd9-b4f5-85d8d088aac5',
+        name: 'Thoughtmix',
+        email: 'oconfort1@wordpress.com',
+        address: '05 Utah Trail',
+      },
+      {
+        id: '20b1946c-c6ed-4682-a86c-3ab7bcc036a6',
+        name: 'Oyoba',
+        email: 'cmirralls2@uol.com.br',
+        address: '36 Walton Junction',
+      },
+      {
+        id: '3f65ff28-c25b-4369-8bf2-1757f20772b0',
+        name: 'Quatz',
+        email: 'bcanadas3@tamu.edu',
+        address: '3018 Lighthouse Bay Point',
+      },
+      {
+        id: '66018ac7-82ce-4d5a-abfb-b10e77354b65',
+        name: 'Myworks',
+        email: 'ccargill4@disqus.com',
+        address: '7 Burrows Drive',
+      },
+      {
+        id: '02029819-ed4a-48bd-a602-7d24c6a98647',
+        name: 'Dazzlesphere',
+        email: 'mcoburn5@ihg.com',
+        address: '2 Hoffman Point',
+      },
+      {
+        id: 'bbd879a9-49ad-4ae6-8eca-e1ef307e897e',
+        name: 'Brainbox',
+        email: 'dmaffeo6@ehow.com',
+        address: '5925 Farwell Drive',
+      },
+      {
+        id: '5a4ba0fe-a1d1-49a1-b600-82890ec585dd',
+        name: 'Tazzy',
+        email: 'ovokes7@sogou.com',
+        address: '638 Lakeland Junction',
+      },
+    ];
+    this.isLoadingSynchronous = false;
 
     this.defaultColumnDefs = {
       sortable: true,
