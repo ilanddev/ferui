@@ -435,11 +435,11 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
         this.getHeaderPagerHeight() +
         this.scrollSize +
         2;
-
       this._gridHeight = gridHeight + 'px';
     } else {
       this._gridHeight = value;
     }
+    this.rootWrapperHeight = `calc(100% - ${this.getHeaderPagerHeight()}px)`;
     this.cd.markForCheck();
   }
 

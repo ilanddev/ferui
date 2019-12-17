@@ -53,12 +53,11 @@ export class FuiBodyRow implements OnInit, OnDestroy {
     this.cd.markForCheck();
   }
 
-  @Input('rowIndex') set rowIndex(index) {
+  @Input('rowIndex')
+  set rowIndex(index) {
     this._rowIndex = index;
     this.cd.markForCheck();
-    if (this._rowIndex === 0) {
-      this.isFirstRow = true;
-    }
+    this.isFirstRow = this._rowIndex === 0;
     if (this.rowRendererService) {
       this.rowRendererService.storeRowElement(this.rowIndex, this);
     }
