@@ -132,12 +132,18 @@ import { DatagridService } from '../datagrid.service';
             </fui-dropdown>
           </fui-datagrid>
 
-          <ng-template #actionMenu let-rowIndex="rowIndex" let-onDropdownOpen="onDropdownOpen">
-            <fui-dropdown (dropdownOpenChange)="onDropdownOpen($event)">
+          <ng-template
+            #actionMenu
+            let-rowIndex="rowIndex"
+            let-onDropdownOpen="onDropdownOpen"
+            let-forceClose="forceClose"
+            let-appendTo="appendTo"
+          >
+            <fui-dropdown (dropdownOpenChange)="onDropdownOpen($event)" [forceClose]="forceClose">
               <button fuiDropdownTrigger>
                 <clr-icon class="dropdown-icon" shape="fui-dots"></clr-icon>
               </button>
-              <fui-dropdown-menu [appendTo]="'#testDivId'" *fuiIfOpen>
+              <fui-dropdown-menu [appendTo]="appendTo" *fuiIfOpen>
                 <div fuiDropdownItem>action 1 for row {{ rowIndex }}</div>
                 <div fuiDropdownItem>action 2 for row {{ rowIndex }}</div>
                 <div fuiDropdownItem>action 3 for row {{ rowIndex }}</div>

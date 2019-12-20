@@ -63,6 +63,7 @@ import { HilitorService } from '../../hilitor/hilitor';
 import { FuiPagerPage } from '../types/pager';
 import { FuiDatagridBodyRowContext } from '../types/body-row-context';
 import { FuiActionMenuService } from '../services/action-menu/action-menu.service';
+import { DatagridUtils } from '../utils/datagrid-utils';
 
 @Component({
   selector: 'fui-datagrid',
@@ -106,11 +107,10 @@ import { FuiActionMenuService } from '../services/action-menu/action-menu.servic
           >
             <fui-virtual-scroller
               #scroll
-              id="testDivId"
               class="fui-datagrid-body-viewport"
               [hideXScrollbar]="true"
               [bufferAmount]="virtualScrollBufferAmount"
-              (verticalScroll)="onVerticalScroll()"
+              (verticalScroll)="onVerticalScroll($event)"
               (horizontalScroll)="onCenterViewportScroll()"
               [items]="displayedRows"
               role="presentation"
@@ -120,6 +120,7 @@ import { FuiActionMenuService } from '../services/action-menu/action-menu.servic
                 *ngIf="actionMenuTemplate"
                 [actionMenuTemplate]="actionMenuTemplate"
                 [style.height.px]="rowHeight - 2"
+                [maxDisplayedRows]="maxDisplayedRows"
                 virtualScrollClipperContent
               ></fui-datagrid-action-menu>
 
@@ -128,6 +129,7 @@ import { FuiActionMenuService } from '../services/action-menu/action-menu.servic
                 [data]="row"
                 [rowIndex]="idx + scroll.viewPortInfo.startIndex"
                 [style.width.px]="totalWidth"
+                [datagridId]="datagridId"
               >
                 <fui-datagrid-body-cell
                   *ngFor="let column of getVisibleColumns(); trackBy: columnTrackByIndexFn"
@@ -285,8 +287,9 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   columns: FuiColumnDefinitions[] = [];
   totalWidth: number;
   scrollSize: number = 0;
-  virtualBodyId: string = `fui-body-${new Date().getTime()}`;
+  virtualBodyId: string = DatagridUtils.generateUniqueId('fui-body');
 
+  private _datagridId: string = DatagridUtils.generateUniqueId('fui-datagrid');
   private _rowDataModel: FuiRowModel = FuiRowModel.CLIENT_SIDE;
   private _gridWidth: string = '100%';
   private _gridHeight: string = 'auto';
@@ -303,6 +306,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   private highlightSearchTermsDebounce = null;
   private selectedPage: FuiPagerPage;
   private resizeEventDebounce: NodeJS.Timer;
+  private bodyViewportScrollTop: number = 0;
 
   constructor(
     private renderer: Renderer2,
@@ -323,7 +327,8 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
     private serverSideRowModel: FuiDatagridServerSideRowModel,
     private infiniteRowModel: FuiDatagridInfinteRowModel,
     private stateService: DatagridStateService,
-    private hilitor: HilitorService
+    private hilitor: HilitorService,
+    private actionMenuService: FuiActionMenuService
   ) {}
 
   getGridApi(): FuiDatagridApiService {
@@ -400,6 +405,16 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
 
   get maxDisplayedRows(): number {
     return this._maxDisplayedRows;
+  }
+
+  @HostBinding('attr.id')
+  get datagridId(): string {
+    return this._datagridId;
+  }
+
+  @Input('id')
+  set inputDatagridId(value: string) {
+    this._datagridId = value;
   }
 
   @HostBinding('style.height')
@@ -666,6 +681,8 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
     this.gridPanel.eBodyHorizontalScrollViewport = this.horizontalScrollViewport.nativeElement;
     this.gridPanel.eBodyHorizontalScrollContainer = this.horizontalScrollContainer.nativeElement;
     this.gridPanel.eCenterViewportVsClipper = this.viewport.horizontalScrollClipperElementRef.nativeElement;
+    this.gridPanel.eHeaderFilters = this.datagridFilters.elementRef.nativeElement;
+    this.gridPanel.ePager = this.datagridPager.elementRef.nativeElement;
 
     // Setup Hilitor
     this.hilitor.setTargetNode(this.virtualBodyId);
@@ -821,8 +838,18 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
     this.gridPanel.onCenterViewportScroll();
   }
 
-  onVerticalScroll(): void {
+  onVerticalScroll(event: Event): void {
     this.gridPanel.onVerticalScroll();
+    if (event.srcElement && event.srcElement.scrollTop !== this.bodyViewportScrollTop) {
+      this.bodyViewportScrollTop = event.srcElement.scrollTop;
+      // This part is only when we have an action menu set.
+      // It will trigger the action menu close event when scrolling.
+      if (this.actionMenuTemplate && this.actionMenuService) {
+        if (this.actionMenuService.isActionMenuDropdownOpen) {
+          this.actionMenuService.isActionMenuDropdownOpen = false;
+        }
+      }
+    }
   }
 
   isClientSideRowModel() {

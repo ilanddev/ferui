@@ -28,6 +28,48 @@
     }
   }
 
+  .fui-datagrid-body-row-action-menu {
+    position: absolute;
+    right: 1px;
+    margin-top: 1px;
+    top: 0;
+    width: 40px;
+    display: none;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    z-index: $zindex-dropdown - 1;
+    background: $gray-100;
+
+    .action-menu-icon {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      color: $gray-500;
+    }
+
+    &.fui-datagrid-action-menu-visible {
+      display: flex;
+    }
+
+    &.fui-datagrid-action-menu-open {
+      background-color: $blue-selected;
+      &:hover {
+        background-color: $blue-selected;
+      }
+    }
+
+    &:hover {
+      background-color: $gray-100;
+      display: flex;
+
+      .action-menu-icon {
+        color: $gray-900;
+      }
+    }
+  }
+
   .fui-datagrid-body-empty {
     display: flex;
     flex-flow: column nowrap;
@@ -420,48 +462,6 @@
 
                 position: relative;
                 min-width: 0;
-
-                .fui-datagrid-body-row-action-menu {
-                  position: absolute;
-                  right: 0;
-                  top: 0;
-                  margin-top: 1px;
-                  width: 40px;
-                  display: none;
-                  flex-flow: column nowrap;
-                  justify-content: center;
-                  align-items: center;
-                  align-content: center;
-                  z-index: $zindex-dropdown - 1;
-                  background: $gray-100;
-
-                  .action-menu-icon {
-                    display: inline-block;
-                    width: 16px;
-                    height: 16px;
-                    color: $gray-500;
-                  }
-
-                  &.fui-datagrid-action-menu-visible {
-                    display: flex;
-                  }
-
-                  &.fui-datagrid-action-menu-open {
-                    background-color: $blue-selected;
-                    &:hover {
-                      background-color: $blue-selected;
-                    }
-                  }
-
-                  &:hover {
-                    background-color: $gray-100;
-                    display: flex;
-
-                    .action-menu-icon {
-                      color: $gray-900;
-                    }
-                  }
-                }
 
                 .fui-virtual-scroller-clipper {
                   position: relative;

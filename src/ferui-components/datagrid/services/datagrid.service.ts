@@ -13,6 +13,9 @@ import { BodyScrollEvent, FuiDatagridEvents } from '../events';
 export class FuiDatagridService {
   private _isReady = new Subject<boolean>();
 
+  private _eHeaderFilters: HTMLElement;
+  private _ePager: HTMLElement;
+
   private _eHeaderRoot: HTMLElement;
   private _eHeaderViewport: HTMLElement;
   private _eHeaderContainer: HTMLElement;
@@ -44,6 +47,22 @@ export class FuiDatagridService {
     private columnService: FuiColumnService
   ) {
     this.resetLastHorizontalScrollElementDebounce = DatagridUtils.debounce(this.resetLastHorizontalScrollElement.bind(this), 500);
+  }
+
+  get eHeaderFilters(): HTMLElement {
+    return this._eHeaderFilters;
+  }
+
+  set eHeaderFilters(value: HTMLElement) {
+    this._eHeaderFilters = value;
+  }
+
+  get ePager(): HTMLElement {
+    return this._ePager;
+  }
+
+  set ePager(value: HTMLElement) {
+    this._ePager = value;
   }
 
   get getScrollbarHelper(): ScrollbarHelper {
