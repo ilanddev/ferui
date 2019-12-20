@@ -32,7 +32,7 @@ import { FuiActionMenuService } from '../../services/action-menu/action-menu.ser
     '[class.fui-datagrid-body-row]': 'true',
     '[class.selectable]': 'true',
     '[class.selected]': 'isRowSelected',
-    '[class.hovered]': 'isRowHovered',
+    '[class.hovered]': 'isRowOrActionMenuHovered',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -40,6 +40,7 @@ export class FuiBodyRow implements OnInit, OnDestroy {
   @HostBinding('attr.role') role: string = 'row';
   @HostBinding('style.height.px') rowHeight: number = 0;
 
+  @Input() datagridId: string;
   @Input() data: any;
   @Input() actionMenuTemplate: TemplateRef<FuiDatagridBodyRowContext>;
 
@@ -70,12 +71,13 @@ export class FuiBodyRow implements OnInit, OnDestroy {
   @ContentChildren(FuiBodyCell) cells: QueryList<FuiBodyCell>;
 
   isRowSelected: boolean = false;
-  isRowHovered: boolean = false;
+  isRowOrActionMenuHovered: boolean = false;
 
   private _isFirstRow: boolean = false;
   private _rowIndex: number = 0;
   private subscriptions: Subscription[] = [];
-  private mouseLeaveTimeout;
+  private mouseLeaveTimeout: NodeJS.Timer;
+  private rowHovered: boolean = false;
 
   constructor(
     @Self() private el: ElementRef,
@@ -110,18 +112,26 @@ export class FuiBodyRow implements OnInit, OnDestroy {
     this.eventService.dispatchEvent(evt);
   }
 
-  @HostListener('mouseenter', ['$event'])
-  onRowEnter(event) {
+  @HostListener('mouseenter')
+  onRowEnter() {
     this.actionMenuService.setSelectedRowContext(this.getContextForActionMenu());
     this.actionMenuService.isActionMenuVisible = true;
+    this.isRowOrActionMenuHovered = true;
+    this.rowHovered = true;
+    this.cd.markForCheck();
   }
 
-  @HostListener('mouseleave', ['$event'])
-  onRowLeave(event) {
+  @HostListener('mouseleave')
+  onRowLeave() {
+    this.rowHovered = false;
     this.mouseLeaveTimeout = setTimeout(() => {
       const context: FuiDatagridBodyRowContext = this.actionMenuService.curentlySelectedRowContext || null;
       if (!this.actionMenuService.isActionMenuHovered && context && context.rowIndex === this.rowIndex) {
         this.actionMenuService.isActionMenuVisible = false;
+      }
+      if (!this.actionMenuService.isActionMenuHovered) {
+        this.isRowOrActionMenuHovered = false;
+        this.cd.markForCheck();
       }
     }, 10);
   }
@@ -135,8 +145,15 @@ export class FuiBodyRow implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.actionMenuService.actionMenuHoverChange().subscribe(isHovered => {
         const context = this.actionMenuService.curentlySelectedRowContext || null;
-        this.isRowHovered = context && context.rowIndex === this.rowIndex && isHovered;
+        this.isRowOrActionMenuHovered = context && context.rowIndex === this.rowIndex && isHovered;
         this.cd.markForCheck();
+        if (!isHovered) {
+          setTimeout(() => {
+            if (!this.rowHovered && context && context.rowIndex === this.rowIndex && !isHovered) {
+              this.actionMenuService.isActionMenuVisible = false;
+            }
+          }, 10);
+        }
       }),
       this.actionMenuService.actionMenuOpenChange().subscribe(isOpen => {
         const context = this.actionMenuService.curentlySelectedRowContext || null;
@@ -176,6 +193,7 @@ export class FuiBodyRow implements OnInit, OnDestroy {
       rowData: this.data,
       rowTopValue: this.el.nativeElement.offsetTop,
       isFirstRow: this.isFirstRow,
+      appendTo: '#' + this.datagridId,
     };
   }
 }

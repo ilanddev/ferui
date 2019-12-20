@@ -4,5 +4,7 @@ export interface FuiDatagridBodyRowContext {
   rowData: any;
   isFirstRow: boolean;
   rowTopValue: number;
+  appendTo: string;
   onDropdownOpen?: (isOpen: boolean) => void;
+  forceClose?: boolean;
 }

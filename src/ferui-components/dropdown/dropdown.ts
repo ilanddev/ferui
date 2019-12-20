@@ -31,13 +31,20 @@ export class FuiDropdown implements OnDestroy {
 
   @Input('fuiCloseMenuOnItemClick') isMenuClosable: boolean = true;
 
+  @Input('forceClose')
+  set forceClose(value: boolean) {
+    if (value === true) {
+      this.ifOpenService.open = false;
+    }
+  }
+
   private subscriptions: Subscription[] = [];
 
   constructor(
     @SkipSelf() @Optional() public parent: FuiDropdown,
     public ifOpenService: IfOpenService,
     private cdr: ChangeDetectorRef,
-    dropdownService: RootDropdownService
+    private dropdownService: RootDropdownService
   ) {
     this.subscriptions.push(dropdownService.changes.subscribe(value => (this.ifOpenService.open = value)));
     this.subscriptions.push(

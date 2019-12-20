@@ -116,6 +116,7 @@
                 border-radius: $border-radius 0 0 $border-radius;
               }
             }
+
             .fui-datagrid-filters-button {
               display: flex;
             }
@@ -155,6 +156,7 @@
               .fui-datagrid-filter-label {
                 color: $blue;
               }
+
               .fui-datagrid-filter-icon {
                 .fui-filter-icon-circle {
                   color: $blue;
@@ -169,28 +171,34 @@
     .col-right {
       text-align: right;
       line-height: 59px;
-      padding-right: 20px;
+      padding-right: 15px;
 
       * {
         line-height: normal;
       }
 
-      .fui-dropdown-trigger {
-        color: $gray-500;
-        display: inline-block;
-
-        &:hover,
-        &.active {
-          .dropdown-icon {
-            color: $gray-900;
-          }
-        }
-
-        .dropdown-icon {
-          margin-left: 10px;
+      .fui-dropdown {
+        .fui-dropdown-trigger {
           color: $gray-500;
-          width: 16px;
-          height: 16px;
+          display: inline-block;
+
+          &:not(.btn) {
+            padding: 0.625rem 0 !important;
+          }
+
+          &:hover,
+          &.active {
+            .dropdown-icon {
+              color: $gray-900;
+            }
+          }
+
+          .dropdown-icon {
+            margin-left: 10px;
+            color: $gray-500;
+            width: 16px;
+            height: 16px;
+          }
         }
       }
 
