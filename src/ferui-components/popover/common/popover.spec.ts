@@ -1,4 +1,5 @@
-import { Point, Popover } from './popover';
+import { Popover } from './popover';
+import { Point } from './popover-options.interface';
 
 describe('Popover', function() {
   let container: HTMLElement;

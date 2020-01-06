@@ -1,26 +1,10 @@
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
-import { PopoverOptions } from './popover-options.interface';
-
-export enum Point {
-  RIGHT_CENTER,
-  RIGHT_TOP,
-  RIGHT_BOTTOM,
-  TOP_CENTER,
-  TOP_RIGHT,
-  TOP_LEFT,
-  BOTTOM_CENTER,
-  BOTTOM_RIGHT,
-  BOTTOM_LEFT,
-  LEFT_CENTER,
-  LEFT_TOP,
-  LEFT_BOTTOM,
-}
+import { Point, PopoverOptions } from './popover-options.interface';
 
 const POSITION_RELATIVE = 'relative';
 const POSITION_ABSOLUTE = 'absolute';
 const POSITION_FIXED = 'fixed';
-
 const OVERFLOW_SCROLL = 'scroll';
 const OVERFLOW_AUTO = 'auto';
 

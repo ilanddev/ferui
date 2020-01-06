@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { AbstractPopover } from '../popover/common/abstract-popover';
 import { POPOVER_HOST_ANCHOR } from '../popover/common/popover-host-anchor.token';
-import { Point } from '../popover/common/popover';
+import { Point } from '../popover/common/popover-options.interface';
 
 @Component({
   selector: 'fui-dropdown-menu',

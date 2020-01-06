@@ -1,20 +1,11 @@
-import {
-  AfterViewChecked,
-  ElementRef,
-  HostBinding,
-  Injector,
-  OnDestroy,
-  Optional,
-  Renderer2,
-  SkipSelf,
-} from '@angular/core';
+import { AfterViewChecked, ElementRef, HostBinding, Injector, OnDestroy, Optional, Renderer2, SkipSelf } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { IfOpenService } from '../../utils/conditional/if-open.service';
 import { ESC } from '../../utils/key-codes/key-codes';
 
-import { Point, Popover } from './popover';
-import { PopoverOptions } from './popover-options.interface';
+import { Popover } from './popover';
+import { Point, PopoverOptions } from './popover-options.interface';
 
 export abstract class AbstractPopover implements AfterViewChecked, OnDestroy {
   closeOnOutsideClick = false;
@@ -68,12 +59,10 @@ export abstract class AbstractPopover implements AfterViewChecked, OnDestroy {
   ngAfterViewChecked() {
     if (this.updateAnchor) {
       this.updateAnchor = false;
-      this.popoverInstance
-        .anchor(this.anchorElem, this.anchorPoint, this.popoverPoint, this.popoverOptions)
-        .subscribe(() => {
-          // if a scroll event is detected, close the popover
-          this.ifOpenService.open = false;
-        });
+      this.popoverInstance.anchor(this.anchorElem, this.anchorPoint, this.popoverPoint, this.popoverOptions).subscribe(() => {
+        // if a scroll event is detected, close the popover
+        this.ifOpenService.open = false;
+      });
       this.attachOutsideClickListener();
     }
   }
@@ -135,11 +124,7 @@ export abstract class AbstractPopover implements AfterViewChecked, OnDestroy {
     if (this.closeOnOutsideClick) {
       this.hostClickListener = this.renderer.listen(this.el.nativeElement, 'click', event => (this.ignore = event));
       if (this.ignoredElement) {
-        this.ignoredElementClickListener = this.renderer.listen(
-          this.ignoredElement,
-          'click',
-          event => (this.ignore = event)
-        );
+        this.ignoredElementClickListener = this.renderer.listen(this.ignoredElement, 'click', event => (this.ignore = event));
       }
       this.documentClickListener = this.renderer.listen('document', 'click', event => {
         if (event === this.ignore) {

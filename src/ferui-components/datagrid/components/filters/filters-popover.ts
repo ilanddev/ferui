@@ -1,20 +1,12 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Injector,
-  OnInit,
-  SkipSelf,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, OnInit, SkipSelf } from '@angular/core';
 import { AbstractPopover } from '../../../popover/common/abstract-popover';
-import { Point } from '../../../popover/common/popover';
 import { FuiColumnService } from '../../services/rendering/column.service';
 import { Column } from '../entities/column';
 import { FuiDatagridClientSideRowModel } from '../row-models/client-side-row-model';
 import { FuiDatagridFilterService } from '../../services/datagrid-filter.service';
 import { FuiFormLayoutEnum } from '../../../forms/common/layout.enum';
 import { FilterType } from './interfaces/filter.enum';
+import { Point } from '../../../popover/common/popover-options.interface';
 
 @Component({
   selector: 'fui-datagrid-filters-popover',

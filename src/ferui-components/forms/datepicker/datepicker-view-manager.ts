@@ -4,8 +4,8 @@ import { DatepickerFocusService } from './providers/datepicker-focus.service';
 import { ViewManagerService } from './providers/view-manager.service';
 
 import { AbstractPopover } from '../../popover/common/abstract-popover';
-import { Point } from '../../popover/common/popover';
 import { POPOVER_HOST_ANCHOR } from '../../popover/common/popover-host-anchor.token';
+import { Point } from '../../popover/common/popover-options.interface';
 
 @Component({
   selector: 'fui-datepicker-view-manager',

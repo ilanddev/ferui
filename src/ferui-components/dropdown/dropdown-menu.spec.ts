@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TestContext } from '../forms/tests/helpers.spec';
 import { IfOpenService } from '../utils/conditional/if-open.service';
 import { FuiDropdownMenu } from './dropdown-menu';
-import { Point } from '../popover/common/popover';
+import { Point } from '../popover/common/popover-options.interface';
 
 export default function(): void {
   describe('DropdownMenu component', function() {
