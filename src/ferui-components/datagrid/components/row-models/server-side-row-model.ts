@@ -12,11 +12,12 @@ import {
   IDatagridResultObject,
   IServerSideDatasource,
   IServerSideGetRowsParams,
+  ServerSideRowModelInterface,
   SortModel
 } from '../../types/server-side-row-model';
 
 @Injectable()
-export class FuiDatagridServerSideRowModel {
+export class FuiDatagridServerSideRowModel implements ServerSideRowModelInterface {
   isReady: EventEmitter<boolean> = new EventEmitter<boolean>();
   datasource: IServerSideDatasource;
   params: IServerSideGetRowsParams;
@@ -45,7 +46,7 @@ export class FuiDatagridServerSideRowModel {
     this.isReady.emit(true);
   }
 
-  reset() {
+  reset(): void {
     this.offset = null;
     this.limit = null;
     this.totalRows = null;

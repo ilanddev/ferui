@@ -48,6 +48,8 @@ export interface FuiGridOptions {
 
   suppressTouch?: boolean;
 
+  suppressExport?: boolean;
+
   itemsPerPage?: number;
 
   infiniteMaxSurroundingBlocksInCache?: number;

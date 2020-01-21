@@ -58,6 +58,7 @@ import {
             [withFooter]="withFooter"
             [withFooterItemPerPage]="withFooterItemPerPage"
             [withFooterPager]="withFooterPager"
+            [maxDisplayedRows]="itemPerPage"
             [rowDataModel]="rowDataModel"
             [datasource]="dataSource"
             [isLoading]="isLoading"
@@ -83,6 +84,26 @@ import {
             [isLoading]="isLoading2"
             [defaultColDefs]="defaultColumnDefs"
             [columnDefs]="columnDefs"
+          ></fui-datagrid>
+        </div>
+
+        <h3 class="mb-2">Datagrid error handling</h3>
+        <div class="mb-4">
+          <fui-demo-datagrid-option-menu
+            [bandwidthSpeed]="networkBandwith"
+            [datagridRowModel]="rowDataModel"
+            [datagrid]="datagrid3"
+            (bandwidthSpeedChange)="networkBandwithChange($event)"
+          ></fui-demo-datagrid-option-menu>
+        </div>
+        <div class="mb-4" style="width: 100%;">
+          <fui-datagrid
+            #datagrid3
+            [rowDataModel]="rowDataModel"
+            [datasource]="dataSource3"
+            [isLoading]="isLoading3"
+            [defaultColDefs]="defaultColumnDefs"
+            [columnDefs]="columnDefs3"
           ></fui-datagrid>
         </div>
 
@@ -128,9 +149,14 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
   isLoading: boolean = true;
   dataSource: IServerSideDatasource;
   rowDataModel: FuiRowModel = FuiRowModel.INFINITE;
+  itemPerPage: number = 5;
 
   dataSource2: IServerSideDatasource;
   isLoading2: boolean = true;
+
+  dataSource3: IServerSideDatasource;
+  isLoading3: boolean = true;
+  columnDefs3: Array<FuiColumnDefinitions>;
 
   withHeader: boolean = true;
   withFooter: boolean = true;
@@ -146,6 +172,7 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
 
   @ViewChild('datagrid1') datagrid1: FuiDatagrid;
   @ViewChild('datagrid2') datagrid2: FuiDatagrid;
+  @ViewChild('datagrid3') datagrid3: FuiDatagrid;
 
   networkBandwith: number = 260;
 
@@ -206,6 +233,37 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
       }
     ];
 
+    this.columnDefs3 = [
+      {
+        headerName: 'ID',
+        field: 'id',
+        sort: FuiDatagridSortDirections.ASC,
+        cellRenderer: this.idRenderer,
+        filter: FilterType.NUMBER
+      },
+      {
+        headerName: 'Avatar',
+        field: 'avatar',
+        hide: true,
+        filter: false,
+        cellRenderer: this.avatarRenderer,
+        sortable: false
+      },
+      { headerName: 'Username', field: 'username', minWidth: 150 },
+      {
+        headerName: 'Creation date',
+        field: 'creation_date',
+        minWidth: 150,
+        sortType: FuiFieldTypes.DATE,
+        filter: FilterType.DATE,
+        filterParams: dateFilterParams
+      },
+      { headerName: 'Gender', field: 'gender' },
+      { headerName: 'First name', field: 'first_name' },
+      { headerName: 'Last name', field: 'last_name' },
+      { headerName: 'Age', field: 'age', filter: FilterType.NUMBER }
+    ];
+
     this.defaultColumnDefs = {
       sortable: true,
       filter: true
@@ -213,6 +271,7 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
 
     this.dataSource = ServerSideDatasource(this);
     this.dataSource2 = ServerSideDatasource2(this);
+    this.dataSource3 = ServerSideDatasource3(this);
 
     function ServerSideDatasource(server): IServerSideDatasource {
       return {
@@ -249,8 +308,37 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
               },
               error => {
                 reject(error);
+                server.isLoading2 = false;
               }
             );
+          });
+        }
+      };
+    }
+
+    function ServerSideDatasource3(server): IServerSideDatasource {
+      return {
+        getRows(params: IServerSideGetRowsParams): Promise<IDatagridResultObject> {
+          return new Promise((resolve, reject) => {
+            // We're faking an error that comes from the API.
+            if (params.request.offset >= 20 && params.request.offset < 30) {
+              reject('Unknown error occurs. Please contact your administrator.');
+              server.isLoading3 = false;
+            } else {
+              server.rowDataService.getRows(params, 500, false).subscribe(
+                (results: IDatagridResultObject) => {
+                  const delay: number = server.networkBandwith;
+                  setTimeout(() => {
+                    server.isLoading3 = false;
+                    resolve(results);
+                  }, delay);
+                },
+                error => {
+                  reject(error);
+                  server.isLoading3 = false;
+                }
+              );
+            }
           });
         }
       };

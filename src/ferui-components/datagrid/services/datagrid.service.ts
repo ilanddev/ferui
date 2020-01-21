@@ -280,7 +280,6 @@ export class FuiDatagridService {
   }
 
   onFakeHorizontalScroll(): void {
-    console.log('onFakeHorizontalScroll', this.eBodyHorizontalScrollViewport);
     if (!this.isControllingScroll(this.eBodyHorizontalScrollViewport)) {
       return;
     }

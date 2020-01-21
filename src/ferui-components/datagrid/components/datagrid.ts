@@ -64,6 +64,11 @@ import { FuiPagerPage } from '../types/pager';
 import { FuiDatagridBodyRowContext } from '../types/body-row-context';
 import { FuiActionMenuService } from '../services/action-menu/action-menu.service';
 import { DatagridUtils } from '../utils/datagrid-utils';
+import { GridSerializer } from '../services/exporter/grid-serializer';
+import { CsvCreator } from '../services/exporter/csv-creator';
+import { Downloader } from '../services/exporter/downloader';
+import { BaseExportParams } from '../services/exporter/export-params';
+import { RowModel } from './row-models/row-model';
 
 @Component({
   selector: 'fui-datagrid',
@@ -241,9 +246,11 @@ import { DatagridUtils } from '../utils/datagrid-utils';
     FuiDatagridClientSideRowModel,
     FuiDatagridServerSideRowModel,
     FuiDatagridInfinteRowModel,
+    RowModel,
     DatagridStateService,
     HilitorService,
-    FuiActionMenuService
+    FuiActionMenuService,
+    Downloader
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -263,6 +270,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   @Input() withFooterPager: boolean = true;
   @Input() fixedHeight: boolean = false;
 
+  @Input() exportParams: BaseExportParams;
   @Input() actionMenuTemplate: TemplateRef<FuiDatagridBodyRowContext>;
   @Input() columnDefs: FuiColumnDefinitions[] = [];
   @Input() defaultColDefs: FuiColumnDefinitions = {};
@@ -328,9 +336,11 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
     private clientSideRowModel: FuiDatagridClientSideRowModel,
     private serverSideRowModel: FuiDatagridServerSideRowModel,
     private infiniteRowModel: FuiDatagridInfinteRowModel,
+    private rowModel: RowModel,
     private stateService: DatagridStateService,
     private hilitor: HilitorService,
-    private actionMenuService: FuiActionMenuService
+    private actionMenuService: FuiActionMenuService,
+    private exportDownloader: Downloader
   ) {}
 
   getGridApi(): FuiDatagridApiService {
@@ -342,7 +352,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   }
 
   get isLoading(): boolean {
-    if (this.isInfiniteServerSideRowModel()) {
+    if (this.rowModel.isInfiniteServerSideRowModel()) {
       return this.isInfiniteLoading() || this.stateService.hasState(DatagridStateEnum.LOADING);
     } else {
       return this.stateService.hasState(DatagridStateEnum.LOADING);
@@ -379,6 +389,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   set rowDataModel(value: FuiRowModel) {
     this._rowDataModel = value;
     this.datagridOptionsWrapper.rowDataModel = value;
+    this.rowModel.rowModel = value;
     this.cd.markForCheck();
   }
 
@@ -399,10 +410,11 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
     } else if (this.isServerSideRowModel() && this.serverSideRowModel) {
       this.serverSideRowModel.limit = value;
     } else if (this.isInfiniteServerSideRowModel() && this.infiniteRowModel) {
-      this.infiniteRowModel.refresh(value);
+      this.infiniteRowModel.limit = value;
     }
     this.inputGridHeight = 'refresh';
     this._maxDisplayedRowsFirstLoad = false;
+    this.cd.markForCheck();
   }
 
   get maxDisplayedRows(): number {
@@ -436,14 +448,15 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
       const emptyDataHeight: number = !this.isInitialLoading && this.isEmptyData() ? 100 : 0;
       const maxDisplayedRows = this.maxDisplayedRows !== null ? this.maxDisplayedRows : 10;
       const totalRows: number = this.totalRows ? this.totalRows : this.displayedRows.length;
+      const serverSideRowModel: FuiDatagridServerSideRowModel | null = this.rowModel.getServerSideRowModel();
 
       let gridHeight: number;
       if (!this.fixedHeight) {
         const minRowCount = totalRows < maxDisplayedRows ? totalRows : maxDisplayedRows;
-        const fullRowsCount: number = this.serverSideRowModel.limit
-          ? minRowCount < this.serverSideRowModel.limit
+        const fullRowsCount: number = serverSideRowModel && serverSideRowModel.limit
+          ? minRowCount < serverSideRowModel.limit
             ? minRowCount
-            : this.serverSideRowModel.limit
+            : serverSideRowModel.limit
           : minRowCount;
 
         gridHeight =
@@ -566,9 +579,9 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
     // we would assume he wanted to set a basic server-side row model.
     if (this.datasource && this.isClientSideRowModel()) {
       this.rowDataModel = FuiRowModel.SERVER_SIDE;
+    } else {
+      this.datagridOptionsWrapper.rowDataModel = this.rowDataModel;
     }
-
-    this.datagridOptionsWrapper.rowDataModel = this.rowDataModel;
 
     if (this.gridHeight !== 'auto') {
       this.isAutoGridHeight = false;
@@ -594,8 +607,12 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
         this.columnApi.init(this.columnService, this.gridPanel);
 
         if (this.datasource) {
-          if (this.isInfiniteServerSideRowModel()) {
-            this.infiniteRowModel.init(this.datasource);
+          if (this.isServerSideRowModel()) {
+            this.serverSideRowModel.init(this.datasource);
+          } else if (this.isInfiniteServerSideRowModel()) {
+            if (!this.infiniteRowModel.initialized) {
+              this.infiniteRowModel.init(this.datasource);
+            }
             this.subscriptions.push(
               this.infiniteRowModel.getDisplayedRows().subscribe(displayedRows => {
                 this.displayedRows = displayedRows;
@@ -603,7 +620,6 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
               })
             );
           }
-          this.serverSideRowModel.init(this.datasource);
         }
 
         // By default we're trying to fit the columns width to grid size.
@@ -840,6 +856,22 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onPagerItemPerPageChange(itemPerPage: number) {
+    if (this.isServerSideRowModel()) {
+      this.serverSideRowModel.reset();
+      this.serverSideRowModel.limit = itemPerPage;
+      this.serverSideRowModel
+        .updateRows()
+        .then(() => {
+          // To calculate the height of the grid after loading more data through server-side row model,
+          // we need to refresh the grid height to take the new loaded data into account
+          this.inputGridHeight = 'refresh';
+        })
+        .catch(error => {
+          throw error;
+        });
+    } else if (this.isInfiniteServerSideRowModel()) {
+      this.infiniteRowModel.refresh(itemPerPage);
+    }
     this.maxDisplayedRows = itemPerPage;
   }
 
@@ -866,15 +898,17 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   }
 
   isClientSideRowModel() {
-    return this.rowDataModel === FuiRowModel.CLIENT_SIDE;
+    return this.rowModel.isClientSideRowModel();
   }
 
   isServerSideRowModel() {
-    return this.rowDataModel === FuiRowModel.SERVER_SIDE;
+    // At initialisation, if the developer doesn't set any row model, by default it will be ClientSide.
+    // But if he set a datasource, the default row model will be server side.
+    return this.rowModel.isServerSideRowModel() || (this.rowModel.isClientSideRowModel() && this.datasource);
   }
 
   isInfiniteServerSideRowModel() {
-    return this.rowDataModel === FuiRowModel.INFINITE;
+    return this.rowModel.isInfiniteServerSideRowModel();
   }
 
   refreshGrid(resetFilters: boolean = false, resetSorting: boolean = false) {
@@ -887,7 +921,6 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
       this.setupColumns();
       this.sortService.resetColumnsSortOrder();
     }
-
     this.datagridPager.resetPager();
 
     if (this.isClientSideRowModel()) {
@@ -929,6 +962,12 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   onFilterPagerHeightChange(value: number) {
     this.rootWrapperHeight = `calc(100% - ${this.getHeaderPagerHeight()}px)`;
     this.cd.markForCheck();
+  }
+
+  exportGrid() {
+    const serializer: GridSerializer<any> = new GridSerializer<any>(this.getVisibleColumns(), this.displayedRows);
+    const csvCreator: CsvCreator = new CsvCreator(this.exportDownloader, serializer, this.datagridOptionsWrapper);
+    csvCreator.export(this.exportParams);
   }
 
   private isGridLoadedOnce(): boolean {

@@ -8,7 +8,8 @@ import {
   FuiDatagridSortDirections,
   FuiFieldTypes,
   FuiRowModel,
-  IDateFilterParams
+  IDateFilterParams,
+  CsvExportParams
 } from '@ferui/components';
 import { DatagridService } from '../datagrid.service';
 
@@ -74,6 +75,7 @@ import { DatagridService } from '../datagrid.service';
           <fui-datagrid
             #datagrid
             [fixedHeight]="withFixedHeight"
+            [exportParams]="exportParams"
             [withHeader]="withHeader"
             [withFooter]="withFooter"
             [withFooterItemPerPage]="withFooterItemPerPage"
@@ -91,7 +93,7 @@ import { DatagridService } from '../datagrid.service';
               </span>
               <fui-dropdown-menu fuiPosition="bottom-right" *fuiIfOpen>
                 <label class="dropdown-header" aria-hidden="true">Export the grid</label>
-                <div fuiDropdownItem [class.disabled]="true">Export to CSV</div>
+                <div fuiDropdownItem (click)="exportGrid()">Export to CSV</div>
                 <div class="fui-dropdown-divider" role="separator" aria-hidden="true"></div>
                 <label class="dropdown-header" aria-hidden="true">Actions</label>
                 <button fuiDropdownItem (click)="sizeColumnsToFit()">Size columns to fit the grid</button>
@@ -176,6 +178,7 @@ import { DatagridService } from '../datagrid.service';
           </div>
           <fui-datagrid
             #datagrid2
+            [exportParams]="exportParams2"
             [isLoading]="isLoadingSynchronous"
             [maxDisplayedRows]="itemPerPageSynchronous"
             [defaultColDefs]="defaultColumnDefs"
@@ -268,6 +271,13 @@ export class DatagridClientSideComponent {
   withFooterPager: boolean = true;
   withFixedHeight: boolean = false;
 
+  exportParams: CsvExportParams = {
+    fileName: 'ferUI-export-test-1',
+  };
+  exportParams2: CsvExportParams = {
+    fileName: 'ferUI-export-test-2',
+  };
+
   @ViewChild('avatarRenderer') avatarRenderer: TemplateRef<FuiDatagridBodyCellContext>;
   @ViewChild('userAgentRenderer') userAgentRenderer: TemplateRef<FuiDatagridBodyCellContext>;
   @ViewChild('browserFilter') browserFilter: TemplateRef<any>;
@@ -321,8 +331,11 @@ export class DatagridClientSideComponent {
         cellRenderer: this.userAgentRenderer,
         sortable: false,
         filter: FilterType.CUSTOM,
-        filterFramework: this.browserFilter
-      }
+        filterFramework: this.browserFilter,
+        exportValueFormatter: (value: string, row: any): string => {
+          return `${value} (${row.user_agent})`;
+        },
+      },
     ];
 
     this.columnDefsSynchronous = [
@@ -415,5 +428,9 @@ export class DatagridClientSideComponent {
 
   itemPerPageChange(value) {
     this.itemPerPage = value;
+  }
+
+  exportGrid() {
+    this.datagrid.exportGrid();
   }
 }

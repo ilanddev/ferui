@@ -1,5 +1,11 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { FilterModel, IServerSideDatasource, IServerSideGetRowsParams, SortModel } from '../../../types/server-side-row-model';
+import {
+  FilterModel,
+  IServerSideDatasource,
+  IServerSideGetRowsParams,
+  ServerSideRowModelInterface,
+  SortModel
+} from '../../../types/server-side-row-model';
 import { FuiDatagridSortService } from '../../../services/datagrid-sort.service';
 import { FuiDatagridFilterService } from '../../../services/datagrid-filter.service';
 import { FuiColumnService } from '../../../services/rendering/column.service';
@@ -11,13 +17,15 @@ import { InfiniteCache } from './infinite-cache';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class FuiDatagridInfinteRowModel {
+export class FuiDatagridInfinteRowModel implements ServerSideRowModelInterface {
   isReady: EventEmitter<boolean> = new EventEmitter<boolean>();
   datasource: IServerSideDatasource;
   params: IServerSideGetRowsParams;
   infiniteCache: InfiniteCache;
 
+  initialized: boolean = false;
   limit: number;
+  offset: number;
   infiniteMaxSurroundingBlocksInCache: number;
   infiniteInitialBlocksCount: number;
   totalRows: number | null = null;
@@ -33,6 +41,11 @@ export class FuiDatagridInfinteRowModel {
   ) {}
 
   init(datasource: IServerSideDatasource): void {
+    if (this.initialized) {
+      return;
+    }
+    this.initialized = true;
+
     this.infiniteMaxSurroundingBlocksInCache = this.optionsWrapper.infiniteMaxSurroundingBlocksInCache;
     this.infiniteInitialBlocksCount = this.optionsWrapper.infiniteInitialBlocksCount;
     this.datasource = datasource;
@@ -74,7 +87,9 @@ export class FuiDatagridInfinteRowModel {
   }
 
   reset(): void {
-    this.infiniteCache.clear();
+    if (this.infiniteCache) {
+      this.infiniteCache.clear();
+    }
     this.limit = null;
     this.totalRows = null;
   }

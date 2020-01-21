@@ -26,7 +26,8 @@ import { FuiActionMenuService } from '../../services/action-menu/action-menu.ser
 @Component({
   selector: 'fui-datagrid-body-row',
   template: `
-    <ng-content select="fui-datagrid-body-cell"></ng-content>
+    <ng-content *ngIf="!isRowError()" select="fui-datagrid-body-cell"></ng-content>
+    <div *ngIf="isRowError()">{{ data.fuiError }}</div>
   `,
   host: {
     '[class.fui-datagrid-body-row]': 'true',
@@ -184,6 +185,10 @@ export class FuiBodyRow implements OnInit, OnDestroy {
 
   getCellForCol(column: Column): FuiBodyCell {
     return this.cells.find(cell => cell.column.getColId() === column.getColId());
+  }
+
+  isRowError(): boolean {
+    return this.data && this.data.hasOwnProperty('fuiError') && this.data.fuiError;
   }
 
   private getContextForActionMenu(): FuiDatagridBodyRowContext {

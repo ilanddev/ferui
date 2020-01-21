@@ -90,4 +90,7 @@ export interface FuiColumnDefinitions {
 
   /** The filter params are specific to each filter! */
   filterParams?: IFilterParams;
+
+  // The cell value formatter used to export the Datagrid to CSV, XLSX etc...
+  exportValueFormatter?: (value: string, data?: any) => string;
 }
