@@ -37,7 +37,7 @@ export default function() {
           IfOpenService,
           { provide: DateNavigationService, useValue: dateNavigationService },
           LocaleHelperService,
-          DateIOService,
+          DateIOService
         ]);
       });
 
@@ -160,7 +160,7 @@ export default function() {
           IfOpenService,
           { provide: DateNavigationService, useValue: dateNavigationService },
           LocaleHelperService,
-          DateIOService,
+          DateIOService
         ]);
       });
 
@@ -187,7 +187,7 @@ export default function() {
           2012,
           2013,
           2014,
-          2015,
+          2015
         ];
         expect(context.feruiDirective.yearRangeModel).not.toBeNull();
         expect(context.feruiDirective.yearRangeModel.yearRange.length).toBe(yearsToDisplay);
@@ -286,7 +286,7 @@ export default function() {
           IfOpenService,
           { provide: DateNavigationService, useValue: dateNavigationService },
           LocaleHelperService,
-          DateIOService,
+          DateIOService
         ]);
       }
 
@@ -358,6 +358,6 @@ export default function() {
 @Component({
   template: `
     <fui-yearpicker></fui-yearpicker>
-  `,
+  `
 })
 class TestComponent {}

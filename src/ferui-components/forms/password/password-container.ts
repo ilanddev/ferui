@@ -33,12 +33,7 @@ export function ToggleServiceProvider() {
         <label *ngIf="!label"></label>
         <ng-content select="[fuiPassword]"></ng-content>
         <label class="fui-control-icons">
-          <clr-icon
-            *ngIf="!show && fuiToggle"
-            shape="fui-eye"
-            class="fui-input-group-icon-action"
-            (click)="toggle()"
-          ></clr-icon>
+          <clr-icon *ngIf="!show && fuiToggle" shape="fui-eye" class="fui-input-group-icon-action" (click)="toggle()"></clr-icon>
           <clr-icon
             *ngIf="show && fuiToggle"
             shape="fui-eye-off"
@@ -47,12 +42,7 @@ export function ToggleServiceProvider() {
           ></clr-icon>
 
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-          <clr-icon
-            *ngIf="!invalid && control?.value"
-            class="fui-validate-icon"
-            shape="fui-tick"
-            aria-hidden="true"
-          ></clr-icon>
+          <clr-icon *ngIf="!invalid && control?.value" class="fui-validate-icon" shape="fui-tick" aria-hidden="true"></clr-icon>
         </label>
         <fui-default-control-error [on]="invalid">
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
@@ -63,7 +53,7 @@ export function ToggleServiceProvider() {
   host: {
     '[class.fui-form-control]': 'true',
     '[class.fui-form-control-disabled]': 'control?.disabled',
-    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL',
+    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL'
   },
   providers: [
     IfErrorService,
@@ -74,8 +64,8 @@ export function ToggleServiceProvider() {
     RequiredControlService,
     { provide: ToggleService, useFactory: ToggleServiceProvider },
     PlaceholderService,
-    FuiFormLayoutService,
-  ],
+    FuiFormLayoutService
+  ]
 })
 export class FuiPasswordContainer implements DynamicWrapper, OnDestroy {
   invalid = false;

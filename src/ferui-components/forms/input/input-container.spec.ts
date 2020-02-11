@@ -7,11 +7,11 @@ import { TemplateDrivenSpec, ReactiveSpec, ContainerNoLabelSpec } from '../tests
 @Component({
   template: `
     <fui-input-container>
-      <input name="model" fuiInput required [(ngModel)]="model" [disabled]="disabled"/>
+      <input name="model" fuiInput required [(ngModel)]="model" [disabled]="disabled" />
       <label>Hello World</label>
       <fui-control-error>This field is required</fui-control-error>
     </fui-input-container>
-  `,
+  `
 })
 class SimpleTest {
   disabled = false;
@@ -21,26 +21,27 @@ class SimpleTest {
 @Component({
   template: `
     <fui-input-container>
-      <input fuiInput name="model" [(ngModel)]="model"/>
-    </fui-input-container>`,
+      <input fuiInput name="model" [(ngModel)]="model" />
+    </fui-input-container>
+  `
 })
-class NoLabelTest {
-}
+class NoLabelTest {}
 
 @Component({
   template: `
     <form [formGroup]="form">
       <fui-input-container>
         <label>Hello World</label>
-        <input fuiInput formControlName="model"/>
+        <input fuiInput formControlName="model" />
         <fui-control-error>This field is required</fui-control-error>
       </fui-input-container>
-    </form>`,
+    </form>
+  `
 })
 class ReactiveTest {
   disabled = false;
   form = new FormGroup({
-    model: new FormControl({ value: '', disabled: this.disabled }, Validators.required),
+    model: new FormControl({ value: '', disabled: this.disabled }, Validators.required)
   });
 }
 

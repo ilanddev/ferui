@@ -51,7 +51,7 @@ export function addHelpers(): void {
       TestBed.configureTestingModule({
         imports: [FeruiModule],
         declarations: [testComponent, ...extraDirectives],
-        providers: providers,
+        providers: providers
       });
       return (this._context = new TestContext<D, C>(feruiDirective, testComponent));
     };
@@ -64,7 +64,7 @@ export function addHelpers(): void {
     ) => {
       TestBed.configureTestingModule({
         declarations: [feruiDirective, testComponent, ...extraDirectives],
-        providers: providers,
+        providers: providers
       });
       return (this._context = new TestContext<D, C>(feruiDirective, testComponent));
     };
@@ -79,11 +79,11 @@ export function addHelpers(): void {
       TestBed.configureTestingModule({
         imports: [FeruiModule],
         declarations: [testComponent, ...extraDirectives],
-        providers: providers,
+        providers: providers
       }).overrideComponent(feruiDirective, {
         set: {
-          providers: serviceOverrides,
-        },
+          providers: serviceOverrides
+        }
       });
       return (this._context = new TestContext<D, C>(feruiDirective, testComponent));
     };

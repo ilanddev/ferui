@@ -32,7 +32,7 @@ export default function() {
         ViewManagerService,
         LocaleHelperService,
         DatepickerFocusService,
-        DateFormControlService,
+        DateFormControlService
       ]);
       viewManagerService = context.getFeruiProvider(ViewManagerService);
       localeHelperService = context.getFeruiProvider(LocaleHelperService);
@@ -160,6 +160,6 @@ export default function() {
 @Component({
   template: `
     <fui-daypicker></fui-daypicker>
-  `,
+  `
 })
 class TestComponent {}

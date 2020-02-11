@@ -14,7 +14,7 @@ import {
   Renderer2,
   TemplateRef,
   TrackByFunction,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { RowRendererService } from '../services/rendering/row-renderer.service';
 import { FuiColumnDefinitions } from '../types/column-definitions';
@@ -40,7 +40,7 @@ import {
   FuiSortColumnsEvent,
   RowClickedEvent,
   RowDoubleClickedEvent,
-  ServerSideRowDataChanged,
+  ServerSideRowDataChanged
 } from '../events';
 import { FuiDatagridDragAndDropService } from '../services/datagrid-drag-and-drop.service';
 import { FuiDragEventsService } from '../services/datagrid-drag-events.service';
@@ -218,7 +218,7 @@ import { DatagridUtils } from '../utils/datagrid-utils';
   host: {
     class: 'fui-datagrid',
     '[class.fui-datagrid-has-filter]': 'datagridFilters !== undefined',
-    '[class.fui-datagrid-has-pager]': 'datagridPager !== undefined',
+    '[class.fui-datagrid-has-pager]': 'datagridPager !== undefined'
   },
   providers: [
     AutoWidthCalculator,
@@ -242,9 +242,9 @@ import { DatagridUtils } from '../utils/datagrid-utils';
     FuiDatagridInfinteRowModel,
     DatagridStateService,
     HilitorService,
-    FuiActionMenuService,
+    FuiActionMenuService
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   @Output() onColumnWidthChange: EventEmitter<ColumnEvent> = new EventEmitter<ColumnEvent>();
@@ -981,13 +981,13 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
       columnDefs: this.columnDefs,
       defaultColDef: this.defaultColDefs,
       headerHeight: this.headerHeight,
-      rowHeight: this.rowHeight,
+      rowHeight: this.rowHeight
     };
 
     const defaultColDef: FuiColumnDefinitions = {
       resizable: true,
       lockPosition: false,
-      lockVisible: false,
+      lockVisible: false
     };
     this.columns = this.columnDefs.map(colDef => {
       return { ...defaultColDef, ...this.defaultColDefs, ...colDef };

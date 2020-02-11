@@ -49,29 +49,20 @@ export class CalendarViewModel {
 
     // Get no of days from prev and next months.
     const daysFromPrevMonthInCalView: number = this.numDaysFromPrevMonthInCalView(this.calendar.year, this.calendar.month);
-    const daysFromNextMonthInCalView: number =
-      TOTAL_DAYS_IN_DAYS_VIEW - (this.calendar.days.length + daysFromPrevMonthInCalView);
+    const daysFromNextMonthInCalView: number = TOTAL_DAYS_IN_DAYS_VIEW - (this.calendar.days.length + daysFromPrevMonthInCalView);
 
     // Generate prev, curr and next day view models
     let prevMonthDayViews: DayViewModel[] = [];
     let nextMonthDayViews: DayViewModel[] = [];
 
     if (daysFromPrevMonthInCalView > 0) {
-      prevMonthDayViews = this.generateDayViewModels(
-        prevMonthCalendar.days.slice(-1 * daysFromPrevMonthInCalView),
-        true,
-        false
-      );
+      prevMonthDayViews = this.generateDayViewModels(prevMonthCalendar.days.slice(-1 * daysFromPrevMonthInCalView), true, false);
     }
 
     this.currMonthDayViews = this.generateDayViewModels(this.calendar.days, false, true);
 
     if (daysFromNextMonthInCalView > 0) {
-      nextMonthDayViews = this.generateDayViewModels(
-        nextMonthCalendar.days.slice(0, daysFromNextMonthInCalView),
-        true,
-        false
-      );
+      nextMonthDayViews = this.generateDayViewModels(nextMonthCalendar.days.slice(0, daysFromNextMonthInCalView), true, false);
     }
 
     // Generate calendar view and initialize flags

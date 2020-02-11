@@ -61,13 +61,13 @@ import { FuiFormLayoutEnum } from '../common/layout.enum';
     DateFormControlService,
     LocaleHelperService,
     DatepickerEnabledService,
-    FuiFormLayoutService,
+    FuiFormLayoutService
   ],
   host: {
     '[class.fui-form-control-disabled]': 'control?.disabled',
     '[class.fui-form-control]': 'true',
-    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL',
-  },
+    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL'
+  }
 })
 export class FuiDateContainer implements DynamicWrapper, OnDestroy {
   _dynamic: boolean = false;

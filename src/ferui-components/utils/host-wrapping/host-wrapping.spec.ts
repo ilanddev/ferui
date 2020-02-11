@@ -15,7 +15,7 @@ const WRAPPER_SERVICE = new InjectionToken<number>('WrapperService');
   template: `
     Hello <ng-content></ng-content>!
   `,
-  providers: [{ provide: WRAPPER_SERVICE, useValue: 42 }],
+  providers: [{ provide: WRAPPER_SERVICE, useValue: 42 }]
 })
 class WrapperComponent implements DynamicWrapper {
   _dynamic = false;
@@ -39,28 +39,28 @@ class WrappedDirective implements OnInit {
 @NgModule({
   declarations: [WrapperComponent, WrappedDirective],
   exports: [WrapperComponent, WrappedDirective],
-  entryComponents: [WrapperComponent],
+  entryComponents: [WrapperComponent]
 })
 class HostWrappingTestModule {}
 
 @Component({
   template: `
     <span wrappedDirective>World</span>
-  `,
+  `
 })
 class WrappingTest {}
 
 @Component({
   template: `
     <wrapper-component><span wrappedDirective>World</span></wrapper-component>
-  `,
+  `
 })
 class ExplicitTest {}
 
 @Component({
   template: `
     <span *ngIf="show" wrappedDirective>World</span>
-  `,
+  `
 })
 class NgIfTest {
   show = true;
@@ -76,14 +76,12 @@ describe('Host wrapping', function() {
   function setupTest<T>(testContext: TestContext<T>, testComponent: Type<T>) {
     TestBed.configureTestingModule({
       imports: [NoopAnimationsModule, FuiHostWrappingModule, HostWrappingTestModule],
-      declarations: [testComponent],
+      declarations: [testComponent]
     });
     testContext.fixture = TestBed.createComponent(testComponent);
     testContext.fixture.detectChanges();
     testContext.wrapper = testContext.fixture.debugElement.query(By.directive(WrapperComponent)).componentInstance;
-    testContext.wrapped = testContext.fixture.debugElement
-      .query(By.directive(WrappedDirective))
-      .injector.get(WrappedDirective);
+    testContext.wrapped = testContext.fixture.debugElement.query(By.directive(WrappedDirective)).injector.get(WrappedDirective);
   }
 
   describe('with an explicit wrapper', function() {

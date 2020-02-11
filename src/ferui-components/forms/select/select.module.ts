@@ -14,6 +14,6 @@ import { NgSelectModule } from './ng-select/ng-select.module';
   imports: [CommonModule, FormsModule, NgSelectModule, ClrIconModule, FuiCommonFormsModule],
   declarations: [FuiSelect, FuiSelectContainer, FuiSelectIcon],
   exports: [NgSelectModule, FuiSelect, FuiSelectContainer, FuiSelectIcon],
-  entryComponents: [FuiSelectContainer],
+  entryComponents: [FuiSelectContainer]
 })
 export class FuiSelectModule {}

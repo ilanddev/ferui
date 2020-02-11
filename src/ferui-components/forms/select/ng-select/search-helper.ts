@@ -837,7 +837,7 @@ const diacritics = {
   ϋ: '\u03C5',
   ΰ: '\u03C5',
   ω: '\u03C9',
-  ς: '\u03C3',
+  ς: '\u03C3'
 };
 
 export function stripSpecialChars(text: string): string {

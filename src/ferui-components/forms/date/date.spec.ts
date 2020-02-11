@@ -47,8 +47,8 @@ export default function() {
       beforeEach(function() {
         TestBed.overrideComponent(FuiDateContainer, {
           set: {
-            providers: [{ provide: DatepickerEnabledService, useClass: MockDatepickerEnabledService }],
-          },
+            providers: [{ provide: DatepickerEnabledService, useClass: MockDatepickerEnabledService }]
+          }
         });
 
         context = this.create(FuiDate, TestComponent, [
@@ -64,7 +64,7 @@ export default function() {
           DateIOService,
           ControlIdService,
           DateFormControlService,
-          FuiFormLayoutService,
+          FuiFormLayoutService
         ]);
 
         enabledService = <MockDatepickerEnabledService>(
@@ -229,7 +229,7 @@ export default function() {
       beforeEach(function() {
         TestBed.configureTestingModule({
           imports: [FormsModule, FuiDateModule, FuiDatepickerModule],
-          declarations: [TestComponentWithNgModel],
+          declarations: [TestComponentWithNgModel]
         });
 
         fixture = TestBed.createComponent(TestComponentWithNgModel);
@@ -316,7 +316,7 @@ export default function() {
       beforeEach(function() {
         TestBed.configureTestingModule({
           imports: [ReactiveFormsModule, FuiDateModule, FuiDatepickerModule],
-          declarations: [TestComponentWithReactiveForms],
+          declarations: [TestComponentWithReactiveForms]
         });
 
         fixture = TestBed.createComponent(TestComponentWithReactiveForms);
@@ -395,7 +395,7 @@ export default function() {
       beforeEach(function() {
         TestBed.configureTestingModule({
           imports: [FormsModule, FuiDateModule, FuiDatepickerModule],
-          declarations: [TestComponentWithTemplateDrivenForms],
+          declarations: [TestComponentWithTemplateDrivenForms]
         });
         fixture = TestBed.createComponent(TestComponentWithTemplateDrivenForms);
         fixture.detectChanges();
@@ -460,7 +460,7 @@ export default function() {
 @Component({
   template: `
     <input type="date" fuiDate (fuiDateChange)="dateChanged($event)" class="test-class" />
-  `,
+  `
 })
 class TestComponent {
   date: Date;
@@ -474,7 +474,7 @@ class TestComponent {
   template: `
     <input type="date" fuiDate [(ngModel)]="dateValue" #picker="ngModel" />
     <button id="reset" (click)="picker.reset()">Reset</button>
-  `,
+  `
 })
 class TestComponentWithNgModel {
   dateValue: string;
@@ -486,7 +486,7 @@ class TestComponentWithNgModel {
     <form [formGroup]="testForm">
       <input id="dateControl" type="date" fuiDate (fuiDateChange)="dateChanged($event)" formControlName="date" />
     </form>
-  `,
+  `
 })
 class TestComponentWithReactiveForms {
   dateInput: string = '01/01/2015';
@@ -504,7 +504,7 @@ class TestComponentWithReactiveForms {
     <form #templateForm="ngForm">
       <input type="date" fuiDate (fuiDateChange)="dateChanged($event)" [(ngModel)]="dateInput" name="date" />
     </form>
-  `,
+  `
 })
 class TestComponentWithTemplateDrivenForms {
   @ViewChild('templateForm') templateForm: NgForm;

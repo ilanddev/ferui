@@ -16,8 +16,8 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Self } from
     </div>
   `,
   host: {
-    class: 'fui-datagrid-filters',
-  },
+    class: 'fui-datagrid-filters'
+  }
 })
 export class FuiDatagridFilters implements OnInit {
   @Output() heightChange: EventEmitter<number> = new EventEmitter<number>();

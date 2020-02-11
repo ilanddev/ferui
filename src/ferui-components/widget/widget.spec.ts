@@ -23,7 +23,7 @@ import { FuiDatetimeModelTypes } from '../forms/common/datetime-model-types.enum
       <fui-widget-body>Widget Body</fui-widget-body>
       <fui-widget-footer>Widget footer</fui-widget-footer>
     </fui-widget>
-  `,
+  `
 })
 class WidgetWithTextContent {}
 
@@ -54,15 +54,15 @@ class WidgetWithTextContent {}
       </fui-widget-body>
       <fui-widget-footer>Widget footer</fui-widget-footer>
     </fui-widget>
-  `,
+  `
 })
 class WidgetWithComponents {
   params = {
-    dateType: FuiDatetimeModelTypes.DATE,
+    dateType: FuiDatetimeModelTypes.DATE
   };
   models = {
     date: new Date(),
-    checkbox: false,
+    checkbox: false
   };
 }
 
@@ -74,7 +74,7 @@ export default function(): void {
       beforeEach(() => {
         TestBed.configureTestingModule({
           imports: [FuiWidgetModule],
-          declarations: [WidgetWithTextContent],
+          declarations: [WidgetWithTextContent]
         });
         fixture = TestBed.createComponent(WidgetWithTextContent);
         fixture.detectChanges();
@@ -141,7 +141,7 @@ export default function(): void {
       beforeEach(() => {
         TestBed.configureTestingModule({
           imports: [FuiWidgetModule],
-          declarations: [WidgetWithTextContent],
+          declarations: [WidgetWithTextContent]
         });
         fixture = TestBed.createComponent(WidgetWithTextContent);
         fixture.detectChanges();

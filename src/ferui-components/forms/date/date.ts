@@ -14,7 +14,7 @@ import {
   PLATFORM_ID,
   Renderer2,
   Self,
-  ViewContainerRef,
+  ViewContainerRef
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
@@ -33,9 +33,9 @@ import { FuiDateContainer } from './date-container';
   selector: '[fuiDate]',
   host: {
     '[class.fui-input-date]': 'true',
-    '[class.fui-layout-small]': 'layout === fuiFormLayoutEnum.SMALL',
+    '[class.fui-layout-small]': 'layout === fuiFormLayoutEnum.SMALL'
   },
-  providers: [DatepickerFocusService],
+  providers: [DatepickerFocusService]
 })
 export class FuiDate extends AbstractDateTime<FuiDateContainer> implements OnInit, AfterViewInit, OnDestroy {
   @Input('fuiDate')

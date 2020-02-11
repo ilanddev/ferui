@@ -40,7 +40,7 @@ describe('Abstract Popover', function() {
       TestBed.configureTestingModule({
         declarations: [TestPopover, TestPopoverWithIfOpenDirective],
         imports: [FuiConditionalModule],
-        providers: [IfOpenService],
+        providers: [IfOpenService]
       });
       ifOpenService = TestBed.get(IfOpenService);
       fixture = TestBed.createComponent(TestPopoverWithIfOpenDirective);
@@ -62,7 +62,7 @@ describe('Abstract Popover', function() {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [TestPopoverIgnoreElement, InputFocusPopover],
-        imports: [FuiConditionalModule],
+        imports: [FuiConditionalModule]
       });
       fixture = TestBed.createComponent(InputFocusPopover);
       fixture.detectChanges();
@@ -83,7 +83,7 @@ describe('Abstract Popover', function() {
   selector: 'test-popover',
   template: `
     <div class="test-popover">Popover</div>
-  `,
+  `
 })
 class TestPopover extends AbstractPopover {
   constructor(injector: Injector, @Optional() parent: ElementRef) {
@@ -94,7 +94,7 @@ class TestPopover extends AbstractPopover {
 @Component({
   template: `
     <test-popover *fuiIfOpen></test-popover>
-  `,
+  `
 })
 class TestPopoverWithIfOpenDirective {
   @ViewChild(TestPopover) testPopover: TestPopover;
@@ -102,10 +102,10 @@ class TestPopoverWithIfOpenDirective {
 
 @Component({
   template: `
-    <input type="text" #ignoreInput (focus)="onFocus($event)">
+    <input type="text" #ignoreInput (focus)="onFocus($event)" />
     <test-popover-ignore *fuiIfOpen></test-popover-ignore>
   `,
-  providers: [IfOpenService, { provide: POPOVER_HOST_ANCHOR, useExisting: ElementRef }],
+  providers: [IfOpenService, { provide: POPOVER_HOST_ANCHOR, useExisting: ElementRef }]
 })
 class InputFocusPopover {
   @ViewChild('ignoreInput') ignore: ElementRef;
@@ -123,7 +123,7 @@ class InputFocusPopover {
   selector: 'test-popover-ignore',
   template: `
     <div class="test-popover">Popover</div>
-  `,
+  `
 })
 class TestPopoverIgnoreElement extends AbstractPopover {
   constructor(injector: Injector, @Optional() parent: ElementRef, parentHost: InputFocusPopover) {

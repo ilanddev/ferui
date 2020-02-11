@@ -12,7 +12,7 @@ import {
   IDatagridResultObject,
   IServerSideDatasource,
   IServerSideGetRowsParams,
-  SortModel,
+  SortModel
 } from '../../types/server-side-row-model';
 
 @Injectable()
@@ -82,14 +82,14 @@ export class FuiDatagridServerSideRowModel {
             resultObject: resultObject,
             api: this.gridApi,
             columnApi: this.columnApi,
-            pageIndex: pageIndex === null ? 0 : pageIndex,
+            pageIndex: pageIndex === null ? 0 : pageIndex
           };
 
           if (resultObject.data.length === 0 && !resultObject.total) {
             this.eventService.dispatchEvent(event);
             return {
               total: null,
-              data: null,
+              data: null
             };
           }
           this.totalRows = resultObject.total ? resultObject.total : null;
@@ -117,9 +117,7 @@ export class FuiDatagridServerSideRowModel {
       this.params = params;
     } else {
       const sortModel: SortModel[] =
-        this.sortService.sortingColumns.length >= 0
-          ? this.sortService.sortingColumns.map(column => column.getSortModel())
-          : null;
+        this.sortService.sortingColumns.length >= 0 ? this.sortService.sortingColumns.map(column => column.getSortModel()) : null;
 
       const filterModel: FilterModel[] =
         this.filterService.activeFilters.length >= 0
@@ -127,7 +125,7 @@ export class FuiDatagridServerSideRowModel {
               const activeFilterParams = {
                 filterValue: aFilter.filter.getFilterValue(),
                 filterOption: aFilter.filter.getFilterOption(),
-                filterParams: aFilter.filter.getFilterParams(),
+                filterParams: aFilter.filter.getFilterParams()
               };
               return { ...aFilter.filter.getColumn().getFilterModel(), ...activeFilterParams };
             })
@@ -144,7 +142,7 @@ export class FuiDatagridServerSideRowModel {
           filterType: this.filterService.globalSearchFilter.filter.getFilterType(),
           filterValue: aFilter.getFilterValue(),
           filterOption: aFilter.getFilterOption(),
-          filterParams: aFilter.getFilterParams(),
+          filterParams: aFilter.getFilterParams()
         };
         filterModel.push(activeFilterParams);
       }
@@ -155,14 +153,14 @@ export class FuiDatagridServerSideRowModel {
             return {
               id: column.getColId(),
               displayName: column.name,
-              field: column.getColId(),
+              field: column.getColId()
             };
           }),
           filterModel: filterModel,
           sortModel: sortModel,
           offset: this.offset,
-          limit: this.limit,
-        },
+          limit: this.limit
+        }
       };
     }
   }

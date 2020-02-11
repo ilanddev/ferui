@@ -39,7 +39,7 @@ export default function() {
           IfOpenService,
           { provide: DateNavigationService, useValue: dateNavigationService },
           LocaleHelperService,
-          DateIOService,
+          DateIOService
         ]);
         localeHelperService = context.getFeruiProvider(LocaleHelperService);
       });
@@ -136,7 +136,7 @@ export default function() {
           IfOpenService,
           { provide: DateNavigationService, useValue: dateNavigationService },
           LocaleHelperService,
-          DateIOService,
+          DateIOService
         ]);
         localeHelperService = context.getFeruiProvider(LocaleHelperService);
       });
@@ -206,7 +206,7 @@ export default function() {
           IfOpenService,
           { provide: DateNavigationService, useValue: dateNavigationService },
           LocaleHelperService,
-          DateIOService,
+          DateIOService
         ]);
       }
 
@@ -304,6 +304,6 @@ export default function() {
 @Component({
   template: `
     <fui-monthpicker></fui-monthpicker>
-  `,
+  `
 })
 class TestComponent {}

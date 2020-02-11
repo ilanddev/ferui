@@ -7,7 +7,7 @@ import {
   ColumnResizedEvent,
   ColumnVisibleEvent,
   DisplayedColumnsWidthChangedEvent,
-  FuiDatagridEvents,
+  FuiDatagridEvents
 } from '../../events';
 import { FuiDatagridApiService } from '../datagrid-api.service';
 import { FuiDatagridColumnApiService } from '../datagrid-column-api.service';
@@ -62,7 +62,7 @@ export class FuiColumnService {
       column: columnsToMove.length === 1 ? columnsToMove[0] : null,
       toIndex: toIndex,
       api: this.gridApi,
-      columnApi: this.columnApi,
+      columnApi: this.columnApi
     };
     this.eventService.dispatchEvent(event);
   }
@@ -107,7 +107,7 @@ export class FuiColumnService {
           column: col,
           visible: visible,
           api: this.gridApi,
-          columnApi: this.columnApi,
+          columnApi: this.columnApi
         };
         this.eventService.dispatchEvent(event);
       }
@@ -275,7 +275,7 @@ export class FuiColumnService {
         columns: [column],
         finished: true,
         api: this.gridApi,
-        columnApi: this.columnApi,
+        columnApi: this.columnApi
       };
       this.eventService.dispatchEvent(event);
     });
@@ -380,7 +380,7 @@ export class FuiColumnService {
         column: columnsAutosized.length === 1 ? columnsAutosized[0] : null,
         finished: true,
         api: this.gridApi,
-        columnApi: this.columnApi,
+        columnApi: this.columnApi
       };
       this.eventService.dispatchEvent(event);
     }
@@ -493,7 +493,7 @@ export class FuiColumnService {
       const event: DisplayedColumnsWidthChangedEvent = {
         type: FuiDatagridEvents.EVENT_DISPLAYED_COLUMNS_WIDTH_CHANGED,
         api: this.gridApi,
-        columnApi: this.columnApi,
+        columnApi: this.columnApi
       };
       this.eventService.dispatchEvent(event);
     }

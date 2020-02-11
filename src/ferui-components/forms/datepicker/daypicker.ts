@@ -8,7 +8,7 @@ import { DateNavigationService } from '../date/providers/date-navigation.service
 @Component({
   selector: 'fui-daypicker',
   templateUrl: './daypicker.html',
-  host: { '[class.daypicker]': 'true' },
+  host: { '[class.daypicker]': 'true' }
 })
 export class FuiDaypicker {
   /**

@@ -12,7 +12,7 @@ import {
   ViewChildren,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Self,
+  Self
 } from '@angular/core';
 import {
   TreeViewColorTheme,
@@ -22,7 +22,7 @@ import {
   TreeNodeData,
   TreeNodeDataRetriever,
   PagedTreeNodeDataRetriever,
-  NonRootTreeNode,
+  NonRootTreeNode
 } from './interfaces';
 import { TreeNode, FuiTreeViewComponentStyles, TreeNodeEvent, WrappedPromise } from './internal-interfaces';
 import { FuiVirtualScrollerComponent } from '../virtual-scroller/virtual-scroller';
@@ -65,9 +65,9 @@ import { FuiTreeViewUtilsService } from './tree-view-utils-service';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'fui-tree-view-component',
+    class: 'fui-tree-view-component'
   },
-  providers: [FuiTreeViewUtilsService],
+  providers: [FuiTreeViewUtilsService]
 })
 export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
   @Input() treeNodeData: TreeNodeData<T>;
@@ -117,7 +117,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
     this.serverSideComponent = this.dataRetriever.hasOwnProperty('getPagedChildNodeData');
     this.treeViewStyles = {
       width: this.config.width ? this.config.width : this.defaultWidth,
-      height: this.config.height ? this.config.height : this.defaultHeight,
+      height: this.config.height ? this.config.height : this.defaultHeight
     };
     this.scrollWidthChangeSub = this.treeViewUtils.treeViewScrollWidthChange.subscribe(() => this.updateScrollerWidth());
     this.colorTheme = this.config.colorVariation ? this.config.colorVariation : this.defaultColorScheme;
@@ -360,7 +360,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
         const cancelablePromise = this.makeCancelablePromise(
           (this.dataRetriever as PagedTreeNodeDataRetriever<T>).getPagedChildNodeData(firstNodeWithMoreChildrenToLoad.data, {
             offset: firstNodeWithMoreChildrenToLoad.children.length,
-            limit: numberToLoad,
+            limit: numberToLoad
           })
         );
         this.cancelablePromises.push(cancelablePromise);
@@ -429,7 +429,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
       allChildrenLoaded: false,
       parent: parentTreeNode,
       showLoader: false,
-      loadError: false,
+      loadError: false
     };
   }
 
@@ -445,7 +445,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
       },
       getType: () => {
         return event.getType();
-      },
+      }
     });
   }
 }

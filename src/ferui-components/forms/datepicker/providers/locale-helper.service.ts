@@ -6,7 +6,7 @@ import {
   getLocaleDayNames,
   getLocaleFirstDayOfWeek,
   getLocaleMonthNames,
-  TranslationWidth,
+  TranslationWidth
 } from '@angular/common';
 import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 
@@ -105,11 +105,7 @@ export class LocaleHelperService {
    * e.g. `[Jan, Feb, ...]` for en-US
    */
   private initializeLocaleMonthsAbbreviated(): void {
-    this._localeMonthsAbbreviated = getLocaleMonthNames(
-      this.locale,
-      FormStyle.Standalone,
-      TranslationWidth.Abbreviated
-    ).slice();
+    this._localeMonthsAbbreviated = getLocaleMonthNames(this.locale, FormStyle.Standalone, TranslationWidth.Abbreviated).slice();
   }
 
   /**

@@ -8,7 +8,7 @@ import {
   OnDestroy,
   Optional,
   Output,
-  SkipSelf,
+  SkipSelf
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { IfOpenService } from '../utils/conditional/if-open.service';
@@ -21,10 +21,10 @@ import { ROOT_DROPDOWN_PROVIDER, RootDropdownService } from './services/dropdown
   template: '<ng-content></ng-content>',
   host: {
     '[class.fui-dropdown]': 'true',
-    '[class.open]': 'ifOpenService.open',
+    '[class.open]': 'ifOpenService.open'
   },
   providers: [IfOpenService, ROOT_DROPDOWN_PROVIDER, { provide: POPOVER_HOST_ANCHOR, useExisting: ElementRef }],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FuiDropdown implements OnDestroy {
   @Output() dropdownOpenChange: EventEmitter<boolean> = new EventEmitter<boolean>();

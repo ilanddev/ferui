@@ -25,12 +25,7 @@ import { FuiFormLayoutEnum } from '../common/layout.enum';
         <ng-content select="[fuiTextarea]"></ng-content>
         <label class="fui-control-icons">
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-          <clr-icon
-            *ngIf="!invalid && control?.value"
-            class="fui-validate-icon"
-            shape="fui-tick"
-            aria-hidden="true"
-          ></clr-icon>
+          <clr-icon *ngIf="!invalid && control?.value" class="fui-validate-icon" shape="fui-tick" aria-hidden="true"></clr-icon>
         </label>
         <fui-default-control-error [on]="invalid">
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
@@ -41,7 +36,7 @@ import { FuiFormLayoutEnum } from '../common/layout.enum';
   host: {
     '[class.fui-form-control]': 'true',
     '[class.fui-form-control-disabled]': 'control?.disabled',
-    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL',
+    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL'
   },
   providers: [
     IfErrorService,
@@ -51,8 +46,8 @@ import { FuiFormLayoutEnum } from '../common/layout.enum';
     PlaceholderService,
     FocusService,
     RequiredControlService,
-    FuiFormLayoutService,
-  ],
+    FuiFormLayoutService
+  ]
 })
 export class FuiTextareaContainer implements DynamicWrapper, OnDestroy {
   invalid = false;

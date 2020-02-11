@@ -21,7 +21,7 @@ import {
   SimpleChanges,
   TemplateRef,
   ViewChild,
-  ViewEncapsulation,
+  ViewEncapsulation
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { debounceTime, filter, map, startWith, takeUntil, tap } from 'rxjs/operators';
@@ -38,7 +38,7 @@ import {
   NgOptgroupTemplateDirective,
   NgOptionTemplateDirective,
   NgTagTemplateDirective,
-  NgTypeToSearchTemplateDirective,
+  NgTypeToSearchTemplateDirective
 } from './ng-templates.directive';
 
 import { ConsoleService } from './console.service';
@@ -68,17 +68,17 @@ export type GroupValueFn = (key: string | object, children: any[]) => string | o
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => NgSelectComponent),
-      multi: true,
+      multi: true
     },
-    NgDropdownPanelService,
+    NgDropdownPanelService
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     role: 'listbox',
     class: 'ng-select',
-    '[class.ng-select-single]': '!multiple',
-  },
+    '[class.ng-select-single]': '!multiple'
+  }
 })
 export class NgSelectComponent implements OnDestroy, OnChanges, AfterViewInit, ControlValueAccessor {
   @Input() bindLabel: string;
@@ -240,8 +240,8 @@ export class NgSelectComponent implements OnDestroy, OnChanges, AfterViewInit, C
     const term = this.filterValue.toLowerCase();
     return (
       this.addTag &&
-      (!this.itemsList.filteredItems.some(x => x.label.toLowerCase() === term) &&
-        ((!this.hideSelected && this.isOpen) || !this.selectedItems.some(x => x.label.toLowerCase() === term))) &&
+      !this.itemsList.filteredItems.some(x => x.label.toLowerCase() === term) &&
+      ((!this.hideSelected && this.isOpen) || !this.selectedItems.some(x => x.label.toLowerCase() === term)) &&
       !this.loading
     );
   }
@@ -518,8 +518,7 @@ export class NgSelectComponent implements OnDestroy, OnChanges, AfterViewInit, C
   showNoItemsFound() {
     const empty = this.itemsList.filteredItems.length === 0;
     return (
-      ((empty && !this._isTypeahead && !this.loading) ||
-        (empty && this._isTypeahead && this.filterValue && !this.loading)) &&
+      ((empty && !this._isTypeahead && !this.loading) || (empty && this._isTypeahead && this.filterValue && !this.loading)) &&
       !this.showAddTag
     );
   }
@@ -585,9 +584,7 @@ export class NgSelectComponent implements OnDestroy, OnChanges, AfterViewInit, C
   private _setItems(items: any[]) {
     const firstItem = items[0];
     this.bindLabel = this.bindLabel || this._defaultLabel;
-    this._primitive = isDefined(firstItem)
-      ? !isObject(firstItem)
-      : this._primitive || this.bindLabel === this._defaultLabel;
+    this._primitive = isDefined(firstItem) ? !isObject(firstItem) : this._primitive || this.bindLabel === this._defaultLabel;
     this.itemsList.setItems(items);
     if (items.length > 0 && this.hasValue) {
       this.itemsList.mapSelectedItems();
@@ -605,7 +602,7 @@ export class NgSelectComponent implements OnDestroy, OnChanges, AfterViewInit, C
       this.items = options.map(option => ({
         $ngOptionValue: option.value,
         $ngOptionLabel: option.elementRef.nativeElement.innerHTML,
-        disabled: option.disabled,
+        disabled: option.disabled
       }));
       this.itemsList.setItems(this.items);
       if (this.hasValue) {
@@ -625,16 +622,11 @@ export class NgSelectComponent implements OnDestroy, OnChanges, AfterViewInit, C
         });
     };
 
-    this.ngOptions.changes
-      .pipe(
-        startWith(this.ngOptions),
-        takeUntil(this._destroy$)
-      )
-      .subscribe(options => {
-        this.bindLabel = this._defaultLabel;
-        handleNgOptions(options);
-        handleOptionChange();
-      });
+    this.ngOptions.changes.pipe(startWith(this.ngOptions), takeUntil(this._destroy$)).subscribe(options => {
+      this.bindLabel = this._defaultLabel;
+      handleNgOptions(options);
+      handleOptionChange();
+    });
   }
 
   private _isValidWriteValue(value: any): boolean {
@@ -678,7 +670,7 @@ export class NgSelectComponent implements OnDestroy, OnChanges, AfterViewInit, C
         } else if (this.bindValue) {
           item = {
             [this.bindLabel]: null,
-            [this.bindValue]: val,
+            [this.bindValue]: val
           };
           this.itemsList.select(this.itemsList.mapItem(item, null));
         }

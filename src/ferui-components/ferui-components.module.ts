@@ -19,7 +19,7 @@ import { FuiWidgetModule } from './widget/widget.module';
     FuiVirtualScrollerModule,
     FuiDropdownModule,
     TreeViewModule,
-    FuiWidgetModule,
-  ],
+    FuiWidgetModule
+  ]
 })
 export class FeruiModule {}

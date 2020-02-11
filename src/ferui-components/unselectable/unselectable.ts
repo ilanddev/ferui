@@ -1,7 +1,7 @@
 import { Directive, ElementRef, Input, OnInit, Renderer2, Self } from '@angular/core';
 
 @Directive({
-  selector: '[unselectable]',
+  selector: '[unselectable]'
 })
 export class FuiUnselectable implements OnInit {
   // It can be 'on' or 'off' and if nothing set, it's considered as 'on'.

@@ -58,7 +58,7 @@ export class FuiDragEventsService {
       mouseDownEvent: mouseDownEvent,
       touchStartListener: touchListener,
       touchStartEvent: touchStartEvent,
-      touchEnabled: includeTouch,
+      touchEnabled: includeTouch
     });
   }
 
@@ -128,7 +128,7 @@ export class FuiDragEventsService {
       const event: DragEvent = {
         type: FuiDatagridEvents.EVENT_DRAG_STARTED,
         api: this.gridApi,
-        columnApi: this.columnApi,
+        columnApi: this.columnApi
       };
       this.emitChange(event);
       this.currentDragParams.onDragStart(startEvent);
@@ -143,7 +143,7 @@ export class FuiDragEventsService {
       const event: DragEvent = {
         type: FuiDatagridEvents.EVENT_DRAG_STOPPED,
         api: this.gridApi,
-        columnApi: this.columnApi,
+        columnApi: this.columnApi
       };
       this.emitChange(event);
     }

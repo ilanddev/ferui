@@ -6,6 +6,6 @@ import { FuiTab } from './tab';
 @NgModule({
   imports: [CommonModule],
   declarations: [FuiTabs, FuiTab],
-  exports: [FuiTabs, FuiTab],
+  exports: [FuiTabs, FuiTab]
 })
 export class FuiTabsModule {}

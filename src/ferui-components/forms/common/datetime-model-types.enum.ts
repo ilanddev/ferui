@@ -3,5 +3,5 @@
  */
 export enum FuiDatetimeModelTypes {
   STRING,
-  DATE,
+  DATE
 }

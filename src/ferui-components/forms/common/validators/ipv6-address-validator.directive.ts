@@ -19,7 +19,7 @@ export function ipv6AddressValidator(): ValidatorFn {
 
 @Directive({
   selector: '[ipv6Address]',
-  providers: [{ provide: NG_VALIDATORS, useExisting: Ipv6AddressValidatorDirective, multi: true }],
+  providers: [{ provide: NG_VALIDATORS, useExisting: Ipv6AddressValidatorDirective, multi: true }]
 })
 export class Ipv6AddressValidatorDirective implements Validator {
   validate(control: AbstractControl): { [key: string]: any } | null {

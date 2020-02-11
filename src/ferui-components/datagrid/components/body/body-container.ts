@@ -8,9 +8,9 @@ import { FuiDatagridOptionsWrapperService } from '../../services/datagrid-option
     <ng-content select="fui-datagrid-body-row"></ng-content>
   `,
   host: {
-    '[class.fui-datagrid-body-container]': 'true',
+    '[class.fui-datagrid-body-container]': 'true'
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FuiBodyContainer implements OnInit {
   @HostBinding('attr.role') role: string = 'presentation';
@@ -23,11 +23,7 @@ export class FuiBodyContainer implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (
-      this.optionsWrapperService &&
-      this.optionsWrapperService.gridOptions &&
-      this.optionsWrapperService.gridOptions.rowData
-    ) {
+    if (this.optionsWrapperService && this.optionsWrapperService.gridOptions && this.optionsWrapperService.gridOptions.rowData) {
       const rowHeight = this.optionsWrapperService.gridOptions.rowHeight;
       this.height = this.optionsWrapperService.gridOptions.rowData.length * rowHeight;
     }

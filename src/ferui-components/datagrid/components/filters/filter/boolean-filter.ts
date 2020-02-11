@@ -60,15 +60,15 @@ export function DEFAULT_BOOLEAN_FORMATTER(value: string | boolean) {
     </div>
   `,
   host: {
-    class: 'fui-datagrid-boolean-filter container-fluid',
+    class: 'fui-datagrid-boolean-filter container-fluid'
   },
   styles: [
     `
       .col-3 {
         min-height: 59px;
       }
-    `,
-  ],
+    `
+  ]
 })
 export class FuiDatagridBooleanFilter extends FuiDatagridBaseFilter<IBooleanFilterParams> implements OnInit {
   static DEFAULT_FORMATTER: BooleanFormatter = DEFAULT_BOOLEAN_FORMATTER;
@@ -108,7 +108,7 @@ export class FuiDatagridBooleanFilter extends FuiDatagridBaseFilter<IBooleanFilt
       getFilterType: () => this.getFilterType(),
       getFilterOption: () => this.getFilterOption(),
       getFilterValue: () => this.getFilterValue(),
-      getFilterParams: () => this.getFilterParams(),
+      getFilterParams: () => this.getFilterParams()
     };
     this.addOrRemoveFilter(this.model !== undefined, filter);
   }

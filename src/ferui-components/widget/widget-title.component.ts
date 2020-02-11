@@ -5,6 +5,6 @@ import { Component } from '@angular/core';
   host: { '[class.fui-widget-title]': 'true' },
   template: `
     <div class="fui-widget-title-text"><ng-content></ng-content></div>
-  `,
+  `
 })
 export class FuiWidgetTitle {}

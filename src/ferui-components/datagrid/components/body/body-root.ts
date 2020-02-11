@@ -10,7 +10,7 @@ import {
   Input,
   OnInit,
   Self,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { FuiDatagridService } from '../../services/datagrid.service';
 import { FuiVirtualScrollerComponent } from '../../../virtual-scroller/virtual-scroller';
@@ -33,9 +33,9 @@ import { FuiVirtualScrollerComponent } from '../../../virtual-scroller/virtual-s
     <div class="fui-datagrid-spacer-full-width" #viewportSpacer></div>
   `,
   host: {
-    '[class.fui-datagrid-body]': 'true',
+    '[class.fui-datagrid-body]': 'true'
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FuiBodyRoot implements OnInit, AfterViewInit, AfterContentInit {
   @HostBinding('attr.role') role: string = 'presentation';
@@ -73,11 +73,7 @@ export class FuiBodyRoot implements OnInit, AfterViewInit, AfterContentInit {
   private _isLoading: boolean = false;
   private _isEmptyData: boolean = false;
 
-  constructor(
-    @Self() private elementRef: ElementRef,
-    private gridPanel: FuiDatagridService,
-    private cd: ChangeDetectorRef
-  ) {}
+  constructor(@Self() private elementRef: ElementRef, private gridPanel: FuiDatagridService, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.gridPanel.eBodyViewport = this.elementRef.nativeElement;

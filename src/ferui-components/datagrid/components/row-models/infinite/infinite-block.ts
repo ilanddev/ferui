@@ -12,7 +12,7 @@ export enum InfiniteBlockState {
   STATE_EMPTY = 'empty',
   STATE_LOADING = 'loading',
   STATE_LOADED = 'loaded',
-  STATE_FAILED = 'failed',
+  STATE_FAILED = 'failed'
 }
 
 export class InfiniteBlock {
@@ -81,7 +81,7 @@ export class InfiniteBlock {
       resultObject: resultObject,
       api: null,
       columnApi: null,
-      pageIndex: this.blockNumber,
+      pageIndex: this.blockNumber
     };
     this.eventService.dispatchEvent(event);
   }
@@ -93,7 +93,7 @@ export class InfiniteBlock {
       this.rowNodes = data.map((obj, idx) => {
         return {
           id: obj.id ? obj.id : idx === 0 ? this.offset : idx * this.offset,
-          data: obj,
+          data: obj
         };
       });
     }

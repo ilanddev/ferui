@@ -25,8 +25,8 @@ import { FilterType } from '../interfaces/filter.enum';
     ></clr-icon>
   `,
   host: {
-    class: 'fui-datagrid-filters-search',
-  },
+    class: 'fui-datagrid-filters-search'
+  }
 })
 export class FuiDatagridGlobalSearchFilter implements FuiDatagridIGlobalSearchFilter, OnInit {
   @Input() columns: Column[];
@@ -38,7 +38,7 @@ export class FuiDatagridGlobalSearchFilter implements FuiDatagridIGlobalSearchFi
 
   protected defaultParams: IGlobalFilterParams = {
     columns: this.getColumns(),
-    rowData: null,
+    rowData: null
   };
   protected _isActive: boolean;
 
@@ -154,9 +154,8 @@ export class FuiDatagridGlobalSearchFilter implements FuiDatagridIGlobalSearchFi
       isFilterActive: () => this.isFilterActive(),
       setFilterActive: (val: boolean) => this.setFilterActive(val),
       doesFilterPass: (params: IDoesGlobalFilterPassParams) => this.doesFilterPass(params),
-      addOrRemoveFilter: (condition: boolean, fil: FuiDatagridIGlobalSearchFilter) =>
-        this.addOrRemoveFilter(condition, fil),
-      getColumns: () => this.getColumns(),
+      addOrRemoveFilter: (condition: boolean, fil: FuiDatagridIGlobalSearchFilter) => this.addOrRemoveFilter(condition, fil),
+      getColumns: () => this.getColumns()
     };
     this.addOrRemoveFilter(this.selectedSearch !== '', filter);
     this.searchChange.emit(value);

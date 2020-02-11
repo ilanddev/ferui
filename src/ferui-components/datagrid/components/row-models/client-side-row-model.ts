@@ -48,7 +48,7 @@ export class FuiDatagridClientSideRowModel {
       type: FuiDatagridEvents.EVENT_ROW_DATA_CHANGED,
       rowData: this._rowData,
       api: this.gridApi,
-      columnApi: this.columnApi,
+      columnApi: this.columnApi
     };
     this.eventService.dispatchEvent(event);
     this.doFilter();
@@ -62,7 +62,7 @@ export class FuiDatagridClientSideRowModel {
       api: null,
       columnApi: this.columnApi,
       rowData: this._rowData,
-      type: FuiDatagridEvents.EVENT_FILTER_CHANGED,
+      type: FuiDatagridEvents.EVENT_FILTER_CHANGED
     };
     this.eventService.dispatchEvent(event);
   }
@@ -83,7 +83,7 @@ export class FuiDatagridClientSideRowModel {
       api: this.gridApi,
       columnApi: this.columnApi,
       sortedRows: this._rowData,
-      type: FuiDatagridEvents.EVENT_SORT_CHANGED,
+      type: FuiDatagridEvents.EVENT_SORT_CHANGED
     };
     this.eventService.dispatchEvent(event);
   }

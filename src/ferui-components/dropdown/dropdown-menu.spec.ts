@@ -47,7 +47,7 @@ export default function(): void {
         Hello world
       </fui-dropdown-menu>
     </fui-dropdown>
-  `,
+  `
 })
 class SimpleTest {
   position: string;

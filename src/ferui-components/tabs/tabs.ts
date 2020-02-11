@@ -12,7 +12,7 @@ import { FuiTab } from './tab';
     <div class="tab-content">
       <ng-content></ng-content>
     </div>
-  `,
+  `
 })
 export class FuiTabs implements AfterContentInit {
   @ContentChildren(FuiTab) tabs: QueryList<FuiTab>;

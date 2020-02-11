@@ -114,7 +114,7 @@ export class FuiDatagridResizeService {
       columns: this.columnService.getAllDisplayedColumns(),
       column: this.getCurrentColumn(),
       type: FuiDatagridEvents.EVENT_COLUMN_RESIZED,
-      finished: finished,
+      finished: finished
     };
   }
 }

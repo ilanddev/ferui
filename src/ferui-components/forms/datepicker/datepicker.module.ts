@@ -21,7 +21,7 @@ export const FUI_DATEPICKER_DIRECTIVES: Type<any>[] = [
   FuiMonthpicker,
   FuiYearpicker,
   FuiDaypicker,
-  FuiCalendar,
+  FuiCalendar
 ];
 
 @NgModule({
@@ -32,10 +32,10 @@ export const FUI_DATEPICKER_DIRECTIVES: Type<any>[] = [
     FuiConditionalModule,
     ClrIconModule,
     FuiFocusTrapModule,
-    FuiCommonFormsModule,
+    FuiCommonFormsModule
   ],
   declarations: [FUI_DATEPICKER_DIRECTIVES],
   exports: [FUI_DATEPICKER_DIRECTIVES],
-  entryComponents: [FuiDateContainer],
+  entryComponents: [FuiDateContainer]
 })
 export class FuiDatepickerModule {}

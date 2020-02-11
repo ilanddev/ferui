@@ -8,7 +8,7 @@ import {
   Injector,
   OnDestroy,
   PLATFORM_ID,
-  Renderer2,
+  Renderer2
 } from '@angular/core';
 
 import { FocusTrapTracker } from './focus-trap-tracker.service';

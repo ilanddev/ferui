@@ -4,7 +4,7 @@ import { FuiDropdown } from './dropdown';
 
 @Directive({
   selector: '[fuiDropdownItem]',
-  host: { '[class.fui-dropdown-item]': 'true' },
+  host: { '[class.fui-dropdown-item]': 'true' }
 })
 export class FuiDropdownItem implements AfterViewInit {
   constructor(

@@ -6,5 +6,5 @@ export const FUI_MENU_POSITIONS: string[] = [
   'left-bottom',
   'left-top',
   'right-bottom',
-  'right-top',
+  'right-top'
 ];

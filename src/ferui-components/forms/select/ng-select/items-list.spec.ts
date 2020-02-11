@@ -52,7 +52,10 @@ export default function(): void {
         it('should select only group item when at least one child was selected and then group item was selected', () => {
           cmp.hideSelected = true;
           cmp.groupBy = 'groupKey';
-          list.setItems([{ label: 'K1', val: 'V1', groupKey: 'G1' }, { label: 'K2', val: 'V2', groupKey: 'G1' }]);
+          list.setItems([
+            { label: 'K1', val: 'V1', groupKey: 'G1' },
+            { label: 'K2', val: 'V2', groupKey: 'G1' }
+          ]);
           list.select(list.items[1]); // K1
           list.select(list.items[0]); // G1
 
@@ -68,7 +71,7 @@ export default function(): void {
             { label: 'K2', val: 'V2', groupKey: 'G1' },
             // G2
             { label: 'K3', val: 'V3', groupKey: 'G2' },
-            { label: 'K4', val: 'V4', groupKey: 'G2' },
+            { label: 'K4', val: 'V4', groupKey: 'G2' }
           ]);
 
           list.select(list.items[0]); // K1
@@ -83,7 +86,7 @@ export default function(): void {
             { label: 'K1', val: 'V1' },
             { label: 'K2', val: 'V2' },
             { label: 'K3', val: 'V3' },
-            { label: 'K4', val: 'V4' },
+            { label: 'K4', val: 'V4' }
           ]);
 
           list.select(list.items[0]);
@@ -101,7 +104,7 @@ export default function(): void {
             { label: 'K2', val: 'V2', groupKey: 'G1' },
             // G2
             { label: 'K3', val: 'V3', groupKey: 'G2' },
-            { label: 'K4', val: 'V4', groupKey: 'G2' },
+            { label: 'K4', val: 'V4', groupKey: 'G2' }
           ]);
           list.select(list.items[1]); // K1
           list.select(list.items[2]); // K2
@@ -118,7 +121,7 @@ export default function(): void {
             { label: 'K2', val: 'V2', groupKey: 'G1' },
             // G2
             { label: 'K3', val: 'V3', groupKey: 'G2' },
-            { label: 'K4', val: 'V4', groupKey: 'G2' },
+            { label: 'K4', val: 'V4', groupKey: 'G2' }
           ]);
           list.select(list.items[1]); // K1
           list.select(list.items[0]); // G1
@@ -129,7 +132,10 @@ export default function(): void {
         it('should remove all children items if group is selected when hideSelected=true and filter is used', () => {
           cmp.hideSelected = true;
           cmp.groupBy = 'groupKey';
-          list.setItems([{ label: 'K1', val: 'V1', groupKey: 'G1' }, { label: 'K2', val: 'V2', groupKey: 'G1' }]);
+          list.setItems([
+            { label: 'K1', val: 'V1', groupKey: 'G1' },
+            { label: 'K2', val: 'V2', groupKey: 'G1' }
+          ]);
           list.filter('K');
           list.select(list.items[0]); // G1
 
@@ -140,7 +146,10 @@ export default function(): void {
           beforeEach(() => {
             cmp.selectableGroupAsModel = false;
             cmp.groupBy = 'groupKey';
-            list.setItems([{ label: 'K1', val: 'V1', groupKey: 'G1' }, { label: 'K2', val: 'V2', groupKey: 'G1' }]);
+            list.setItems([
+              { label: 'K1', val: 'V1', groupKey: 'G1' },
+              { label: 'K2', val: 'V2', groupKey: 'G1' }
+            ]);
           });
 
           it('should select all group children', () => {
@@ -191,7 +200,10 @@ export default function(): void {
         });
 
         it('should un-select selected items', () => {
-          list.setItems([{ label: 'K1', val: 'V1' }, { label: 'K2', val: 'V2' }]);
+          list.setItems([
+            { label: 'K1', val: 'V1' },
+            { label: 'K2', val: 'V2' }
+          ]);
 
           list.select(list.items[0]);
           list.select(list.items[1]);
@@ -203,7 +215,10 @@ export default function(): void {
 
         it('should un-select grouped selected item', () => {
           cmp.groupBy = 'groupKey';
-          list.setItems([{ label: 'K1', val: 'V1', groupKey: 'G1' }, { label: 'K2', val: 'V2', groupKey: 'G1' }]);
+          list.setItems([
+            { label: 'K1', val: 'V1', groupKey: 'G1' },
+            { label: 'K2', val: 'V2', groupKey: 'G1' }
+          ]);
 
           list.select(list.items[1]); // K1
           list.select(list.items[2]); // K2
@@ -215,7 +230,10 @@ export default function(): void {
 
         it('should un-select grouped selected item when group was selected', () => {
           cmp.groupBy = 'groupKey';
-          list.setItems([{ label: 'K1', val: 'V1', groupKey: 'G1' }, { label: 'K2', val: 'V2', groupKey: 'G1' }]);
+          list.setItems([
+            { label: 'K1', val: 'V1', groupKey: 'G1' },
+            { label: 'K2', val: 'V2', groupKey: 'G1' }
+          ]);
 
           list.select(list.items[0]); // G1
           list.unselect(list.items[1]); // K1
@@ -226,7 +244,10 @@ export default function(): void {
 
         it('should un-select selected item and insert it back to filtered items list when hideSelected=true', () => {
           cmp.hideSelected = true;
-          list.setItems([{ label: 'K1', val: 'V1' }, { label: 'K2', val: 'V2' }]);
+          list.setItems([
+            { label: 'K1', val: 'V1' },
+            { label: 'K2', val: 'V2' }
+          ]);
 
           list.select(list.items[0]);
           list.unselect(list.items[0]);
@@ -237,7 +258,10 @@ export default function(): void {
         it('should un-select selected group and insert it back to filtered items when hideSelected=true', () => {
           cmp.hideSelected = true;
           cmp.groupBy = 'groupKey';
-          list.setItems([{ label: 'K1', val: 'V1', groupKey: 'G1' }, { label: 'K2', val: 'V2', groupKey: 'G1' }]);
+          list.setItems([
+            { label: 'K1', val: 'V1', groupKey: 'G1' },
+            { label: 'K2', val: 'V2', groupKey: 'G1' }
+          ]);
 
           list.select(list.items[0]);
           expect(list.filteredItems.length).toBe(0);
@@ -265,7 +289,7 @@ export default function(): void {
             { label: 'K2', val: 'V2', groupKey: 'G1' },
             // G2
             { label: 'K3', val: 'V3', groupKey: 'G2' },
-            { label: 'K4', val: 'V4', groupKey: 'G2' },
+            { label: 'K4', val: 'V4', groupKey: 'G2' }
           ]);
 
           list.select(list.items[1]);
@@ -295,7 +319,7 @@ export default function(): void {
           { label: 'K2 part1 part2', val: 'V2' },
           { label: 'K3 part1 part2.2', val: 'V3' },
           { label: 'K4 part1 part2.2', val: 'V4' },
-          { label: 'K5 part1 part2.2 part3', val: 'V5' },
+          { label: 'K5 part1 part2.2 part3', val: 'V5' }
         ]);
 
         list.filter('part1');
@@ -320,7 +344,7 @@ export default function(): void {
           // G2 group
           { label: 'K3 part1 part2.2', val: 'V3', groupKey: 'G2' },
           { label: 'K4 part1 part2.2', val: 'V4', groupKey: 'G2' },
-          { label: 'K5 part1 part2.2 part3', val: 'V5', groupKey: 'G2' },
+          { label: 'K5 part1 part2.2 part3', val: 'V5', groupKey: 'G2' }
         ]);
 
         list.filter('part1');
@@ -339,7 +363,10 @@ export default function(): void {
       it('should exclude child item if its parent is already selected when hideSelected=true', () => {
         cmp.groupBy = 'groupKey';
         cmp.hideSelected = true;
-        list.setItems([{ label: 'K1', val: 'V1', groupKey: 'G1' }, { label: 'K2', val: 'V2', groupKey: 'G1' }]);
+        list.setItems([
+          { label: 'K1', val: 'V1', groupKey: 'G1' },
+          { label: 'K2', val: 'V2', groupKey: 'G1' }
+        ]);
 
         list.select(list.items[0]); // select group;
         list.filter('K1');
@@ -368,7 +395,7 @@ export default function(): void {
         list.setItems([
           { name: 'Adam', country: 'United States' },
           { name: 'Samantha', country: 'United States' },
-          { name: 'Amalie', country: 'Argentina' },
+          { name: 'Amalie', country: 'Argentina' }
         ]);
 
         list.mapSelectedItems();
@@ -385,7 +412,10 @@ export default function(): void {
         list.select(list.mapItem({ name: 'Other' }, null));
         list.select(list.mapItem({ name: 'Amalie' }, null));
 
-        list.setItems([{ name: 'Samantha', country: 'United States' }, { name: 'Amalie', country: 'Argentina' }]);
+        list.setItems([
+          { name: 'Samantha', country: 'United States' },
+          { name: 'Amalie', country: 'Argentina' }
+        ]);
 
         list.mapSelectedItems();
 

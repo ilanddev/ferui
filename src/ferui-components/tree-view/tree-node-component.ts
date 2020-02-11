@@ -9,7 +9,7 @@ import {
   ElementRef,
   ViewChild,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
+  ChangeDetectorRef
 } from '@angular/core';
 import { TreeViewEventType, TreeNodeDataRetriever, PagedTreeNodeDataRetriever, TreeViewColorTheme } from './interfaces';
 import { TreeNode, TreeNodeEvent } from './internal-interfaces';
@@ -47,7 +47,7 @@ import { FuiTreeViewUtilsService } from './tree-view-utils-service';
       <span *ngIf="node.loadError" class="error-msg">Couldn't load content</span>
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FuiTreeNodeComponent<T> implements OnInit {
   @Output() onNodeEvent: EventEmitter<TreeNodeEvent<T>> = new EventEmitter<TreeNodeEvent<T>>();
@@ -115,7 +115,7 @@ export class FuiTreeNodeComponent<T> implements OnInit {
       },
       getType: () => {
         return !this.node.expanded ? TreeViewEventType.NODE_EXPANDED : TreeViewEventType.NODE_COLLAPSED;
-      },
+      }
     });
   }
 
@@ -129,7 +129,7 @@ export class FuiTreeNodeComponent<T> implements OnInit {
       },
       getType: () => {
         return TreeViewEventType.NODE_CLICKED;
-      },
+      }
     });
   }
 

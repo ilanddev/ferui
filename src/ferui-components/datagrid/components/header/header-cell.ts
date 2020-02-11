@@ -13,7 +13,7 @@ import {
   Renderer2,
   Self,
   TemplateRef,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { FuiColumnDefinitions } from '../../types/column-definitions';
 import { Column } from '../entities/column';
@@ -33,13 +33,7 @@ import { ColumnKeyCreator } from '../../services/column-key-creator';
 @Component({
   selector: 'fui-datagrid-header-cell',
   template: `
-    <div
-      class="fui-datagrid-header-label"
-      #headerLabel
-      role="presentation"
-      unselectable="on"
-      (click)="onHeaderClick($event)"
-    >
+    <div class="fui-datagrid-header-label" #headerLabel role="presentation" unselectable="on" (click)="onHeaderClick($event)">
       <div class="fui-datagrid-header-text" role="presentation" unselectable="on" #datagridHeaderText>
         <ng-container [ngTemplateOutlet]="defaultCellRenderer" [ngTemplateOutletContext]="columnDefinition"></ng-container>
         <ng-template #defaultCellRenderer let-label="headerName">{{ label }}</ng-template>
@@ -71,10 +65,10 @@ import { ColumnKeyCreator } from '../../services/column-key-creator';
     '[class.fui-datagrid-column-visible]': 'column.isVisible()',
     '[class.with-animation]': 'true',
     '[class.moving]': 'column.isMoving()',
-    '[class.dragging]': 'isDragging()',
+    '[class.dragging]': 'isDragging()'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [FuiDatagridResizeService, Column],
+  providers: [FuiDatagridResizeService, Column]
 })
 export class FuiHeaderCell extends FuiDatagridBodyDropTarget implements OnInit, OnDestroy, AfterViewInit {
   @Output() resize: EventEmitter<ColumnResizedEvent> = new EventEmitter<ColumnResizedEvent>();
@@ -388,7 +382,7 @@ export class FuiHeaderCell extends FuiDatagridBodyDropTarget implements OnInit, 
         minWidth: this.minWidth,
         maxWidth: this.maxWidth,
         column: this.column,
-        columnService: this.columnService,
+        columnService: this.columnService
       };
       this.resizeService.addResizeFor(params);
       this.addDestroyFunc(() => this.resizeService.removeResize());
@@ -410,7 +404,7 @@ export class FuiHeaderCell extends FuiDatagridBodyDropTarget implements OnInit, 
         dragItemCallback: () => this.createDragItem(),
         dragItemName: () => this.getInnerText(),
         dragStarted: () => this.setColumnsMoving(true),
-        dragStopped: () => this.setColumnsMoving(false),
+        dragStopped: () => this.setColumnsMoving(false)
       };
       this.dragAndDropService.addDragSource(this.dragSource, true);
       this.addDestroyFunc(() => this.dragAndDropService.removeDragSource(this.dragSource));
@@ -431,7 +425,7 @@ export class FuiHeaderCell extends FuiDatagridBodyDropTarget implements OnInit, 
 
     return {
       columns: [this.column],
-      visibleState: visibleState,
+      visibleState: visibleState
     };
   }
 

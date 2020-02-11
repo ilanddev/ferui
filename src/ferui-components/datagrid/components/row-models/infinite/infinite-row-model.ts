@@ -1,10 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import {
-  FilterModel,
-  IServerSideDatasource,
-  IServerSideGetRowsParams,
-  SortModel,
-} from '../../../types/server-side-row-model';
+import { FilterModel, IServerSideDatasource, IServerSideGetRowsParams, SortModel } from '../../../types/server-side-row-model';
 import { FuiDatagridSortService } from '../../../services/datagrid-sort.service';
 import { FuiDatagridFilterService } from '../../../services/datagrid-filter.service';
 import { FuiColumnService } from '../../../services/rendering/column.service';
@@ -105,9 +100,7 @@ export class FuiDatagridInfinteRowModel {
       this.params = params;
     } else {
       const sortModel: SortModel[] =
-        this.sortService.sortingColumns.length >= 0
-          ? this.sortService.sortingColumns.map(column => column.getSortModel())
-          : null;
+        this.sortService.sortingColumns.length >= 0 ? this.sortService.sortingColumns.map(column => column.getSortModel()) : null;
 
       const filterModel: FilterModel[] =
         this.filterService.activeFilters.length >= 0
@@ -115,7 +108,7 @@ export class FuiDatagridInfinteRowModel {
               const activeFilterParams = {
                 filterValue: aFilter.filter.getFilterValue(),
                 filterOption: aFilter.filter.getFilterOption(),
-                filterParams: aFilter.filter.getFilterParams(),
+                filterParams: aFilter.filter.getFilterParams()
               };
               return { ...aFilter.filter.getColumn().getFilterModel(), ...activeFilterParams };
             })
@@ -132,7 +125,7 @@ export class FuiDatagridInfinteRowModel {
           filterType: this.filterService.globalSearchFilter.filter.getFilterType(),
           filterValue: aFilter.getFilterValue(),
           filterOption: aFilter.getFilterOption(),
-          filterParams: aFilter.getFilterParams(),
+          filterParams: aFilter.getFilterParams()
         };
         filterModel.push(activeFilterParams);
       }
@@ -143,14 +136,14 @@ export class FuiDatagridInfinteRowModel {
             return {
               id: column.getColId(),
               displayName: column.name,
-              field: column.getColId(),
+              field: column.getColId()
             };
           }),
           filterModel: filterModel,
           sortModel: sortModel,
           offset: null,
-          limit: this.limit,
-        },
+          limit: this.limit
+        }
       };
     }
   }

@@ -15,6 +15,6 @@ export const FUI_TIME_DIRECTIVES: Type<any>[] = [FuiTime, FuiTimeContainer];
   imports: [CommonModule, FormsModule, ClrIconModule, FuiCommonFormsModule, FuiSelectModule],
   declarations: [FUI_TIME_DIRECTIVES],
   exports: [FUI_TIME_DIRECTIVES],
-  entryComponents: [FuiTimeContainer],
+  entryComponents: [FuiTimeContainer]
 })
 export class FuiTimeModule {}

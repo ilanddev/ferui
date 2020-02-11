@@ -84,9 +84,9 @@ import { Point } from '../../../popover/common/popover-options.interface';
     </div>
   `,
   host: {
-    class: 'fui-datagrid-filters-popover',
+    class: 'fui-datagrid-filters-popover'
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FuiDatagridFiltersPopover extends AbstractPopover implements OnInit {
   columns: Column[] = [];
@@ -135,7 +135,7 @@ export class FuiDatagridFiltersPopover extends AbstractPopover implements OnInit
   getContextFor(column: Column) {
     return {
       column: column,
-      filterParams: column.filterParams,
+      filterParams: column.filterParams
     };
   }
 

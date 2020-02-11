@@ -12,6 +12,6 @@ import { FuiPasswordContainer } from './password-container';
   imports: [CommonModule, FormsModule, ClrIconModule, FuiCommonFormsModule],
   declarations: [FuiPassword, FuiPasswordContainer],
   exports: [FuiPassword, FuiPasswordContainer],
-  entryComponents: [FuiPasswordContainer],
+  entryComponents: [FuiPasswordContainer]
 })
 export class FuiPasswordModule {}

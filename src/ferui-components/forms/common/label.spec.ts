@@ -7,42 +7,56 @@ import { NgControlService } from './providers/ng-control.service';
 import { RequiredControlService } from './providers/required-control.service';
 import { PlaceholderService } from './providers/placeholder.service';
 
-@Component({ template: `<label></label>` })
+@Component({
+  template: `
+    <label></label>
+  `
+})
 class NoForTest {}
 
-@Component({ template: `<label for="hello"></label>` })
+@Component({
+  template: `
+    <label for="hello"></label>
+  `
+})
 class ExplicitForTest {}
 
 @Component({
   template: `
-    <div><label for="hello"></label></div>`,
-  providers: [ControlIdService],
+    <div><label for="hello"></label></div>
+  `,
+  providers: [ControlIdService]
 })
 class ContainerizedTest {}
 
 @Component({
   template: `
-    <div><label for="hello"></label></div>`,
-  providers: [NgControlService],
+    <div><label for="hello"></label></div>
+  `,
+  providers: [NgControlService]
 })
 class WrapperTest {}
 
 @Component({
-  template: `<label for="hello" class="existing-class"></label>`,
+  template: `
+    <label for="hello" class="existing-class"></label>
+  `
 })
 class ExistingGridTest {}
 
 @Component({
   template: `
-    <div><label for="hello"></label></div>`,
-  providers: [NgControlService],
+    <div><label for="hello"></label></div>
+  `,
+  providers: [NgControlService]
 })
 class RequiredTest {}
 
 @Component({
   template: `
-    <div><label></label></div>`,
-  providers: [NgControlService],
+    <div><label></label></div>
+  `,
+  providers: [NgControlService]
 })
 class PlaceholderTest {}
 
@@ -60,14 +74,12 @@ export default function(): void {
       TestBed.configureTestingModule({ declarations: [FuiLabel, NoForTest] });
       const fixture = TestBed.createComponent(NoForTest);
       fixture.detectChanges();
-      expect(
-        fixture.debugElement.query(By.css('label')).nativeElement.classList.contains('fui-control-label')
-      ).toBeFalse();
+      expect(fixture.debugElement.query(By.css('label')).nativeElement.classList.contains('fui-control-label')).toBeFalse();
     });
 
     it('does set the the class when its inside of a container', function() {
       TestBed.configureTestingModule({
-        declarations: [FuiLabel, ContainerizedTest],
+        declarations: [FuiLabel, ContainerizedTest]
       });
       const fixture = TestBed.createComponent(ContainerizedTest);
       fixture.detectChanges();
@@ -76,7 +88,7 @@ export default function(): void {
 
     it('does set the class when its inside of a wrapper', function() {
       TestBed.configureTestingModule({
-        declarations: [FuiLabel, WrapperTest],
+        declarations: [FuiLabel, WrapperTest]
       });
       const fixture = TestBed.createComponent(WrapperTest);
       fixture.detectChanges();
@@ -86,7 +98,7 @@ export default function(): void {
     it('does set the required star when control is set required.', function() {
       TestBed.configureTestingModule({
         declarations: [FuiLabel, RequiredTest],
-        providers: [ControlIdService, RequiredControlService],
+        providers: [ControlIdService, RequiredControlService]
       });
       const fixture = TestBed.createComponent(RequiredTest);
       const directiveEl = fixture.debugElement.query(By.directive(FuiLabel));
@@ -102,7 +114,7 @@ export default function(): void {
     it('does set the placeholder within the label.', function() {
       TestBed.configureTestingModule({
         declarations: [FuiLabel, PlaceholderTest],
-        providers: [ControlIdService, PlaceholderService],
+        providers: [ControlIdService, PlaceholderService]
       });
       const fixture = TestBed.createComponent(PlaceholderTest);
       const directiveEl = fixture.debugElement.query(By.directive(FuiLabel));

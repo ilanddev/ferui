@@ -29,7 +29,7 @@ const DEFAULT_TRANSLATIONS: { [name: string]: string } = {
   orCondition: 'OR',
   filterType: 'Type',
   filterBetween: 'Between',
-  filterAnd: 'And',
+  filterAnd: 'And'
 };
 
 export abstract class FuiDatagridBaseFilter<P extends IFilterParams> implements FuiDatagridIFilter, OnInit {
@@ -121,7 +121,7 @@ export abstract class FuiDatagridBaseFilter<P extends IFilterParams> implements 
   ngOnInit(): void {
     this.defaultParams = {
       column: this.column,
-      colDef: this.column.getColumnDefinition(),
+      colDef: this.column.getColumnDefinition()
     };
     this.filterParams = DatagridUtils.mergeObjects(this.defaultParams, this.filterParams) as P;
     this.init();

@@ -43,27 +43,27 @@ export type InputDateDisplayFormat = {
 
 export const LITTLE_ENDIAN: InputDateDisplayFormat = {
   name: 'LITTLE_ENDIAN',
-  format: [DATE, MONTH, YEAR],
+  format: [DATE, MONTH, YEAR]
 };
 
 export const MIDDLE_ENDIAN: InputDateDisplayFormat = {
   name: 'MIDDLE_ENDIAN',
-  format: [MONTH, DATE, YEAR],
+  format: [MONTH, DATE, YEAR]
 };
 
 export const BIG_ENDIAN: InputDateDisplayFormat = {
   name: 'BIG_ENDIAN',
-  format: [YEAR, MONTH, DATE],
+  format: [YEAR, MONTH, DATE]
 };
 
 export const EU_TIME_FORMAT: InputDateDisplayFormat = {
   name: 'EU_TIME_FORMAT',
-  format: [HOUR, MINUTE, SECOND],
+  format: [HOUR, MINUTE, SECOND]
 };
 
 export const US_TIME_FORMAT: InputDateDisplayFormat = {
   name: 'US_TIME_FORMAT',
-  format: [US_HOUR, MINUTE, SECOND],
+  format: [US_HOUR, MINUTE, SECOND]
 };
 
 export const NO_OF_DAYS_IN_A_WEEK: number = 7;

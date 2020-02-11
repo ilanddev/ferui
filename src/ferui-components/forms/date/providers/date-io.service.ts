@@ -10,7 +10,7 @@ import {
   MIDDLE_ENDIAN,
   MIDDLE_ENDIAN_REGEX,
   RTL_REGEX,
-  USER_INPUT_REGEX,
+  USER_INPUT_REGEX
 } from '../../datepicker/utils/constants';
 import { getNumberOfDaysInTheMonth, parseToFourDigitYear } from '../../datepicker/utils/date-utils';
 

@@ -16,7 +16,7 @@ export function ContainerNoLabelSpec(testContainer, testControl, testComponent):
       TestBed.configureTestingModule({
         imports: [ClrIconModule, FuiCommonFormsModule, FormsModule],
         declarations: [testContainer, testControl, testComponent],
-        providers: [NgControl, NgControlService, IfErrorService, MarkControlService],
+        providers: [NgControl, NgControlService, IfErrorService, MarkControlService]
       });
       fixture = TestBed.createComponent(testComponent);
 
@@ -50,7 +50,7 @@ function fullSpec(description, testContainer, directives: any | any[], testCompo
       TestBed.configureTestingModule({
         imports: [ClrIconModule, FuiCommonFormsModule, FormsModule, ReactiveFormsModule],
         declarations: [testContainer, ...directives, testComponent],
-        providers: [NgControl, NgControlService, IfErrorService, MarkControlService],
+        providers: [NgControl, NgControlService, IfErrorService, MarkControlService]
       });
       fixture = TestBed.createComponent(testComponent);
 

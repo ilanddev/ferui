@@ -17,7 +17,7 @@ export default function(): void {
 
     it('should init the control class', function() {
       const renderer = {
-        removeClass: jasmine.createSpy(),
+        removeClass: jasmine.createSpy()
       };
       const element = document.createElement('input');
       element.className = 'test-class';

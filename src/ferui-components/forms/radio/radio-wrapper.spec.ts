@@ -9,9 +9,9 @@ import { FuiRadioContainer } from './radio-container';
   template: `
     <fui-radio-wrapper>
       <label>Hello World</label>
-      <input type="radio" fuiRadio name="model" [(ngModel)]="model"/>
+      <input type="radio" fuiRadio name="model" [(ngModel)]="model" />
     </fui-radio-wrapper>
-  `,
+  `
 })
 class FullTest {
   model = '';
@@ -20,8 +20,9 @@ class FullTest {
 @Component({
   template: `
     <fui-radio-wrapper>
-      <input type="radio" fuiRadio name="model" [(ngModel)]="model"/>
-    </fui-radio-wrapper>`,
+      <input type="radio" fuiRadio name="model" [(ngModel)]="model" />
+    </fui-radio-wrapper>
+  `
 })
 class NoLabelTest {
   model = '';
@@ -31,9 +32,10 @@ class NoLabelTest {
   template: `
     <fui-radio-container>
       <fui-radio-wrapper>
-        <input type="radio" fuiRadio name="model" [(ngModel)]="model"/>
+        <input type="radio" fuiRadio name="model" [(ngModel)]="model" />
       </fui-radio-wrapper>
-    </fui-radio-container>`,
+    </fui-radio-container>
+  `
 })
 class ContainerTest {
   model = '';

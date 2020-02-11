@@ -7,28 +7,28 @@ import { FuiInput } from './input';
 
 @Component({
   template: `
-       <input type="text" fuiInput />
-    `,
+    <input type="text" fuiInput />
+  `
 })
 class StandaloneUseTest {}
 
 @Component({
   template: `
-       <input fuiInput name="model" class="test-class" [(ngModel)]="model" />
-    `,
+    <input fuiInput name="model" class="test-class" [(ngModel)]="model" />
+  `
 })
 class TemplateDrivenTest {}
 
 @Component({
   template: `
     <div [formGroup]="example">
-       <input fuiInput name="model" class="test-class" formControlName="model" />
+      <input fuiInput name="model" class="test-class" formControlName="model" />
     </div>
-    `,
+  `
 })
 class ReactiveTest {
   example = new FormGroup({
-    model: new FormControl('', Validators.required),
+    model: new FormControl('', Validators.required)
   });
 }
 

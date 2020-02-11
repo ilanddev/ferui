@@ -11,7 +11,7 @@ import { Point } from '../../popover/common/popover-options.interface';
   selector: 'fui-datepicker-view-manager',
   templateUrl: './datepicker-view-manager.html',
   providers: [ViewManagerService, DatepickerFocusService],
-  host: { '[class.datepicker]': 'true' },
+  host: { '[class.datepicker]': 'true' }
 })
 export class FuiDatepickerViewManager extends AbstractPopover implements OnInit {
   @Input() appendTo: string;

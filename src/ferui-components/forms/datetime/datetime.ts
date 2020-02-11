@@ -9,7 +9,7 @@ import {
   OnDestroy,
   Optional,
   HostListener,
-  AfterViewInit,
+  AfterViewInit
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
@@ -26,8 +26,8 @@ import { filter } from 'rxjs/operators';
   selector: '[fuiDatetime]',
   host: {
     '[class.fui-datetime]': 'true',
-    '[class.fui-layout-small]': 'layout === fuiFormLayoutEnum.SMALL',
-  },
+    '[class.fui-layout-small]': 'layout === fuiFormLayoutEnum.SMALL'
+  }
 })
 export class FuiDatetime extends AbstractDateTime<FuiDatetimeContainer> implements AfterViewInit, OnInit, OnDestroy {
   protected index = 1;

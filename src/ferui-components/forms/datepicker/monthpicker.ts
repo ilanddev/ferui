@@ -13,10 +13,10 @@ import { DateNavigationService } from '../date/providers/date-navigation.service
     <div class="calendar-header">
       <div class="calendar-pickers">
         <button class="calendar-btn monthpicker-trigger" type="button" (click)="changeToMonthView()">
-          {{calendarMonth}}
+          {{ calendarMonth }}
         </button>
         <button class="calendar-btn yearpicker-trigger" type="button" (click)="changeToYearView()">
-          {{calendarYear}}
+          {{ calendarYear }}
         </button>
       </div>
     </div>
@@ -27,14 +27,15 @@ import { DateNavigationService } from '../date/providers/date-navigation.service
         *ngFor="let month of monthNames; let monthIndex = index"
         (click)="changeMonth(monthIndex)"
         [class.is-selected]="monthIndex === calendarMonthIndex"
-        [attr.tabindex]="getTabIndex(monthIndex)">
-        {{month}}
+        [attr.tabindex]="getTabIndex(monthIndex)"
+      >
+        {{ month }}
       </button>
     </div>
   `,
   host: {
-    '[class.monthpicker]': 'true',
-  },
+    '[class.monthpicker]': 'true'
+  }
 })
 export class FuiMonthpicker implements AfterViewInit {
   /**

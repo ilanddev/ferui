@@ -17,20 +17,7 @@ export default function() {
     const frDays: string[] = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
     const plDays: string[] = ['P', 'W', 'Ś', 'C', 'P', 'S', 'N'];
 
-    const usMonthsAbbreviated: string[] = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
+    const usMonthsAbbreviated: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const frMonthsAbbreviated: string[] = [
       'janv.',
       'févr.',
@@ -43,22 +30,9 @@ export default function() {
       'sept.',
       'oct.',
       'nov.',
-      'déc.',
+      'déc.'
     ];
-    const plMonthsAbbreviated: string[] = [
-      'sty',
-      'lut',
-      'mar',
-      'kwi',
-      'maj',
-      'cze',
-      'lip',
-      'sie',
-      'wrz',
-      'paź',
-      'lis',
-      'gru',
-    ];
+    const plMonthsAbbreviated: string[] = ['sty', 'lut', 'mar', 'kwi', 'maj', 'cze', 'lip', 'sie', 'wrz', 'paź', 'lis', 'gru'];
 
     const usMonthsWide: string[] = [
       'January',
@@ -72,7 +46,7 @@ export default function() {
       'September',
       'October',
       'November',
-      'December',
+      'December'
     ];
     const frMonthsWide: string[] = [
       'janvier',
@@ -86,7 +60,7 @@ export default function() {
       'septembre',
       'octobre',
       'novembre',
-      'décembre',
+      'décembre'
     ];
     const plMonthsWide: string[] = [
       'styczeń',
@@ -100,7 +74,7 @@ export default function() {
       'wrzesień',
       'październik',
       'listopad',
-      'grudzień',
+      'grudzień'
     ];
 
     beforeEach(() => {
@@ -141,17 +115,14 @@ export default function() {
       expect(localeHelperServicePl.localeDateFormat).toBe('dd.MM.y');
     });
 
-    it(
-      'returns the locale days in narrow format ' + 'and nominative form ' + 'according to the first day of the week',
-      () => {
-        const a1: ReadonlyArray<string> = localeHelperServiceUS.localeDaysNarrow;
-        const a2: ReadonlyArray<string> = localeHelperServiceFr.localeDaysNarrow;
-        const a3: ReadonlyArray<string> = localeHelperServicePl.localeDaysNarrow;
+    it('returns the locale days in narrow format ' + 'and nominative form ' + 'according to the first day of the week', () => {
+      const a1: ReadonlyArray<string> = localeHelperServiceUS.localeDaysNarrow;
+      const a2: ReadonlyArray<string> = localeHelperServiceFr.localeDaysNarrow;
+      const a3: ReadonlyArray<string> = localeHelperServicePl.localeDaysNarrow;
 
-        expect(a1.length === usDays.length && a1.every((v, i) => v === usDays[i])).toBe(true);
-        expect(a2.length === usDays.length && a2.every((v, i) => v === frDays[i])).toBe(true);
-        expect(a3.length === plDays.length && a3.every((v, i) => v === plDays[i])).toBe(true);
-      }
-    );
+      expect(a1.length === usDays.length && a1.every((v, i) => v === usDays[i])).toBe(true);
+      expect(a2.length === usDays.length && a2.every((v, i) => v === frDays[i])).toBe(true);
+      expect(a3.length === plDays.length && a3.every((v, i) => v === plDays[i])).toBe(true);
+    });
   });
 }

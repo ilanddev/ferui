@@ -57,7 +57,7 @@ export const FUI_DATAGRID_DIRECTIVES: Type<any>[] = [
   FuiBodyRow,
   FuiBodyCell,
   FuiBodyEmpty,
-  FuiDatagrid,
+  FuiDatagrid
 ];
 
 @NgModule({
@@ -74,10 +74,10 @@ export const FUI_DATAGRID_DIRECTIVES: Type<any>[] = [
     FuiUnselectableModule,
     FuiSelectModule,
     FuiConditionalModule,
-    FuiDropdownModule,
+    FuiDropdownModule
   ],
   declarations: [FUI_DATAGRID_DIRECTIVES],
   exports: [FUI_DATAGRID_DIRECTIVES],
-  entryComponents: [],
+  entryComponents: []
 })
 export class FuiDatagridModule {}

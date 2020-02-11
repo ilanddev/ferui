@@ -19,7 +19,7 @@ export function emailValidator(): ValidatorFn {
 
 @Directive({
   selector: '[email]',
-  providers: [{ provide: NG_VALIDATORS, useExisting: EmailValidatorDirective, multi: true }],
+  providers: [{ provide: NG_VALIDATORS, useExisting: EmailValidatorDirective, multi: true }]
 })
 export class EmailValidatorDirective implements Validator {
   validate(control: AbstractControl): { [key: string]: any } | null {

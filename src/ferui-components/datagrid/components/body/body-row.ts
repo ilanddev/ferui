@@ -11,7 +11,7 @@ import {
   OnInit,
   QueryList,
   Self,
-  TemplateRef,
+  TemplateRef
 } from '@angular/core';
 import { FuiBodyCell } from './body-cell';
 import { RowRendererService } from '../../services/rendering/row-renderer.service';
@@ -32,9 +32,9 @@ import { FuiActionMenuService } from '../../services/action-menu/action-menu.ser
     '[class.fui-datagrid-body-row]': 'true',
     '[class.selectable]': 'true',
     '[class.selected]': 'isRowSelected',
-    '[class.hovered]': 'isRowOrActionMenuHovered',
+    '[class.hovered]': 'isRowOrActionMenuHovered'
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FuiBodyRow implements OnInit, OnDestroy {
   @HostBinding('attr.role') role: string = 'row';
@@ -95,7 +95,7 @@ export class FuiBodyRow implements OnInit, OnDestroy {
       rowData: this.data,
       rowIndex: this.rowIndex,
       event: event,
-      type: FuiDatagridEvents.EVENT_ROW_CLICKED,
+      type: FuiDatagridEvents.EVENT_ROW_CLICKED
     };
     this.eventService.dispatchEvent(evt);
   }
@@ -107,7 +107,7 @@ export class FuiBodyRow implements OnInit, OnDestroy {
       rowData: this.data,
       rowIndex: this.rowIndex,
       event: event,
-      type: FuiDatagridEvents.EVENT_ROW_DOUBLE_CLICKED,
+      type: FuiDatagridEvents.EVENT_ROW_DOUBLE_CLICKED
     };
     this.eventService.dispatchEvent(evt);
   }
@@ -193,7 +193,7 @@ export class FuiBodyRow implements OnInit, OnDestroy {
       rowData: this.data,
       rowTopValue: this.el.nativeElement.offsetTop,
       isFirstRow: this.isFirstRow,
-      appendTo: '#' + this.datagridId,
+      appendTo: '#' + this.datagridId
     };
   }
 }

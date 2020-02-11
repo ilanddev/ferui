@@ -133,11 +133,7 @@ export class DateNavigationService {
 
   private initializeTodaysDate(): void {
     this.todaysFullDate = new Date();
-    this._today = new DayModel(
-      this.todaysFullDate.getFullYear(),
-      this.todaysFullDate.getMonth(),
-      this.todaysFullDate.getDate()
-    );
+    this._today = new DayModel(this.todaysFullDate.getFullYear(), this.todaysFullDate.getMonth(), this.todaysFullDate.getDate());
   }
 
   private getCalendarForDay(day: DayModel) {

@@ -154,7 +154,7 @@ describe('FocusTrap', () => {
       <button id="first">
         Button to test first input
       </button>
-      <input type="text"/>
+      <input type="text" />
       <select>
         <option value="1">1</option>
         <option value="2">2</option>
@@ -172,9 +172,8 @@ describe('FocusTrap', () => {
           </div>
         </div>
       </div>
-
     </form>
-  `,
+  `
 })
 class TestComponent {
   level1 = false;

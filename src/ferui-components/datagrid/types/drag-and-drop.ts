@@ -4,12 +4,12 @@ import { Observable, Subscription } from 'rxjs';
 
 export enum DropType {
   COLUMN_MOVE,
-  PIVOT,
+  PIVOT
 }
 
 export enum DragSourceType {
   HEADER,
-  ROW,
+  ROW
 }
 
 export interface DragListenerParams {
@@ -97,10 +97,10 @@ export interface DropTarget {
 
 export enum VDirection {
   UP,
-  DOWN,
+  DOWN
 }
 
 export enum HDirection {
   LEFT,
-  RIGHT,
+  RIGHT
 }

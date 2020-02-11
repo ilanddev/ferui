@@ -15,7 +15,8 @@ const minLengthMessage = 'MIN_LENGTH_MESSAGE';
 
 @Component({
   template: `
-    <div *fuiIfError></div>`,
+    <div *fuiIfError></div>
+  `
 })
 class InvalidUseTest {}
 
@@ -23,7 +24,7 @@ class InvalidUseTest {}
   template: `
     <fui-control-error *fuiIfError>${errorMessage}</fui-control-error>
   `,
-  providers: [IfErrorService, NgControlService],
+  providers: [IfErrorService, NgControlService]
 })
 class GeneralErrorTest {}
 
@@ -32,7 +33,7 @@ class GeneralErrorTest {}
     <fui-control-error *fuiIfError="'required'">${errorMessage}</fui-control-error>
     <fui-control-error *fuiIfError="'minlength'">${minLengthMessage}</fui-control-error>
   `,
-  providers: [IfErrorService, NgControlService],
+  providers: [IfErrorService, NgControlService]
 })
 class SpecificErrorTest {}
 
@@ -54,14 +55,7 @@ export default function(): void {
       beforeEach(() => {
         TestBed.configureTestingModule({
           imports: [ClrIconModule, FormsModule],
-          declarations: [
-            FuiInput,
-            FuiControlError,
-            FuiInputContainer,
-            FuiDefaultControlError,
-            FuiIfError,
-            GeneralErrorTest,
-          ],
+          declarations: [FuiInput, FuiControlError, FuiInputContainer, FuiDefaultControlError, FuiIfError, GeneralErrorTest]
         });
         fixture = TestBed.createComponent(GeneralErrorTest);
         fixture.detectChanges();
@@ -90,14 +84,7 @@ export default function(): void {
       beforeEach(() => {
         TestBed.configureTestingModule({
           imports: [ClrIconModule, FormsModule],
-          declarations: [
-            FuiInput,
-            FuiControlError,
-            FuiInputContainer,
-            FuiDefaultControlError,
-            FuiIfError,
-            SpecificErrorTest,
-          ],
+          declarations: [FuiInput, FuiControlError, FuiInputContainer, FuiDefaultControlError, FuiIfError, SpecificErrorTest]
         });
         fixture = TestBed.createComponent(SpecificErrorTest);
         fixture.detectChanges();

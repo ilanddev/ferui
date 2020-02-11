@@ -4,5 +4,5 @@ export enum FilterType {
   STRING = 'string',
   DATE = 'date',
   CUSTOM = 'custom',
-  GLOBAL_SEARCH = 'globalsearch',
+  GLOBAL_SEARCH = 'globalsearch'
 }

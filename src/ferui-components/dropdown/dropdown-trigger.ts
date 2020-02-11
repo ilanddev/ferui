@@ -8,8 +8,8 @@ import { IfOpenService } from '../utils/conditional/if-open.service';
     '[class.fui-dropdown-trigger]': 'isRootLevelToggle',
     '[class.fui-dropdown-item]': '!isRootLevelToggle',
     '[class.expandable]': '!isRootLevelToggle',
-    '[class.active]': 'active',
-  },
+    '[class.active]': 'active'
+  }
 })
 export class FuiDropdownTrigger {
   public isRootLevelToggle: boolean = true;

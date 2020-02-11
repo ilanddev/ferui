@@ -15,11 +15,11 @@ import { FuiPasswordContainer } from './password-container';
 @Component({
   template: `
     <fui-password-container [fuiToggle]="toggler">
-      <input type="password" name="test" fuiPassword required [(ngModel)]="model" [disabled]="disabled"/>
+      <input type="password" name="test" fuiPassword required [(ngModel)]="model" [disabled]="disabled" />
       <label>Hello World</label>
       <fui-control-error>Must be at least 5 characters</fui-control-error>
     </fui-password-container>
-  `,
+  `
 })
 class TemplateDrivenTest {
   disabled = false;
@@ -30,8 +30,9 @@ class TemplateDrivenTest {
 @Component({
   template: `
     <fui-password-container>
-      <input fuiPassword [(ngModel)]="model"/>
-    </fui-password-container>`,
+      <input fuiPassword [(ngModel)]="model" />
+    </fui-password-container>
+  `
 })
 class NoLabelTest {}
 
@@ -39,16 +40,17 @@ class NoLabelTest {}
   template: `
     <form [formGroup]="form">
       <fui-password-container>
-        <input fuiPassword formControlName="model"/>
+        <input fuiPassword formControlName="model" />
         <label>Hello World</label>
         <fui-control-error>Must be at least 5 characters</fui-control-error>
       </fui-password-container>
-    </form>`,
+    </form>
+  `
 })
 class ReactiveTest {
   disabled = false;
   form = new FormGroup({
-    model: new FormControl({ value: '', disabled: this.disabled }, Validators.required),
+    model: new FormControl({ value: '', disabled: this.disabled }, Validators.required)
   });
 }
 
@@ -64,7 +66,7 @@ export default function(): void {
         TestBed.configureTestingModule({
           imports: [ClrIconModule, FuiCommonFormsModule, FormsModule],
           declarations: [FuiPasswordContainer, FuiPassword, TemplateDrivenTest],
-          providers: [NgControl, NgControlService, IfErrorService],
+          providers: [NgControl, NgControlService, IfErrorService]
         });
         fixture = TestBed.createComponent(TemplateDrivenTest);
 

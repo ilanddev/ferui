@@ -4,7 +4,11 @@ import { By } from '@angular/platform-browser';
 
 import { FuiControlError } from './error';
 
-@Component({ template: `<fui-control-error>Test error</fui-control-error>` })
+@Component({
+  template: `
+    <fui-control-error>Test error</fui-control-error>
+  `
+})
 class SimpleTest {}
 
 export default function(): void {

@@ -11,6 +11,6 @@ import { FuiWidgetBody } from './widget-body.component';
 @NgModule({
   imports: [CommonModule],
   declarations: [FuiWidget, FuiWidgetHeader, FuiWidgetTitle, FuiWidgetSubtitle, FuiWidgetActions, FuiWidgetBody, FuiWidgetFooter],
-  exports: [FuiWidget, FuiWidgetHeader, FuiWidgetTitle, FuiWidgetSubtitle, FuiWidgetActions, FuiWidgetBody, FuiWidgetFooter],
+  exports: [FuiWidget, FuiWidgetHeader, FuiWidgetTitle, FuiWidgetSubtitle, FuiWidgetActions, FuiWidgetBody, FuiWidgetFooter]
 })
 export class FuiWidgetModule {}

@@ -31,16 +31,9 @@ import { FuiFormLayoutEnum } from '../common/layout.enum';
   host: {
     '[class.fui-form-control]': 'true',
     '[class.fui-form-control-disabled]': 'control?.disabled',
-    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL',
+    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL'
   },
-  providers: [
-    NgControlService,
-    ControlClassService,
-    IfErrorService,
-    FocusService,
-    RequiredControlService,
-    FuiFormLayoutService,
-  ],
+  providers: [NgControlService, ControlClassService, IfErrorService, FocusService, RequiredControlService, FuiFormLayoutService]
 })
 export class FuiRadioContainer implements OnDestroy {
   invalid = false;

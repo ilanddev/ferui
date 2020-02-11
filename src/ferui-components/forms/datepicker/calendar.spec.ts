@@ -33,7 +33,7 @@ export default function() {
         ViewManagerService,
         LocaleHelperService,
         DatepickerFocusService,
-        DateFormControlService,
+        DateFormControlService
       ]);
     });
 
@@ -148,6 +148,6 @@ export default function() {
 @Component({
   template: `
     <fui-calendar></fui-calendar>
-  `,
+  `
 })
 class TestComponent {}

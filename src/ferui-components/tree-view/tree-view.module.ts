@@ -11,6 +11,6 @@ export const FUI_TREEVIEW_DIRECTIVES: Type<any>[] = [FuiTreeViewComponent, FuiTr
 @NgModule({
   imports: [CommonModule, FormsModule, ClrIconModule, FuiVirtualScrollerModule],
   declarations: [FUI_TREEVIEW_DIRECTIVES],
-  exports: [FUI_TREEVIEW_DIRECTIVES],
+  exports: [FUI_TREEVIEW_DIRECTIVES]
 })
 export class TreeViewModule {}

@@ -22,7 +22,7 @@ export default function() {
         DateNavigationService,
         DateIOService,
         IfOpenService,
-        DateFormControlService,
+        DateFormControlService
       ]);
     });
 
@@ -149,9 +149,7 @@ export default function() {
         context.feruiDirective.selectDay();
         context.detectChanges();
 
-        expect(dateNavigationService.notifySelectedDayChanged).toHaveBeenCalledWith(
-          context.feruiDirective.dayView.dayModel
-        );
+        expect(dateNavigationService.notifySelectedDayChanged).toHaveBeenCalledWith(context.feruiDirective.dayView.dayModel);
       });
 
       it('closes the popover when a Date is selected', () => {
@@ -195,7 +193,7 @@ export default function() {
 @Component({
   template: `
     <fui-day [fuiDayView]="dayView"></fui-day>
-  `,
+  `
 })
 class TestComponent {
   isToday: boolean = false;
@@ -204,11 +202,5 @@ class TestComponent {
   isFocusable: boolean = false;
   dayModel: DayModel = new DayModel(2018, 0, 1);
 
-  dayView: DayViewModel = new DayViewModel(
-    this.dayModel,
-    this.isToday,
-    this.isDisabled,
-    this.isSelected,
-    this.isFocusable
-  );
+  dayView: DayViewModel = new DayViewModel(this.dayModel, this.isToday, this.isDisabled, this.isSelected, this.isFocusable);
 }

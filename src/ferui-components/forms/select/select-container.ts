@@ -44,7 +44,7 @@ import { FuiFormLayoutEnum } from '../common/layout.enum';
     '[class.fui-select-container]': 'true',
     '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL',
     '[class.fui-form-control-disabled]': 'control?.disabled',
-    '[class.fui-select-icon]': 'selectIcon !== undefined',
+    '[class.fui-select-icon]': 'selectIcon !== undefined'
   },
   providers: [
     IfErrorService,
@@ -55,8 +55,8 @@ import { FuiFormLayoutEnum } from '../common/layout.enum';
     FocusService,
     RequiredControlService,
     FuiSelectService,
-    FuiFormLayoutService,
-  ],
+    FuiFormLayoutService
+  ]
 })
 export class FuiSelectContainer implements DynamicWrapper, OnInit, OnDestroy, AfterContentInit {
   invalid = false;

@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FuiDatagridBaseFilter } from './base-filter';
-import {
-  Comparator,
-  FuiDatagridIFilter,
-  IDateFilterParams,
-  IDoesFilterPassParams,
-  NullComparator,
-} from '../interfaces/filter';
+import { Comparator, FuiDatagridIFilter, IDateFilterParams, IDoesFilterPassParams, NullComparator } from '../interfaces/filter';
 import { FuiDatetimeModelTypes } from '../../../../forms/common/datetime-model-types.enum';
 import { DateIOService } from '../../../../forms/date/providers/date-io.service';
 import { LocaleHelperService } from '../../../../forms/datepicker/providers/locale-helper.service';
@@ -63,15 +57,15 @@ import { isArray } from 'util';
     </div>
   `,
   host: {
-    class: 'fui-datagrid-date-filter container-fluid',
+    class: 'fui-datagrid-date-filter container-fluid'
   },
-  providers: [LocaleHelperService, DateIOService],
+  providers: [LocaleHelperService, DateIOService]
 })
 export class FuiDatagridDateFilter extends FuiDatagridBaseFilter<IDateFilterParams> implements OnInit {
   static readonly DEFAULT_NULL_COMPARATOR: NullComparator = {
     equals: false,
     lessThan: false,
-    greaterThan: false,
+    greaterThan: false
   };
 
   modelTypeDate = FuiDatetimeModelTypes.DATE;
@@ -90,7 +84,7 @@ export class FuiDatagridDateFilter extends FuiDatagridBaseFilter<IDateFilterPara
       FuiDatagridDateFilter.NOT_EQUAL,
       FuiDatagridDateFilter.LESS_THAN,
       FuiDatagridDateFilter.GREATER_THAN,
-      FuiDatagridDateFilter.IN_RANGE,
+      FuiDatagridDateFilter.IN_RANGE
     ];
   }
 
@@ -175,7 +169,7 @@ export class FuiDatagridDateFilter extends FuiDatagridBaseFilter<IDateFilterPara
       getFilterType: () => this.getFilterType(),
       getFilterOption: () => this.getFilterOption(),
       getFilterValue: () => this.getFilterValue(),
-      getFilterParams: () => this.getFilterParams(),
+      getFilterParams: () => this.getFilterParams()
     };
     this.addOrRemoveFilter(condition, filter);
   }

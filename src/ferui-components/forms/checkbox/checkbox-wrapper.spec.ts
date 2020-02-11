@@ -9,9 +9,9 @@ import { FuiCheckboxWrapper } from './checkbox-wrapper';
   template: `
     <fui-checkbox-wrapper>
       <label>Hello World</label>
-      <input type="checkbox" fuiCheckbox name="model" [(ngModel)]="model"/>
+      <input type="checkbox" fuiCheckbox name="model" [(ngModel)]="model" />
     </fui-checkbox-wrapper>
-  `,
+  `
 })
 class FullTest {
   model = '';
@@ -20,8 +20,9 @@ class FullTest {
 @Component({
   template: `
     <fui-checkbox-wrapper>
-      <input type="checkbox" fuiCheckbox name="model" [(ngModel)]="model"/>
-    </fui-checkbox-wrapper>`,
+      <input type="checkbox" fuiCheckbox name="model" [(ngModel)]="model" />
+    </fui-checkbox-wrapper>
+  `
 })
 class NoLabelTest {
   model = '';
@@ -31,9 +32,10 @@ class NoLabelTest {
   template: `
     <fui-checkbox-container>
       <fui-checkbox-wrapper>
-        <input type="checkbox" fuiCheckbox name="model" [(ngModel)]="model"/>
+        <input type="checkbox" fuiCheckbox name="model" [(ngModel)]="model" />
       </fui-checkbox-wrapper>
-    </fui-checkbox-container>`,
+    </fui-checkbox-container>
+  `
 })
 class ContainerTest {
   model = '';

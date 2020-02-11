@@ -28,7 +28,7 @@ export function triggerKeyDownEvent(element: DebugElement, which: number, key = 
     element.triggerEventHandler('keydown', {
       which: which,
       key: key,
-      preventDefault: () => {},
+      preventDefault: () => {}
     });
   } catch (e) {}
 }

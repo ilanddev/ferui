@@ -16,6 +16,6 @@ export const FUI_DATETIME_DIRECTIVES: Type<any>[] = [FuiDatetime, FuiDatetimeCon
   imports: [CommonModule, FormsModule, ClrIconModule, FuiCommonFormsModule, FuiDateModule, FuiTimeModule],
   declarations: [FUI_DATETIME_DIRECTIVES],
   exports: [FUI_DATETIME_DIRECTIVES],
-  entryComponents: [FuiDatetimeContainer],
+  entryComponents: [FuiDatetimeContainer]
 })
 export class FuiDatetimeModule {}

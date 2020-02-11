@@ -216,7 +216,7 @@ export default function(): void {
         </fui-dropdown>
       </fui-dropdown-menu>
     </fui-dropdown>
-  `,
+  `
 })
 class TestComponent {
   @ViewChild(FuiDropdown) dropdownInstance: FuiDropdown;

@@ -6,7 +6,9 @@ import { FuiForm } from './form';
 import { MarkControlService } from './providers/mark-control.service';
 
 @Component({
-  template: `<form fuiForm></form>`,
+  template: `
+    <form fuiForm></form>
+  `
 })
 class SimpleTest {
   @ViewChild(FuiForm) form: FuiForm;

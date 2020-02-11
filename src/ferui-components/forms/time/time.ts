@@ -12,7 +12,7 @@ import {
   OnInit,
   OnDestroy,
   AfterViewInit,
-  HostListener,
+  HostListener
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
@@ -32,8 +32,8 @@ import { FuiTimeContainer } from './time-container';
   selector: '[fuiTime]',
   host: {
     '[class.fui-time]': 'true',
-    '[class.fui-layout-small]': 'layout === fuiFormLayoutEnum.SMALL',
-  },
+    '[class.fui-layout-small]': 'layout === fuiFormLayoutEnum.SMALL'
+  }
 })
 export class FuiTime extends AbstractDateTime<FuiTimeContainer> implements OnInit, AfterViewInit, OnDestroy {
   protected index = 1;

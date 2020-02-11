@@ -17,8 +17,8 @@ import { Component, Input, TemplateRef } from '@angular/core';
     </ng-template>
   `,
   host: {
-    '[class.fui-datagrid-body-empty]': 'true',
-  },
+    '[class.fui-datagrid-body-empty]': 'true'
+  }
 })
 export class FuiBodyEmpty {
   @Input() emptyIcon: TemplateRef<any>;
