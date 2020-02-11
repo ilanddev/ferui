@@ -5,7 +5,7 @@ import {
   InjectionToken,
   Injector,
   Type,
-  ViewContainerRef,
+  ViewContainerRef
 } from '@angular/core';
 
 import { DynamicWrapper } from './dynamic-wrapper';

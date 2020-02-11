@@ -3,8 +3,8 @@ import { Directive, ElementRef, EventEmitter, HostListener, Output, Self } from 
 @Directive({
   selector: '[fuiSelectIcon]',
   host: {
-    '[class.focused]': 'focused',
-  },
+    '[class.focused]': 'focused'
+  }
 })
 export class FuiSelectIcon {
   @Output() onClick: EventEmitter<boolean> = new EventEmitter();

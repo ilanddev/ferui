@@ -19,7 +19,7 @@ export function ipv4AddressValidator(): ValidatorFn {
 
 @Directive({
   selector: '[ipv4Address]',
-  providers: [{ provide: NG_VALIDATORS, useExisting: Ipv4AddressValidatorDirective, multi: true }],
+  providers: [{ provide: NG_VALIDATORS, useExisting: Ipv4AddressValidatorDirective, multi: true }]
 })
 export class Ipv4AddressValidatorDirective implements Validator {
   validate(control: AbstractControl): { [key: string]: any } | null {

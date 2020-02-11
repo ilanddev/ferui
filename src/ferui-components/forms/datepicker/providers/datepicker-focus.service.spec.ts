@@ -14,38 +14,32 @@ export default function() {
       fixture.detectChanges();
     });
 
-    it(
-      'Focuses on the button if the button has a tabindex of 0',
-      inject([PLATFORM_ID], platformId => {
-        const datepickerViewService: DatepickerFocusService = new DatepickerFocusService(mockNgZone, platformId);
-        const compInstance = fixture.debugElement.componentInstance;
+    it('Focuses on the button if the button has a tabindex of 0', inject([PLATFORM_ID], platformId => {
+      const datepickerViewService: DatepickerFocusService = new DatepickerFocusService(mockNgZone, platformId);
+      const compInstance = fixture.debugElement.componentInstance;
 
-        datepickerViewService.focusCell(compInstance.elementRef);
+      datepickerViewService.focusCell(compInstance.elementRef);
 
-        mockNgZone.stabilizeZone();
+      mockNgZone.stabilizeZone();
 
-        expect(document.activeElement.innerHTML).toBe('Test Button');
-        expect(document.activeElement.id).toBe('1');
-      })
-    );
+      expect(document.activeElement.innerHTML).toBe('Test Button');
+      expect(document.activeElement.id).toBe('1');
+    }));
 
-    it(
-      'Does not focus on the button if the button does not have a tab index of 0',
-      inject([PLATFORM_ID], platformId => {
-        const datepickerViewService: DatepickerFocusService = new DatepickerFocusService(mockNgZone, platformId);
-        const compInstance = fixture.debugElement.componentInstance;
-        compInstance.tabIndex = '-1';
+    it('Does not focus on the button if the button does not have a tab index of 0', inject([PLATFORM_ID], platformId => {
+      const datepickerViewService: DatepickerFocusService = new DatepickerFocusService(mockNgZone, platformId);
+      const compInstance = fixture.debugElement.componentInstance;
+      compInstance.tabIndex = '-1';
 
-        fixture.detectChanges();
+      fixture.detectChanges();
 
-        datepickerViewService.focusCell(compInstance.elementRef);
+      datepickerViewService.focusCell(compInstance.elementRef);
 
-        mockNgZone.stabilizeZone();
+      mockNgZone.stabilizeZone();
 
-        expect(document.activeElement.innerHTML).not.toBe('Test Button');
-        expect(document.activeElement.id).not.toBe('1');
-      })
-    );
+      expect(document.activeElement.innerHTML).not.toBe('Test Button');
+      expect(document.activeElement.id).not.toBe('1');
+    }));
   });
 }
 
@@ -68,7 +62,7 @@ class MockNgZone extends NgZone {
 @Component({
   template: `
     <button id="1" [attr.tabindex]="tabIndex">Test Button</button>
-  `,
+  `
 })
 class TestComponent {
   tabIndex: string = '0';

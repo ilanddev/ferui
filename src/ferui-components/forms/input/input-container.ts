@@ -37,7 +37,7 @@ import { FuiFormLayoutEnum } from '../common/layout.enum';
   host: {
     '[class.fui-form-control]': 'true',
     '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL',
-    '[class.fui-form-control-disabled]': 'control?.disabled',
+    '[class.fui-form-control-disabled]': 'control?.disabled'
   },
   providers: [
     IfErrorService,
@@ -47,8 +47,8 @@ import { FuiFormLayoutEnum } from '../common/layout.enum';
     PlaceholderService,
     FocusService,
     RequiredControlService,
-    FuiFormLayoutService,
-  ],
+    FuiFormLayoutService
+  ]
 })
 export class FuiInputContainer implements DynamicWrapper, OnDestroy {
   _dynamic = false;

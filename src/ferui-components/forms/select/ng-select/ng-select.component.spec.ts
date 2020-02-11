@@ -8,7 +8,7 @@ import {
   selectOption,
   TestsErrorHandler,
   tickAndDetectChanges,
-  triggerKeyDownEvent,
+  triggerKeyDownEvent
 } from '../testing/helpers';
 import { KeyCode, NgOption } from './ng-select.types';
 import { MockConsole, MockNgZone } from '../testing/mocks';
@@ -32,7 +32,7 @@ export default function(): void {
         expect(itemsList.items[0]).toEqual(
           jasmine.objectContaining({
             label: '0',
-            value: 0,
+            value: 0
           })
         );
       }));
@@ -54,14 +54,14 @@ export default function(): void {
           jasmine.objectContaining({
             label: 'Yes',
             value: true,
-            disabled: false,
+            disabled: false
           })
         );
         expect(items[1]).toEqual(
           jasmine.objectContaining({
             label: 'No',
             value: false,
-            disabled: false,
+            disabled: false
           })
         );
       }));
@@ -82,9 +82,7 @@ export default function(): void {
 
         selectOption(fixture, KeyCode.ArrowDown, 1);
         tickAndDetectChanges(fixture);
-        expect(fixture.componentInstance.selectedCity).toEqual(
-          jasmine.objectContaining(fixture.componentInstance.cities[1])
-        );
+        expect(fixture.componentInstance.selectedCity).toEqual(jasmine.objectContaining(fixture.componentInstance.cities[1]));
 
         fixture.componentInstance.select.clearModel();
         tickAndDetectChanges(fixture);
@@ -107,8 +105,8 @@ export default function(): void {
         tickAndDetectChanges(fixture);
         expect(fixture.componentInstance.select.selectedItems).toEqual([
           jasmine.objectContaining({
-            value: fixture.componentInstance.cities[0],
-          }),
+            value: fixture.componentInstance.cities[0]
+          })
         ]);
 
         fixture.componentInstance.selectedCity = null;
@@ -167,8 +165,8 @@ export default function(): void {
         expect(select.selectedItems[0]).toBe(select.itemsList.items[0]);
         expect(select.selectedItems).toEqual([
           jasmine.objectContaining({
-            value: { id: 7, name: 'Pailgis' },
-          }),
+            value: { id: 7, name: 'Pailgis' }
+          })
         ]);
       }));
 
@@ -193,8 +191,8 @@ export default function(): void {
         expect(select.selectedItems[0]).toBe(select.itemsList.items[0]);
         expect(select.selectedItems).toEqual([
           jasmine.objectContaining({
-            value: { id: 7, name: 'Pailgis' },
-          }),
+            value: { id: 7, name: 'Pailgis' }
+          })
         ]);
       }));
 
@@ -229,14 +227,12 @@ export default function(): void {
         select = fixture.componentInstance.select;
         fixture.componentInstance.selectedCity = { id: 1, name: 'Vilnius' };
         tickAndDetectChanges(fixture);
-        expect(select.selectedItems).toEqual([
-          jasmine.objectContaining({ label: 'Vilnius', value: { id: 1, name: 'Vilnius' } }),
-        ]);
+        expect(select.selectedItems).toEqual([jasmine.objectContaining({ label: 'Vilnius', value: { id: 1, name: 'Vilnius' } })]);
 
         fixture.componentInstance.cities = [
           { id: 1, name: 'Vilnius' },
           { id: 2, name: 'Kaunas' },
-          { id: 3, name: 'Pabrade' },
+          { id: 3, name: 'Pabrade' }
         ];
         tickAndDetectChanges(fixture);
         const vilnius = select.itemsList.items[0];
@@ -257,17 +253,20 @@ export default function(): void {
         );
 
         select = fixture.componentInstance.select;
-        fixture.componentInstance.selectedCities = [{ id: 1, name: 'Vilnius' }, { id: 2, name: 'Kaunas' }];
+        fixture.componentInstance.selectedCities = [
+          { id: 1, name: 'Vilnius' },
+          { id: 2, name: 'Kaunas' }
+        ];
         tickAndDetectChanges(fixture);
         expect(select.selectedItems).toEqual([
           jasmine.objectContaining({ label: 'Vilnius', value: { id: 1, name: 'Vilnius' } }),
-          jasmine.objectContaining({ label: 'Kaunas', value: { id: 2, name: 'Kaunas' } }),
+          jasmine.objectContaining({ label: 'Kaunas', value: { id: 2, name: 'Kaunas' } })
         ]);
 
         fixture.componentInstance.cities = [
           { id: 1, name: 'Vilnius' },
           { id: 2, name: 'Kaunas' },
-          { id: 3, name: 'Pabrade' },
+          { id: 3, name: 'Pabrade' }
         ];
         tickAndDetectChanges(fixture);
         const vilnius = select.itemsList.items[0];
@@ -291,11 +290,14 @@ export default function(): void {
         const cities = [{ id: 7, name: 'Pailgis' }];
         fixture.componentInstance.selectedCity = { id: 7, name: 'Pailgis' };
         tickAndDetectChanges(fixture);
-        fixture.componentInstance.cities = [{ id: 1, name: 'Vilnius' }, { id: 2, name: 'Kaunas' }];
+        fixture.componentInstance.cities = [
+          { id: 1, name: 'Vilnius' },
+          { id: 2, name: 'Kaunas' }
+        ];
         tickAndDetectChanges(fixture);
         expect(fixture.componentInstance.select.selectedItems[0]).toEqual(
           jasmine.objectContaining({
-            value: cities[0],
+            value: cities[0]
           })
         );
       }));
@@ -319,8 +321,8 @@ export default function(): void {
         expect(fixture.componentInstance.select.selectedItems).toEqual([
           jasmine.objectContaining({
             value: { id: 7, name: 'Pailgis' },
-            selected: true,
-          }),
+            selected: true
+          })
         ]);
       }));
 
@@ -342,8 +344,8 @@ export default function(): void {
           jasmine.objectContaining({
             value: 'Kaunas',
             label: 'Kaunas',
-            selected: true,
-          }),
+            selected: true
+          })
         ]);
       }));
 
@@ -422,7 +424,7 @@ export default function(): void {
 
         expect(select.selectedItems[0]).toEqual(
           jasmine.objectContaining({
-            value: { id: 2, name: 'Kaunas' },
+            value: { id: 2, name: 'Kaunas' }
           })
         );
       }));
@@ -580,8 +582,8 @@ export default function(): void {
         tickAndDetectChanges(fixture);
         expect(fixture.componentInstance.select.selectedItems).toEqual([
           jasmine.objectContaining({
-            value: fixture.componentInstance.cities[1],
-          }),
+            value: fixture.componentInstance.cities[1]
+          })
         ]);
       }));
 
@@ -599,8 +601,8 @@ export default function(): void {
         expect(fixture.componentInstance.select.selectedItems).toEqual([
           jasmine.objectContaining({
             label: 'USA',
-            value: fixture.componentInstance.countries[1],
-          }),
+            value: fixture.componentInstance.countries[1]
+          })
         ]);
 
         fixture.componentInstance.selectedCountry = fixture.componentInstance.countries[0];
@@ -608,8 +610,8 @@ export default function(): void {
         expect(fixture.componentInstance.select.selectedItems).toEqual([
           jasmine.objectContaining({
             label: 'Lithuania',
-            value: fixture.componentInstance.countries[0],
-          }),
+            value: fixture.componentInstance.countries[0]
+          })
         ]);
       }));
 
@@ -632,8 +634,8 @@ export default function(): void {
         expect(fixture.componentInstance.select.selectedItems).toEqual([
           jasmine.objectContaining({
             label: 'Australia',
-            value: fixture.componentInstance.countries[2],
-          }),
+            value: fixture.componentInstance.countries[2]
+          })
         ]);
 
         selectOption(fixture, KeyCode.ArrowUp, 1);
@@ -655,7 +657,7 @@ export default function(): void {
         fixture.componentInstance.selectedCity = <any>'Kaunas';
         tickAndDetectChanges(fixture);
         expect(fixture.componentInstance.select.selectedItems).toEqual([
-          jasmine.objectContaining({ label: 'Kaunas', value: 'Kaunas' }),
+          jasmine.objectContaining({ label: 'Kaunas', value: 'Kaunas' })
         ]);
       }));
 
@@ -679,8 +681,8 @@ export default function(): void {
 
         expect(fixture.componentInstance.select.selectedItems).toEqual([
           jasmine.objectContaining({
-            value: fixture.componentInstance.cities[1],
-          }),
+            value: fixture.componentInstance.cities[1]
+          })
         ]);
         discardPeriodicTasks();
       }));
@@ -724,8 +726,8 @@ export default function(): void {
           expect(fixture.componentInstance.select.selectedItems).toEqual([
             jasmine.objectContaining({
               value: 2,
-              label: 'B',
-            }),
+              label: 'B'
+            })
           ]);
           discardPeriodicTasks();
         }));
@@ -746,8 +748,8 @@ export default function(): void {
           expect(fixture.componentInstance.select.selectedItems).toEqual([
             jasmine.objectContaining({
               value: selected,
-              label: '',
-            }),
+              label: ''
+            })
           ]);
         }));
       });
@@ -810,8 +812,8 @@ export default function(): void {
             const result = [
               jasmine.objectContaining({
                 value: { id: 2, name: 'Kaunas' },
-                selected: true,
-              }),
+                selected: true
+              })
             ];
             select = fixture.componentInstance.select;
             expect(select.selectedItems).toEqual(result);
@@ -866,8 +868,8 @@ export default function(): void {
             const result = [
               jasmine.objectContaining({
                 value: { id: 0, name: 'Vilnius' },
-                selected: true,
-              }),
+                selected: true
+              })
             ];
             expect(fixture.componentInstance.select.selectedItems).toEqual(result);
           }));
@@ -887,8 +889,8 @@ export default function(): void {
             const result = [
               jasmine.objectContaining({
                 value: { id: 2, name: 'Kaunas' },
-                selected: true,
-              }),
+                selected: true
+              })
             ];
             expect(fixture.componentInstance.select.selectedItems).toEqual(result);
           }));
@@ -908,8 +910,8 @@ export default function(): void {
             const result = [
               jasmine.objectContaining({
                 value: { id: 2, name: 'Kaunas' },
-                selected: true,
-              }),
+                selected: true
+              })
             ];
             expect(fixture.componentInstance.select.selectedItems).toEqual(result);
           }));
@@ -979,12 +981,12 @@ export default function(): void {
           const result = [
             jasmine.objectContaining({
               value: { id: 2, name: 'Kaunas' },
-              selected: true,
+              selected: true
             }),
             jasmine.objectContaining({
               value: { id: 3, name: 'Pabrade' },
-              selected: true,
-            }),
+              selected: true
+            })
           ];
 
           it('should select by bindValue when primitive type', fakeAsync(() => {
@@ -1016,7 +1018,10 @@ export default function(): void {
                         </ng-select>`
             );
 
-            fixture.componentInstance.selectedCities = [{ id: 2, name: 'Kaunas' }, { id: 3, name: 'Pabrade' }];
+            fixture.componentInstance.selectedCities = [
+              { id: 2, name: 'Kaunas' },
+              { id: 3, name: 'Pabrade' }
+            ];
             tickAndDetectChanges(fixture);
             expect(fixture.componentInstance.select.selectedItems).toEqual(result);
           }));
@@ -1046,7 +1051,7 @@ export default function(): void {
 
         fixture.componentInstance.cities = Array.from(Array(30).keys()).map((_, i) => ({
           id: i,
-          name: String.fromCharCode(97 + i),
+          name: String.fromCharCode(97 + i)
         }));
         tickAndDetectChanges(fixture);
         options = fixture.debugElement.nativeElement.querySelectorAll('.ng-option');
@@ -1079,7 +1084,7 @@ export default function(): void {
 
         fixture.componentInstance.cities = Array.from(Array(30).keys()).map((_, i) => ({
           id: i,
-          name: String.fromCharCode(97 + i),
+          name: String.fromCharCode(97 + i)
         }));
         tickAndDetectChanges(fixture);
         fixture.detectChanges();
@@ -1375,8 +1380,8 @@ export default function(): void {
           selectOption(fixture, KeyCode.ArrowDown, 1);
           const result = [
             jasmine.objectContaining({
-              value: fixture.componentInstance.cities[1],
-            }),
+              value: fixture.componentInstance.cities[1]
+            })
           ];
           expect(select.selectedItems).toEqual(result);
         }));
@@ -1398,8 +1403,8 @@ export default function(): void {
           tickAndDetectChanges(fixture);
           const result = [
             jasmine.objectContaining({
-              value: fixture.componentInstance.cities[0],
-            }),
+              value: fixture.componentInstance.cities[0]
+            })
           ];
           expect(select.selectedItems).toEqual(result);
         }));
@@ -1411,8 +1416,8 @@ export default function(): void {
           tickAndDetectChanges(fixture);
           const result = [
             jasmine.objectContaining({
-              value: fixture.componentInstance.cities[1],
-            }),
+              value: fixture.componentInstance.cities[1]
+            })
           ];
           expect(select.selectedItems).toEqual(result);
         }));
@@ -1424,8 +1429,8 @@ export default function(): void {
           tickAndDetectChanges(fixture);
           const result = [
             jasmine.objectContaining({
-              value: fixture.componentInstance.cities[0],
-            }),
+              value: fixture.componentInstance.cities[0]
+            })
           ];
           expect(select.selectedItems).toEqual(result);
         }));
@@ -1434,8 +1439,8 @@ export default function(): void {
           selectOption(fixture, KeyCode.ArrowUp, 1);
           const result = [
             jasmine.objectContaining({
-              value: fixture.componentInstance.cities[2],
-            }),
+              value: fixture.componentInstance.cities[2]
+            })
           ];
           expect(select.selectedItems).toEqual(result);
         }));
@@ -1475,8 +1480,8 @@ export default function(): void {
           tickAndDetectChanges(fixture);
           const result = [
             jasmine.objectContaining({
-              value: fixture.componentInstance.cities[0],
-            }),
+              value: fixture.componentInstance.cities[0]
+            })
           ];
           expect(select.selectedItems).toEqual(result);
           expect(select.isOpen).toBeFalsy();
@@ -1488,7 +1493,7 @@ export default function(): void {
           tick(200);
 
           const result = jasmine.objectContaining({
-            value: fixture.componentInstance.cities[2],
+            value: fixture.componentInstance.cities[2]
           });
           expect(fixture.componentInstance.select.itemsList.markedItem).toEqual(result);
           triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Tab);
@@ -1511,8 +1516,8 @@ export default function(): void {
           triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Backspace);
           const result = [
             jasmine.objectContaining({
-              value: fixture.componentInstance.cities[0],
-            }),
+              value: fixture.componentInstance.cities[0]
+            })
           ];
           expect(select.selectedItems).toEqual(result);
         }));
@@ -1524,8 +1529,8 @@ export default function(): void {
           triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Backspace);
           const result = [
             jasmine.objectContaining({
-              value: fixture.componentInstance.cities[0],
-            }),
+              value: fixture.componentInstance.cities[0]
+            })
           ];
           expect(select.selectedItems).toEqual(result);
         }));
@@ -1548,8 +1553,8 @@ export default function(): void {
           triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Backspace);
           const result = [
             jasmine.objectContaining({
-              value: fixture.componentInstance.cities[1],
-            }),
+              value: fixture.componentInstance.cities[1]
+            })
           ];
           expect(select.selectedItems).toEqual(result);
           expect(remove).toHaveBeenCalled();
@@ -1567,8 +1572,8 @@ export default function(): void {
           triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Backspace);
           const result = [
             jasmine.objectContaining({
-              value: fixture.componentInstance.cities[1],
-            }),
+              value: fixture.componentInstance.cities[1]
+            })
           ];
           expect(select.selectedItems).toEqual(result);
           expect(remove).toHaveBeenCalled();
@@ -1701,10 +1706,7 @@ export default function(): void {
       }));
 
       it('should auto position dropdown to top if position input is set', fakeAsync(() => {
-        const fixture = createTestingModule(
-          NgSelectTestCmp,
-          `<ng-select dropdownPosition="top" [items]="cities"></ng-select>`
-        );
+        const fixture = createTestingModule(NgSelectTestCmp, `<ng-select dropdownPosition="top" [items]="cities"></ng-select>`);
 
         const select = fixture.componentInstance.select;
         select.open();
@@ -2036,7 +2038,7 @@ export default function(): void {
         expect((<NgOption[]>fixture.componentInstance.select.selectedItems).length).toBe(1);
         expect(fixture.componentInstance.select.selectedItems[0]).toEqual(
           jasmine.objectContaining({
-            value: { id: 3, name: 'Pabrade' },
+            value: { id: 3, name: 'Pabrade' }
           })
         );
       }));
@@ -2303,7 +2305,7 @@ export default function(): void {
           jasmine.objectContaining({
             id: 'custom tag',
             name: 'custom tag',
-            custom: true,
+            custom: true
           })
         );
       }));
@@ -2328,7 +2330,7 @@ export default function(): void {
           jasmine.objectContaining({
             id: 5,
             name: 'server side tag',
-            valid: true,
+            valid: true
           })
         );
       }));
@@ -2452,8 +2454,8 @@ export default function(): void {
 
         const result = [
           jasmine.objectContaining({
-            value: { id: 1, name: 'Vilnius' },
-          }),
+            value: { id: 1, name: 'Vilnius' }
+          })
         ];
         expect(fixture.componentInstance.select.itemsList.filteredItems).toEqual(result);
       }));
@@ -2479,12 +2481,12 @@ export default function(): void {
         expect(select.itemsList.filteredItems.length).toEqual(2);
         expect(select.itemsList.filteredItems[0]).toEqual(
           jasmine.objectContaining({
-            value: { id: 1, name: 'Vilnius' },
+            value: { id: 1, name: 'Vilnius' }
           })
         );
         expect(select.itemsList.filteredItems[1]).toEqual(
           jasmine.objectContaining({
-            value: { id: 2, name: 'Kaunas' },
+            value: { id: 2, name: 'Kaunas' }
           })
         );
       }));
@@ -2546,7 +2548,7 @@ export default function(): void {
         tick(200);
 
         const result = jasmine.objectContaining({
-          value: fixture.componentInstance.cities[2],
+          value: fixture.componentInstance.cities[2]
         });
         expect(fixture.componentInstance.select.itemsList.markedItem).toEqual(result);
         triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Enter);
@@ -2585,7 +2587,7 @@ export default function(): void {
         tick();
 
         const result = jasmine.objectContaining({
-          value: fixture.componentInstance.cities[2],
+          value: fixture.componentInstance.cities[2]
         });
         expect(fixture.componentInstance.select.itemsList.markedItem).toEqual(result);
         triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Enter);
@@ -2682,8 +2684,8 @@ export default function(): void {
 
         let result = [
           jasmine.objectContaining({
-            value: { id: 1, name: 'Vilnius' },
-          }),
+            value: { id: 1, name: 'Vilnius' }
+          })
         ];
         expect(fixture.componentInstance.select.itemsList.filteredItems).toEqual(result);
 
@@ -2691,17 +2693,17 @@ export default function(): void {
           { id: 1, name: 'Vilnius' },
           { id: 2, name: 'Kaunas' },
           { id: 3, name: 'Pabrade' },
-          { id: 4, name: 'Bruchhausen-Vilsen' },
+          { id: 4, name: 'Bruchhausen-Vilsen' }
         ];
         tickAndDetectChanges(fixture);
 
         result = [
           jasmine.objectContaining({
-            value: { id: 1, name: 'Vilnius' },
+            value: { id: 1, name: 'Vilnius' }
           }),
           jasmine.objectContaining({
-            value: { id: 4, name: 'Bruchhausen-Vilsen' },
-          }),
+            value: { id: 4, name: 'Bruchhausen-Vilsen' }
+          })
         ];
         expect(fixture.componentInstance.select.itemsList.filteredItems).toEqual(result);
       }));
@@ -2731,7 +2733,7 @@ export default function(): void {
           expect(fixture.componentInstance.select.itemsList.filteredItems.length).toBe(1);
           expect(fixture.componentInstance.select.itemsList.filteredItems[0]).toEqual(
             jasmine.objectContaining({
-              value: { id: 4, name: 'New York' },
+              value: { id: 4, name: 'New York' }
             })
           );
         }));
@@ -2753,8 +2755,8 @@ export default function(): void {
           triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Enter);
           expect(fixture.componentInstance.select.selectedItems).toEqual([
             jasmine.objectContaining({
-              value: { id: 4, name: 'Bukiskes' },
-            }),
+              value: { id: 4, name: 'Bukiskes' }
+            })
           ]);
         }));
 
@@ -2846,7 +2848,10 @@ export default function(): void {
 
           fixture.componentInstance.filter.subscribe();
           fixture.componentInstance.select.filter('new');
-          fixture.componentInstance.cities = [{ id: 4, name: 'New York' }, { id: 5, name: 'California' }];
+          fixture.componentInstance.cities = [
+            { id: 4, name: 'New York' },
+            { id: 5, name: 'California' }
+          ];
           tickAndDetectChanges(fixture);
           fixture.componentInstance.select.select(fixture.componentInstance.select.viewPortItems[0]);
           expect(fixture.componentInstance.select.filterValue).toBe('new');
@@ -3211,7 +3216,7 @@ export default function(): void {
             control.triggerEventHandler(
               'mousedown',
               createEvent({
-                classList: { contains: term => term === 'ng-clear-wrapper' },
+                classList: { contains: term => term === 'ng-clear-wrapper' }
               })
             );
           };
@@ -3270,7 +3275,7 @@ export default function(): void {
             control.triggerEventHandler(
               'mousedown',
               createEvent({
-                classList: { contains: term => term === 'ng-value-icon' },
+                classList: { contains: term => term === 'ng-value-icon' }
               })
             );
           };
@@ -3307,7 +3312,7 @@ export default function(): void {
             control.triggerEventHandler(
               'mousedown',
               createEvent({
-                classList: { contains: term => term === 'ng-arrow-wrapper' },
+                classList: { contains: term => term === 'ng-arrow-wrapper' }
               })
             );
           };
@@ -3632,13 +3637,13 @@ function createTestingModule<T>(cmp: Type<T>, template: string): ComponentFixtur
     providers: [
       { provide: ErrorHandler, useClass: TestsErrorHandler },
       { provide: NgZone, useFactory: () => new MockNgZone() },
-      { provide: ConsoleService, useFactory: () => new MockConsole() },
-    ],
+      { provide: ConsoleService, useFactory: () => new MockConsole() }
+    ]
   })
     .overrideComponent(cmp, {
       set: {
-        template: template,
-      },
+        template: template
+      }
     })
     .compileComponents();
 
@@ -3654,15 +3659,15 @@ function createEvent(target = {}) {
       className: '',
       tagName: '',
       classList: {
-        contains: () => {},
+        contains: () => {}
       },
-      ...target,
-    },
+      ...target
+    }
   };
 }
 
 @Component({
-  template: ``,
+  template: ``
 })
 class NgSelectTestCmp {
   @ViewChild(NgSelectComponent) select: NgSelectComponent;
@@ -3681,14 +3686,18 @@ class NgSelectTestCmp {
   selectedCityIds: number[];
   selectedCity: { id: number; name: string };
   selectedCities: { id: number; name: string }[];
-  cities: any[] = [{ id: 1, name: 'Vilnius' }, { id: 2, name: 'Kaunas' }, { id: 3, name: 'Pabrade' }];
+  cities: any[] = [
+    { id: 1, name: 'Vilnius' },
+    { id: 2, name: 'Kaunas' },
+    { id: 3, name: 'Pabrade' }
+  ];
   citiesNames = this.cities.map(x => x.name);
 
   selectedCountry: any;
   countries = [
     { id: 1, description: { name: 'Lithuania', id: 'a' } },
     { id: 2, description: { name: 'USA', id: 'b' } },
-    { id: 3, description: { name: 'Australia', id: 'c' } },
+    { id: 3, description: { name: 'Australia', id: 'c' } }
   ];
 
   tagFunc(term: string) {
@@ -3699,7 +3708,7 @@ class NgSelectTestCmp {
     return Promise.resolve({
       id: 5,
       name: term,
-      valid: true,
+      valid: true
     });
   }
 
@@ -3736,14 +3745,14 @@ class NgSelectTestCmp {
 
 @Component({
   template: ``,
-  encapsulation: ViewEncapsulation.Native,
+  encapsulation: ViewEncapsulation.Native
 })
 class EncapsulatedTestCmp extends NgSelectTestCmp {
   @ViewChild(NgSelectComponent) select: NgSelectComponent;
 }
 
 @Component({
-  template: ``,
+  template: ``
 })
 class NgSelectGroupingTestCmp {
   @ViewChild(NgSelectComponent) select: NgSelectComponent;
@@ -3759,7 +3768,7 @@ class NgSelectGroupingTestCmp {
     { name: 'Natasha', email: 'natasha@email.com', age: 54, country: 'Ecuador', child: { name: 'c2' } },
     { name: 'Nicole', email: 'nicole@email.com', age: 43, country: 'Colombia', child: { name: 'c2' } },
     { name: 'Michael', email: 'michael@email.com', age: 15, country: 'Colombia', child: { name: 'c2' } },
-    { name: 'Nicolás', email: 'nicole@email.com', age: 43, country: 'Colombia', child: { name: 'c2' } },
+    { name: 'Nicolás', email: 'nicole@email.com', age: 43, country: 'Colombia', child: { name: 'c2' } }
   ];
 
   groupedAccounts = [
@@ -3767,32 +3776,32 @@ class NgSelectGroupingTestCmp {
       country: 'United States',
       accounts: [
         { name: 'Adam', email: 'adam@email.com', age: 12 },
-        { name: 'Samantha', email: 'samantha@email.com', age: 30 },
-      ],
+        { name: 'Samantha', email: 'samantha@email.com', age: 30 }
+      ]
     },
     {
       country: 'Argentina',
       accounts: [
         { name: 'Amalie', email: 'amalie@email.com', age: 12 },
-        { name: 'Estefanía', email: 'estefania@email.com', age: 21 },
-      ],
+        { name: 'Estefanía', email: 'estefania@email.com', age: 21 }
+      ]
     },
     {
       country: 'Ecuador',
       accounts: [
         { name: 'Adrian', email: 'adrian@email.com', age: 21 },
         { name: 'Wladimir', email: 'wladimir@email.com', age: 30 },
-        { name: 'Natasha', email: 'natasha@email.com', age: 54 },
-      ],
+        { name: 'Natasha', email: 'natasha@email.com', age: 54 }
+      ]
     },
     {
       country: 'Colombia',
       accounts: [
         { name: 'Nicole', email: 'nicole@email.com', age: 43 },
         { name: 'Michael', email: 'michael@email.com', age: 15 },
-        { name: 'Nicolás', email: 'nicole@email.com', age: 43 },
-      ],
-    },
+        { name: 'Nicolás', email: 'nicole@email.com', age: 43 }
+      ]
+    }
   ];
   groupByFn = item => item.child.name;
   groupValueFn = (key, _) => ({ group: key });

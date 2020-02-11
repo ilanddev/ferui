@@ -13,17 +13,17 @@ import { FuiPasswordContainer } from './password-container';
 
 @Component({
   template: `
-    <input type="password" fuiPassword/>
-  `,
+    <input type="password" fuiPassword />
+  `
 })
 class InvalidUseTest {}
 
 @Component({
   template: `
     <fui-password-container>
-      <input type="text" fuiPassword class="test-class" name="model" [(ngModel)]="model"/>
+      <input type="text" fuiPassword class="test-class" name="model" [(ngModel)]="model" />
     </fui-password-container>
-  `,
+  `
 })
 class TemplateDrivenTest {}
 
@@ -31,14 +31,14 @@ class TemplateDrivenTest {}
   template: `
     <div [formGroup]="example">
       <fui-password-container>
-        <input fuiPassword class="test-class" formControlName="model"/>
+        <input fuiPassword class="test-class" formControlName="model" />
       </fui-password-container>
     </div>
-  `,
+  `
 })
 class ReactiveTest {
   example = new FormGroup({
-    model: new FormControl('', Validators.required),
+    model: new FormControl('', Validators.required)
   });
 }
 
@@ -48,7 +48,7 @@ export default function(): void {
       it('should throw an error when used without a password container', () => {
         TestBed.configureTestingModule({
           imports: [FuiPassword],
-          declarations: [InvalidUseTest],
+          declarations: [InvalidUseTest]
         });
         expect(() => {
           const fixture = TestBed.createComponent(InvalidUseTest);
@@ -65,7 +65,7 @@ export default function(): void {
         TestBed.configureTestingModule({
           imports: [ClrIconModule, FuiCommonFormsModule, FormsModule],
           declarations: [FuiPasswordContainer, FuiPassword, TemplateDrivenTest],
-          providers: [NgControl, NgControlService, IfErrorService],
+          providers: [NgControl, NgControlService, IfErrorService]
         });
         fixture = TestBed.createComponent(TemplateDrivenTest);
         containerDE = fixture.debugElement.query(By.directive(FuiPasswordContainer));

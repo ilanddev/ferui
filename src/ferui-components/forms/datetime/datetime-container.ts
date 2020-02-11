@@ -85,15 +85,15 @@ export interface DatetimeInterface {
     PlaceholderService,
     DatetimeIOService,
     DatetimeFormControlService,
-    FuiFormLayoutService,
+    FuiFormLayoutService
   ],
   host: {
     '[class.fui-datetime-container]': 'true',
     '[class.fui-form-control]': 'true',
     '[class.fui-select-container]': 'true',
     '[class.fui-form-control-disabled]': 'control?.disabled',
-    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL',
-  },
+    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL'
+  }
 })
 export class FuiDatetimeContainer implements DynamicWrapper, OnInit, OnDestroy {
   _dynamic = false;
@@ -109,7 +109,7 @@ export class FuiDatetimeContainer implements DynamicWrapper, OnInit, OnDestroy {
   modelType: FuiDatetimeModelTypes;
   model: DatetimeInterface = {
     date: null,
-    time: null,
+    time: null
   };
 
   @Input() twentyFourHourFormat: boolean = false;

@@ -9,7 +9,7 @@ import {
   OnInit,
   Optional,
   Output,
-  Renderer2,
+  Renderer2
 } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 

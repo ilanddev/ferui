@@ -14,8 +14,8 @@ import { Component, HostBinding, Input, TemplateRef } from '@angular/core';
     '[class.tab-pane]': 'true',
     '[class.active]': 'active',
     '[class.show]': 'active',
-    '[class.fade]': 'true',
-  },
+    '[class.fade]': 'true'
+  }
 })
 export class FuiTab {
   @HostBinding('attr.role') tabRole: string = 'tabpanel';

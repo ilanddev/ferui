@@ -24,7 +24,7 @@ import { FuiFormLayoutEnum } from './layout.enum';
   template: `
     <ng-content></ng-content>
   `,
-  providers: [ControlIdService],
+  providers: [ControlIdService]
 })
 class TestWrapper implements DynamicWrapper {
   _dynamic = false;
@@ -51,7 +51,7 @@ class TestControl extends WrappedFormControl<TestWrapper> {
       <ng-content></ng-content>
     </div>
   `,
-  providers: [ControlIdService],
+  providers: [ControlIdService]
 })
 class TestWrapper2 implements DynamicWrapper {
   _dynamic = false;
@@ -75,7 +75,7 @@ class TestControl2 extends WrappedFormControl<TestWrapper2> {
       <ng-content></ng-content>
     </div>
   `,
-  providers: [ControlIdService, MarkControlService, NgControlService, IfErrorService, ControlClassService],
+  providers: [ControlIdService, MarkControlService, NgControlService, IfErrorService, ControlClassService]
 })
 class TestWrapper3 implements DynamicWrapper {
   _dynamic = false;
@@ -96,7 +96,7 @@ class TestControl3 extends WrappedFormControl<TestWrapper3> {
   imports: [FuiHostWrappingModule, FormsModule],
   declarations: [TestWrapper, TestControl, TestWrapper2, TestControl2, TestControl3, TestWrapper3],
   exports: [TestWrapper, TestControl, TestWrapper2, TestControl2, TestControl3, TestWrapper3],
-  entryComponents: [TestWrapper, TestWrapper2, TestWrapper3],
+  entryComponents: [TestWrapper, TestWrapper2, TestWrapper3]
 })
 class WrappedFormControlTestModule {}
 
@@ -106,42 +106,42 @@ class WrappedFormControlTestModule {}
 @Component({
   template: `
     <input testControl />
-  `,
+  `
 })
 class NoWrapperNoId {}
 
 @Component({
   template: `
     <input testControl id="hello" />
-  `,
+  `
 })
 class NoWrapperWithId {}
 
 @Component({
   template: `
     <test-wrapper><input testControl/></test-wrapper>
-  `,
+  `
 })
 class WithWrapperNoId {}
 
 @Component({
   template: `
     <test-wrapper><input testControl id="hello"/></test-wrapper>
-  `,
+  `
 })
 class WithWrapperWithId {}
 
 @Component({
   template: `
     <test-wrapper2><input testControl2 id="hello"/></test-wrapper2>
-  `,
+  `
 })
 class WithMultipleNgContent {}
 
 @Component({
   template: `
     <test-wrapper3><input testControl3 [(ngModel)]="model"/></test-wrapper3>
-  `,
+  `
 })
 class WithControl {
   model = '';
@@ -164,7 +164,7 @@ export default function(): void {
     function setupTest<T>(testContext: TestContext, testComponent: Type<T>, testControl: any, testWrapper: any) {
       TestBed.configureTestingModule({
         imports: [WrappedFormControlTestModule, FormsModule],
-        declarations: [testComponent],
+        declarations: [testComponent]
       });
       testContext.fixture = TestBed.createComponent(testComponent);
       testContext.fixture.detectChanges();

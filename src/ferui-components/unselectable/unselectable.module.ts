@@ -5,6 +5,6 @@ import { FuiUnselectable } from './unselectable';
 @NgModule({
   imports: [CommonModule],
   declarations: [FuiUnselectable],
-  exports: [FuiUnselectable],
+  exports: [FuiUnselectable]
 })
 export class FuiUnselectableModule {}

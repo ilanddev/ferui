@@ -63,7 +63,7 @@ export interface TreeViewEvent<T> {
 export enum TreeViewEventType {
   NODE_CLICKED,
   NODE_EXPANDED,
-  NODE_COLLAPSED,
+  NODE_COLLAPSED
 }
 
 /**
@@ -89,5 +89,5 @@ export enum TreeViewColorTheme {
   DARK_BLUE = 'dark-blue',
   LIGHT_BLUE = 'light-blue',
   GRAY = 'gray',
-  WHITE = 'white',
+  WHITE = 'white'
 }

@@ -11,6 +11,6 @@ import { FuiRadioWrapper } from './radio-wrapper';
   imports: [CommonModule, FuiCommonFormsModule, FuiHostWrappingModule, ClrIconModule],
   declarations: [FuiRadio, FuiRadioContainer, FuiRadioWrapper],
   exports: [FuiRadio, FuiRadioContainer, FuiRadioWrapper],
-  entryComponents: [FuiRadioWrapper, FuiRadioContainer],
+  entryComponents: [FuiRadioWrapper, FuiRadioContainer]
 })
 export class FuiRadioModule {}

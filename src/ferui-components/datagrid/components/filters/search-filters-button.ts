@@ -31,8 +31,8 @@ import { FuiDatagridClientSideRowModel } from '../row-models/client-side-row-mod
   providers: [IfOpenService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'fui-datagrid-search-filter-button',
-  },
+    class: 'fui-datagrid-search-filter-button'
+  }
 })
 export class FuiDatagridSearchFilterButton implements OnDestroy, OnInit {
   isOpenPopup: boolean = false;

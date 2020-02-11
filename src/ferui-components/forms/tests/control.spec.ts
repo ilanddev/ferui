@@ -17,7 +17,7 @@ export function ControlStandaloneSpec(testComponent): void {
     it('should not throw an error when used without a form control', () => {
       TestBed.configureTestingModule({
         imports: [ClrIconModule, FuiCommonFormsModule],
-        declarations: [testComponent],
+        declarations: [testComponent]
       });
       expect(() => {
         const fixture = TestBed.createComponent(testComponent);
@@ -45,7 +45,7 @@ function fullTest(description, testContainer, testControl, testComponent, contro
       TestBed.configureTestingModule({
         imports: [FormsModule, ClrIconModule, FuiCommonFormsModule, ReactiveFormsModule],
         declarations: [testContainer, testControl, testComponent],
-        providers: [IfErrorService, NgControlService, ControlIdService, ControlClassService, MarkControlService],
+        providers: [IfErrorService, NgControlService, ControlIdService, ControlClassService, MarkControlService]
       });
       fixture = TestBed.createComponent(testComponent);
       control = fixture.debugElement.query(By.directive(testControl));

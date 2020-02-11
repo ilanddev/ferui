@@ -50,10 +50,10 @@ export default function(): void {
         statusChanges: {
           subscribe: () => {
             return function unsubscribe() {};
-          },
+          }
         },
         dirty: true,
-        invalid: true,
+        invalid: true
       };
       ngControlService.setControl(fakeControl);
       service.triggerStatusChange();

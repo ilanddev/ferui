@@ -95,7 +95,7 @@ export default function(): void {
     <ng-template [(FuiIfOpen)]="openState">
       Hello Template!
     </ng-template>
-  `,
+  `
 })
 class IfOpenTest {
   @ViewChild(FuiIfOpen) directive: FuiIfOpen;

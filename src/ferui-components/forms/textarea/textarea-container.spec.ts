@@ -13,7 +13,7 @@ import { ContainerNoLabelSpec, TemplateDrivenSpec, ReactiveSpec } from '../tests
       <label>Hello World</label>
       <fui-control-error>This field is required</fui-control-error>
     </fui-textarea-container>
-  `,
+  `
 })
 class SimpleTest {
   disabled = false;
@@ -24,7 +24,8 @@ class SimpleTest {
   template: `
     <fui-textarea-container>
       <textarea fuiTextarea [(ngModel)]="model"></textarea>
-    </fui-textarea-container>`,
+    </fui-textarea-container>
+  `
 })
 class NoLabelTest {}
 
@@ -36,12 +37,13 @@ class NoLabelTest {}
         <label>Hello World</label>
         <fui-control-error>This field is required</fui-control-error>
       </fui-textarea-container>
-    </form>`,
+    </form>
+  `
 })
 class ReactiveTest {
   disabled = false;
   form = new FormGroup({
-    model: new FormControl({ value: '', disabled: this.disabled }, Validators.required),
+    model: new FormControl({ value: '', disabled: this.disabled }, Validators.required)
   });
 }
 

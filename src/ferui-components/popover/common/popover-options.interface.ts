@@ -17,5 +17,5 @@ export enum Point {
   BOTTOM_LEFT,
   LEFT_CENTER,
   LEFT_TOP,
-  LEFT_BOTTOM,
+  LEFT_BOTTOM
 }

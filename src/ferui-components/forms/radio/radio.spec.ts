@@ -7,28 +7,28 @@ import { FuiRadioWrapper } from './radio-wrapper';
 
 @Component({
   template: `
-    <input type="radio" fuiRadio/>
-  `,
+    <input type="radio" fuiRadio />
+  `
 })
 class StandaloneUseTest {}
 
 @Component({
   template: `
-    <input type="radio" fuiRadio name="model" class="test-class" [(ngModel)]="model"/>
-  `,
+    <input type="radio" fuiRadio name="model" class="test-class" [(ngModel)]="model" />
+  `
 })
 class TemplateDrivenTest {}
 
 @Component({
   template: `
     <form [formGroup]="example">
-      <input type="radio" fuiRadio name="model" class="test-class" formControlName="model"/>
+      <input type="radio" fuiRadio name="model" class="test-class" formControlName="model" />
     </form>
-  `,
+  `
 })
 class ReactiveTest {
   example = new FormGroup({
-    model: new FormControl('', Validators.required),
+    model: new FormControl('', Validators.required)
   });
 }
 

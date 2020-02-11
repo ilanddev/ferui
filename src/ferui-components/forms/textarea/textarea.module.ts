@@ -11,6 +11,6 @@ import { ClrIconModule } from '../../icon/icon.module';
   imports: [CommonModule, FormsModule, ClrIconModule, FuiCommonFormsModule],
   declarations: [FuiTextarea, FuiTextareaContainer],
   exports: [FuiTextarea, FuiTextareaContainer],
-  entryComponents: [FuiTextareaContainer],
+  entryComponents: [FuiTextareaContainer]
 })
 export class FuiTextareaModule {}

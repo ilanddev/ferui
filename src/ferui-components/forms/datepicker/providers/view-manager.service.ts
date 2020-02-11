@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 const enum DatepickerViewEnum {
   MONTHVIEW = 'MONTHVIEW',
   YEARVIEW = 'YEARVIEW',
-  DAYVIEW = 'DAYVIEW',
+  DAYVIEW = 'DAYVIEW'
 }
 
 /**

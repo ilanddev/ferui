@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ng-content></ng-content>
-  `,
+  `
 })
 export class NgOptionComponent implements OnChanges {
   @Input() value: any;
@@ -30,7 +30,7 @@ export class NgOptionComponent implements OnChanges {
     if (changes.disabled) {
       this.stateChange$.next({
         value: this.value,
-        disabled: this._disabled,
+        disabled: this._disabled
       });
     }
   }

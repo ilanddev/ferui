@@ -7,7 +7,7 @@ import {
   TreeNodeData,
   TreeNodeDataRetriever,
   TreeViewColorTheme,
-  TreeViewConfiguration,
+  TreeViewConfiguration
 } from './interfaces';
 
 export default function() {
@@ -18,7 +18,7 @@ export default function() {
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [TreeViewModule],
-        declarations: [ClientSideTestComponent],
+        declarations: [ClientSideTestComponent]
       });
       testComponent = TestBed.createComponent(ClientSideTestComponent);
       testComponent.detectChanges();
@@ -41,14 +41,14 @@ export default function() {
       const treeViewCom = testComponent.componentInstance.treeView;
       expect(treeViewCom.treeViewStyles).toEqual({
         width: '250px',
-        height: '300px',
+        height: '300px'
       });
       expect(treeViewCom.colorTheme).toEqual('white');
       expect(treeViewCom.scrollViewArray).toEqual([
         {
           data: {
             data: { name: 'Parent', children: [{ name: 'Child 1' }, { name: 'Child 2' }] },
-            nodeLabel: 'Parent',
+            nodeLabel: 'Parent'
           },
           selected: false,
           expanded: false,
@@ -56,8 +56,8 @@ export default function() {
           allChildrenLoaded: false,
           parent: null,
           showLoader: false,
-          loadError: false,
-        },
+          loadError: false
+        }
       ]);
       expect(treeViewCom.hasBorders).toEqual(false);
     });
@@ -70,7 +70,7 @@ export default function() {
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [TreeViewModule],
-        declarations: [ServerSideTestComponent],
+        declarations: [ServerSideTestComponent]
       });
       testComponent = TestBed.createComponent(ServerSideTestComponent);
       testComponent.detectChanges();
@@ -88,7 +88,7 @@ export default function() {
         {
           data: {
             data: { name: 'Parent', children: [{ name: 'Child 1' }, { name: 'Child 2' }] },
-            nodeLabel: 'Parent',
+            nodeLabel: 'Parent'
           },
           selected: false,
           expanded: false,
@@ -96,8 +96,8 @@ export default function() {
           allChildrenLoaded: false,
           parent: null,
           showLoader: false,
-          loadError: false,
-        },
+          loadError: false
+        }
       ]);
       expect(treeViewCom.hasBorders).toEqual(true);
     });
@@ -106,7 +106,7 @@ export default function() {
       const treeViewCom = testComponent.componentInstance.treeView;
       treeViewCom.expandNode({
         data: { name: 'Parent', children: [{ name: 'Child 1' }, { name: 'Child 2' }] },
-        nodeLabel: 'Parent',
+        nodeLabel: 'Parent'
       });
       tick(1000);
       expect(treeViewCom.scrollViewArray.length).toEqual(3);
@@ -116,14 +116,14 @@ export default function() {
       const treeViewCom = testComponent.componentInstance.treeView;
       treeViewCom.expandNode({
         data: { name: 'Parent', children: [{ name: 'Child 1' }, { name: 'Child 2' }] },
-        nodeLabel: 'Parent',
+        nodeLabel: 'Parent'
       });
       tick(1000);
       expect(treeViewCom.scrollViewArray.length).toEqual(3);
 
       treeViewCom.collapseNode({
         data: { name: 'Parent', children: [{ name: 'Child 1' }, { name: 'Child 2' }] },
-        nodeLabel: 'Parent',
+        nodeLabel: 'Parent'
       });
       tick(1000);
       expect(treeViewCom.scrollViewArray.length).toEqual(1);
@@ -133,13 +133,13 @@ export default function() {
       const treeViewCom = testComponent.componentInstance.treeView;
       treeViewCom.expandNode({
         data: { name: 'Parent', children: [{ name: 'Child 1' }, { name: 'Child 2' }] },
-        nodeLabel: 'Parent',
+        nodeLabel: 'Parent'
       });
       tick(1000);
       expect(treeViewCom.scrollViewArray.length).toEqual(3);
       treeViewCom.selectNode({
         data: { name: 'Child 2' },
-        nodeLabel: 'Child 2',
+        nodeLabel: 'Child 2'
       });
       tick(1000);
       expect(treeViewCom.scrollViewArray[2].selected).toEqual(true);
@@ -155,17 +155,17 @@ export default function() {
       [dataRetriever]="treeNodeDataRetriever"
       [config]="treeViewConfiguration"
     ></fui-tree-view>
-  `,
+  `
 })
 class ClientSideTestComponent {
   @ViewChild('treeView') treeView: FuiTreeViewComponent<any>;
   data: TreeNodeData<any> = {
     data: { name: 'Parent', children: [{ name: 'Child 1' }, { name: 'Child 2' }] },
-    nodeLabel: 'Parent',
+    nodeLabel: 'Parent'
   };
   treeViewConfiguration: TreeViewConfiguration = {
     width: '250px',
-    height: '300px',
+    height: '300px'
   };
   treeNodeDataRetriever: TreeNodeDataRetriever<any> = {
     hasChildNodes: (node: TreeNodeData<any>) => {
@@ -177,7 +177,7 @@ class ClientSideTestComponent {
           return { data: it, nodeLabel: it.name };
         })
       );
-    },
+    }
   };
 }
 
@@ -189,19 +189,19 @@ class ClientSideTestComponent {
       [dataRetriever]="treeNodeDataRetriever"
       [config]="treeViewConfiguration"
     ></fui-tree-view>
-  `,
+  `
 })
 class ServerSideTestComponent {
   @ViewChild('treeView') treeView: FuiTreeViewComponent<any>;
   data: TreeNodeData<any> = {
     data: { name: 'Parent', children: [{ name: 'Child 1' }, { name: 'Child 2' }] },
-    nodeLabel: 'Parent',
+    nodeLabel: 'Parent'
   };
   treeViewConfiguration: TreeViewConfiguration = {
     width: '250px',
     height: '300px',
     hasBorders: true,
-    colorVariation: TreeViewColorTheme.GRAY,
+    colorVariation: TreeViewColorTheme.GRAY
   };
   treeNodeDataRetriever: PagedTreeNodeDataRetriever<any> = {
     hasChildNodes: (node: TreeNodeData<any>) => {
@@ -220,6 +220,6 @@ class ServerSideTestComponent {
           return { data: it, nodeLabel: it.name };
         })
       );
-    },
+    }
   };
 }

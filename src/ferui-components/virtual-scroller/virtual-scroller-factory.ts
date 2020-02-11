@@ -8,6 +8,6 @@ export function VIRTUAL_SCROLLER_DEFAULT_OPTIONS_FACTORY(): VirtualScrollerDefau
     checkResizeInterval: 1000,
     resizeBypassRefreshThreshold: 5,
     modifyOverflowStyleOfParentScroll: true,
-    stripedTable: false,
+    stripedTable: false
   };
 }

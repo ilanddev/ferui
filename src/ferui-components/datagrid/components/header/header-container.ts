@@ -4,11 +4,12 @@ import { FuiDatagridService } from '../../services/datagrid.service';
 @Component({
   selector: 'fui-datagrid-header-container',
   template: `
-    <ng-content select="fui-datagrid-header-row"></ng-content>`,
+    <ng-content select="fui-datagrid-header-row"></ng-content>
+  `,
   host: {
-    '[class.fui-datagrid-header-container]': 'true',
+    '[class.fui-datagrid-header-container]': 'true'
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FuiHeaderContainer implements OnInit {
   @HostBinding('attr.role') role: string = 'presentation';

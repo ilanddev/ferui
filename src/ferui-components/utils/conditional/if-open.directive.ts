@@ -49,11 +49,7 @@ export class FuiIfOpen implements OnDestroy {
 
   private subscription: Subscription;
 
-  constructor(
-    private ifOpenService: IfOpenService,
-    private template: TemplateRef<any>,
-    private container: ViewContainerRef
-  ) {
+  constructor(private ifOpenService: IfOpenService, private template: TemplateRef<any>, private container: ViewContainerRef) {
     this.subscription = this.ifOpenService.openChange.subscribe(change => {
       this.updateView(change);
       this.openChange.emit(change);

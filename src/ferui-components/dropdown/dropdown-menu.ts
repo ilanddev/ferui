@@ -8,7 +8,7 @@ import {
   OnDestroy,
   OnInit,
   Optional,
-  SkipSelf,
+  SkipSelf
 } from '@angular/core';
 import { AbstractPopover } from '../popover/common/abstract-popover';
 import { POPOVER_HOST_ANCHOR } from '../popover/common/popover-host-anchor.token';
@@ -21,8 +21,8 @@ import { Point } from '../popover/common/popover-options.interface';
   `,
   host: {
     '[class.fui-dropdown-menu]': 'true',
-    '[class.visible]': 'isOpen()',
-  },
+    '[class.visible]': 'isOpen()'
+  }
 })
 export class FuiDropdownMenu extends AbstractPopover implements OnInit, OnDestroy, AfterViewInit {
   @Input() appendTo: string;
@@ -224,20 +224,20 @@ export class FuiDropdownMenu extends AbstractPopover implements OnInit, OnDestro
       if (mat) {
         return {
           x: parseFloat(mat[1].split(', ')[12]),
-          y: parseFloat(mat[1].split(', ')[13]),
+          y: parseFloat(mat[1].split(', ')[13])
         };
       }
       mat = transform.match(/^matrix\((.+)\)$/);
       if (mat) {
         return {
           x: parseFloat(mat[1].split(', ')[4]),
-          y: parseFloat(mat[1].split(', ')[5]),
+          y: parseFloat(mat[1].split(', ')[5])
         };
       }
     }
     return {
       x: 0,
-      y: 0,
+      y: 0
     };
   }
 

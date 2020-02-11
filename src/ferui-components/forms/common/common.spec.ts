@@ -20,7 +20,7 @@ import { FuiFormLayoutEnum } from './layout.enum';
     <ng-content></ng-content>
     <label id="container-view-label-after"></label>
   `,
-  providers: [ControlIdService],
+  providers: [ControlIdService]
 })
 class GenericWrapper implements DynamicWrapper {
   _dynamic = false;
@@ -41,7 +41,7 @@ class GenericControl extends WrappedFormControl<GenericWrapper> {
   imports: [FuiCommonFormsModule, FuiHostWrappingModule],
   declarations: [GenericWrapper, GenericControl],
   exports: [FuiCommonFormsModule, GenericWrapper, GenericControl],
-  entryComponents: [GenericWrapper],
+  entryComponents: [GenericWrapper]
 })
 class CommonFormsTestModule {}
 
@@ -51,14 +51,14 @@ class CommonFormsTestModule {}
 @Component({
   template: `
     <input genericControl />
-  `,
+  `
 })
 class NoWrapperNoId {}
 
 @Component({
   template: `
     <input genericControl id="hello" />
-  `,
+  `
 })
 class NoWrapperWithId {}
 
@@ -69,7 +69,7 @@ class NoWrapperWithId {}
       <input genericControl />
       <label id="test-view-label-after"></label>
     </generic-wrapper>
-  `,
+  `
 })
 class WithWrapperNoId {}
 
@@ -80,7 +80,7 @@ class WithWrapperNoId {}
       <input genericControl id="hello" />
       <label id="test-view-label-after"></label>
     </generic-wrapper>
-  `,
+  `
 })
 class WithWrapperWithId {}
 

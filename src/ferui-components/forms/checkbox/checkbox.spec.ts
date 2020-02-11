@@ -7,28 +7,28 @@ import { FuiCheckboxWrapper } from './checkbox-wrapper';
 
 @Component({
   template: `
-    <input type="checkbox" fuiCheckbox/>
-  `,
+    <input type="checkbox" fuiCheckbox />
+  `
 })
 class StandaloneUseTest {}
 
 @Component({
   template: `
-    <input type="checkbox" fuiCheckbox name="model" class="test-class" [(ngModel)]="model"/>
-  `,
+    <input type="checkbox" fuiCheckbox name="model" class="test-class" [(ngModel)]="model" />
+  `
 })
 class TemplateDrivenTest {}
 
 @Component({
   template: `
     <form [formGroup]="example">
-      <input type="checkbox" fuiCheckbox name="model" class="test-class" formControlName="model"/>
+      <input type="checkbox" fuiCheckbox name="model" class="test-class" formControlName="model" />
     </form>
-  `,
+  `
 })
 class ReactiveTest {
   example = new FormGroup({
-    model: new FormControl('', Validators.required),
+    model: new FormControl('', Validators.required)
   });
 }
 

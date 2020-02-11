@@ -9,7 +9,7 @@ import {
   ElementRef,
   OnDestroy,
   Renderer2,
-  InjectionToken,
+  InjectionToken
 } from '@angular/core';
 
 import { HostWrapper } from '../../utils/host-wrapping/host-wrapper';

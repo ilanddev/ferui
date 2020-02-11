@@ -36,6 +36,6 @@ export function commonStringsFactory(existing?: FuiCommonStrings): FuiCommonStri
 
 @Injectable({
   providedIn: 'root',
-  useFactory: commonStringsFactory,
+  useFactory: commonStringsFactory
 })
 export class FuiCommonStrings extends AbstractFuiCommonStrings {}

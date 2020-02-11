@@ -1,4 +1,4 @@
 export enum FuiFormLayoutEnum {
   DEFAULT = 'default',
-  SMALL = 'small',
+  SMALL = 'small'
 }

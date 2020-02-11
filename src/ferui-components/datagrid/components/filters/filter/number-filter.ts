@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FuiDatagridBaseFilter } from './base-filter';
-import {
-  Comparator,
-  FuiDatagridIFilter,
-  IDoesFilterPassParams,
-  IScalarFilterParams,
-  NullComparator,
-} from '../interfaces/filter';
+import { Comparator, FuiDatagridIFilter, IDoesFilterPassParams, IScalarFilterParams, NullComparator } from '../interfaces/filter';
 import { DatagridUtils } from '../../../utils/datagrid-utils';
 import { FilterType } from '../interfaces/filter.enum';
 import { isArray } from 'util';
@@ -69,14 +63,14 @@ export interface INumberFilterParams extends IScalarFilterParams {
     </div>
   `,
   host: {
-    class: 'fui-datagrid-number-filter container-fluid',
-  },
+    class: 'fui-datagrid-number-filter container-fluid'
+  }
 })
 export class FuiDatagridNumberFilter extends FuiDatagridBaseFilter<INumberFilterParams> implements OnInit {
   static readonly DEFAULT_NULL_COMPARATOR: NullComparator = {
     equals: false,
     lessThan: false,
-    greaterThan: false,
+    greaterThan: false
   };
 
   selectedType: string;
@@ -91,7 +85,7 @@ export class FuiDatagridNumberFilter extends FuiDatagridBaseFilter<INumberFilter
       FuiDatagridNumberFilter.LESS_THAN_OR_EQUAL,
       FuiDatagridNumberFilter.GREATER_THAN,
       FuiDatagridNumberFilter.GREATER_THAN_OR_EQUAL,
-      FuiDatagridNumberFilter.IN_RANGE,
+      FuiDatagridNumberFilter.IN_RANGE
     ];
   }
 
@@ -180,7 +174,7 @@ export class FuiDatagridNumberFilter extends FuiDatagridBaseFilter<INumberFilter
       getFilterType: () => this.getFilterType(),
       getFilterOption: () => this.getFilterOption(),
       getFilterValue: () => this.getFilterValue(),
-      getFilterParams: () => this.getFilterParams(),
+      getFilterParams: () => this.getFilterParams()
     };
     this.addOrRemoveFilter(condition, filter);
   }

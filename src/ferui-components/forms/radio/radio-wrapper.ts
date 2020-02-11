@@ -14,9 +14,9 @@ import { FuiFormLayoutService } from '../common/providers/form-layout.service';
     <label *ngIf="!label"></label>
   `,
   host: {
-    '[class.fui-radio-wrapper]': 'true',
+    '[class.fui-radio-wrapper]': 'true'
   },
-  providers: [ControlIdService],
+  providers: [ControlIdService]
 })
 export class FuiRadioWrapper implements DynamicWrapper {
   _dynamic = false;

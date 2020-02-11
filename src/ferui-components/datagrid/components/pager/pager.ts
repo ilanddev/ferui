@@ -94,8 +94,8 @@ import { FuiDatagridInfinteRowModel } from '../row-models/infinite/infinite-row-
   `,
   host: {
     class: 'fui-datagrid-pager',
-    '[class.fui-datagrid-hidden-pager]': 'isLoading',
-  },
+    '[class.fui-datagrid-hidden-pager]': 'isLoading'
+  }
 })
 export class FuiDatagridPager implements OnInit, OnDestroy {
   @Output() pagerReset: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -214,7 +214,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
         api: null,
         columnApi: null,
         page: this._selectedPage,
-        type: FuiDatagridEvents.EVENT_PAGER_SELECTED_PAGE,
+        type: FuiDatagridEvents.EVENT_PAGER_SELECTED_PAGE
       };
       this.eventService.dispatchEvent(event);
     }
@@ -542,7 +542,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
       value: index, // start from 1
       startIndex: firstIndex, // start from 0
       endIndex: lastIndex,
-      serverSidePageLoaded: false,
+      serverSidePageLoaded: false
     };
     this.pages.push(page);
     if (this.isServerSideRowModel() && this.totalRows === null) {
@@ -594,7 +594,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
         value: this.selectedPage.value + 1,
         startIndex: this.selectedPage.endIndex + 1,
         endIndex: this.selectedPage.endIndex + this.serverSideRowModel.limit,
-        serverSidePageLoaded: false,
+        serverSidePageLoaded: false
       };
     } else {
       return this.pages[this.selectedPage.index + 1];

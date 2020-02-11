@@ -9,7 +9,7 @@ import { FuiCheckboxContainer } from './checkbox-container';
 @Component({
   template: `
     <fui-checkbox-container></fui-checkbox-container>
-  `,
+  `
 })
 class NoLabelTest {}
 
@@ -19,15 +19,15 @@ class NoLabelTest {}
       <label>Hello World</label>
       <fui-checkbox-wrapper>
         <label>One</label>
-        <input type="checkbox" fuiCheckbox name="model" required [(ngModel)]="model" value="one"/>
+        <input type="checkbox" fuiCheckbox name="model" required [(ngModel)]="model" value="one" />
       </fui-checkbox-wrapper>
       <fui-checkbox-wrapper>
         <label>Two</label>
-        <input type="checkbox" fuiCheckbox name="model" required [(ngModel)]="model" value="two" [disabled]="disabled"/>
+        <input type="checkbox" fuiCheckbox name="model" required [(ngModel)]="model" value="two" [disabled]="disabled" />
       </fui-checkbox-wrapper>
       <fui-control-error>There was an error</fui-control-error>
     </fui-checkbox-container>
-  `,
+  `
 })
 class TemplateDrivenTest {
   inline = false;
@@ -42,20 +42,21 @@ class TemplateDrivenTest {
         <label>Hello World</label>
         <fui-checkbox-wrapper>
           <label>One</label>
-          <input fuiCheckbox type="checkbox" formControlName="model" value="one"/>
+          <input fuiCheckbox type="checkbox" formControlName="model" value="one" />
         </fui-checkbox-wrapper>
         <fui-checkbox-wrapper>
           <label>Two</label>
-          <input fuiCheckbox type="checkbox" formControlName="model" value="two"/>
+          <input fuiCheckbox type="checkbox" formControlName="model" value="two" />
         </fui-checkbox-wrapper>
         <fui-control-error>There was an error</fui-control-error>
       </fui-checkbox-container>
-    </form>`,
+    </form>
+  `
 })
 class ReactiveTest {
   disabled = false;
   form = new FormGroup({
-    model: new FormControl({ value: '', disabled: this.disabled }, Validators.required),
+    model: new FormControl({ value: '', disabled: this.disabled }, Validators.required)
   });
 }
 
@@ -68,11 +69,6 @@ export default function(): void {
       TemplateDrivenTest,
       '.fui-checkbox-wrapper [fuiCheckbox]'
     );
-    ReactiveSpec(
-      FuiCheckboxContainer,
-      [FuiCheckboxWrapper, FuiCheckbox],
-      ReactiveTest,
-      '.fui-checkbox-wrapper [fuiCheckbox]'
-    );
+    ReactiveSpec(FuiCheckboxContainer, [FuiCheckboxWrapper, FuiCheckbox], ReactiveTest, '.fui-checkbox-wrapper [fuiCheckbox]');
   });
 }

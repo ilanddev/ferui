@@ -6,7 +6,7 @@ import { MarkControlService } from './providers/mark-control.service';
   providers: [MarkControlService],
   host: {
     '[class.fui-form]': 'true'
-  },
+  }
 })
 export class FuiForm {
   constructor(private markControlService: MarkControlService) {}

@@ -139,13 +139,10 @@ export class InfiniteCache {
       const requestObj: IServerSideGetRowsParams = {
         request: {
           offset: offset,
-          limit: limit,
-        },
+          limit: limit
+        }
       };
-      const params: IServerSideGetRowsParams = DatagridUtils.mergeDeep<IServerSideGetRowsParams>(
-        { ...this.params },
-        requestObj
-      );
+      const params: IServerSideGetRowsParams = DatagridUtils.mergeDeep<IServerSideGetRowsParams>({ ...this.params }, requestObj);
       const infiniteBlock: InfiniteBlock = new InfiniteBlock(this.eventService);
       infiniteBlock.init(offset, limit, datasource, params);
 

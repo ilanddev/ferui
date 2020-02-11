@@ -8,7 +8,7 @@ import { By } from '@angular/platform-browser';
     <span id="test1" [ngOptionHighlight]="term">My text is highlighted</span>
     <span id="test2" [ngOptionHighlight]="term">My text is not highlighted</span>
     <span id="test3" *ngIf="showNew" [ngOptionHighlight]="term">New label</span>
-  `,
+  `
 })
 class TestComponent {
   term: string;
@@ -21,7 +21,7 @@ export default function(): void {
 
     beforeEach(() => {
       fixture = TestBed.configureTestingModule({
-        declarations: [NgOptionHighlightDirective, TestComponent],
+        declarations: [NgOptionHighlightDirective, TestComponent]
       }).createComponent(TestComponent);
 
       fixture.detectChanges();

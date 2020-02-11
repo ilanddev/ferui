@@ -11,8 +11,8 @@ import { NgSelectComponent } from './ng-select/ng-select.component';
   selector: '[fuiSelect]',
   host: {
     '[class.fui-select]': 'true',
-    '[class.fui-layout-small]': 'layout === fuiFormLayoutEnum.SMALL',
-  },
+    '[class.fui-layout-small]': 'layout === fuiFormLayoutEnum.SMALL'
+  }
 })
 export class FuiSelect extends WrappedFormControl<FuiSelectContainer> implements OnInit {
   private selectService: FuiSelectService;

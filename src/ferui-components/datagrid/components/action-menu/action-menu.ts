@@ -6,7 +6,7 @@ import {
   HostListener,
   Input,
   OnDestroy,
-  TemplateRef,
+  TemplateRef
 } from '@angular/core';
 import { FuiDatagridBodyRowContext } from '../../types/body-row-context';
 import { FuiActionMenuService } from '../../services/action-menu/action-menu.service';
@@ -21,9 +21,9 @@ import { FuiDatagridOptionsWrapperService } from '../../services/datagrid-option
   host: {
     class: 'fui-datagrid-body-row-action-menu',
     '[class.fui-datagrid-action-menu-visible]': 'isActionMenuVisible || isActionMenuDropdownOpen',
-    '[class.fui-datagrid-action-menu-open]': 'isActionMenuDropdownOpen',
+    '[class.fui-datagrid-action-menu-open]': 'isActionMenuDropdownOpen'
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FuiDatagridActionMenu implements OnDestroy {
   @Input('actionMenuTemplate') actionMenuTemplate: TemplateRef<FuiDatagridBodyRowContext>;
@@ -106,7 +106,7 @@ export class FuiDatagridActionMenu implements OnDestroy {
       return {
         ...this.actionMenuService.curentlySelectedRowContext,
         forceClose: this.forceClose,
-        onDropdownOpen: this.onDropdownOpen,
+        onDropdownOpen: this.onDropdownOpen
       };
     }
     return null;

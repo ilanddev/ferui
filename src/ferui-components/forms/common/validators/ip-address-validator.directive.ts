@@ -19,7 +19,7 @@ export function ipAddressValidator(): ValidatorFn {
 
 @Directive({
   selector: '[ipAddress]',
-  providers: [{ provide: NG_VALIDATORS, useExisting: IpAddressValidatorDirective, multi: true }],
+  providers: [{ provide: NG_VALIDATORS, useExisting: IpAddressValidatorDirective, multi: true }]
 })
 export class IpAddressValidatorDirective implements Validator {
   validate(control: AbstractControl): { [key: string]: any } | null {

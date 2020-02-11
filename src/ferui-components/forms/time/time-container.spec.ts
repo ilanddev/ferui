@@ -24,7 +24,7 @@ export default function() {
 
     beforeEach(function() {
       TestBed.configureTestingModule({
-        imports: [FormsModule],
+        imports: [FormsModule]
       });
       TestBed.overrideComponent(FuiTimeContainer, {
         set: {
@@ -40,9 +40,9 @@ export default function() {
             TimeIOService,
             ControlIdService,
             DateFormControlService,
-            FuiFormLayoutService,
-          ],
-        },
+            FuiFormLayoutService
+          ]
+        }
       });
 
       context = this.create(FuiTimeContainer, TestComponent, []);
@@ -92,7 +92,7 @@ export default function() {
     <fui-time-container>
       <input type="time" fuiTime [(ngModel)]="model" [disabled]="disabled" />
     </fui-time-container>
-  `,
+  `
 })
 class TestComponent {
   model = '';

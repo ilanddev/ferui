@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
     <ng-content select="fui-widget-header"></ng-content>
     <ng-content select="fui-widget-body"></ng-content>
     <ng-content select="fui-widget-footer"></ng-content>
-  `,
+  `
 })
 export class FuiWidget {}

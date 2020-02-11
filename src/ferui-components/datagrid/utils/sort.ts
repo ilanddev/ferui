@@ -25,7 +25,7 @@ export function orderByComparator(a: any, b: any): number {
     if (a > b) {
       return 1;
     }
-  } else if (isNaN(parseFloat(a)) || !isFinite(a) || (isNaN(parseFloat(b)) || !isFinite(b))) {
+  } else if (isNaN(parseFloat(a)) || !isFinite(a) || isNaN(parseFloat(b)) || !isFinite(b)) {
     // Convert to string in case of a=0 or b=0
     a = String(a);
     b = String(b);

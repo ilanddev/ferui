@@ -363,7 +363,7 @@ export class Column {
       sort: this.getSort(),
       sortOrder: this.sortOrder,
       filterable: this.isFilterAllowed(),
-      filter: this.filter,
+      filter: this.filter
     };
   }
 
@@ -376,7 +376,7 @@ export class Column {
       sortable: this.sortable,
       sort: this.getSort(),
       sortOrder: this.sortOrder,
-      sortType: this.sortType,
+      sortType: this.sortType
     };
   }
 
@@ -390,7 +390,7 @@ export class Column {
       filterType: this.filter,
       filterParams: this.filterParams,
       filterValue: null,
-      filterOption: null,
+      filterOption: null
     };
   }
 
@@ -412,7 +412,7 @@ export class Column {
       columnApi: this.columnApi,
       type: type,
       column: this,
-      columns: [this],
+      columns: [this]
     };
   }
 }

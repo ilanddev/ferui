@@ -17,7 +17,7 @@ import {
   SimpleChanges,
   TemplateRef,
   ViewChild,
-  ViewEncapsulation,
+  ViewEncapsulation
 } from '@angular/core';
 import { animationFrameScheduler, asapScheduler, fromEvent, merge, Subject } from 'rxjs';
 import { auditTime, takeUntil } from 'rxjs/operators';
@@ -37,10 +37,7 @@ const SCROLL_SCHEDULER = typeof requestAnimationFrame !== 'undefined' ? animatio
   selector: 'ng-dropdown-panel',
   template: `
     <div *ngIf="headerTemplate" class="ng-dropdown-header">
-      <ng-container
-        [ngTemplateOutlet]="headerTemplate"
-        [ngTemplateOutletContext]="{ searchTerm: filterValue }"
-      ></ng-container>
+      <ng-container [ngTemplateOutlet]="headerTemplate" [ngTemplateOutletContext]="{ searchTerm: filterValue }"></ng-container>
     </div>
     <div #scroll class="ng-dropdown-panel-items scroll-host">
       <div #padding [class.total-padding]="virtualScroll"></div>
@@ -49,12 +46,9 @@ const SCROLL_SCHEDULER = typeof requestAnimationFrame !== 'undefined' ? animatio
       </div>
     </div>
     <div *ngIf="footerTemplate" class="ng-dropdown-footer">
-      <ng-container
-        [ngTemplateOutlet]="footerTemplate"
-        [ngTemplateOutletContext]="{ searchTerm: filterValue }"
-      ></ng-container>
+      <ng-container [ngTemplateOutlet]="footerTemplate" [ngTemplateOutletContext]="{ searchTerm: filterValue }"></ng-container>
     </div>
-  `,
+  `
 })
 export class NgDropdownPanelComponent implements OnInit, OnChanges, OnDestroy {
   @Input() items: NgOption[] = [];
@@ -216,10 +210,7 @@ export class NgDropdownPanelComponent implements OnInit, OnChanges, OnDestroy {
   private _handleScroll() {
     this._zone.runOutsideAngular(() => {
       fromEvent(this.scrollElementRef.nativeElement, 'scroll')
-        .pipe(
-          takeUntil(this._destroy$),
-          auditTime(0, SCROLL_SCHEDULER)
-        )
+        .pipe(takeUntil(this._destroy$), auditTime(0, SCROLL_SCHEDULER))
         .subscribe((e: Event) => this._onContentScrolled(e.srcElement.scrollTop));
     });
   }
@@ -230,10 +221,7 @@ export class NgDropdownPanelComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     this._zone.runOutsideAngular(() => {
-      merge(
-        fromEvent(this._document, 'touchstart', { capture: true }),
-        fromEvent(this._document, 'mousedown', { capture: true })
-      )
+      merge(fromEvent(this._document, 'touchstart', { capture: true }), fromEvent(this._document, 'mousedown', { capture: true }))
         .pipe(takeUntil(this._destroy$))
         .subscribe($event => this._checkToClose($event));
     });

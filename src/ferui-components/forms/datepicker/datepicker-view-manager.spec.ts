@@ -24,7 +24,7 @@ export default function() {
         DateNavigationService,
         LocaleHelperService,
         DateIOService,
-        DateFormControlService,
+        DateFormControlService
       ]);
       viewManagerService = context.getFeruiProvider(ViewManagerService);
     });
@@ -62,7 +62,7 @@ export default function() {
 @Component({
   template: `
     <fui-datepicker-view-manager></fui-datepicker-view-manager>
-  `,
+  `
 })
 class TestComponent {
   constructor(private dateNavigationService: DateNavigationService) {

@@ -18,7 +18,7 @@ export class FuiDatagridOptionsWrapperService {
     rowHeight: 50,
     minColWidth: FuiDatagridOptionsWrapperService.MIN_COLUMN_WIDTH,
     infiniteMaxSurroundingBlocksInCache: this.infiniteMaxSurroundingBlocksInCache,
-    infiniteInitialBlocksCount: this.infiniteInitialBlocksCount,
+    infiniteInitialBlocksCount: this.infiniteInitialBlocksCount
   };
 
   private _gridOptions: FuiGridOptions;
@@ -42,9 +42,7 @@ export class FuiDatagridOptionsWrapperService {
   }
 
   getAutoSizePadding(): number {
-    return this._gridOptions.autoSizePadding && this._gridOptions.autoSizePadding > 0
-      ? this._gridOptions.autoSizePadding
-      : 40;
+    return this._gridOptions.autoSizePadding && this._gridOptions.autoSizePadding > 0 ? this._gridOptions.autoSizePadding : 40;
   }
 
   getMinColWidth(): number {

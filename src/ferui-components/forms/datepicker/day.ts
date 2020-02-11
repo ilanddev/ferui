@@ -17,11 +17,12 @@ import { DateFormControlService } from '../common/providers/date-form-control.se
       [class.is-selected]="dayView.isSelected"
       [attr.tabindex]="dayView.tabIndex"
       (click)="selectDay()"
-      (focus)="onDayViewFocus()">
-      {{dayView.dayModel.date}}
+      (focus)="onDayViewFocus()"
+    >
+      {{ dayView.dayModel.date }}
     </button>
   `,
-  host: { '[class.day]': 'true' },
+  host: { '[class.day]': 'true' }
 })
 export class FuiDay {
   /**

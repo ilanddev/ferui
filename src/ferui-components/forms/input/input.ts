@@ -9,8 +9,8 @@ import { Renderer2 } from '@angular/core';
   selector: '[fuiInput]',
   host: {
     '[class.fui-input]': 'true',
-    '[class.fui-layout-small]': 'layout === fuiFormLayoutEnum.SMALL',
-  },
+    '[class.fui-layout-small]': 'layout === fuiFormLayoutEnum.SMALL'
+  }
 })
 export class FuiInput extends WrappedFormControl<FuiInputContainer> {
   protected index = 1;

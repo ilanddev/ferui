@@ -5,7 +5,7 @@ import { FuiWidgetSubtitle } from './widget-subtitle.component';
   selector: 'fui-widget-header',
   host: {
     '[class.fui-widget-header]': 'true',
-    '[class.has-subtitle]': 'subtitle !== undefined',
+    '[class.has-subtitle]': 'subtitle !== undefined'
   },
   template: `
     <div class="fui-widget-header-left-cell">
@@ -15,7 +15,7 @@ import { FuiWidgetSubtitle } from './widget-subtitle.component';
     <div class="fui-widget-header-right-cell">
       <ng-content select="fui-widget-actions"></ng-content>
     </div>
-  `,
+  `
 })
 export class FuiWidgetHeader {
   @ContentChild(FuiWidgetSubtitle) subtitle: ContentChild;

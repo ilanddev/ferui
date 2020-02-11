@@ -49,7 +49,7 @@ export default function() {
           PlaceholderService,
           RequiredControlService,
           TimeIOService,
-          TimeSelectionService,
+          TimeSelectionService
         ]);
 
         timeIOService = context.fixture.debugElement.query(By.directive(FuiTimeContainer)).injector.get(TimeIOService);
@@ -121,7 +121,7 @@ export default function() {
       beforeEach(function() {
         TestBed.configureTestingModule({
           imports: [FormsModule, FuiTimeModule],
-          declarations: [TestComponentWithNgModel],
+          declarations: [TestComponentWithNgModel]
         });
 
         fixture = TestBed.createComponent(TestComponentWithNgModel);
@@ -132,26 +132,23 @@ export default function() {
         timeSelectionService = timeContainerDebugElement.injector.get(TimeSelectionService);
       });
 
-      it(
-        'updates the selects models when the app changes the ngModel value',
-        fakeAsync(() => {
-          fixture.componentInstance.timeValue = '10:00:30 PM';
+      it('updates the selects models when the app changes the ngModel value', fakeAsync(() => {
+        fixture.componentInstance.timeValue = '10:00:30 PM';
 
-          fixture.detectChanges();
-          tick();
+        fixture.detectChanges();
+        tick();
 
-          expect(timeInputDebugElement.nativeElement.value).toBe('10:00:30 PM');
-          expect(timeSelectionService.selectedTime).toEqual(new TimeModel(22, 0, 30));
+        expect(timeInputDebugElement.nativeElement.value).toBe('10:00:30 PM');
+        expect(timeSelectionService.selectedTime).toEqual(new TimeModel(22, 0, 30));
 
-          fixture.componentInstance.timeValue = '5:10:00 AM';
+        fixture.componentInstance.timeValue = '5:10:00 AM';
 
-          fixture.detectChanges();
-          tick();
+        fixture.detectChanges();
+        tick();
 
-          expect(timeInputDebugElement.nativeElement.value).toBe('5:10:00 AM');
-          expect(timeSelectionService.selectedTime).toEqual(new TimeModel(5, 10, 0));
-        })
-      );
+        expect(timeInputDebugElement.nativeElement.value).toBe('5:10:00 AM');
+        expect(timeSelectionService.selectedTime).toEqual(new TimeModel(5, 10, 0));
+      }));
 
       it('updates the model and the input element when timeSelection updated notification is received', () => {
         expect(fixture.componentInstance.timeValue).toBeUndefined();
@@ -164,31 +161,28 @@ export default function() {
         expect(fixture.componentInstance.timeValue).toBe('2:00:00 PM');
       });
 
-      it(
-        'allows you to reset the model',
-        fakeAsync(() => {
-          fixture.componentInstance.timeValue = '10:00:30 PM';
-          fixture.detectChanges();
-          tick();
+      it('allows you to reset the model', fakeAsync(() => {
+        fixture.componentInstance.timeValue = '10:00:30 PM';
+        fixture.detectChanges();
+        tick();
 
-          expect(timeInputDebugElement.nativeElement.value).toBe('10:00:30 PM');
-          expect(timeSelectionService.selectedTime).toEqual(new TimeModel(22, 0, 30));
+        expect(timeInputDebugElement.nativeElement.value).toBe('10:00:30 PM');
+        expect(timeSelectionService.selectedTime).toEqual(new TimeModel(22, 0, 30));
 
-          fixture.nativeElement.querySelector('#reset').click();
-          fixture.detectChanges();
-          tick();
+        fixture.nativeElement.querySelector('#reset').click();
+        fixture.detectChanges();
+        tick();
 
-          expect(timeInputDebugElement.nativeElement.value).toBe('');
-          expect(timeSelectionService.selectedTime).toEqual(null);
+        expect(timeInputDebugElement.nativeElement.value).toBe('');
+        expect(timeSelectionService.selectedTime).toEqual(null);
 
-          fixture.componentInstance.timeValue = '5:00:00 AM';
-          fixture.detectChanges();
-          tick();
+        fixture.componentInstance.timeValue = '5:00:00 AM';
+        fixture.detectChanges();
+        tick();
 
-          expect(timeInputDebugElement.nativeElement.value).toBe('5:00:00 AM');
-          expect(timeSelectionService.selectedTime).toEqual(new TimeModel(5, 0, 0));
-        })
-      );
+        expect(timeInputDebugElement.nativeElement.value).toBe('5:00:00 AM');
+        expect(timeSelectionService.selectedTime).toEqual(new TimeModel(5, 0, 0));
+      }));
 
       // IE doesn't handle Event constructor
       itIgnore(
@@ -215,7 +209,7 @@ export default function() {
       beforeEach(function() {
         TestBed.configureTestingModule({
           imports: [ReactiveFormsModule, FuiTimeModule],
-          declarations: [TestComponentWithReactiveForms],
+          declarations: [TestComponentWithReactiveForms]
         });
 
         fixture = TestBed.createComponent(TestComponentWithReactiveForms);
@@ -294,7 +288,7 @@ export default function() {
       beforeEach(function() {
         TestBed.configureTestingModule({
           imports: [FormsModule, FuiTimeModule],
-          declarations: [TestComponentWithTemplateDrivenForms],
+          declarations: [TestComponentWithTemplateDrivenForms]
         });
         fixture = TestBed.createComponent(TestComponentWithTemplateDrivenForms);
         fixture.detectChanges();
@@ -357,7 +351,9 @@ export default function() {
 }
 
 @Component({
-  template: `<input type="time" step="1" fuiTime (fuiDateChange)="dateChanged($event)" class="test-class">`,
+  template: `
+    <input type="time" step="1" fuiTime (fuiDateChange)="dateChanged($event)" class="test-class" />
+  `
 })
 class TestComponent {
   time: Date;
@@ -369,9 +365,9 @@ class TestComponent {
 
 @Component({
   template: `
-    <input type="time" step="1" fuiTime [(ngModel)]="timeValue" #picker="ngModel">
+    <input type="time" step="1" fuiTime [(ngModel)]="timeValue" #picker="ngModel" />
     <button id="reset" (click)="picker.reset()">Reset</button>
-  `,
+  `
 })
 class TestComponentWithNgModel {
   timeValue: string;
@@ -382,9 +378,9 @@ class TestComponentWithNgModel {
 @Component({
   template: `
     <form [formGroup]="testForm">
-      <input id="dateControl" type="time" step="1" fuiTime (fuiDateChange)="dateChanged($event)" formControlName="time">
+      <input id="dateControl" type="time" step="1" fuiTime (fuiDateChange)="dateChanged($event)" formControlName="time" />
     </form>
-  `,
+  `
 })
 class TestComponentWithReactiveForms {
   dateInput: string = '10:00:00 PM';
@@ -400,9 +396,9 @@ class TestComponentWithReactiveForms {
 @Component({
   template: `
     <form #templateForm="ngForm">
-      <input type="time" step="1" fuiTime (fuiDateChange)="dateChanged($event)" [(ngModel)]="dateInput" name="time">
+      <input type="time" step="1" fuiTime (fuiDateChange)="dateChanged($event)" [(ngModel)]="dateInput" name="time" />
     </form>
-  `,
+  `
 })
 class TestComponentWithTemplateDrivenForms {
   @ViewChild('templateForm') templateForm: NgForm;

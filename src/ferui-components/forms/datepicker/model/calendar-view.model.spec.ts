@@ -9,12 +9,7 @@ export default function(): void {
     const todaysDateInCal: DayModel = new DayModel(2018, 0, 1);
     const todaysDateNotInCal: DayModel = new DayModel(2018, 3, 25);
 
-    function testCalendarViewDates(
-      prev: number[],
-      curr: number[],
-      next: number[],
-      calendarViewModel: CalendarViewModel
-    ): void {
+    function testCalendarViewDates(prev: number[], curr: number[], next: number[], calendarViewModel: CalendarViewModel): void {
       for (const calendarView of calendarViewModel.calendarView) {
         for (const day of calendarView) {
           if (prev.length > 0) {
@@ -31,12 +26,7 @@ export default function(): void {
       expect(next.length).toBe(0);
     }
 
-    function testCalendarViewSelectedDates(
-      calendarViewModel: CalendarViewModel,
-      x: number,
-      y: number,
-      checkAllFalse: boolean
-    ) {
+    function testCalendarViewSelectedDates(calendarViewModel: CalendarViewModel, x: number, y: number, checkAllFalse: boolean) {
       const calView: DayViewModel[][] = calendarViewModel.calendarView;
       for (let i = 0; i < 6; i++) {
         for (let j = 0; j < 7; j++) {
@@ -212,19 +202,15 @@ export default function(): void {
       testCalendarViewSelectedDates(testJan2018US, 0, 5, true);
     });
 
-    it(
-      'sets the focusable date to today if focused ' + 'or selected is not BUT todays date IS present in the calendar',
-      () => {
-        const testJan2018US: CalendarViewModel = new CalendarViewModel(calJan2018, null, null, todaysDateInCal, 0);
+    it('sets the focusable date to today if focused ' + 'or selected is not BUT todays date IS present in the calendar', () => {
+      const testJan2018US: CalendarViewModel = new CalendarViewModel(calJan2018, null, null, todaysDateInCal, 0);
 
-        // Only 1/1/2018 should be true
-        testCalendarViewFocusableDates(testJan2018US, 0, 1);
-      }
-    );
+      // Only 1/1/2018 should be true
+      testCalendarViewFocusableDates(testJan2018US, 0, 1);
+    });
 
     it(
-      'sets the focusable date to 15th of that calendar if focused, ' +
-        'selected or todays date is not present in the calendar',
+      'sets the focusable date to 15th of that calendar if focused, ' + 'selected or todays date is not present in the calendar',
       () => {
         const testJan2018US: CalendarViewModel = new CalendarViewModel(calJan2018, null, null, todaysDateNotInCal, 0);
 

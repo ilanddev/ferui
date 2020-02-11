@@ -15,10 +15,10 @@ import { LocaleHelperService } from './providers/locale-helper.service';
     <div class="calendar-header">
       <div class="calendar-pickers">
         <button class="calendar-btn monthpicker-trigger" type="button" (click)="changeToMonthView()">
-          {{calendarMonth}}
+          {{ calendarMonth }}
         </button>
         <button class="calendar-btn yearpicker-trigger" type="button" (click)="changeToYearView()">
-          {{calendarYear}}
+          {{ calendarYear }}
         </button>
       </div>
       <div class="calendar-switchers">
@@ -26,8 +26,7 @@ import { LocaleHelperService } from './providers/locale-helper.service';
           <clr-icon class="fui-calendar-arrows" shape="fui-caret" dir="left" [attr.title]="commonStrings.previous"></clr-icon>
         </button>
         <button class="calendar-btn switcher" type="button" (click)="currentDecade()">
-          <clr-icon shape="fui-calendar" class="fui-calendar-icon has-badge"
-                    [attr.title]="commonStrings.current"></clr-icon>
+          <clr-icon shape="fui-calendar" class="fui-calendar-icon has-badge" [attr.title]="commonStrings.current"></clr-icon>
         </button>
         <button class="calendar-btn switcher" type="button" (click)="nextDecade()">
           <clr-icon class="fui-calendar-arrows" shape="fui-caret" dir="right" [attr.title]="commonStrings.next"></clr-icon>
@@ -41,14 +40,15 @@ import { LocaleHelperService } from './providers/locale-helper.service';
         class="calendar-btn year"
         [attr.tabindex]="getTabIndex(year)"
         [class.is-selected]="year === calendarYear"
-        (click)="changeYear(year)">
-        {{year}}
+        (click)="changeYear(year)"
+      >
+        {{ year }}
       </button>
     </div>
   `,
   host: {
-    '[class.yearpicker]': 'true',
-  },
+    '[class.yearpicker]': 'true'
+  }
 })
 export class FuiYearpicker implements AfterViewInit {
   /**

@@ -23,7 +23,7 @@ import { Subscription } from 'rxjs';
       >
       </fui-select>
     </fui-select-container>
-  `,
+  `
 })
 export class FuiDatagridFilterColumnVisibility implements OnInit, OnDestroy {
   columns: Object[] = [];

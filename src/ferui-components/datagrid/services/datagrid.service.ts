@@ -302,7 +302,7 @@ export class FuiDatagridService {
       columnApi: this.columnApi,
       direction: 'vertical',
       left: this.scrollLeft,
-      top: this.scrollTop,
+      top: this.scrollTop
     };
     this.eventService.dispatchEvent(event);
   }
@@ -355,7 +355,7 @@ export class FuiDatagridService {
       columnApi: this.columnApi,
       direction: 'horizontal',
       left: this.scrollLeft,
-      top: this.scrollTop,
+      top: this.scrollTop
     };
     this.eventService.dispatchEvent(event);
     this.horizontallyScrollHeaderCenterAndFloatingCenter(scrollLeft);

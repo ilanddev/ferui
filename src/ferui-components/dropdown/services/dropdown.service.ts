@@ -22,5 +22,5 @@ export function fuiRootDropdownFactory(existing: RootDropdownService) {
 export const ROOT_DROPDOWN_PROVIDER = {
   provide: RootDropdownService,
   useFactory: fuiRootDropdownFactory,
-  deps: [[new Optional(), new SkipSelf(), RootDropdownService]],
+  deps: [[new Optional(), new SkipSelf(), RootDropdownService]]
 };

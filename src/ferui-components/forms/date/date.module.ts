@@ -21,10 +21,10 @@ export const FUI_DATE_DIRECTIVES: Type<any>[] = [FuiDateContainer, FuiDate];
     ClrIconModule,
     FuiFocusTrapModule,
     FuiCommonFormsModule,
-    FuiDatepickerModule,
+    FuiDatepickerModule
   ],
   declarations: [FUI_DATE_DIRECTIVES],
   exports: [FUI_DATE_DIRECTIVES],
-  entryComponents: [FuiDateContainer],
+  entryComponents: [FuiDateContainer]
 })
 export class FuiDateModule {}

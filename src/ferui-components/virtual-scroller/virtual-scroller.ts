@@ -14,7 +14,7 @@ import {
   Renderer2,
   ViewChild,
   ChangeDetectorRef,
-  HostBinding,
+  HostBinding
 } from '@angular/core';
 
 import { PLATFORM_ID } from '@angular/core';
@@ -27,7 +27,7 @@ import {
   IViewport,
   VirtualScrollerDefaultOptions,
   WrapGroupDimension,
-  WrapGroupDimensions,
+  WrapGroupDimensions
 } from './types/virtual-scroller-interfaces';
 import { ScrollbarHelper } from '../datagrid/services/datagrid-scrollbar-helper.service';
 
@@ -58,10 +58,10 @@ export interface CancelableFunction extends Function {
     '[class.horizontal]': 'horizontal',
     '[class.vertical]': '!horizontal',
     '[class.has-x-scroll]': '!hideXScrollbar',
-    '[class.selfScroll]': '!parentScroll',
+    '[class.selfScroll]': '!parentScroll'
   },
   styleUrls: ['./virtual-scroller.scss'],
-  providers: [ScrollbarHelper],
+  providers: [ScrollbarHelper]
 })
 export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy {
   viewPortItems: any[];
@@ -109,7 +109,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
       scrollEndPosition: pageInfo.scrollEndPosition || 0,
       maxScrollPosition: pageInfo.maxScrollPosition || 0,
       startIndexWithBuffer: pageInfo.startIndexWithBuffer || 0,
-      endIndexWithBuffer: pageInfo.endIndexWithBuffer || 0,
+      endIndexWithBuffer: pageInfo.endIndexWithBuffer || 0
     };
   }
 
@@ -346,7 +346,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
       maxChildSizePerWrapGroup: [],
       numberOfKnownWrapGroupChildSizes: 0,
       sumOfKnownWrapGroupChildWidths: 0,
-      sumOfKnownWrapGroupChildHeights: 0,
+      sumOfKnownWrapGroupChildHeights: 0
     };
 
     this.minMeasuredChildWidth = undefined;
@@ -556,7 +556,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
       left: result.left + marginLeft,
       right: result.right + marginRight,
       width: result.width + marginLeft + marginRight,
-      height: result.height + marginTop + marginBottom,
+      height: result.height + marginTop + marginBottom
     };
   }
 
@@ -767,7 +767,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
                 scrollEndPosition: viewport.scrollEndPosition,
                 startIndexWithBuffer: viewport.startIndexWithBuffer,
                 endIndexWithBuffer: viewport.endIndexWithBuffer,
-                maxScrollPosition: viewport.maxScrollPosition,
+                maxScrollPosition: viewport.maxScrollPosition
               }
             : undefined;
 
@@ -1076,7 +1076,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
           this.wrapGroupDimensions.maxChildSizePerWrapGroup[wrapGroupIndex] = {
             childWidth: maxWidthForWrapGroup,
             childHeight: maxHeightForWrapGroup,
-            items: items,
+            items: items
           };
           this.wrapGroupDimensions.sumOfKnownWrapGroupChildWidths += maxWidthForWrapGroup;
           this.wrapGroupDimensions.sumOfKnownWrapGroupChildHeights += maxHeightForWrapGroup;
@@ -1178,7 +1178,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
       childHeight: defaultChildHeight,
       scrollLength: scrollLength,
       viewportLength: viewportLength,
-      maxScrollPosition: maxScrollPosition,
+      maxScrollPosition: maxScrollPosition
     };
   }
 
@@ -1278,7 +1278,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
       endIndexWithBuffer: endIndexWithBuffer,
       scrollStartPosition: scrollPosition,
       scrollEndPosition: scrollPosition + dimensions.viewportLength,
-      maxScrollPosition: dimensions.maxScrollPosition,
+      maxScrollPosition: dimensions.maxScrollPosition
     };
   }
 
@@ -1307,7 +1307,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
       scrollLength: Math.round(newScrollLength),
       scrollStartPosition: pageInfo.scrollStartPosition,
       scrollEndPosition: pageInfo.scrollEndPosition,
-      maxScrollPosition: pageInfo.maxScrollPosition,
+      maxScrollPosition: pageInfo.maxScrollPosition
     };
   }
 }

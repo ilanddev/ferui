@@ -10,9 +10,9 @@ import { HeaderRendererService } from '../../services/rendering/header-renderer.
   `,
   host: {
     '[class.fui-datagrid-header-row]': 'true',
-    '[style.top.px]': '0',
+    '[style.top.px]': '0'
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FuiHeaderRow {
   @HostBinding('attr.role') role: string = 'presentation';

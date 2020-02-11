@@ -12,6 +12,6 @@ export const FUI_DROPDOWN_DIRECTIVES: Type<any>[] = [FuiDropdown, FuiDropdownMen
 @NgModule({
   imports: [CommonModule],
   declarations: [FUI_DROPDOWN_DIRECTIVES],
-  exports: [FUI_DROPDOWN_DIRECTIVES, FuiConditionalModule, ClrIconModule],
+  exports: [FUI_DROPDOWN_DIRECTIVES, FuiConditionalModule, ClrIconModule]
 })
 export class FuiDropdownModule {}

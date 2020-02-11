@@ -229,25 +229,21 @@ export class ItemsList {
   }
 
   mapItem(item: any, index: number): NgOption {
-    const label = isDefined(item.$ngOptionLabel)
-      ? item.$ngOptionLabel
-      : this.resolveNested(item, this._ngSelect.bindLabel);
+    const label = isDefined(item.$ngOptionLabel) ? item.$ngOptionLabel : this.resolveNested(item, this._ngSelect.bindLabel);
     const value = isDefined(item.$ngOptionValue) ? item.$ngOptionValue : item;
     return {
       index: index,
       label: isDefined(label) ? label.toString() : '',
       value: value,
       disabled: item.disabled,
-      htmlId: `${this._ngSelect.dropdownId}-${index}`,
+      htmlId: `${this._ngSelect.dropdownId}-${index}`
     };
   }
 
   mapSelectedItems() {
     const multiple = this._ngSelect.multiple;
     for (const selected of this.selectedItems) {
-      const value = this._ngSelect.bindValue
-        ? this.resolveNested(selected.value, this._ngSelect.bindValue)
-        : selected.value;
+      const value = this._ngSelect.bindValue ? this.resolveNested(selected.value, this._ngSelect.bindValue) : selected.value;
       const item = isDefined(value) ? this.findItem(value) : null;
       this._selectionModel.unselect(selected, multiple);
       this._selectionModel.select(item || selected, multiple, this._ngSelect.selectableGroupAsModel);
@@ -378,7 +374,7 @@ export class ItemsList {
         parent: null,
         index: i++,
         disabled: !this._ngSelect.selectableGroup,
-        htmlId: newId(),
+        htmlId: newId()
       };
       const groupKey = isGroupByFn ? this._ngSelect.bindLabel : <string>this._ngSelect.groupBy;
       const groupValue =
@@ -396,7 +392,10 @@ export class ItemsList {
         return x;
       });
       parent.children = children;
-      parent.value = groupValue(key, children.map(x => x.value));
+      parent.value = groupValue(
+        key,
+        children.map(x => x.value)
+      );
       items.push(parent);
       items.push(...children);
     }

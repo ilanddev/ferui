@@ -89,8 +89,8 @@ export function DEFAULT_TEXT_COMPARATOR(filter: string, value: any, filterText: 
     </div>
   `,
   host: {
-    class: 'fui-datagrid-text-filter container-fluid',
-  },
+    class: 'fui-datagrid-text-filter container-fluid'
+  }
 })
 export class FuiDatagridTextFilter extends FuiDatagridBaseFilter<ITextFilterParams> implements OnInit {
   static DEFAULT_FORMATTER: TextFormatter = DEFAULT_TEXT_FORMATTER;
@@ -110,7 +110,7 @@ export class FuiDatagridTextFilter extends FuiDatagridBaseFilter<ITextFilterPara
       FuiDatagridTextFilter.STARTS_WITH,
       FuiDatagridTextFilter.ENDS_WITH,
       FuiDatagridTextFilter.CONTAINS,
-      FuiDatagridTextFilter.NOT_CONTAINS,
+      FuiDatagridTextFilter.NOT_CONTAINS
     ];
   }
 
@@ -150,7 +150,7 @@ export class FuiDatagridTextFilter extends FuiDatagridBaseFilter<ITextFilterPara
       getFilterType: () => this.getFilterType(),
       getFilterOption: () => this.getFilterOption(),
       getFilterValue: () => this.getFilterValue(),
-      getFilterParams: () => this.getFilterParams(),
+      getFilterParams: () => this.getFilterParams()
     };
     this.addOrRemoveFilter(this.selectedSearch !== '', filter);
   }

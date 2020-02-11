@@ -12,6 +12,6 @@ import { FuiCheckboxWrapper } from './checkbox-wrapper';
   imports: [CommonModule, ClrIconModule, FuiCommonFormsModule, FuiHostWrappingModule],
   declarations: [FuiCheckbox, FuiCheckboxContainer, FuiCheckboxWrapper],
   exports: [FuiCheckbox, FuiCheckboxContainer, FuiCheckboxWrapper],
-  entryComponents: [FuiCheckboxWrapper, FuiCheckboxContainer],
+  entryComponents: [FuiCheckboxWrapper, FuiCheckboxContainer]
 })
 export class FuiCheckboxModule {}

@@ -6,7 +6,7 @@ export enum DatagridStateEnum {
   LOADED = 'loaded',
   INITIAL_LOADING = 'initial_loading',
   LOADING = 'loading',
-  EMPTY = 'empty',
+  EMPTY = 'empty'
 }
 
 @Injectable()

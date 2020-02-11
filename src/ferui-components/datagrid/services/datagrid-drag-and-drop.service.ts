@@ -49,7 +49,7 @@ export class FuiDatagridDragAndDropService {
       dragStartPixels: dragSource.dragStartPixels,
       onDragStart: this.onDragStart.bind(this, dragSource),
       onDragStop: this.onDragStop.bind(this),
-      onDragging: this.onDragging.bind(this),
+      onDragging: this.onDragging.bind(this)
     };
     this.dragSourceAndParamsList.push({ params: params, dragSource: dragSource });
     this.dragService.addDragSource(params, allowTouch);
@@ -103,7 +103,7 @@ export class FuiDatagridDragAndDropService {
       hDirection: hDirection,
       dragSource: this.dragSource,
       fromNudge: fromNudge,
-      dragItem: this.dragItem,
+      dragItem: this.dragItem
     };
   }
 

@@ -11,8 +11,8 @@ import { VirtualScrollClipperContentDirective } from './virtual-scroll-directive
   providers: [
     {
       provide: 'virtual-scroller-default-options',
-      useFactory: VIRTUAL_SCROLLER_DEFAULT_OPTIONS_FACTORY,
-    },
-  ],
+      useFactory: VIRTUAL_SCROLLER_DEFAULT_OPTIONS_FACTORY
+    }
+  ]
 })
 export class FuiVirtualScrollerModule {}

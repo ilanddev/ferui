@@ -80,14 +80,10 @@ export abstract class AbstractDateTime<W extends DynamicWrapper> extends Wrapped
     }
 
     if (this.dateNavigationService) {
-      this.dateNavigationService.selectedDay = date
-        ? new DayModel(date.getFullYear(), date.getMonth(), date.getDate())
-        : null;
+      this.dateNavigationService.selectedDay = date ? new DayModel(date.getFullYear(), date.getMonth(), date.getDate()) : null;
     }
     if (this.timeSelectionService) {
-      this.timeSelectionService.selectedTime = date
-        ? new TimeModel(date.getHours(), date.getMinutes(), date.getSeconds())
-        : null;
+      this.timeSelectionService.selectedTime = date ? new TimeModel(date.getHours(), date.getMinutes(), date.getSeconds()) : null;
     }
 
     this.updateInput(date);

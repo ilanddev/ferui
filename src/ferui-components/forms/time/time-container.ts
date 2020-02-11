@@ -7,7 +7,7 @@ import {
   OnDestroy,
   OnInit,
   QueryList,
-  ViewChildren,
+  ViewChildren
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NgControl } from '@angular/forms';
@@ -115,7 +115,7 @@ export interface TimeInterface {
     '[class.fui-form-control]': 'true',
     '[class.fui-select-container]': 'true',
     '[class.fui-form-control-disabled]': 'control?.disabled',
-    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL',
+    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL'
   },
   providers: [
     IfErrorService,
@@ -129,8 +129,8 @@ export interface TimeInterface {
     LocaleHelperService,
     TimeSelectionService,
     DateFormControlService,
-    FuiFormLayoutService,
-  ],
+    FuiFormLayoutService
+  ]
 })
 export class FuiTimeContainer implements DynamicWrapper, AfterViewInit, OnInit, OnDestroy {
   _dynamic = false;
@@ -141,7 +141,7 @@ export class FuiTimeContainer implements DynamicWrapper, AfterViewInit, OnInit, 
   model: TimeInterface = {
     hour: null,
     minute: null,
-    second: null,
+    second: null
   };
 
   hoursList: Array<number> = [];

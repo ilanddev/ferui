@@ -3,7 +3,7 @@ import {
   FuiDatagridActiveGlobalFilter,
   FuiDatagridIFilter,
   FuiDatagridIGlobalSearchFilter,
-  IDoesGlobalFilterPassParams,
+  IDoesGlobalFilterPassParams
 } from '../components/filters/interfaces/filter';
 import { Column } from '../components/entities/column';
 
@@ -59,7 +59,7 @@ export class FuiDatagridFilterService {
     if (filter) {
       this.globalSearchFilter = {
         index: DATAGRID_GLOBAL_SEARCH_ID,
-        filter: filter,
+        filter: filter
       };
     }
   }
@@ -68,7 +68,7 @@ export class FuiDatagridFilterService {
     if (this.globalSearchFilter && this.globalSearchFilter.filter !== null) {
       this.globalSearchFilter = {
         index: DATAGRID_GLOBAL_SEARCH_ID,
-        filter: null,
+        filter: null
       };
     }
   }
@@ -150,7 +150,7 @@ export class FuiDatagridFilterService {
           const filter: FuiDatagridIGlobalSearchFilter = this.globalSearchFilter.filter;
           const doesPassParams: IDoesGlobalFilterPassParams = {
             rowData: data,
-            data: null,
+            data: null
           };
           globalSearchPass = filter.doesFilterPass(doesPassParams);
           if (

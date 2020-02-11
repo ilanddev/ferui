@@ -40,7 +40,7 @@ export class FuiDatagridSortService {
       api: this.gridApi,
       columnApi: this.columnApi,
       sortedColumns: this._sortingColumns,
-      type: FuiDatagridEvents.EVENT_SORT_COLUMN_CHANGED,
+      type: FuiDatagridEvents.EVENT_SORT_COLUMN_CHANGED
     };
     this.eventService.dispatchEvent(event);
     if (!this._sortingColumnInitialized) {

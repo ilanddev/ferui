@@ -9,17 +9,11 @@ import {
   OnDestroy,
   OnInit,
   Self,
-  TemplateRef,
+  TemplateRef
 } from '@angular/core';
 import { Column } from '../entities/column';
 import { Subscription } from 'rxjs';
-import {
-  CellClickedEvent,
-  CellContextMenuEvent,
-  CellDoubleClickedEvent,
-  ColumnEvent,
-  FuiDatagridEvents,
-} from '../../events';
+import { CellClickedEvent, CellContextMenuEvent, CellDoubleClickedEvent, ColumnEvent, FuiDatagridEvents } from '../../events';
 import { FuiDatagridDragAndDropService } from '../../services/datagrid-drag-and-drop.service';
 import { FuiColumnService } from '../../services/rendering/column.service';
 import { FuiDatagridService } from '../../services/datagrid.service';
@@ -40,9 +34,9 @@ import { FuiDatagridBodyDropTarget } from '../entities/body-drop-target';
     '[class.fui-datagrid-body-cell]': 'true',
     '[class.fui-datagrid-column-visible]': 'column.isVisible()',
     '[class.with-animation]': 'true',
-    '[class.moving]': 'column.isMoving()',
+    '[class.moving]': 'column.isMoving()'
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FuiBodyCell extends FuiDatagridBodyDropTarget implements OnInit, OnDestroy {
   @HostBinding('attr.role') role: string = 'gridcell';
@@ -99,7 +93,7 @@ export class FuiBodyCell extends FuiDatagridBodyDropTarget implements OnInit, On
       rowIndex: this.rowIndex,
       rowData: this.rowData,
       event: event,
-      type: FuiDatagridEvents.EVENT_CELL_CLICKED,
+      type: FuiDatagridEvents.EVENT_CELL_CLICKED
     };
     this.eventService.dispatchEvent(evt);
   }
@@ -113,7 +107,7 @@ export class FuiBodyCell extends FuiDatagridBodyDropTarget implements OnInit, On
       rowIndex: this.rowIndex,
       rowData: this.rowData,
       event: event,
-      type: FuiDatagridEvents.EVENT_CELL_DOUBLE_CLICKED,
+      type: FuiDatagridEvents.EVENT_CELL_DOUBLE_CLICKED
     };
     this.eventService.dispatchEvent(evt);
   }
@@ -127,7 +121,7 @@ export class FuiBodyCell extends FuiDatagridBodyDropTarget implements OnInit, On
       rowIndex: this.rowIndex,
       rowData: this.rowData,
       event: event,
-      type: FuiDatagridEvents.EVENT_CELL_CONTEXT_MENU,
+      type: FuiDatagridEvents.EVENT_CELL_CONTEXT_MENU
     };
     this.eventService.dispatchEvent(evt);
   }
@@ -149,7 +143,7 @@ export class FuiBodyCell extends FuiDatagridBodyDropTarget implements OnInit, On
     this.templateContext = {
       value: this.rowData ? this.rowData[this.column.getColumnDefinition().field] : null,
       column: this.column,
-      row: this.rowData,
+      row: this.rowData
     };
     this.cd.markForCheck();
 

@@ -7,7 +7,7 @@ export default function(): void {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        providers: [NgDropdownPanelService],
+        providers: [NgDropdownPanelService]
       });
 
       service = TestBed.get(NgDropdownPanelService);
@@ -25,7 +25,7 @@ export default function(): void {
           start: 0,
           end: 9,
           topPadding: 0,
-          scrollHeight: 2500,
+          scrollHeight: 2500
         });
       });
 
@@ -40,7 +40,7 @@ export default function(): void {
           start: 46,
           end: 59,
           topPadding: 1150,
-          scrollHeight: 2500,
+          scrollHeight: 2500
         });
       });
     });

@@ -64,6 +64,7 @@
     "test:components:watch": "ng test ferui-components --watch",
     "test": "npm-run-all test:lint test:components",
     "format:fix": "pretty-quick --staged",
+    "format:all": "prettier --config ./.prettierrc --ignore-path ./.prettierignore --write \"src/ferui-components/**/*.ts\"",
     "pretest:lint": "tsc -p tests/tslint/tsconfig.json",
     "netlify": "netlify",
     "netlify:publish": "netlify deploy",

@@ -3,7 +3,7 @@ import { AfterViewInit, Directive, ElementRef, Input, OnChanges, Renderer2 } fro
 import { isDefined } from './value-utils';
 
 @Directive({
-  selector: '[ngOptionHighlight]',
+  selector: '[ngOptionHighlight]'
 })
 export class NgOptionHighlightDirective implements OnChanges, AfterViewInit {
   @Input('ngOptionHighlight') term: string;

@@ -8,7 +8,7 @@ import {
   Optional,
   Renderer2,
   Self,
-  ViewContainerRef,
+  ViewContainerRef
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { NgControl } from '@angular/forms';
@@ -18,7 +18,7 @@ import { WrappedFormControl } from '../common/wrapped-control';
 
 @Directive({
   selector: '[fuiPassword]',
-  host: { '[class.fui-input]': 'true' },
+  host: { '[class.fui-input]': 'true' }
 })
 export class FuiPassword extends WrappedFormControl<FuiPasswordContainer> implements OnInit, OnDestroy {
   protected index = 1;
