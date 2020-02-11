@@ -4,3 +4,4 @@ export * from './date/index';
 export * from './time/index';
 export * from './datetime/index';
 export * from './common/index';
+export * from './number/index';

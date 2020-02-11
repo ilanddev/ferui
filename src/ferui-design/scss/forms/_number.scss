@@ -1,0 +1,138 @@
+@import '../_variables.scss';
+@import '../_mixins.scss';
+
+@include exports('forms.input-number') {
+  .fui-form-control.fui-form-control-number {
+    .fui-control-container {
+      .fui-input-wrapper {
+        input:not([type='checkbox']):not([type='radio']):not(.fui-layout-small) {
+          &.fui-number {
+            border-right: none;
+            @include border-right-radius(0);
+          }
+        }
+
+        /* Firefox */
+        input[type='number'] {
+          -moz-appearance: textfield !important;
+        }
+
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+          -webkit-appearance: none !important;
+          margin: 0;
+        }
+      }
+
+      &.fui-control-focus {
+        .input-number-wrapper {
+          .fui-number-increment-wrapper {
+            .fui-number-btn {
+              border-color: $gray-500;
+            }
+          }
+        }
+      }
+
+      &.fui-disabled {
+        .input-number-wrapper {
+          .fui-number-increment-wrapper {
+            .fui-number-btn {
+              background-color: $gray-200;
+              color: $gray-500;
+              cursor: default;
+
+              &:hover {
+                .fui-number-icon {
+                  fill: $gray-500;
+                  color: $gray-500;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.fui-error {
+        .fui-control-icons {
+          right: calc(#{$controls-padding} + 20px);
+        }
+      }
+    }
+
+    &:not(.fui-form-control-small) {
+      .fui-control-container > *:not(.fui-checkbox-subtext-wrapper):not(.fui-radio-subtext-wrapper) {
+        .fui-subtext {
+          right: 20px;
+        }
+      }
+    }
+
+    .input-number-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+
+      .fui-number-increment-wrapper {
+        flex: 0 0 20px;
+        width: 20px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: center;
+
+        .fui-number-btn {
+          appearance: none;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          background: $white;
+          display: block;
+          height: 25px;
+          width: 100%;
+          text-align: center;
+          border: 1px solid $gray-300;
+          cursor: pointer;
+
+          &:hover {
+            .fui-number-icon {
+              fill: $gray-900;
+              color: $gray-900;
+            }
+          }
+
+          &:focus {
+            .fui-number-icon {
+              border-color: $gray-500;
+            }
+          }
+
+          &:first-of-type {
+            border-bottom: none;
+            border-top-right-radius: $border-radius;
+          }
+
+          &:last-of-type {
+            border-bottom-right-radius: $border-radius;
+          }
+
+          .fui-number-icon {
+            margin-left: -1px;
+            width: 7px;
+            height: 7px;
+            font-size: 7px;
+            fill: $gray-500;
+            color: $gray-500;
+          }
+        }
+      }
+    }
+  }
+}

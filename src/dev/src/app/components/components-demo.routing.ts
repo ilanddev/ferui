@@ -22,6 +22,7 @@ import { DropdownDemo } from './dropdown/dropdown.demo';
 import { DropdownExample } from './dropdown/pages/dropdown-example';
 import { TreeViewClientSideDemo } from './tree-view/tree-view-client-side-demo';
 import { WidgetDemo } from './widget/widget.demo';
+import { NumberComponent } from './forms/number/number';
 
 export const COMPONENTS_ROUTES: Routes = [
   {
@@ -37,13 +38,14 @@ export const COMPONENTS_ROUTES: Routes = [
           { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
           { path: 'dashboard', component: FormsDashboardComponent },
           { path: 'inputs', component: InputsComponent },
+          { path: 'number', component: NumberComponent },
           { path: 'datetimes', component: DatetimeComponent },
           { path: 'passwords', component: PasswordComponent },
           { path: 'textareas', component: TextareaComponent },
           { path: 'checkboxes', component: CheckboxComponent },
           { path: 'radios', component: RadiosComponent },
-          { path: 'selects', component: SelectsComponent },
-        ],
+          { path: 'selects', component: SelectsComponent }
+        ]
       },
       {
         path: 'datagrid',
@@ -53,28 +55,31 @@ export const COMPONENTS_ROUTES: Routes = [
           { path: 'home', component: DatagridHome },
           { path: 'client-side', component: DatagridClientSideComponent },
           { path: 'server-side', component: DatagridServerSideComponent },
-          { path: 'infinite-server-side', component: DatagridInfiniteServerSideComponent },
-        ],
+          { path: 'infinite-server-side', component: DatagridInfiniteServerSideComponent }
+        ]
       },
       {
         path: 'dropdown',
         component: DropdownDemo,
-        children: [{ path: '', redirectTo: 'home', pathMatch: 'full' }, { path: 'home', component: DropdownExample }],
+        children: [
+          { path: '', redirectTo: 'home', pathMatch: 'full' },
+          { path: 'home', component: DropdownExample }
+        ]
       },
       {
         path: 'treeview',
-        component: TreeViewClientSideDemo,
+        component: TreeViewClientSideDemo
       },
       {
         path: 'widget',
-        component: WidgetDemo,
-      },
-    ],
-  },
+        component: WidgetDemo
+      }
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(COMPONENTS_ROUTES)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class ComponentsRoutingModule {}

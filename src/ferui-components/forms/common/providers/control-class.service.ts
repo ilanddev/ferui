@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 export class ControlClassService {
   className = '';
 
-  controlClass(invalid = false, additional: string | Array<string> = '') {
+  controlClass(invalid = false, additional: string | Array<string> = ''): string {
     let controlClasses: Array<string> = [this.cleanClasses()];
     if (additional !== '' && typeof additional === 'string') {
       controlClasses.push(additional);
@@ -17,7 +17,7 @@ export class ControlClassService {
     return controlClasses.join(' ').trim();
   }
 
-  initControlClass(renderer, element: HTMLElement) {
+  initControlClass(renderer, element: HTMLElement): void {
     if (element && element.className) {
       this.className = element.className;
       const klasses = element.className.split(' ');

@@ -11,6 +11,7 @@ import { FuiDatepickerModule } from './datepicker/datepicker.module';
 import { FuiTimeModule } from './time/time.module';
 import { FuiDateModule } from './date/date.module';
 import { FuiDatetimeModule } from './datetime/datetime.module';
+import { FuiNumberModule } from './number/number.module';
 
 @NgModule({
   imports: [CommonModule],
@@ -26,6 +27,7 @@ import { FuiDatetimeModule } from './datetime/datetime.module';
     FuiDateModule,
     FuiTimeModule,
     FuiDatetimeModule,
-  ],
+    FuiNumberModule
+  ]
 })
 export class FuiFormsModule {}

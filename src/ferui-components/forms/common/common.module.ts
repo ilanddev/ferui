@@ -10,6 +10,8 @@ import { Ipv4AddressValidatorDirective } from './validators/ipv4-address-validat
 import { Ipv6AddressValidatorDirective } from './validators/ipv6-address-validator.directive';
 import { IpAddressValidatorDirective } from './validators/ip-address-validator.directive';
 import { EmailValidatorDirective } from './validators/email-validator';
+import { MaxValidatorDirective } from './validators/max-validator.directive';
+import { MinValidatorDirective } from './validators/min-validator.directive';
 
 @NgModule({
   imports: [CommonModule, FuiHostWrappingModule],
@@ -18,22 +20,26 @@ import { EmailValidatorDirective } from './validators/email-validator';
     IpAddressValidatorDirective,
     Ipv4AddressValidatorDirective,
     Ipv6AddressValidatorDirective,
+    MaxValidatorDirective,
+    MinValidatorDirective,
     FuiLabel,
     FuiControlError,
     FuiDefaultControlError,
     FuiIfError,
-    FuiForm,
+    FuiForm
   ],
   exports: [
     EmailValidatorDirective,
     IpAddressValidatorDirective,
     Ipv4AddressValidatorDirective,
     Ipv6AddressValidatorDirective,
+    MaxValidatorDirective,
+    MinValidatorDirective,
     FuiLabel,
     FuiControlError,
     FuiDefaultControlError,
     FuiIfError,
-    FuiForm,
-  ],
+    FuiForm
+  ]
 })
 export class FuiCommonFormsModule {}

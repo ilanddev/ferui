@@ -1,5 +1,6 @@
 import { NgControl } from '@angular/forms';
 import { FuiLabel } from '../../forms/common/label';
+import { FeruiUtils } from '../ferui-utils';
 
 export class FormControlClass {
   public static extractControlClass(
@@ -24,10 +25,14 @@ export class FormControlClass {
     if (control && control.pristine && excludedList.indexOf('fui-pristine') === -1) {
       classes.push('fui-pristine');
     }
-    if (control && !control.value && excludedList.indexOf('fui-empty') === -1) {
+    if (
+      control &&
+      (FeruiUtils.isNullOrUndefined(control.value) || control.value === '') &&
+      excludedList.indexOf('fui-empty') === -1
+    ) {
       classes.push('fui-empty');
     }
-    if (!label && excludedList.indexOf('fui-no-label') === -1) {
+    if (FeruiUtils.isNullOrUndefined(label) && excludedList.indexOf('fui-no-label') === -1) {
       classes.push('fui-no-label');
     }
     if (focus && excludedList.indexOf('fui-control-focus') === -1) {

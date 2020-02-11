@@ -16,12 +16,14 @@ import { DatetimeComponent } from './datetime/datetime.component';
 import { FormsDashboardComponent } from './dashboard/forms-dashboard.component';
 import { RouterModule } from '@angular/router';
 import { UtilsModule } from '../../utils/utils.module';
+import { NumberComponent } from './number/number';
 
 export const FUI_DEMO_FROMS_DIRECTIVES: Type<any>[] = [
   DefaultTemplateWrapper,
   DefaultTemplateContent,
   FormsDashboardComponent,
   InputsComponent,
+  NumberComponent,
   DatetimeComponent,
   TextareaComponent,
   CheckboxComponent,
@@ -29,12 +31,12 @@ export const FUI_DEMO_FROMS_DIRECTIVES: Type<any>[] = [
   SelectsComponent,
   PasswordComponent,
   FormsLandingComponent,
-  FormsDashboardComponent,
+  FormsDashboardComponent
 ];
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule, UtilsModule, FeruiModule, HighlightModule],
   declarations: [FUI_DEMO_FROMS_DIRECTIVES],
-  exports: [FUI_DEMO_FROMS_DIRECTIVES, RouterModule],
+  exports: [FUI_DEMO_FROMS_DIRECTIVES, RouterModule]
 })
 export class FormsDemoModule {}
