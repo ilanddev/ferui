@@ -12,7 +12,7 @@ import {
   FilterType,
   FuiDatagridBodyCellContext,
   FuiRowModel,
-  FuiDatagrid,
+  FuiDatagrid
 } from '@ferui/components';
 
 @Component({
@@ -28,11 +28,36 @@ import {
             [datagridRowModel]="rowDataModel"
             [datagrid]="datagrid1"
             (bandwidthSpeedChange)="networkBandwithChange($event)"
-          ></fui-demo-datagrid-option-menu>
+          >
+            <button class="btn btn-warning btn-sm" (click)="withHeader = !withHeader">
+              {{ withHeader ? 'Hide header' : 'Display header' }}
+            </button>
+            <button class="btn btn-warning ml-2 mr-2 btn-sm" (click)="withFooter = !withFooter">
+              {{ withFooter ? 'Hide footer' : 'Display footer' }}
+            </button>
+            <button
+              *ngIf="withFooter"
+              class="btn btn-warning ml-2 mr-2 btn-sm"
+              (click)="withFooterItemPerPage = !withFooterItemPerPage"
+            >
+              {{ withFooterItemPerPage ? 'Hide Item per page' : 'Display Item per page' }}
+            </button>
+            <button *ngIf="withFooter" class="btn btn-warning ml-2 mr-2 btn-sm" (click)="withFooterPager = !withFooterPager">
+              {{ withFooterPager ? 'Hide pager' : 'Display pager' }}
+            </button>
+            <button class="btn btn-warning ml-2 mr-2 btn-sm" (click)="withFixedHeight = !withFixedHeight">
+              {{ withFixedHeight ? 'Auto grid height' : 'Fixed grid height' }}
+            </button>
+          </fui-demo-datagrid-option-menu>
         </div>
         <div class="mb-4" style="width: 100%;">
           <fui-datagrid
             #datagrid1
+            [fixedHeight]="withFixedHeight"
+            [withHeader]="withHeader"
+            [withFooter]="withFooter"
+            [withFooterItemPerPage]="withFooterItemPerPage"
+            [withFooterPager]="withFooterPager"
             [rowDataModel]="rowDataModel"
             [datasource]="dataSource"
             [isLoading]="isLoading"
@@ -93,9 +118,9 @@ import {
         width: 14px;
         height: 14px;
       }
-    `,
+    `
   ],
-  providers: [DatagridService],
+  providers: [DatagridService]
 })
 export class DatagridInfiniteServerSideComponent implements OnInit {
   columnDefs: Array<FuiColumnDefinitions>;
@@ -106,6 +131,12 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
 
   dataSource2: IServerSideDatasource;
   isLoading2: boolean = true;
+
+  withHeader: boolean = true;
+  withFooter: boolean = true;
+  withFooterItemPerPage: boolean = true;
+  withFooterPager: boolean = true;
+  withFixedHeight: boolean = false;
 
   @ViewChild('avatarRenderer') avatarRenderer: TemplateRef<FuiDatagridBodyCellContext>;
   @ViewChild('userAgentRenderer') userAgentRenderer: TemplateRef<FuiDatagridBodyCellContext>;
@@ -126,7 +157,7 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
 
   ngOnInit(): void {
     const dateFilterParams: IDateFilterParams = {
-      dateFormat: 'yyyy-mm-dd',
+      dateFormat: 'yyyy-mm-dd'
     };
 
     this.columnDefs = [
@@ -137,7 +168,7 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
         hide: true,
         filter: false,
         cellRenderer: this.avatarRenderer,
-        sortable: false,
+        sortable: false
       },
       { headerName: 'Username', field: 'username', minWidth: 150, sortOrder: 1, sort: FuiDatagridSortDirections.ASC },
       {
@@ -148,7 +179,7 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
         sortType: FuiFieldTypes.DATE,
         sort: FuiDatagridSortDirections.DESC,
         filter: FilterType.DATE,
-        filterParams: dateFilterParams,
+        filterParams: dateFilterParams
       },
       { headerName: 'Gender', field: 'gender' },
       { headerName: 'First name', field: 'first_name' },
@@ -171,13 +202,13 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
         cellRenderer: this.userAgentRenderer,
         sortable: false,
         filter: FilterType.CUSTOM,
-        filterFramework: this.browserFilter,
-      },
+        filterFramework: this.browserFilter
+      }
     ];
 
     this.defaultColumnDefs = {
       sortable: true,
-      filter: true,
+      filter: true
     };
 
     this.dataSource = ServerSideDatasource(this);
@@ -200,7 +231,7 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
               }
             );
           });
-        },
+        }
       };
     }
 
@@ -221,7 +252,7 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
               }
             );
           });
-        },
+        }
       };
     }
   }
