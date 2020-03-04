@@ -55,6 +55,7 @@
 
     &.fui-datagrid-action-menu-open {
       background-color: $blue-selected;
+
       &:hover {
         background-color: $blue-selected;
       }
@@ -100,6 +101,7 @@
       justify-content: flex-start;
       align-items: center;
       align-content: center;
+
       span {
         font-size: $font-size-sm;
         font-weight: $font-weight-normal;
@@ -427,6 +429,14 @@
 
               display: block;
 
+              &.with-fixed-height {
+                &.with-empty-data {
+                  display: flex;
+                  justify-content: center;
+                  flex-direction: column;
+                }
+              }
+
               .fui-grid-loading-wrapper {
                 display: block;
                 position: relative;
@@ -495,6 +505,7 @@
 
                     &.selectable.selected {
                       background-color: $blue-selected;
+
                       &:hover {
                         background-color: $blue-selected;
                       }

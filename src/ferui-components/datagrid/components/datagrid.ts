@@ -101,6 +101,7 @@ import { DatagridUtils } from '../utils/datagrid-utils';
           <fui-datagrid-body
             [isLoading]="isBodyLoading()"
             [isEmptyData]="isEmptyData()"
+            [isFixedheight]="fixedHeight"
             [id]="virtualBodyId"
             [headerHeight]="rowHeight"
             unselectable="on"
@@ -260,6 +261,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   @Input() withFooter: boolean = true;
   @Input() withFooterItemPerPage: boolean = true;
   @Input() withFooterPager: boolean = true;
+  @Input() fixedHeight: boolean = false;
 
   @Input() actionMenuTemplate: TemplateRef<FuiDatagridBodyRowContext>;
   @Input() columnDefs: FuiColumnDefinitions[] = [];
@@ -425,7 +427,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   @Input('gridHeight')
   set inputGridHeight(value: string) {
     // Do nothing if the value is the same.
-    if (value !== 'refresh' && value === this._gridHeight) {
+    if (value !== 'refresh' && value !== 'auto' && value === this._gridHeight) {
       return;
     }
     if (value === 'auto' || value === 'refresh') {
@@ -435,21 +437,32 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
       const maxDisplayedRows = this.maxDisplayedRows !== null ? this.maxDisplayedRows : 10;
       const totalRows: number = this.totalRows ? this.totalRows : this.displayedRows.length;
 
-      const minRowCount = totalRows < maxDisplayedRows ? totalRows : maxDisplayedRows;
-      const fullRowsCount: number = this.serverSideRowModel.limit
-        ? minRowCount < this.serverSideRowModel.limit
-          ? minRowCount
-          : this.serverSideRowModel.limit
-        : minRowCount;
+      let gridHeight: number;
+      if (!this.fixedHeight) {
+        const minRowCount = totalRows < maxDisplayedRows ? totalRows : maxDisplayedRows;
+        const fullRowsCount: number = this.serverSideRowModel.limit
+          ? minRowCount < this.serverSideRowModel.limit
+            ? minRowCount
+            : this.serverSideRowModel.limit
+          : minRowCount;
 
-      const gridHeight: number =
-        fullRowsCount * this.rowHeight +
-        this.headerHeight +
-        emptyDataHeight +
-        initialLoadHeight +
-        this.getHeaderPagerHeight() +
-        this.scrollSize +
-        2;
+        gridHeight =
+          fullRowsCount * this.rowHeight +
+          this.headerHeight +
+          emptyDataHeight +
+          initialLoadHeight +
+          this.getHeaderPagerHeight() +
+          this.scrollSize +
+          2;
+      } else {
+        gridHeight =
+          maxDisplayedRows * this.rowHeight +
+          this.headerHeight +
+          initialLoadHeight +
+          this.getHeaderPagerHeight() +
+          this.scrollSize +
+          2;
+      }
       this._gridHeight = gridHeight + 'px';
     } else {
       this._gridHeight = value;

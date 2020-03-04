@@ -18,7 +18,12 @@ import { FuiVirtualScrollerComponent } from '../../../virtual-scroller/virtual-s
 @Component({
   selector: 'fui-datagrid-body',
   template: `
-    <div class="fui-datagrid-body-cliper" #bodyCliper>
+    <div
+      class="fui-datagrid-body-cliper"
+      [class.with-empty-data]="isEmptyData"
+      [class.with-fixed-height]="isFixedheight"
+      #bodyCliper
+    >
       <div class="fui-grid-loading-wrapper" *ngIf="isLoading">
         <div class="fui-grid-loading-screen">
           <clr-icon class="fui-datagrid-loading-icon" shape="fui-spinner"></clr-icon>
@@ -63,6 +68,7 @@ export class FuiBodyRoot implements OnInit, AfterViewInit, AfterContentInit {
     return this._isEmptyData;
   }
 
+  @Input() isFixedheight: boolean = false;
   @Input() headerHeight: number = 50;
 
   @ViewChild('viewportSpacer') viewportSpacer: ElementRef;
