@@ -9,3 +9,4 @@ export * from './datagrid-scrollbar-helper.service';
 export * from './datagrid-sort.service';
 export * from './event.service';
 export * from './abstract-event-listener-service';
+export * from './exporter/index';

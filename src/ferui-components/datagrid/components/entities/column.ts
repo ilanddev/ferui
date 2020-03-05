@@ -406,6 +406,16 @@ export class Column {
     return sortPadding;
   }
 
+  getExportValueFormatter(value: string, data?: any): string | null {
+    if (
+      this.columnDefinition.hasOwnProperty('exportValueFormatter') &&
+      typeof this.columnDefinition.exportValueFormatter === 'function'
+    ) {
+      return this.columnDefinition.exportValueFormatter(value, data);
+    }
+    return null;
+  }
+
   private createColumnEvent(type: string): ColumnEvent {
     return {
       api: this.gridApi,

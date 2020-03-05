@@ -34,6 +34,7 @@ import * as jsBeautify from 'js-beautify';
         <div class="mb-4" style="width: 100%;">
           <fui-datagrid
             #datagrid1
+            [maxDisplayedRows]="itemPerPage"
             [datasource]="dataSource"
             [isLoading]="isLoading"
             [defaultColDefs]="defaultColumnDefs"
@@ -129,6 +130,7 @@ export class DatagridServerSideComponent {
   dataSource: IServerSideDatasource;
   networkBandwith: number = 260;
   restrictTypescriptLang = ['typescript'];
+  itemPerPage: number = 5;
 
   dataSource2: IServerSideDatasource;
   isLoading2: boolean = true;
@@ -136,7 +138,7 @@ export class DatagridServerSideComponent {
   serverSideDatasourceCode: string = jsBeautify.js_beautify(`interface IServerSideDatasource {
     // The context object to use within the getRows function.
     context?: any;
-  
+
     // grid calls this to get rows
     getRows(params: IServerSideGetRowsParams): Promise<IDatagridResultObject>;
   }`);
@@ -147,19 +149,19 @@ export class DatagridServerSideComponent {
   }`);
 
   serverSideDatasourceRequestCode: string = jsBeautify.js_beautify(`interface IServerSideGetRowsRequest {
-    // Columns that are visible in the grid. 
+    // Columns that are visible in the grid.
     // Useful when you want to minimize requests sizes (less columns means less data transferred through network)
     columns: ColumnVO[];
-  
+
     // When you have filters set in the grid, you want to let your API know what they are.
     filterModel: FilterModel[];
-  
+
     // When you have sorting column(s) set in the grid, you want to let your API know what they are.
     sortModel: SortModel[];
-  
+
     // Used for the pager. This allow you to get chunks of data per requests.
     offset: number;
-  
+
     // Used for the pager. This allow you to tell your API how many rows you want to display.
     limit: number;
   }`);

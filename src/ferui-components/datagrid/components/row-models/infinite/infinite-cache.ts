@@ -5,6 +5,11 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { FuiDatagridEventService } from '../../../services/event.service';
 import { FuiDatagridEvents, ServerSideRowDataChanged } from '../../../events';
 
+export interface IFuiDatagridInfiniteRowError {
+  id: string;
+  fuiError: any;
+}
+
 export class InfiniteCache {
   blocks: { [blockNumber: string]: InfiniteBlock } = {};
   maxReachedRowIndex: number = 0;
@@ -36,17 +41,19 @@ export class InfiniteCache {
       this.subscriptions.push(
         this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SERVER_ROW_DATA_CHANGED).subscribe(event => {
           const ev: ServerSideRowDataChanged = event as ServerSideRowDataChanged;
-          const numberOfRows: number = ev.resultObject.data.length;
-          if (numberOfRows > 0) {
-            const lastOffset: number = ev.pageIndex * this.limit + (numberOfRows - 1);
-            if (ev.resultObject.total && ev.resultObject.total > 0) {
-              this.maxReachedRowIndex = ev.resultObject.total;
+          if (ev.resultObject && ev.resultObject.data && ev.resultObject.data.length >= 0) {
+            const numberOfRows: number = ev.resultObject.data.length;
+            if (numberOfRows > 0) {
+              const lastOffset: number = ev.pageIndex * this.limit + (numberOfRows - 1);
+              if (ev.resultObject.total && ev.resultObject.total > 0) {
+                this.maxReachedRowIndex = ev.resultObject.total;
+                this.reachedLastIndex = true;
+              } else if (lastOffset > this.maxReachedRowIndex) {
+                this.maxReachedRowIndex = lastOffset;
+              }
+            } else {
               this.reachedLastIndex = true;
-            } else if (lastOffset > this.maxReachedRowIndex) {
-              this.maxReachedRowIndex = lastOffset;
             }
-          } else {
-            this.reachedLastIndex = true;
           }
         })
       );
@@ -60,7 +67,7 @@ export class InfiniteCache {
    * @param datasource
    * @param forceUpdate
    */
-  loadBlocks(currentBlockIndex: number, limit: number, datasource: IServerSideDatasource, forceUpdate: boolean = false) {
+  loadBlocks(currentBlockIndex: number, limit: number, datasource: IServerSideDatasource, forceUpdate: boolean = false): void {
     if (this.blocksLoadDebounce) {
       clearTimeout(this.blocksLoadDebounce);
     }
@@ -175,12 +182,26 @@ export class InfiniteCache {
     }
 
     const startIndex: number = block.offset;
-    const rowNodes: RowNode[] = block.rowNodes;
-    let rowCount = 0;
-    for (const row of rowNodes) {
-      const replace = remove ? {} : row.data;
-      rows.splice(startIndex + rowCount, 1, replace);
-      rowCount++;
+    // When the block is on failed state, we create a special error row to be displayed
+    if (block.getState() === InfiniteBlockState.STATE_FAILED) {
+      // We remove 1 because a row will be displayed in case of an error.
+      const failedBlockRowCount: number = block.limit - 1;
+
+      const row: IFuiDatagridInfiniteRowError = {
+        id: `${startIndex}-error-page`,
+        fuiError: block.error
+      };
+      const replace = remove ? {} : row;
+      rows.splice(startIndex, 1, replace);
+      rows.splice(startIndex + 1, failedBlockRowCount);
+    } else {
+      const rowNodes: RowNode[] = block.rowNodes;
+      let rowCount = 0;
+      for (const row of rowNodes) {
+        const replace = remove ? {} : row.data;
+        rows.splice(startIndex + rowCount, 1, replace);
+        rowCount++;
+      }
     }
     this.rows = rows;
     this.loadedBlocksSub.next(rows);

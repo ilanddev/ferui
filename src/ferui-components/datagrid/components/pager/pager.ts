@@ -4,12 +4,12 @@ import { FuiDatagridEventService } from '../../services/event.service';
 import { Subscription } from 'rxjs';
 import { FuiDatagridEvents, FuiFilterEvent, FuiPageChangeEvent, RowDataChanged, ServerSideRowDataChanged } from '../../events';
 import { FuiDatagridService } from '../../services/datagrid.service';
-import { FuiDatagridServerSideRowModel } from '../row-models/server-side-row-model';
 import { FuiPagerPage } from '../../types/pager';
 import { orderByComparator } from '../../utils/sort';
 import { FuiRowModel } from '../../types/row-model.enum';
 import { DatagridUtils } from '../../utils/datagrid-utils';
-import { FuiDatagridInfinteRowModel } from '../row-models/infinite/infinite-row-model';
+import { RowModel } from '../row-models/row-model';
+import { ServerSideRowModelInterface } from '../../types/server-side-row-model';
 
 @Component({
   selector: 'fui-datagrid-pager',
@@ -114,15 +114,22 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
   serverSideTotalRows: string = 'more';
   itemPerPagesList: number[] = [5, 10, 20, 50, 100];
 
-  @Input() numberOfPages: number = 5;
+  @Input() maximumNumberOfPages: number = 5;
   @Input() rowDataModel: FuiRowModel = FuiRowModel.CLIENT_SIDE;
   @Input() isLoading: boolean = false;
 
   @Input() withFooterItemPerPage: boolean = true;
   @Input() withFooterPager: boolean = true;
 
-  @Input() itemPerPage: number = this.itemPerPagesList[1];
+  @Input() set itemPerPage(value: number) {
+    this._itemPerPage = value;
+  }
 
+  get itemPerPage(): number {
+    return this._itemPerPage;
+  }
+
+  private _itemPerPage: number = this.itemPerPagesList[1];
   private _selectedPage: FuiPagerPage;
   private _height: number = 0;
   private subscriptions: Subscription[] = [];
@@ -135,26 +142,20 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
     public commonStrings: FuiCommonStrings,
     private eventService: FuiDatagridEventService,
     private gridPanel: FuiDatagridService,
-    private serverSideRowModel: FuiDatagridServerSideRowModel,
-    private infiniteRowModel: FuiDatagridInfinteRowModel
+    private rowModel: RowModel
   ) {
     this.subscriptions.push(
-      this.serverSideRowModel.isReady.subscribe(isReady => {
+      this.rowModel.isReady.subscribe(isReady => {
         if (isReady) {
-          if (this.serverSideRowModel.limit && this.itemPerPagesList.indexOf(this.serverSideRowModel.limit) === -1) {
-            this.itemPerPagesList.push(this.serverSideRowModel.limit);
-            this.itemPerPagesList.sort(orderByComparator);
+          if (this.rowModel.isServerSideRowModel() || this.rowModel.isInfiniteServerSideRowModel()) {
+            // Both server-side and infinite-server-side row models are using the same behaviour.
+            const currentRowModel: ServerSideRowModelInterface = this.rowModel.getRowModel() as ServerSideRowModelInterface;
+            if (currentRowModel.limit && this.itemPerPagesList.indexOf(currentRowModel.limit) === -1) {
+              this.itemPerPagesList.push(currentRowModel.limit);
+              this.itemPerPagesList.sort(orderByComparator);
+            }
+            this.itemPerPage = currentRowModel.limit;
           }
-          this.itemPerPage = this.serverSideRowModel.limit;
-        }
-      }),
-      this.infiniteRowModel.isReady.subscribe(isReady => {
-        if (isReady) {
-          if (this.infiniteRowModel.limit && this.itemPerPagesList.indexOf(this.infiniteRowModel.limit) === -1) {
-            this.itemPerPagesList.push(this.infiniteRowModel.limit);
-            this.itemPerPagesList.sort(orderByComparator);
-          }
-          this.itemPerPage = this.infiniteRowModel.limit;
         }
       }),
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SERVER_ROW_DATA_CHANGED).subscribe(event => {
@@ -182,8 +183,8 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
           this.subscriptions.push(
             this.gridPanel.virtualScrollViewport.vsChange.subscribe(pageInfo => {
               if (this.isServerSideRowModel()) {
-                this.startIndex = this.serverSideRowModel.offset;
-                this.endIndex = this.startIndex + this.serverSideRowModel.limit - 1; // The index is 0 based.
+                this.startIndex = this.rowModel.getServerSideRowModel().offset;
+                this.endIndex = this.startIndex + this.rowModel.getServerSideRowModel().limit - 1; // The index is 0 based.
               } else {
                 this.startIndex = pageInfo.startIndex;
                 this.endIndex = pageInfo.endIndex;
@@ -238,26 +239,23 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Get Element height.
+   */
   getElementHeight(): number {
     return this.height;
   }
 
-  /**
-   *
-   */
   ngOnInit(): void {
     this.height = this.elementRef.nativeElement.offsetHeight;
   }
 
-  /**
-   *
-   */
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   /**
-   *
+   * Whether a page is selected or not.
    * @param page
    */
   isPageSelected(page: FuiPagerPage): boolean {
@@ -265,7 +263,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
   }
 
   /**
-   *
+   * Select a page
    * @param page
    * @param startIndex
    */
@@ -273,7 +271,6 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
     if (this.gridPanel.virtualScrollViewport && page) {
       this.selectedPage = page;
       const isLastPage = !startIndex || this.lastPageIndex === page.index + 1;
-
       if (this.isServerSideRowModel()) {
         this.goToPage(false, page);
       } else {
@@ -283,7 +280,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
   }
 
   /**
-   *
+   * Return whether the page is disabled (grey state) or not.
    * @param type
    */
   isPageDisabled(type: string): boolean {
@@ -304,7 +301,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
   }
 
   /**
-   *
+   * Go to first page
    */
   toFirstPage(): void {
     if (this.selectedPage && this.selectedPage.index === 0) {
@@ -314,7 +311,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
   }
 
   /**
-   *
+   * Go to last page
    */
   toLastPage(): void {
     if (this.selectedPage && this.selectedPage.index === this.pages[this.pages.length - 1].index) {
@@ -324,7 +321,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
   }
 
   /**
-   *
+   * Go to next page
    */
   toNextPage(): void {
     if (
@@ -340,7 +337,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
   }
 
   /**
-   *
+   * Return to previous page
    */
   toPreviousPage(): void {
     if (this.selectedPage && this.selectedPage.index - 1 < 0) {
@@ -350,7 +347,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
   }
 
   /**
-   *
+   * Return the pages that are displayed on screen.
    */
   displayedPages(): FuiPagerPage[] {
     if (this.pages.length === 0 || !this.selectedPage) {
@@ -369,50 +366,57 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
    * @param limit
    */
   serverSidePageChange(pageIndex: number, limit: number): void {
-    this.serverSideRowModel.offset = pageIndex;
-    this.serverSideRowModel.limit = limit;
     this.numberOfRowsInViewport = null;
-    this.serverSideLoading = true;
-    // For infinite scrolling, the updateRows function will automatically take the buffer value into account.
-    this.serverSideRowModel
-      .updateRows(false, pageIndex)
-      .then(resultObject => {
-        if (resultObject.data === null) {
-          this.reachedLastPage(pageIndex.toString());
-          this.toPreviousPage();
-        }
-        this.serverSideLoading = false;
-        const currentPage = this.findPageFromStartIndex(pageIndex);
-        if (currentPage) {
-          this.pages[currentPage.index].serverSidePageLoaded = true;
-        }
-      })
-      .catch(reason => {
-        this.serverSideLoading = false;
-        throw Error(reason);
-      });
+
+    if (this.isServerSideRowModel()) {
+      this.serverSideLoading = true;
+      this.rowModel.getServerSideRowModel().offset = pageIndex;
+      this.rowModel.getServerSideRowModel().limit = limit;
+      this.rowModel
+        .getServerSideRowModel()
+        .updateRows(false, pageIndex)
+        .then(resultObject => {
+          if (resultObject.data === null) {
+            this.reachedLastPage(pageIndex.toString());
+            this.toPreviousPage();
+          }
+          this.serverSideLoading = false;
+          const currentPage = this.findPageFromStartIndex(pageIndex);
+          if (currentPage) {
+            this.pages[currentPage.index].serverSidePageLoaded = true;
+          }
+        })
+        .catch(reason => {
+          this.serverSideLoading = false;
+          throw Error(reason);
+        });
+    } else if (this.isInfiniteServerSideRowModel()) {
+      this.rowModel.getInfiniteServerSideRowModel().refresh(limit);
+    }
   }
 
   /**
-   *
+   * Get the current page index.
    */
   getCurrentPageIndex(): number {
     return this.selectedPage ? this.selectedPage.index : 0;
   }
 
   /**
-   *
+   * Update the item per page and the limit for server row models.
    * @param value
    */
   updateLimit(value: number): void {
     this.resetPager();
     this.itemPerPage = value;
+    if (this.isInfiniteServerSideRowModel() || this.isServerSideRowModel()) {
+      this.serverSidePageChange(0, value);
+    }
     this.pagerItemPerPage.emit(value);
-    this.serverSidePageChange(0, value);
   }
 
   /**
-   *
+   * Reset the pager.
    */
   resetPager(): void {
     this.pages = [];
@@ -462,26 +466,27 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
       this.totalRows > 0
     ) {
       this.numberOfRowsInViewport =
-        this.serverSideRowModel.datasource && this.getLimit() !== null ? this.getLimit() : this.endIndex - this.startIndex;
+        this.rowModel.getDatasource() && this.getLimit() !== null ? this.getLimit() : this.endIndex - this.startIndex;
+      const itemPerPage: number = this.numberOfRowsInViewport < this.itemPerPage ? this.itemPerPage : this.numberOfRowsInViewport;
 
-      let totalPages: number = Math.ceil(this.totalRows / this.numberOfRowsInViewport);
+      let totalPages: number = Math.ceil(this.totalRows / itemPerPage);
       if (totalPages === 0) {
         totalPages = 1;
       }
-      this.maxPages = totalPages > this.numberOfPages ? this.numberOfPages : totalPages;
 
+      this.maxPages = totalPages > this.maximumNumberOfPages ? this.maximumNumberOfPages : totalPages;
       for (let i = 1; i <= totalPages; i++) {
-        const lastIndex: number = i * this.numberOfRowsInViewport;
-        const firstIndex: number = lastIndex - this.numberOfRowsInViewport;
+        const lastIndex: number = i * itemPerPage;
+        const firstIndex: number = lastIndex - itemPerPage;
         this.addPage(i, firstIndex, lastIndex - 1);
       }
     } else if ((this.totalRows === 0 || this.totalRows === null) && this.startIndex > -1 && this.endIndex > 0) {
       this.numberOfRowsInViewport = this.totalRows;
       const startIdx: number = this.startIndex;
       const endIdx: number = this.endIndex;
-      if (this.isInfiniteServerSideRowModel() && this.infiniteRowModel) {
-        const numberOfRowsInViewport: number = this.infiniteRowModel.limit;
-        const maxReachedRowIndex: number = this.infiniteRowModel.infiniteCache.maxReachedRowIndex;
+      if (this.isInfiniteServerSideRowModel() && this.rowModel.getInfiniteServerSideRowModel()) {
+        const numberOfRowsInViewport: number = this.rowModel.getInfiniteServerSideRowModel().limit;
+        const maxReachedRowIndex: number = this.rowModel.getInfiniteServerSideRowModel().infiniteCache.maxReachedRowIndex;
         const totalPages: number = Math.ceil(maxReachedRowIndex / numberOfRowsInViewport) || 1;
 
         if (this.pages.length !== totalPages) {
@@ -492,23 +497,27 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
             this.addPage(i + 1, firstIndex, lastIndex);
           }
         }
-        if (this.infiniteRowModel.infiniteCache.reachedLastIndex) {
+        if (this.rowModel.getInfiniteServerSideRowModel().infiniteCache.reachedLastIndex) {
           this.reachedLastPage((maxReachedRowIndex + 1).toString());
         }
       } else {
         this.pages = this.isServerSideRowModel() ? [...this.serverSidePages] : [];
-        this.addPage(this.getPageNumberFromEndIndex(this.startIndex + 1, this.serverSideRowModel.limit), startIdx, endIdx);
+        this.addPage(
+          this.getPageNumberFromEndIndex(this.startIndex + 1, this.rowModel.getServerSideRowModel().limit),
+          startIdx,
+          endIdx
+        );
       }
-      this.maxPages = this.pages.length + 1 > this.numberOfPages ? this.numberOfPages : this.pages.length + 1;
+      this.maxPages = this.pages.length + 1 > this.maximumNumberOfPages ? this.maximumNumberOfPages : this.pages.length + 1;
     }
     this.setSelectedPage();
   }
 
   private getLimit(): number | null {
-    if (this.isInfiniteServerSideRowModel() && this.infiniteRowModel) {
-      return this.infiniteRowModel.limit;
-    } else if (this.isServerSideRowModel() && this.serverSideRowModel) {
-      return this.serverSideRowModel.limit;
+    if (this.isInfiniteServerSideRowModel() && this.rowModel.getInfiniteServerSideRowModel()) {
+      return this.rowModel.getInfiniteServerSideRowModel().limit;
+    } else if (this.isServerSideRowModel() && this.rowModel.getServerSideRowModel()) {
+      return this.rowModel.getServerSideRowModel().limit;
     }
     return null;
   }
@@ -564,21 +573,21 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
    *
    */
   private isServerSideRowModel(): boolean {
-    return !!this.serverSideRowModel.datasource && this.rowDataModel === FuiRowModel.SERVER_SIDE;
+    return this.rowModel.isServerSideRowModel();
   }
 
   /**
    *
    */
   private isInfiniteServerSideRowModel(): boolean {
-    return !!this.serverSideRowModel.datasource && this.rowDataModel === FuiRowModel.INFINITE;
+    return this.rowModel.isInfiniteServerSideRowModel();
   }
 
   /**
    *
    */
   private isClientSideRowModel(): boolean {
-    return this.rowDataModel === FuiRowModel.CLIENT_SIDE;
+    return this.rowModel.isClientSideRowModel();
   }
 
   /**
@@ -593,7 +602,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
         index: this.selectedPage.index + 1,
         value: this.selectedPage.value + 1,
         startIndex: this.selectedPage.endIndex + 1,
-        endIndex: this.selectedPage.endIndex + this.serverSideRowModel.limit,
+        endIndex: this.selectedPage.endIndex + this.rowModel.getServerSideRowModel().limit,
         serverSidePageLoaded: false
       };
     } else {
@@ -618,8 +627,8 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
   private goToPage(clientChange: boolean, page: FuiPagerPage, isLastPage?: boolean): void {
     if (clientChange) {
       this.gridPanel.virtualScrollViewport.scrollToIndex(isLastPage ? page.endIndex : page.startIndex, true, 0, 0);
-    } else {
-      this.serverSidePageChange(page.startIndex, this.serverSideRowModel.limit);
+    } else if (this.isServerSideRowModel()) {
+      this.serverSidePageChange(page.startIndex, this.rowModel.getServerSideRowModel().limit);
     }
   }
 

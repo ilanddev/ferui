@@ -1,4 +1,4 @@
-import { IServerSideDatasource, IServerSideGetRowsParams } from '../../../types/server-side-row-model';
+import { IDatagridResultObject, IServerSideDatasource, IServerSideGetRowsParams } from '../../../types/server-side-row-model';
 import { FuiDatagridEventService } from '../../../services/event.service';
 import { FuiDatagridEvents, ServerSideRowDataChanged } from '../../../events';
 import { Observable, Subject } from 'rxjs';
@@ -20,6 +20,7 @@ export class InfiniteBlock {
   limit: number;
   rowCount: number = 0;
   rowNodes: RowNode[] = [];
+  error: any = null;
 
   private datasource: IServerSideDatasource;
   private params: IServerSideGetRowsParams;
@@ -37,7 +38,7 @@ export class InfiniteBlock {
     this.params = params;
     this.state = InfiniteBlockState.STATE_LOADING;
     this.loadFromDatasource().catch(error => {
-      throw error;
+      console.warn(error);
     });
   }
 
@@ -70,6 +71,8 @@ export class InfiniteBlock {
         .catch(error => {
           this.state = InfiniteBlockState.STATE_FAILED;
           this.dispatchEvent(null);
+          this.error = error;
+          this.infiniteBlockSub.next(this);
           return error;
         });
     }

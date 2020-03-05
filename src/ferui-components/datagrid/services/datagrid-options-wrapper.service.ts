@@ -4,6 +4,8 @@ import { FuiDatagridApiService } from './datagrid-api.service';
 import { FuiDatagridColumnApiService } from './datagrid-column-api.service';
 import { DatagridUtils } from '../utils/datagrid-utils';
 import { FuiRowModel } from '../types/row-model.enum';
+import { ExportParams } from './exporter/export-params';
+import { Column } from '../components/entities/column';
 
 @Injectable()
 export class FuiDatagridOptionsWrapperService {
@@ -75,5 +77,21 @@ export class FuiDatagridOptionsWrapperService {
 
   getItemPerPage(): number {
     return DatagridUtils.isNumeric(this.gridOptions.itemsPerPage) ? this.gridOptions.itemsPerPage : 10;
+  }
+
+  isSuppressCsvExport(): boolean {
+    return this.gridOptions.suppressExport === true;
+  }
+
+  /**
+   * Get the default ExportParams for exporting the Datagrid to file.
+   */
+  getDefaultExportParams<T>(): ExportParams<T> {
+    return {
+      skipHeader: false,
+      skipFooters: false,
+      suppressQuotes: false,
+      fileName: 'fui-datagrid-export'
+    };
   }
 }

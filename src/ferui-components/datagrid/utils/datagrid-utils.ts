@@ -283,4 +283,34 @@ export class DatagridUtils {
         .substr(2, 9)
     );
   }
+
+  static iterateObject<T>(object: { [p: string]: T } | T[] | undefined, callback: (key: string, value: T) => void) {
+    if (!object || this.missing(object)) {
+      return;
+    }
+
+    if (Array.isArray(object)) {
+      object.forEach((value, index) => {
+        callback(index + '', value);
+      });
+    } else {
+      const keys = Object.keys(object);
+      for (const key of keys) {
+        const value = object[key];
+        callback(key, value);
+      }
+    }
+  }
+
+  static assign(object: any, ...sources: any[]): any {
+    sources.forEach(source => {
+      if (this.exists(source)) {
+        this.iterateObject(source, function(key: string, value: any) {
+          object[key] = value;
+        });
+      }
+    });
+
+    return object;
+  }
 }

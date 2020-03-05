@@ -62,3 +62,13 @@ export interface FilterModel {
   filterOption: string;
   filterParams?: any;
 }
+
+export interface ServerSideRowModelInterface {
+  datasource: IServerSideDatasource;
+  params: IServerSideGetRowsParams;
+  offset: number;
+  limit: number;
+  totalRows: number | null;
+  reset(): void;
+  refresh(limit: number, datasource?: IServerSideDatasource): void;
+}
