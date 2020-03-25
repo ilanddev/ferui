@@ -91,11 +91,29 @@ pre {
   max-height: 800px;
 }
 
-.dropdown-icon {
+.fui-datagrid-demo-action-btn {
   color: $gray-500;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  letter-spacing: 0;
+
+  &:focus {
+    box-shadow: none !important;
+  }
+
+  .dropdown-icon {
+    margin-left: 3px;
+    fill: $gray-500;
+    width: 9px;
+    height: 9px;
+  }
 
   &:hover,
   .active {
     color: $gray-900;
+
+    .dropdown-icon {
+      fill: $gray-900;
+    }
   }
 }

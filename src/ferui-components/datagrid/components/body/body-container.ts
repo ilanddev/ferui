@@ -23,9 +23,13 @@ export class FuiBodyContainer implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.optionsWrapperService && this.optionsWrapperService.gridOptions && this.optionsWrapperService.gridOptions.rowData) {
+    if (
+      this.optionsWrapperService &&
+      this.optionsWrapperService.gridOptions &&
+      this.optionsWrapperService.gridOptions.rowDataLength > 0
+    ) {
       const rowHeight = this.optionsWrapperService.gridOptions.rowHeight;
-      this.height = this.optionsWrapperService.gridOptions.rowData.length * rowHeight;
+      this.height = this.optionsWrapperService.gridOptions.rowDataLength * rowHeight;
     }
   }
 }

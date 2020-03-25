@@ -10,7 +10,7 @@ import {
   IServerSideGetRowsParams,
   IDatagridResultObject,
   FuiRowModel,
-  FuiDatagrid,
+  FuiDatagrid
 } from '@ferui/components';
 import { DatagridService } from '../datagrid.service';
 import { RowDataApiService } from '../server-side-api/datagrid-row.service';
@@ -36,7 +36,6 @@ import * as jsBeautify from 'js-beautify';
             #datagrid1
             [maxDisplayedRows]="itemPerPage"
             [datasource]="dataSource"
-            [isLoading]="isLoading"
             [defaultColDefs]="defaultColumnDefs"
             [columnDefs]="columnDefs"
           ></fui-datagrid>
@@ -58,7 +57,6 @@ import * as jsBeautify from 'js-beautify';
           <fui-datagrid
             #datagrid2
             [datasource]="dataSource2"
-            [isLoading]="isLoading2"
             [defaultColDefs]="defaultColumnDefs"
             [columnDefs]="columnDefs"
           ></fui-datagrid>
@@ -72,8 +70,20 @@ import * as jsBeautify from 'js-beautify';
           <fui-datagrid-browser-filter [column]="column" [filterParams]="filterParams"></fui-datagrid-browser-filter>
         </ng-template>
 
-        <ng-template #userAgentRenderer let-value="value" let-row="row">
-          <span [title]="row.user_agent" [innerHTML]="datagridService.getIconFor(value) | safeHtml"> </span>
+        <ng-template #countryRenderer let-value="value" let-row="row">
+          <img
+            *ngIf="value"
+            width="24"
+            height="24"
+            [attr.alt]="value"
+            [title]="value"
+            [attr.src]="'https://www.countryflags.io/' + row.country_code + '/shiny/24.png'"
+          />
+          {{ value }}
+        </ng-template>
+
+        <ng-template #userAgentRenderer let-value="value">
+          <span [title]="value" [innerHTML]="datagridService.getIconFor(value) | safeHtml"> </span>
         </ng-template>
       </fui-tab>
       <fui-tab [title]="'Documentation'">
@@ -121,19 +131,17 @@ import * as jsBeautify from 'js-beautify';
       </fui-tab>
     </fui-tabs>
   `,
-  providers: [DatagridService],
+  providers: [DatagridService]
 })
 export class DatagridServerSideComponent {
   columnDefs: Array<FuiColumnDefinitions>;
   defaultColumnDefs: FuiColumnDefinitions;
-  isLoading: boolean = true;
   dataSource: IServerSideDatasource;
   networkBandwith: number = 260;
   restrictTypescriptLang = ['typescript'];
   itemPerPage: number = 5;
 
   dataSource2: IServerSideDatasource;
-  isLoading2: boolean = true;
 
   serverSideDatasourceCode: string = jsBeautify.js_beautify(`interface IServerSideDatasource {
     // The context object to use within the getRows function.
@@ -175,6 +183,7 @@ export class DatagridServerSideComponent {
   @ViewChild('avatarRenderer') avatarRenderer: TemplateRef<FuiDatagridBodyCellContext>;
   @ViewChild('userAgentRenderer') userAgentRenderer: TemplateRef<FuiDatagridBodyCellContext>;
   @ViewChild('browserFilter') browserFilter: TemplateRef<any>;
+  @ViewChild('countryRenderer') countryRenderer: TemplateRef<FuiDatagridBodyCellContext>;
 
   @ViewChild('datagrid1') datagrid1: FuiDatagrid;
   @ViewChild('datagrid2') datagrid2: FuiDatagrid;
@@ -191,7 +200,7 @@ export class DatagridServerSideComponent {
 
   ngOnInit(): void {
     const dateFilterParams: IDateFilterParams = {
-      dateFormat: 'yyyy-mm-dd',
+      dateFormat: 'yyyy-mm-dd'
     };
 
     this.columnDefs = [
@@ -201,7 +210,7 @@ export class DatagridServerSideComponent {
         hide: true,
         filter: false,
         cellRenderer: this.avatarRenderer,
-        sortable: false,
+        sortable: false
       },
       { headerName: 'Username', field: 'username', minWidth: 150, sortOrder: 1, sort: FuiDatagridSortDirections.ASC },
       {
@@ -212,7 +221,7 @@ export class DatagridServerSideComponent {
         sortType: FuiFieldTypes.DATE,
         sort: FuiDatagridSortDirections.DESC,
         filter: FilterType.DATE,
-        filterParams: dateFilterParams,
+        filterParams: dateFilterParams
       },
       { headerName: 'Gender', field: 'gender' },
       { headerName: 'First name', field: 'first_name' },
@@ -221,7 +230,7 @@ export class DatagridServerSideComponent {
       { headerName: 'Eye color', field: 'eye_color' },
       { headerName: 'Company', field: 'company' },
       { headerName: 'Address', field: 'address', minWidth: 200 },
-      { headerName: 'Country', field: 'country' },
+      { headerName: 'Country', field: 'country', cellRenderer: this.countryRenderer },
       { headerName: 'Email', field: 'email' },
       { headerName: 'Phone', field: 'phone', minWidth: 200 },
       { headerName: 'Ip-address', field: 'ip_address', minWidth: 200 },
@@ -231,17 +240,17 @@ export class DatagridServerSideComponent {
       { headerName: 'Favorite movie', field: 'favorite_movie', minWidth: 200 },
       {
         headerName: 'Browser',
-        field: 'browser',
+        field: 'user_agent',
         cellRenderer: this.userAgentRenderer,
         sortable: false,
         filter: FilterType.CUSTOM,
-        filterFramework: this.browserFilter,
-      },
+        filterFramework: this.browserFilter
+      }
     ];
 
     this.defaultColumnDefs = {
       sortable: true,
-      filter: true,
+      filter: true
     };
 
     this.dataSource = ServerSideDatasource(this);
@@ -255,7 +264,6 @@ export class DatagridServerSideComponent {
               (results: IDatagridResultObject) => {
                 const delay: number = Number(server.networkBandwith);
                 setTimeout(() => {
-                  server.isLoading = false;
                   resolve(results);
                 }, delay);
               },
@@ -264,7 +272,7 @@ export class DatagridServerSideComponent {
               }
             );
           });
-        },
+        }
       };
     }
 
@@ -276,7 +284,6 @@ export class DatagridServerSideComponent {
               (results: IDatagridResultObject) => {
                 const delay: number = Number(server.networkBandwith);
                 setTimeout(() => {
-                  server.isLoading2 = false;
                   resolve(results);
                 }, delay);
               },
@@ -285,7 +292,7 @@ export class DatagridServerSideComponent {
               }
             );
           });
-        },
+        }
       };
     }
   }

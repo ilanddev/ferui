@@ -51,6 +51,10 @@ export class FuiDatagridSearchFilterButton implements OnDestroy, OnInit {
       ifOpenService.openChange.subscribe(isOpen => {
         this.isOpenPopup = isOpen;
         this.cd.markForCheck();
+      }),
+      filterService.filtersSub().subscribe(() => {
+        // If filters has been updated, we just markForCheck for next change detection run.
+        this.cd.markForCheck();
       })
     );
   }

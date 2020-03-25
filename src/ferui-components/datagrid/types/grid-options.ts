@@ -28,7 +28,7 @@ export interface FuiGridOptions {
   rowModelType?: FuiRowModel;
 
   // Client-side Row Model only - set the data to be displayed as rows in the grid.
-  rowData?: Array<any>;
+  rowDataLength?: number;
 
   icons?: FuiIconDefinitions;
 

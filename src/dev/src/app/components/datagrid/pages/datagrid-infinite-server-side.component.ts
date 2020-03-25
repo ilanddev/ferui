@@ -61,7 +61,6 @@ import {
             [maxDisplayedRows]="itemPerPage"
             [rowDataModel]="rowDataModel"
             [datasource]="dataSource"
-            [isLoading]="isLoading"
             [defaultColDefs]="defaultColumnDefs"
             [columnDefs]="columnDefs"
           ></fui-datagrid>
@@ -81,7 +80,6 @@ import {
             #datagrid2
             [rowDataModel]="rowDataModel"
             [datasource]="dataSource2"
-            [isLoading]="isLoading2"
             [defaultColDefs]="defaultColumnDefs"
             [columnDefs]="columnDefs"
           ></fui-datagrid>
@@ -101,7 +99,6 @@ import {
             #datagrid3
             [rowDataModel]="rowDataModel"
             [datasource]="dataSource3"
-            [isLoading]="isLoading3"
             [defaultColDefs]="defaultColumnDefs"
             [columnDefs]="columnDefs3"
           ></fui-datagrid>
@@ -115,8 +112,20 @@ import {
           <fui-datagrid-browser-filter [column]="column" [filterParams]="filterParams"></fui-datagrid-browser-filter>
         </ng-template>
 
-        <ng-template #userAgentRenderer let-value="value" let-row="row">
-          <span [title]="row.user_agent" [innerHTML]="datagridService.getIconFor(value) | safeHtml"> </span>
+        <ng-template #userAgentRenderer let-value="value">
+          <span [title]="value" [innerHTML]="datagridService.getIconFor(value) | safeHtml"> </span>
+        </ng-template>
+
+        <ng-template #countryRenderer let-value="value" let-row="row">
+          <img
+            *ngIf="value"
+            width="24"
+            height="24"
+            [attr.alt]="value"
+            [title]="value"
+            [attr.src]="'https://www.countryflags.io/' + row.country_code + '/shiny/24.png'"
+          />
+          {{ value }}
         </ng-template>
 
         <ng-template #idRenderer let-value="value">
@@ -128,7 +137,7 @@ import {
       </fui-tab>
       <fui-tab [title]="'Documentation'">
         <h3 class="mb-4">Overview</h3>
-        <p>The <b>Infinite server side</b> row model works exactly</p>
+        <p>The <b>Infinite server side</b> row model works exactly the same as server-side row model.</p>
       </fui-tab>
     </fui-tabs>
   `,
@@ -146,16 +155,12 @@ import {
 export class DatagridInfiniteServerSideComponent implements OnInit {
   columnDefs: Array<FuiColumnDefinitions>;
   defaultColumnDefs: FuiColumnDefinitions;
-  isLoading: boolean = true;
   dataSource: IServerSideDatasource;
   rowDataModel: FuiRowModel = FuiRowModel.INFINITE;
   itemPerPage: number = 5;
 
   dataSource2: IServerSideDatasource;
-  isLoading2: boolean = true;
-
   dataSource3: IServerSideDatasource;
-  isLoading3: boolean = true;
   columnDefs3: Array<FuiColumnDefinitions>;
 
   withHeader: boolean = true;
@@ -169,6 +174,7 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
   @ViewChild('actionsRenderer') actionsRenderer: TemplateRef<FuiDatagridBodyCellContext>;
   @ViewChild('idRenderer') idRenderer: TemplateRef<FuiDatagridBodyCellContext>;
   @ViewChild('browserFilter') browserFilter: TemplateRef<any>;
+  @ViewChild('countryRenderer') countryRenderer: TemplateRef<FuiDatagridBodyCellContext>;
 
   @ViewChild('datagrid1') datagrid1: FuiDatagrid;
   @ViewChild('datagrid2') datagrid2: FuiDatagrid;
@@ -215,7 +221,7 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
       { headerName: 'Eye color', field: 'eye_color' },
       { headerName: 'Company', field: 'company' },
       { headerName: 'Address', field: 'address', minWidth: 150 },
-      { headerName: 'Country', field: 'country' },
+      { headerName: 'Country', field: 'country', cellRenderer: this.countryRenderer },
       { headerName: 'Email', field: 'email' },
       { headerName: 'Phone', field: 'phone', minWidth: 150 },
       { headerName: 'Ip-address', field: 'ip_address', minWidth: 150 },
@@ -225,7 +231,7 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
       { headerName: 'Favorite movie', field: 'favorite_movie', minWidth: 200 },
       {
         headerName: 'Browser',
-        field: 'browser',
+        field: 'user_agent',
         cellRenderer: this.userAgentRenderer,
         sortable: false,
         filter: FilterType.CUSTOM,
@@ -281,7 +287,6 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
               (results: IDatagridResultObject) => {
                 const delay: number = server.networkBandwith;
                 setTimeout(() => {
-                  server.isLoading = false;
                   resolve(results);
                 }, delay);
               },
@@ -302,13 +307,11 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
               (results: IDatagridResultObject) => {
                 const delay: number = server.networkBandwith;
                 setTimeout(() => {
-                  server.isLoading2 = false;
                   resolve(results);
                 }, delay);
               },
               error => {
                 reject(error);
-                server.isLoading2 = false;
               }
             );
           });
@@ -323,19 +326,16 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
             // We're faking an error that comes from the API.
             if (params.request.offset >= 20 && params.request.offset < 30) {
               reject('Unknown error occurs. Please contact your administrator.');
-              server.isLoading3 = false;
             } else {
               server.rowDataService.getRows(params, 500, false).subscribe(
                 (results: IDatagridResultObject) => {
                   const delay: number = server.networkBandwith;
                   setTimeout(() => {
-                    server.isLoading3 = false;
                     resolve(results);
                   }, delay);
                 },
                 error => {
                   reject(error);
-                  server.isLoading3 = false;
                 }
               );
             }

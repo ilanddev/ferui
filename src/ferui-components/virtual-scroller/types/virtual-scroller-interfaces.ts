@@ -40,13 +40,14 @@ export interface IViewport extends IPageInfo {
 }
 
 export interface VirtualScrollerDefaultOptions {
-  scrollThrottlingTime: number;
-  scrollDebounceTime: number;
-  scrollAnimationTime: number;
+  scrollThrottlingTime?: number;
+  scrollDebounceTime?: number;
+  scrollAnimationTime?: number;
   scrollbarWidth?: number;
   scrollbarHeight?: number;
-  checkResizeInterval: number;
-  resizeBypassRefreshThreshold: number;
-  modifyOverflowStyleOfParentScroll: boolean;
-  stripedTable: boolean;
+  checkResizeInterval?: number;
+  resizeBypassRefreshThreshold?: number;
+  modifyOverflowStyleOfParentScroll?: boolean;
+  stripedTable?: boolean;
+  pxErrorValue?: number;
 }

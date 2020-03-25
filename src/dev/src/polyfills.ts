@@ -24,6 +24,9 @@ import 'core-js/es6/set';
 /* Evergreen browsers require these. */
 import 'core-js/es6/reflect';
 
+/* IntersectionObserver polyfill */
+import 'intersection-observer';
+
 /* Polyfill for icons web components */
 import '@webcomponents/custom-elements';
 

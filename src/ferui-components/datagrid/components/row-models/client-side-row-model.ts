@@ -6,6 +6,7 @@ import { FuiDatagridEventService } from '../../services/event.service';
 import { FuiDatagridEvents, FuiFilterEvent, FuiSortEvent, RowDataChanged } from '../../events';
 import { FuiDatagridApiService } from '../../services/datagrid-api.service';
 import { FuiDatagridColumnApiService } from '../../services/datagrid-column-api.service';
+import { DatagridStateService } from '../../services/datagrid-state.service';
 
 @Injectable()
 export class FuiDatagridClientSideRowModel {
@@ -18,7 +19,8 @@ export class FuiDatagridClientSideRowModel {
     private columnService: FuiColumnService,
     private eventService: FuiDatagridEventService,
     private gridApi: FuiDatagridApiService,
-    private columnApi: FuiDatagridColumnApiService
+    private columnApi: FuiDatagridColumnApiService,
+    private stateService: DatagridStateService
   ) {}
 
   get originalRowData(): any[] {

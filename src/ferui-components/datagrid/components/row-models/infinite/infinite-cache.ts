@@ -4,6 +4,7 @@ import { DatagridUtils } from '../../../utils/datagrid-utils';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { FuiDatagridEventService } from '../../../services/event.service';
 import { FuiDatagridEvents, ServerSideRowDataChanged } from '../../../events';
+import { DatagridStateService } from '../../../services/datagrid-state.service';
 
 export interface IFuiDatagridInfiniteRowError {
   id: string;
@@ -29,7 +30,8 @@ export class InfiniteCache {
   constructor(
     private infiniteMaxSurroundingBlocksInCache: number,
     private infiniteInitialBlocksCount: number,
-    private eventService: FuiDatagridEventService
+    private eventService: FuiDatagridEventService,
+    private stateService: DatagridStateService
   ) {}
 
   init(limit: number, datasource: IServerSideDatasource, params: IServerSideGetRowsParams) {
@@ -89,7 +91,7 @@ export class InfiniteCache {
           this.removeBlock(index);
         }
       }
-      // Then we add the missing block
+      // Then we add the missing block(s)
       for (const index of blockIndexesToLoad) {
         const offset = index * limit;
         this.addBlock(offset, limit, datasource, forceUpdate);
@@ -101,6 +103,9 @@ export class InfiniteCache {
     return this.loadedBlocksSub.asObservable();
   }
 
+  /**
+   * Return true if there is at least one loading block.
+   */
   hasLoadingBlock(): boolean {
     for (const blockKey in this.blocks) {
       if (this.blocks.hasOwnProperty(blockKey)) {
@@ -150,7 +155,7 @@ export class InfiniteCache {
         }
       };
       const params: IServerSideGetRowsParams = DatagridUtils.mergeDeep<IServerSideGetRowsParams>({ ...this.params }, requestObj);
-      const infiniteBlock: InfiniteBlock = new InfiniteBlock(this.eventService);
+      const infiniteBlock: InfiniteBlock = new InfiniteBlock(this.eventService, this.stateService);
       infiniteBlock.init(offset, limit, datasource, params);
 
       this.loadedBlocksSubscriptions[blockNumber] = infiniteBlock.infiniteBlockObservable().subscribe(ib => {

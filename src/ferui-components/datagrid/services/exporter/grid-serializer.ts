@@ -1,5 +1,4 @@
 import { Column } from '../../components/entities/column';
-import { Injectable } from '@angular/core';
 import { ExportParams } from './export-params';
 
 const LINE_SEPARATOR = '\r\n';
@@ -18,12 +17,11 @@ const DEFAULT_GRID_SERIALIZER_OPTIONS: GridSerializerOptions = {
   includeHiddenColumns: false
 };
 
-@Injectable()
 export class GridSerializer<T> {
   constructor(
-    private _displayedColumns: Column[] = [],
-    private _displayedRows: T[] = [],
-    private options?: GridSerializerOptions
+    private _displayedColumns: Column[],
+    private _displayedRows: T[],
+    private readonly options?: GridSerializerOptions
   ) {
     if (this.options) {
       this.options = { ...DEFAULT_GRID_SERIALIZER_OPTIONS, ...this.options };

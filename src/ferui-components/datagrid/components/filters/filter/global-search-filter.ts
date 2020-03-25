@@ -1,10 +1,18 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FuiDatagridBaseFilter } from './base-filter';
-import { FuiDatagridIGlobalSearchFilter, IDoesGlobalFilterPassParams, IGlobalFilterParams } from '../interfaces/filter';
-import { FuiDatagridFilterService } from '../../../services/datagrid-filter.service';
+import {
+  FuiDatagridActiveGlobalFilter,
+  FuiDatagridIGlobalSearchFilter,
+  IDoesGlobalFilterPassParams,
+  IGlobalFilterParams
+} from '../interfaces/filter';
+import { DATAGRID_GLOBAL_SEARCH_ID, FuiDatagridFilterService } from '../../../services/datagrid-filter.service';
 import { FuiDatagridTextFilter, TextComparator, TextFormatter } from './text-filter';
 import { Column } from '../../entities/column';
 import { FilterType } from '../interfaces/filter.enum';
+import { Subscription } from 'rxjs';
+import { DatagridStateService } from '../../../services/datagrid-state.service';
+import { RowModel } from '../../row-models/row-model';
 
 @Component({
   selector: 'fui-datagrid-global-search-filter',
@@ -28,7 +36,7 @@ import { FilterType } from '../interfaces/filter.enum';
     class: 'fui-datagrid-filters-search'
   }
 })
-export class FuiDatagridGlobalSearchFilter implements FuiDatagridIGlobalSearchFilter, OnInit {
+export class FuiDatagridGlobalSearchFilter implements FuiDatagridIGlobalSearchFilter, OnInit, OnDestroy {
   @Input() columns: Column[];
   @Input() filterParams: IGlobalFilterParams;
 
@@ -42,11 +50,28 @@ export class FuiDatagridGlobalSearchFilter implements FuiDatagridIGlobalSearchFi
   };
   protected _isActive: boolean;
 
+  private onFilterChangeBebounce: NodeJS.Timer;
+  private subscriptions: Subscription[] = [];
   private selectedType: string;
   private comparator: TextComparator;
   private formatter: TextFormatter;
 
-  constructor(private filterService: FuiDatagridFilterService) {}
+  constructor(
+    private filterService: FuiDatagridFilterService,
+    private rowModel: RowModel,
+    private stateService: DatagridStateService
+  ) {
+    this.subscriptions.push(
+      this.filterService.filtersSub().subscribe(filters => {
+        const globalFilter: FuiDatagridActiveGlobalFilter = filters.find(
+          filter => filter && filter.index === DATAGRID_GLOBAL_SEARCH_ID
+        ) as FuiDatagridActiveGlobalFilter;
+        if (!globalFilter && this.selectedSearch) {
+          this.clearFilter();
+        }
+      })
+    );
+  }
 
   doesFilterPass(params: IDoesGlobalFilterPassParams): boolean {
     const rowData: any = params.rowData;
@@ -102,6 +127,10 @@ export class FuiDatagridGlobalSearchFilter implements FuiDatagridIGlobalSearchFi
   }
 
   clearFilter() {
+    if (!this.rowModel.isClientSideRowModel()) {
+      this.stateService.setLoading();
+      this.stateService.setRefreshing();
+    }
     this.onFilterInputChanged('');
   }
 
@@ -143,21 +172,37 @@ export class FuiDatagridGlobalSearchFilter implements FuiDatagridIGlobalSearchFi
       : FuiDatagridTextFilter.DEFAULT_LOWERCASE_FORMATTER;
   }
 
+  ngOnDestroy(): void {
+    if (this.subscriptions.length > 0) {
+      this.subscriptions.forEach(sub => sub.unsubscribe());
+      this.subscriptions = undefined;
+    }
+  }
+
   onFilterInputChanged(value: string) {
+    if (this.onFilterChangeBebounce) {
+      clearTimeout(this.onFilterChangeBebounce);
+    }
+    if (!this.rowModel.isClientSideRowModel()) {
+      this.stateService.setRefreshing();
+      this.stateService.setLoading();
+    }
     this.selectedSearch = value;
-    const filter: FuiDatagridIGlobalSearchFilter = {
-      getColumn: () => this.getColumn(),
-      getFilterType: () => this.getFilterType(),
-      getFilterOption: () => this.getFilterOption(),
-      getFilterValue: () => this.getFilterValue(),
-      getFilterParams: () => this.getFilterParams(),
-      isFilterActive: () => this.isFilterActive(),
-      setFilterActive: (val: boolean) => this.setFilterActive(val),
-      doesFilterPass: (params: IDoesGlobalFilterPassParams) => this.doesFilterPass(params),
-      addOrRemoveFilter: (condition: boolean, fil: FuiDatagridIGlobalSearchFilter) => this.addOrRemoveFilter(condition, fil),
-      getColumns: () => this.getColumns()
-    };
-    this.addOrRemoveFilter(this.selectedSearch !== '', filter);
-    this.searchChange.emit(value);
+    this.onFilterChangeBebounce = setTimeout(() => {
+      const filter: FuiDatagridIGlobalSearchFilter = {
+        getColumn: () => this.getColumn(),
+        getFilterType: () => this.getFilterType(),
+        getFilterOption: () => this.getFilterOption(),
+        getFilterValue: () => this.getFilterValue(),
+        getFilterParams: () => this.getFilterParams(),
+        isFilterActive: () => this.isFilterActive(),
+        setFilterActive: (val: boolean) => this.setFilterActive(val),
+        doesFilterPass: (params: IDoesGlobalFilterPassParams) => this.doesFilterPass(params),
+        addOrRemoveFilter: (condition: boolean, fil: FuiDatagridIGlobalSearchFilter) => this.addOrRemoveFilter(condition, fil),
+        getColumns: () => this.getColumns()
+      };
+      this.addOrRemoveFilter(this.selectedSearch !== '', filter);
+      this.searchChange.emit(value);
+    }, 200);
   }
 }

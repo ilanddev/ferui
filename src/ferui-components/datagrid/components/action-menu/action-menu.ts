@@ -32,10 +32,12 @@ export class FuiDatagridActionMenu implements OnDestroy {
   isActionMenuVisible: boolean = false;
   isActionMenuDropdownOpen: boolean = false;
 
+  private defaultX: number = 0;
+  private defaultY: number = 0;
+  private defaultZ: number = 0;
   private subscriptions: Subscription[] = [];
-  private _actionMenuTopValue: string = 'translate3d(0, 0, 0)';
+  private _actionMenuTopValue: string = `translate3d(${this.defaultX}px, ${this.defaultY}, ${this.defaultZ})`;
   private forceClose: boolean = false;
-  private mouseLeaveTimeout: NodeJS.Timer;
 
   constructor(
     private actionMenuService: FuiActionMenuService,
@@ -58,9 +60,11 @@ export class FuiDatagridActionMenu implements OnDestroy {
       this.actionMenuService.selectedRowContextChange().subscribe(context => {
         if (context) {
           const offsetTopValue: number = this.datagridOptionsWrapper.gridApi.getViewportContentOffsetTop();
-          this.actionMenuTopValue = `translate3d(0, ${context.rowTopValue + offsetTopValue}px, 0)`;
+          this.actionMenuTopValue = `translate3d(${this.defaultX}px, ${context.rowTopValue + offsetTopValue}px, ${
+            this.defaultZ
+          })`;
         } else {
-          this.actionMenuTopValue = `translate3d(0, 0, 0)`;
+          this.actionMenuTopValue = `translate3d(${this.defaultX}px, ${this.defaultY}, ${this.defaultZ})`;
         }
         this.cd.markForCheck();
       })

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -21,7 +21,7 @@ import {
   orderByComparator,
   DATAGRID_GLOBAL_SEARCH_ID,
   IDoesGlobalFilterPassParams,
-  ColumnVO,
+  ColumnVO
 } from '@ferui/components';
 
 export interface IDatagridRowData {
@@ -36,6 +36,7 @@ export interface IDatagridRowData {
   company: string;
   address: string;
   country: string;
+  country_code: string;
   phone: string;
   ip_address: string;
   is_active: boolean;
@@ -43,26 +44,48 @@ export interface IDatagridRowData {
   avatar: string;
   favourite_animal: string;
   creation_date: string;
-  epoch_date: number;
+  epoch_date: string | number;
   favorite_movie: string;
   user_agent: string;
-  browser: string;
 }
 
-const cudOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class RowDataApiService {
-  SERVER_URL: string = 'api/rows';
+  SERVER_URL: string = '/datagrid-10k-data.min.json';
 
   constructor(private httpClient: HttpClient, private dateIOService: DateIOService) {}
+
+  getGroupedRows(
+    params: IServerSideGetRowsParams,
+    groupField: string,
+    groupValue: string,
+    maxResults: number = 0,
+    withTotalRows: boolean = true
+  ): Observable<IDatagridResultObject> {
+    if (params.request && !params.request.filterModel) {
+      params.request.filterModel = [];
+    }
+    params.request.filterModel.push({
+      id: `generated_${groupField}`,
+      visible: true,
+      name: `Generated ${groupField}`,
+      field: groupField,
+      filterable: true,
+      filterType: FilterType.STRING,
+      filterValue: groupValue,
+      filterOption: FuiDatagridTextFilter.EQUALS
+    });
+
+    return this.getRows(params, maxResults, withTotalRows);
+  }
 
   getRows(
     params: IServerSideGetRowsParams,
     maxResults: number = 0,
-    withTotalRows: boolean = true
+    withTotalRows: boolean = true,
+    groupByField?: string
   ): Observable<IDatagridResultObject> {
     const subject = new Subject<IDatagridResultObject>();
 
@@ -70,6 +93,19 @@ export class RowDataApiService {
       .get<IDatagridRowData[]>(this.SERVER_URL)
       .pipe(catchError(this.handleError))
       .subscribe(results => {
+        if (groupByField) {
+          const fields: string[] = [];
+          results = results.reduce((groups, item) => {
+            const val: string = item[groupByField];
+            // For testing purposes we only store one item by field
+            if (fields.indexOf(val) < 0) {
+              groups.push(item);
+              fields.push(val);
+            }
+            return groups;
+          }, []);
+        }
+
         const res = maxResults === 0 ? results : results.slice(0, maxResults);
         // DO THE FILTERING
         let filteredAndSortedData: any[] = this.filterData(res, params);
@@ -79,11 +115,11 @@ export class RowDataApiService {
           if (withTotalRows) {
             subject.next({
               total: 0,
-              data: [],
+              data: []
             });
           } else {
             subject.next({
-              data: [],
+              data: []
             });
           }
         }
@@ -104,11 +140,11 @@ export class RowDataApiService {
         if (withTotalRows) {
           subject.next({
             total: filteredAndSortedData.length,
-            data: chunkedData,
+            data: chunkedData
           });
         } else {
           subject.next({
-            data: chunkedData,
+            data: chunkedData
           });
         }
       });
@@ -118,33 +154,6 @@ export class RowDataApiService {
 
   getHundredRows(params: IServerSideGetRowsParams, withTotalRows: boolean = true): Observable<IDatagridResultObject> {
     return this.getRows(params, 100, withTotalRows);
-  }
-
-  getRow(rowId: number): Observable<IDatagridRowData> {
-    return this.httpClient.get<IDatagridRowData>(`${this.SERVER_URL}/${rowId}`).pipe(catchError(this.handleError));
-  }
-
-  addRow(row: IDatagridRowData): Observable<IDatagridRowData> {
-    return this.httpClient.post<IDatagridRowData>(this.SERVER_URL, row, cudOptions).pipe(catchError(this.handleError));
-  }
-
-  deleteRow(row: IDatagridRowData | number): Observable<IDatagridRowData> {
-    const id = typeof row === 'number' ? row : row.id;
-    return this.httpClient
-      .delete<IDatagridRowData>(`${this.SERVER_URL}/${id}`, cudOptions)
-      .pipe(catchError(this.handleError));
-  }
-
-  updateRow(row: IDatagridRowData): Observable<null | IDatagridRowData> {
-    return this.httpClient.put<IDatagridRowData>(this.SERVER_URL, row, cudOptions).pipe(catchError(this.handleError));
-  }
-
-  search(term: string): Observable<IDatagridRowData[]> {
-    term = term.trim();
-    // add safe, encoded search parameter if term is present
-    const options = term ? { params: new HttpParams().set('name', term) } : {};
-
-    return this.httpClient.get<IDatagridRowData[]>(this.SERVER_URL, options).pipe(catchError(this.handleError));
   }
 
   private handleError(error: any) {
@@ -422,9 +431,7 @@ export class RowDataApiService {
         const propB = manageFieldType(b, column);
 
         const comparison =
-          column.sort !== FuiDatagridSortDirections.DESC
-            ? orderByComparator(propA, propB)
-            : -orderByComparator(propA, propB);
+          column.sort !== FuiDatagridSortDirections.DESC ? orderByComparator(propA, propB) : -orderByComparator(propA, propB);
 
         // Don't return 0 yet in case of needing to sort by next property
         if (comparison !== 0) {

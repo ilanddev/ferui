@@ -1,7 +1,8 @@
-import { IDatagridResultObject, IServerSideDatasource, IServerSideGetRowsParams } from '../../../types/server-side-row-model';
+import { IServerSideDatasource, IServerSideGetRowsParams } from '../../../types/server-side-row-model';
 import { FuiDatagridEventService } from '../../../services/event.service';
 import { FuiDatagridEvents, ServerSideRowDataChanged } from '../../../events';
 import { Observable, Subject } from 'rxjs';
+import { DatagridStateEnum, DatagridStateService } from '../../../services/datagrid-state.service';
 
 export interface RowNode {
   id: string;
@@ -28,7 +29,7 @@ export class InfiniteBlock {
   private state: InfiniteBlockState = InfiniteBlockState.STATE_EMPTY;
   private infiniteBlockSub: Subject<InfiniteBlock> = new Subject<InfiniteBlock>();
 
-  constructor(private eventService: FuiDatagridEventService) {}
+  constructor(private eventService: FuiDatagridEventService, private stateService: DatagridStateService) {}
 
   init(offset: number, limit: number, datasource: IServerSideDatasource, params: IServerSideGetRowsParams) {
     this.offset = offset;
@@ -59,10 +60,19 @@ export class InfiniteBlock {
             this.state = InfiniteBlockState.STATE_EMPTY;
             this.rowCount = 0;
             this.setRowNodes([]);
+            if (this.stateService) {
+              this.stateService.setLoaded();
+              this.stateService.setRefreshed();
+            }
           } else {
             this.rowCount = resultObject.data.length;
             this.setRowNodes(resultObject.data);
             this.state = InfiniteBlockState.STATE_LOADED;
+            // When at least the first block is loaded we remove the global loading.
+            if (this.stateService) {
+              this.stateService.setLoaded();
+              this.stateService.setRefreshed();
+            }
           }
           this.dispatchEvent(resultObject);
           this.infiniteBlockSub.next(this);
@@ -70,12 +80,17 @@ export class InfiniteBlock {
         })
         .catch(error => {
           this.state = InfiniteBlockState.STATE_FAILED;
+          if (this.stateService) {
+            this.stateService.setLoaded();
+            this.stateService.setRefreshed();
+          }
           this.dispatchEvent(null);
           this.error = error;
           this.infiniteBlockSub.next(this);
           return error;
         });
     }
+    return Promise.resolve([]);
   }
 
   private dispatchEvent(resultObject) {

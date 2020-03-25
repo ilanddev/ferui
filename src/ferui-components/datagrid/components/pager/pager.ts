@@ -10,6 +10,8 @@ import { FuiRowModel } from '../../types/row-model.enum';
 import { DatagridUtils } from '../../utils/datagrid-utils';
 import { RowModel } from '../row-models/row-model';
 import { ServerSideRowModelInterface } from '../../types/server-side-row-model';
+import { FuiFormLayoutEnum } from '../../../forms/common/layout.enum';
+import { DomObserver, ObserverInstance } from '../../../utils/dom-observer/dom-observer';
 
 @Component({
   selector: 'fui-datagrid-pager',
@@ -76,25 +78,22 @@ import { ServerSideRowModelInterface } from '../../types/server-side-row-model';
         </div>
         <div class="col-auto item-per-page-selector" *ngIf="withFooterItemPerPage">
           <fui-select
-            [layout]="'small'"
+            [layout]="layoutSmall"
             fuiSelect
-            name="itemPerPage"
+            name="itemPerPageSelect"
             [clearable]="false"
             placeholder="Item per page"
             (ngModelChange)="updateLimit($event)"
             [(ngModel)]="itemPerPage"
           >
-            <ng-option *ngFor="let itemPerPage of itemPerPagesList" [value]="itemPerPage">
-              {{ itemPerPage }} items per page
-            </ng-option>
+            <ng-option *ngFor="let iPerPage of itemPerPagesList" [value]="iPerPage"> {{ iPerPage }} items per page </ng-option>
           </fui-select>
         </div>
       </div>
     </div>
   `,
   host: {
-    class: 'fui-datagrid-pager',
-    '[class.fui-datagrid-hidden-pager]': 'isLoading'
+    class: 'fui-datagrid-pager'
   }
 })
 export class FuiDatagridPager implements OnInit, OnDestroy {
@@ -102,6 +101,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
   @Output() pagerItemPerPage: EventEmitter<number> = new EventEmitter<number>();
   @Output() heightChange: EventEmitter<number> = new EventEmitter<number>();
 
+  layoutSmall: FuiFormLayoutEnum = FuiFormLayoutEnum.SMALL;
   numberOfRowsInViewport: number | null = null;
   totalRows: number | null = null;
   pages: FuiPagerPage[] = [];
@@ -116,23 +116,15 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
 
   @Input() maximumNumberOfPages: number = 5;
   @Input() rowDataModel: FuiRowModel = FuiRowModel.CLIENT_SIDE;
-  @Input() isLoading: boolean = false;
 
   @Input() withFooterItemPerPage: boolean = true;
   @Input() withFooterPager: boolean = true;
-
-  @Input() set itemPerPage(value: number) {
-    this._itemPerPage = value;
-  }
-
-  get itemPerPage(): number {
-    return this._itemPerPage;
-  }
 
   private _itemPerPage: number = this.itemPerPagesList[1];
   private _selectedPage: FuiPagerPage;
   private _height: number = 0;
   private subscriptions: Subscription[] = [];
+  private domObservers: ObserverInstance[] = [];
   private serverSideReachLastPage: boolean = false;
   private serverSidePages: FuiPagerPage[] = [];
   private serverSideLoading: boolean = false;
@@ -145,19 +137,6 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
     private rowModel: RowModel
   ) {
     this.subscriptions.push(
-      this.rowModel.isReady.subscribe(isReady => {
-        if (isReady) {
-          if (this.rowModel.isServerSideRowModel() || this.rowModel.isInfiniteServerSideRowModel()) {
-            // Both server-side and infinite-server-side row models are using the same behaviour.
-            const currentRowModel: ServerSideRowModelInterface = this.rowModel.getRowModel() as ServerSideRowModelInterface;
-            if (currentRowModel.limit && this.itemPerPagesList.indexOf(currentRowModel.limit) === -1) {
-              this.itemPerPagesList.push(currentRowModel.limit);
-              this.itemPerPagesList.sort(orderByComparator);
-            }
-            this.itemPerPage = currentRowModel.limit;
-          }
-        }
-      }),
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SERVER_ROW_DATA_CHANGED).subscribe(event => {
         const ev: ServerSideRowDataChanged = event as ServerSideRowDataChanged;
         if (ev.resultObject && ev.resultObject.total) {
@@ -197,17 +176,23 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
     );
   }
 
-  /**
-   *
-   */
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  @Input()
+  set itemPerPage(value: number) {
+    this._itemPerPage = value;
+  }
+
+  get itemPerPage(): number {
+    return this._itemPerPage;
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   get selectedPage(): FuiPagerPage {
     return this._selectedPage;
   }
 
-  /**
-   *
-   * @param value
-   */
   set selectedPage(value: FuiPagerPage) {
     if (!this._selectedPage || (this._selectedPage && value && value.index !== this._selectedPage.index)) {
       this._selectedPage = value;
@@ -221,23 +206,21 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
     }
   }
 
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   get height(): number {
     return this._height;
   }
 
   /**
-   * We set the height at ngOnInit stage. But if, for some reason, the height is 0, we then loop until the height is != 0.
+   * We set the height only once at ngOnInit stage.
    * @param value
    */
   set height(value: number) {
     this._height = value;
-    if (this._height === 0) {
-      setTimeout(() => {
-        this.height = this.elementRef.nativeElement.offsetHeight;
-        this.heightChange.emit(this._height);
-      }, 10);
-    }
   }
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   /**
    * Get Element height.
@@ -247,11 +230,32 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.height = this.elementRef.nativeElement.offsetHeight;
+    if (this.rowModel.isServerSideRowModel() || this.rowModel.isInfiniteServerSideRowModel()) {
+      // Both server-side and infinite-server-side row models are using the same behaviour.
+      const currentRowModel: ServerSideRowModelInterface = this.rowModel.getRowModel() as ServerSideRowModelInterface;
+      if (currentRowModel.limit && this.itemPerPagesList.indexOf(currentRowModel.limit) === -1) {
+        this.itemPerPagesList.push(currentRowModel.limit);
+        this.itemPerPagesList.sort(orderByComparator);
+      }
+      this.itemPerPage = currentRowModel.limit;
+    }
+    this.domObservers.push(
+      DomObserver.observe(this.elementRef.nativeElement, (entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            this.height = this.elementRef.nativeElement.offsetHeight;
+            observer.unobserve(this.elementRef.nativeElement);
+          }
+        });
+      })
+    );
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions = undefined;
+    this.domObservers.forEach(observerInstance => DomObserver.unObserve(observerInstance));
+    this.domObservers = undefined;
   }
 
   /**

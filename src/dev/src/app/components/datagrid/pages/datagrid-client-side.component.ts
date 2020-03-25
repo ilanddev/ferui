@@ -12,6 +12,7 @@ import {
   CsvExportParams
 } from '@ferui/components';
 import { DatagridService } from '../datagrid.service';
+import { IDatagridRowData } from '../server-side-api/datagrid-row.service';
 
 // @ts-ignore
 @Component({
@@ -80,7 +81,6 @@ import { DatagridService } from '../datagrid.service';
             [withFooter]="withFooter"
             [withFooterItemPerPage]="withFooterItemPerPage"
             [withFooterPager]="withFooterPager"
-            [isLoading]="isLoading"
             [maxDisplayedRows]="itemPerPage"
             [defaultColDefs]="defaultColumnDefs"
             [columnDefs]="columnDefs"
@@ -146,8 +146,8 @@ import { DatagridService } from '../datagrid.service';
             let-appendTo="appendTo"
           >
             <fui-dropdown (dropdownOpenChange)="onDropdownOpen($event)" [forceClose]="forceClose">
-              <button fuiDropdownTrigger>
-                <clr-icon class="dropdown-icon" shape="fui-dots"></clr-icon>
+              <button class="fui-datagrid-demo-action-btn btn" fuiDropdownTrigger>
+                ACTIONS <clr-icon class="dropdown-icon" dir="down" shape="fui-caret"></clr-icon>
               </button>
               <fui-dropdown-menu [appendTo]="appendTo" *fuiIfOpen>
                 <div fuiDropdownItem>action 1 for row {{ rowIndex }}</div>
@@ -167,8 +167,20 @@ import { DatagridService } from '../datagrid.service';
             <fui-datagrid-browser-filter [column]="column" [filterParams]="filterParams"></fui-datagrid-browser-filter>
           </ng-template>
 
-          <ng-template #userAgentRenderer let-value="value" let-row="row">
-            <span [title]="row.user_agent" [innerHTML]="datagridService.getIconFor(value) | safeHtml"> </span>
+          <ng-template #countryRenderer let-value="value" let-row="row">
+            <img
+              *ngIf="value"
+              width="24"
+              height="24"
+              [attr.alt]="value"
+              [title]="value"
+              [attr.src]="'https://www.countryflags.io/' + row.country_code + '/shiny/24.png'"
+            />
+            {{ value }}
+          </ng-template>
+
+          <ng-template #userAgentRenderer let-value="value">
+            <span [title]="value" [innerHTML]="datagridService.getIconFor(value) | safeHtml"> </span>
           </ng-template>
         </div>
 
@@ -179,7 +191,6 @@ import { DatagridService } from '../datagrid.service';
           <fui-datagrid
             #datagrid2
             [exportParams]="exportParams2"
-            [isLoading]="isLoadingSynchronous"
             [maxDisplayedRows]="itemPerPageSynchronous"
             [defaultColDefs]="defaultColumnDefs"
             [columnDefs]="columnDefsSynchronous"
@@ -258,8 +269,6 @@ export class DatagridClientSideComponent {
   columnDefs: Array<FuiColumnDefinitions>;
   columnDefsSynchronous: Array<FuiColumnDefinitions>;
   defaultColumnDefs: FuiColumnDefinitions;
-  isLoading: boolean = true;
-  isLoadingSynchronous: boolean = true;
 
   itemPerPage: number = 10;
   itemPerPageSynchronous: number = 5;
@@ -272,15 +281,16 @@ export class DatagridClientSideComponent {
   withFixedHeight: boolean = false;
 
   exportParams: CsvExportParams = {
-    fileName: 'ferUI-export-test-1',
+    fileName: 'ferUI-export-test-1'
   };
   exportParams2: CsvExportParams = {
-    fileName: 'ferUI-export-test-2',
+    fileName: 'ferUI-export-test-2'
   };
 
   @ViewChild('avatarRenderer') avatarRenderer: TemplateRef<FuiDatagridBodyCellContext>;
   @ViewChild('userAgentRenderer') userAgentRenderer: TemplateRef<FuiDatagridBodyCellContext>;
   @ViewChild('browserFilter') browserFilter: TemplateRef<any>;
+  @ViewChild('countryRenderer') countryRenderer: TemplateRef<FuiDatagridBodyCellContext>;
   @ViewChild('datagrid') datagrid: FuiDatagrid;
 
   constructor(@Inject(HttpClient) private http: HttpClient, public datagridService: DatagridService) {}
@@ -317,7 +327,7 @@ export class DatagridClientSideComponent {
       { headerName: 'Eye color', field: 'eye_color' },
       { headerName: 'Company', field: 'company' },
       { headerName: 'Address', field: 'address', minWidth: 200 },
-      { headerName: 'Country', field: 'country' },
+      { headerName: 'Country', field: 'country', cellRenderer: this.countryRenderer },
       { headerName: 'Email', field: 'email' },
       { headerName: 'Phone', field: 'phone', minWidth: 200 },
       { headerName: 'Ip-address', field: 'ip_address', minWidth: 200 },
@@ -327,15 +337,15 @@ export class DatagridClientSideComponent {
       { headerName: 'Favorite movie', field: 'favorite_movie', minWidth: 200 },
       {
         headerName: 'Browser',
-        field: 'browser',
+        field: 'user_agent',
         cellRenderer: this.userAgentRenderer,
         sortable: false,
         filter: FilterType.CUSTOM,
         filterFramework: this.browserFilter,
-        exportValueFormatter: (value: string, row: any): string => {
-          return `${value} (${row.user_agent})`;
-        },
-      },
+        exportValueFormatter: (value: string): string => {
+          return `${this.datagridService.identifyBrowser(value)} (${value})`;
+        }
+      }
     ];
 
     this.columnDefsSynchronous = [
@@ -395,18 +405,18 @@ export class DatagridClientSideComponent {
         address: '638 Lakeland Junction'
       }
     ];
-    this.isLoadingSynchronous = false;
 
     this.defaultColumnDefs = {
       sortable: true,
       filter: true
     };
 
-    this.http.get('/datagrid-10k-data.min.json').subscribe((results: Array<any>) => {
+    this.http.get('/datagrid-10k-data.min.json').subscribe((results: IDatagridRowData[]) => {
       setTimeout(() => {
         this.rowData = results;
-        this.isLoading = false;
-      }, 100);
+        // Test empty values.
+        // this.rowData = [];
+      }, 2000);
     });
   }
 

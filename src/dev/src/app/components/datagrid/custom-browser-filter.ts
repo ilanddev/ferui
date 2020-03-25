@@ -33,15 +33,15 @@ export interface IBrowserFilterParams extends IComparableFilterParams {}
     </div>
   `,
   host: {
-    class: 'fui-datagrid-browser-filter',
+    class: 'fui-datagrid-browser-filter'
   },
   styles: [
     `
       .fui-checkbox-wrapper {
         height: auto;
       }
-    `,
-  ],
+    `
+  ]
 })
 export class CustomBrowserFilter extends FuiDatagridBaseFilter<IBrowserFilterParams> implements OnInit {
   @Input() filterParams: IBrowserFilterParams;
@@ -58,7 +58,8 @@ export class CustomBrowserFilter extends FuiDatagridBaseFilter<IBrowserFilterPar
     if (!params.data) {
       return false;
     }
-    return this.modelValues[params.data.toLowerCase()] === true;
+    const browser = this.datagridService.identifyBrowser(params.data);
+    return this.modelValues[browser.toLowerCase()] === true;
   }
 
   getFilterOption(): string {

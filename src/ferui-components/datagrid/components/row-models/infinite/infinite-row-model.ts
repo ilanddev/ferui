@@ -15,14 +15,15 @@ import { FuiDatagridColumnApiService } from '../../../services/datagrid-column-a
 import { FuiDatagridOptionsWrapperService } from '../../../services/datagrid-options-wrapper.service';
 import { InfiniteCache } from './infinite-cache';
 import { Observable } from 'rxjs';
+import { DatagridStateService } from '../../../services/datagrid-state.service';
 
 @Injectable()
 export class FuiDatagridInfinteRowModel implements ServerSideRowModelInterface {
   isReady: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   datasource: IServerSideDatasource;
   params: IServerSideGetRowsParams;
   infiniteCache: InfiniteCache;
-
   initialized: boolean = false;
   limit: number;
   offset: number;
@@ -37,7 +38,8 @@ export class FuiDatagridInfinteRowModel implements ServerSideRowModelInterface {
     private eventService: FuiDatagridEventService,
     private gridApi: FuiDatagridApiService,
     private columnApi: FuiDatagridColumnApiService,
-    private optionsWrapper: FuiDatagridOptionsWrapperService
+    private optionsWrapper: FuiDatagridOptionsWrapperService,
+    private stateService: DatagridStateService
   ) {}
 
   init(datasource: IServerSideDatasource): void {
@@ -53,7 +55,8 @@ export class FuiDatagridInfinteRowModel implements ServerSideRowModelInterface {
     this.infiniteCache = new InfiniteCache(
       this.infiniteMaxSurroundingBlocksInCache,
       this.infiniteInitialBlocksCount,
-      this.eventService
+      this.eventService,
+      this.stateService
     );
     this.infiniteCache.init(this.limit, this.datasource, this.getParams());
 

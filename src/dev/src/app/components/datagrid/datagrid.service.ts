@@ -10,7 +10,8 @@ export class DatagridService {
     if (!value) {
       return '';
     }
-    switch (value.toLowerCase()) {
+    const browser: string = this.identifyBrowser(value);
+    switch (browser.toLowerCase()) {
       case 'firefox':
         return `<svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.719 511.719">
             <path fill="#2179a6"
@@ -117,7 +118,42 @@ export class DatagridService {
             </g>
           </svg>`;
       default:
-        return value;
+        return browser;
     }
+  }
+
+  /**
+   * Extracts the browser name and version number from user agent string.
+   *
+   * @param userAgent
+   *            The user agent string to parse. If not specified, the contents of
+   *            navigator.userAgent are parsed.
+   * @return {string} A string containing the browser name and version number, or null if
+   *         the user agent string is unknown.
+   */
+  identifyBrowser(userAgent: string): string {
+    const regexps = {
+      Chromium: [/Chromium\/(\S+)/g],
+      Chrome: [/Chrome\/(\S+)/g],
+      Firefox: [/Firefox\/(\S+)/g],
+      MSIE: [/MSIE (\S+);/g],
+      Opera: [/Opera\/.*?Version\/(\S+)/g /* Opera 10 */, /Opera\/(\S+)/g /* Opera 9 and older */],
+      Safari: [/Version\/(\S+).*?Safari\//g],
+      Android: [/Android.*AppleWebKit\/([\d.]+)/g]
+    };
+
+    for (const browser in regexps) {
+      if (regexps[browser]) {
+        if (regexps[browser].length >= 1) {
+          for (const reg of regexps[browser]) {
+            if (reg.test(userAgent)) {
+              return browser;
+            }
+          }
+        }
+      }
+    }
+
+    return userAgent;
   }
 }
