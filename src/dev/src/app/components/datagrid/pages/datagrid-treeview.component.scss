@@ -1,0 +1,27 @@
+.fui-demo-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: stretch;
+
+  .fui-demo-treeview-datagrid-flex-container {
+    display: block;
+    position: relative;
+    flex: 1 1 auto;
+    height: 676px;
+
+    &.left-side {
+      width: 20%;
+      max-width: 20%;
+      min-width: 20%;
+    }
+
+    &.right-side {
+      width: 80%;
+      max-width: 80%;
+      min-width: 80%;
+    }
+  }
+}

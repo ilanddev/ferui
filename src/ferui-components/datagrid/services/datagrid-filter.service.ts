@@ -6,6 +6,7 @@ import {
   IDoesGlobalFilterPassParams
 } from '../components/filters/interfaces/filter';
 import { Column } from '../components/entities/column';
+import { Observable, Subject } from 'rxjs';
 
 export interface FuiDatagridActiveFilter {
   index: string;
@@ -16,8 +17,11 @@ export const DATAGRID_GLOBAL_SEARCH_ID: string = 'globalSearch';
 
 @Injectable()
 export class FuiDatagridFilterService {
+  private filters$: Subject<Array<FuiDatagridActiveFilter | FuiDatagridActiveGlobalFilter>> = new Subject<
+    Array<FuiDatagridActiveFilter | FuiDatagridActiveGlobalFilter>
+  >();
   private _activeFilters: FuiDatagridActiveFilter[] = [];
-  private _globalSearchFilter: FuiDatagridActiveGlobalFilter = null;
+  private _globalSearchFilter: FuiDatagridActiveGlobalFilter;
   private _rowData: any[] = [];
   private _filteredData: any[] = [];
 
@@ -83,6 +87,7 @@ export class FuiDatagridFilterService {
       } else {
         this._activeFilters.push({ index: id, filter: filter });
       }
+      this.filters$.next([...this._activeFilters, this.globalSearchFilter]);
     }
   }
 
@@ -93,6 +98,7 @@ export class FuiDatagridFilterService {
       if (filterIndex > -1) {
         this._activeFilters.splice(filterIndex, 1);
       }
+      this.filters$.next([...this._activeFilters, this.globalSearchFilter]);
     }
   }
 
@@ -116,6 +122,7 @@ export class FuiDatagridFilterService {
   resetFilters(): void {
     this.globalSearchFilter = null;
     this.activeFilters = [];
+    this.filters$.next([]);
   }
 
   filter(): void {
@@ -166,5 +173,9 @@ export class FuiDatagridFilterService {
       });
       this.filteredData = filteredData;
     }
+  }
+
+  filtersSub(): Observable<Array<FuiDatagridActiveFilter | FuiDatagridActiveGlobalFilter>> {
+    return this.filters$.asObservable();
   }
 }

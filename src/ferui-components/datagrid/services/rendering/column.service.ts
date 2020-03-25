@@ -358,7 +358,9 @@ export class FuiColumnService {
     }
 
     // Now, we need to check if the grid is filled entirely or if there is spare space.
-    const visibleColumnsTotalWidth: number = this.getWidthOfColsInList(keys.map(key => this.getGridColumn(key)));
+    const visibleColumnsTotalWidth: number = this.getWidthOfColsInList(
+      this.getVisibleColumns().map(key => this.getGridColumn(key))
+    );
     const gridWidth: number = eBodyContainer.parentElement.clientWidth;
     // If there is spare space, we will assign this space to all column equally.
     if (visibleColumnsTotalWidth < gridWidth) {

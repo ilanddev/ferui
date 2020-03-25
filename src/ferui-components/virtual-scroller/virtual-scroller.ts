@@ -13,8 +13,7 @@ import {
   Output,
   Renderer2,
   ViewChild,
-  ChangeDetectorRef,
-  HostBinding
+  ChangeDetectorRef
 } from '@angular/core';
 
 import { PLATFORM_ID } from '@angular/core';
@@ -30,6 +29,7 @@ import {
   WrapGroupDimensions
 } from './types/virtual-scroller-interfaces';
 import { ScrollbarHelper } from '../datagrid/services/datagrid-scrollbar-helper.service';
+import { VIRTUAL_SCROLLER_DEFAULT_OPTIONS } from './virtual-scroller-factory';
 
 export interface CancelableFunction extends Function {
   cancel: Function;
@@ -255,7 +255,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
 
   protected minMeasuredChildWidth: number;
   protected minMeasuredChildHeight: number;
-
+  protected pxErrorValue: number;
   protected scrollbarSize: number = 0;
   protected wrapGroupDimensions: WrapGroupDimensions;
 
@@ -267,7 +267,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
     protected changeDetectorRef: ChangeDetectorRef,
     @Inject(PLATFORM_ID) platformId: Object,
     @Optional()
-    @Inject('virtual-scroller-default-options')
+    @Inject(VIRTUAL_SCROLLER_DEFAULT_OPTIONS)
     options: VirtualScrollerDefaultOptions
   ) {
     this.isAngularUniversalSSR = isPlatformServer(platformId);
@@ -281,6 +281,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
     this.resizeBypassRefreshThreshold = options.resizeBypassRefreshThreshold;
     this.modifyOverflowStyleOfParentScroll = options.modifyOverflowStyleOfParentScroll;
     this.stripedTable = options.stripedTable;
+    this.pxErrorValue = options.pxErrorValue !== undefined && options.pxErrorValue !== null ? options.pxErrorValue : 1;
     this.horizontal = false;
     this.resetWrapGroupDimensions();
   }
@@ -1240,7 +1241,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
       Math.min(Math.max(scrollPercentage * dimensions.pageCount_fractional, 0), dimensions.pageCount_fractional) *
       dimensions.itemsPerPage;
 
-    const maxStart = dimensions.itemCount - dimensions.itemsPerPage - 1;
+    const maxStart = dimensions.itemCount - dimensions.itemsPerPage - this.pxErrorValue;
     let arrayStartIndex = Math.min(Math.floor(startingArrayIndexFractional), maxStart);
     arrayStartIndex -= arrayStartIndex % dimensions.itemsPerWrapGroup; // round down to start of wrapGroup
 
@@ -1251,8 +1252,9 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
       }
     }
 
-    let arrayEndIndex = Math.ceil(startingArrayIndexFractional) + dimensions.itemsPerPage - 1;
+    let arrayEndIndex = Math.ceil(startingArrayIndexFractional) + dimensions.itemsPerPage - this.pxErrorValue;
     const endIndexWithinWrapGroup = (arrayEndIndex + 1) % dimensions.itemsPerWrapGroup;
+
     if (endIndexWithinWrapGroup > 0) {
       arrayEndIndex += dimensions.itemsPerWrapGroup - endIndexWithinWrapGroup; // round up to end of wrapGroup
     }
@@ -1264,12 +1266,12 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
       arrayEndIndex = 0;
     }
 
-    arrayStartIndex = Math.min(Math.max(arrayStartIndex, 0), dimensions.itemCount - 1);
-    arrayEndIndex = Math.min(Math.max(arrayEndIndex, 0), dimensions.itemCount - 1);
+    arrayStartIndex = Math.min(Math.max(arrayStartIndex, 0), dimensions.itemCount - this.pxErrorValue);
+    arrayEndIndex = Math.min(Math.max(arrayEndIndex, 0), dimensions.itemCount - this.pxErrorValue);
 
     const bufferSize = this.bufferAmount * dimensions.itemsPerWrapGroup;
-    const startIndexWithBuffer = Math.min(Math.max(arrayStartIndex - bufferSize, 0), dimensions.itemCount - 1);
-    const endIndexWithBuffer = Math.min(Math.max(arrayEndIndex + bufferSize, 0), dimensions.itemCount - 1);
+    const startIndexWithBuffer = Math.min(Math.max(arrayStartIndex - bufferSize, 0), dimensions.itemCount - this.pxErrorValue);
+    const endIndexWithBuffer = Math.min(Math.max(arrayEndIndex + bufferSize, 0), dimensions.itemCount - this.pxErrorValue);
 
     return {
       startIndex: arrayStartIndex,

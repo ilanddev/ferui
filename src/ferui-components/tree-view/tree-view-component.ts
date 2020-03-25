@@ -22,7 +22,8 @@ import {
   TreeNodeData,
   TreeNodeDataRetriever,
   PagedTreeNodeDataRetriever,
-  NonRootTreeNode
+  NonRootTreeNode,
+  PagingParams
 } from './interfaces';
 import { TreeNode, FuiTreeViewComponentStyles, TreeNodeEvent, WrappedPromise } from './internal-interfaces';
 import { FuiVirtualScrollerComponent } from '../virtual-scroller/virtual-scroller';
@@ -137,18 +138,20 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
     }
     if (this.treeNodeData instanceof NonRootTreeNode) {
       const emptyRootNode = this.createTreeNode(this.treeNodeData, null);
-      this.dataRetriever.getChildNodeData(emptyRootNode.data).then(children => {
+      const params: PagingParams | null = this.serverSideComponent
+        ? { offset: 0, limit: this.config.limit || this.bufferAmount }
+        : null;
+      this.getNodeData()(emptyRootNode.data, params).then(children => {
         this.nonRootArray = children.map(child => {
           return this.createTreeNode(child, null);
         });
         this.scrollViewArray = this.nonRootArray;
-        this.cd.markForCheck();
       });
     } else {
       this.rootNode = this.createTreeNode(this.treeNodeData, null);
       this.scrollViewArray = [this.rootNode];
-      this.cd.markForCheck();
     }
+    this.cd.markForCheck();
   }
 
   /**
@@ -233,6 +236,17 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
   }
 
   /**
+   * Get either getChildNodeData or getPagedChildNodeData from data retriever depending its type.
+   */
+  private getNodeData(): (parent: TreeNodeData<T>, pagingParams?: PagingParams) => Promise<Array<TreeNodeData<T>>> {
+    if (this.serverSideComponent) {
+      return (this.dataRetriever as PagedTreeNodeDataRetriever<T>).getPagedChildNodeData;
+    } else {
+      return this.dataRetriever.getChildNodeData;
+    }
+  }
+
+  /**
    * Updates virtual scroller width based on the view's children Tree Nodes widths to expand according to largest child
    */
   private updateScrollerWidth(): void {
@@ -286,7 +300,10 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
    * Gets the first child node with more children to load
    * @param node
    */
-  private getFirstNodeWithMoreChildrenToLoad(node: TreeNode<T>): TreeNode<T> | null {
+  private getFirstNodeWithMoreChildrenToLoad(node: TreeNode<T> | null): TreeNode<T> | null {
+    if (node === null) {
+      return null;
+    }
     if (node.expanded === true && !node.allChildrenLoaded) {
       return node;
     }
@@ -332,9 +349,10 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
   private async handleScroll(lastIdxInView: number): Promise<void> {
     const numberNeeded = this.bufferAmount - (this.scrollViewArray.length - lastIdxInView);
     if (numberNeeded > 0 && !this.scrollPromise) {
-      if (this.getFirstNodeWithMoreChildrenToLoad(this.scrollViewArray[lastIdxInView].parent) != null) {
+      const parentNode: TreeNode<T> | null = this.scrollViewArray[lastIdxInView].parent;
+      if (parentNode === null || this.getFirstNodeWithMoreChildrenToLoad(parentNode) != null) {
         this.scrollPromise = true;
-        await this.loadMoreNodes(this.scrollViewArray[lastIdxInView].parent, numberNeeded, true);
+        await this.loadMoreNodes(parentNode, numberNeeded, true);
         this.rebuildVirtualScrollerArray();
       }
     }

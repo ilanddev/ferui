@@ -95,7 +95,7 @@
               }
 
               &:focus {
-                border: 1px solid $gray-500;
+                border: 1px solid $gray-500 !important;
                 color: $gray-900;
               }
 

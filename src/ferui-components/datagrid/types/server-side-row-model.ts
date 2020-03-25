@@ -1,7 +1,6 @@
 export interface IServerSideDatasource {
   // The context object to use within the getRows function.
   context?: any;
-
   // grid calls this to get rows
   getRows(params: IServerSideGetRowsParams): Promise<IDatagridResultObject>;
 }

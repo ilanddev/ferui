@@ -30,10 +30,9 @@
 
   .fui-datagrid-body-row-action-menu {
     position: absolute;
-    right: 1px;
-    margin-top: 1px;
-    top: 0;
-    width: 40px;
+    right: 0;
+    top: 1px;
+    width: auto;
     display: none;
     flex-flow: column nowrap;
     justify-content: center;
@@ -41,13 +40,6 @@
     align-content: center;
     z-index: $zindex-dropdown - 1;
     background: $gray-100;
-
-    .action-menu-icon {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      color: $gray-500;
-    }
 
     &.fui-datagrid-action-menu-visible {
       display: flex;
@@ -154,6 +146,28 @@
       box-sizing: border-box;
     }
 
+    &.fui-datagrid-has-vertical-scroll {
+      .fui-datagrid-root-wrapper {
+        .fui-datagrid-root-body-wrapper {
+          .fui-datagrid-root-body {
+            .fui-datagrid-body {
+              .fui-datagrid-body-cliper {
+                .fui-datagrid-body-viewport {
+                  .scrollable-content {
+                    .fui-datagrid-body-row {
+                      &:last-of-type {
+                        border-bottom: none !important;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
     &.fui-datagrid-has-filter {
       .fui-datagrid-root-wrapper {
         border-top-left-radius: 0 !important;
@@ -208,6 +222,7 @@
           -webkit-box-direction: normal;
           flex-direction: column;
 
+          background: $white;
           user-select: none !important;
 
           .fui-datagrid-horizontal-scroll {
@@ -511,15 +526,14 @@
                       }
                     }
 
-                    &:not(.fui-datagrid-first-row) {
-                      border-style: solid;
-                      border-width: 1px 0 0;
-                      border-color: $gray-300;
-                    }
+                    border-style: solid;
+                    border-width: 0 0 1px;
+                    border-color: $gray-300;
 
                     .fui-datagrid-body-cell {
                       border: 1px solid transparent;
                       border-right: none;
+                      border-left: none;
 
                       padding-left: $col-padding-left;
                       padding-right: $col-padding-right;

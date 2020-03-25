@@ -53,7 +53,7 @@ export class FuiDatagridServerSideRowModel implements ServerSideRowModelInterfac
     this.setParams();
   }
 
-  refresh(limit?: number, datasource?: IServerSideDatasource) {
+  refresh(limit?: number, datasource?: IServerSideDatasource): Promise<IDatagridResultObject> {
     if (datasource) {
       this.datasource = datasource;
     }
@@ -61,9 +61,7 @@ export class FuiDatagridServerSideRowModel implements ServerSideRowModelInterfac
     if (limit !== undefined && limit !== null && typeof limit === 'number') {
       this.limit = limit;
     }
-    this.updateRows().catch(error => {
-      throw error;
-    });
+    return this.updateRows();
   }
 
   updateRows(forceReset: boolean = false, pageIndex: number = null): Promise<IDatagridResultObject> {

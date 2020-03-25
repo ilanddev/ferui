@@ -8,12 +8,15 @@ import {
   ElementRef,
   HostBinding,
   Input,
+  OnDestroy,
   OnInit,
   Self,
   ViewChild
 } from '@angular/core';
 import { FuiDatagridService } from '../../services/datagrid.service';
 import { FuiVirtualScrollerComponent } from '../../../virtual-scroller/virtual-scroller';
+import { DatagridStateEnum, DatagridStateService } from '../../services/datagrid-state.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'fui-datagrid-body',
@@ -42,11 +45,43 @@ import { FuiVirtualScrollerComponent } from '../../../virtual-scroller/virtual-s
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FuiBodyRoot implements OnInit, AfterViewInit, AfterContentInit {
+export class FuiBodyRoot implements OnInit, OnDestroy, AfterViewInit, AfterContentInit {
+  @Input() isFixedheight: boolean = false;
+  @Input() headerHeight: number = 50;
+
   @HostBinding('attr.role') role: string = 'presentation';
   @HostBinding('style.height') height: string;
 
-  @Input() set isLoading(value: boolean) {
+  @ViewChild('viewportSpacer') viewportSpacer: ElementRef;
+  @ViewChild('bodyCliper') bodyCliper: ElementRef;
+
+  @ContentChild(FuiVirtualScrollerComponent) vcViewport: FuiVirtualScrollerComponent;
+
+  private _isLoading: boolean = true;
+  private _isEmptyData: boolean = false;
+  private subscriptions: Subscription[] = [];
+
+  constructor(
+    @Self() private elementRef: ElementRef,
+    private gridPanel: FuiDatagridService,
+    private cd: ChangeDetectorRef,
+    private stateService: DatagridStateService
+  ) {
+    // Each time we are updating the states, we need to run change detection.
+    this.subscriptions.push(
+      this.stateService.getCurrentStates().subscribe(() => {
+        this.isLoading = this.stateService.hasState(DatagridStateEnum.LOADING);
+        this.isEmptyData = this.stateService.hasState(DatagridStateEnum.EMPTY);
+      })
+    );
+
+    // When we load the datagrid for the first time, we want to display the initial loading.
+    this.stateService.setLoading();
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  set isLoading(value: boolean) {
     if (value !== this._isLoading) {
       this._isLoading = value;
       this.cd.markForCheck();
@@ -57,7 +92,9 @@ export class FuiBodyRoot implements OnInit, AfterViewInit, AfterContentInit {
     return this._isLoading;
   }
 
-  @Input() set isEmptyData(value: boolean) {
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  set isEmptyData(value: boolean) {
     if (value !== this._isEmptyData) {
       this._isEmptyData = value;
       this.cd.markForCheck();
@@ -68,18 +105,7 @@ export class FuiBodyRoot implements OnInit, AfterViewInit, AfterContentInit {
     return this._isEmptyData;
   }
 
-  @Input() isFixedheight: boolean = false;
-  @Input() headerHeight: number = 50;
-
-  @ViewChild('viewportSpacer') viewportSpacer: ElementRef;
-  @ViewChild('bodyCliper') bodyCliper: ElementRef;
-
-  @ContentChild(FuiVirtualScrollerComponent) vcViewport: FuiVirtualScrollerComponent;
-
-  private _isLoading: boolean = false;
-  private _isEmptyData: boolean = false;
-
-  constructor(@Self() private elementRef: ElementRef, private gridPanel: FuiDatagridService, private cd: ChangeDetectorRef) {}
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   ngOnInit(): void {
     this.gridPanel.eBodyViewport = this.elementRef.nativeElement;
@@ -96,5 +122,10 @@ export class FuiBodyRoot implements OnInit, AfterViewInit, AfterContentInit {
   ngAfterViewInit(): void {
     this.gridPanel.eFullWidthContainer = this.viewportSpacer.nativeElement;
     this.gridPanel.eCenterColsClipper = this.bodyCliper.nativeElement;
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions = undefined;
   }
 }

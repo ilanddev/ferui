@@ -29,6 +29,8 @@ import { FuiDatagridBodyDropTarget } from '../entities/body-drop-target';
 import { DatagridResizeParams, FuiDatagridResizeService } from '../../services/datagrid-resize.service';
 import { FuiDatagridEventService } from '../../services/event.service';
 import { ColumnKeyCreator } from '../../services/column-key-creator';
+import { RowModel } from '../row-models/row-model';
+import { DatagridStateService } from '../../services/datagrid-state.service';
 
 @Component({
   selector: 'fui-datagrid-header-cell',
@@ -114,6 +116,8 @@ export class FuiHeaderCell extends FuiDatagridBodyDropTarget implements OnInit, 
     private eventService: FuiDatagridEventService,
     private columnKeyCreator: ColumnKeyCreator,
     public column: Column,
+    private rowModel: RowModel,
+    private stateService: DatagridStateService,
     dragAndDropService: FuiDatagridDragAndDropService,
     columnService: FuiColumnService,
     gridPanel: FuiDatagridService
@@ -340,6 +344,12 @@ export class FuiHeaderCell extends FuiDatagridBodyDropTarget implements OnInit, 
     if (!this.column.sortable) {
       return;
     }
+
+    if (!this.rowModel.isClientSideRowModel()) {
+      this.stateService.setLoading();
+      this.stateService.setRefreshing();
+    }
+
     // TODO: Make the shift key a variable that can be changed by the developer in grid definition.
     const eventKey = event.shiftKey;
 

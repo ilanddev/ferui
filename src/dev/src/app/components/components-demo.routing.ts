@@ -23,6 +23,7 @@ import { DropdownExample } from './dropdown/pages/dropdown-example';
 import { TreeViewClientSideDemo } from './tree-view/tree-view-client-side-demo';
 import { WidgetDemo } from './widget/widget.demo';
 import { NumberComponent } from './forms/number/number';
+import { DatagridTreeviewInfiniteServerSideComponent } from './datagrid/pages/datagrid-treeview.component';
 
 export const COMPONENTS_ROUTES: Routes = [
   {
@@ -55,7 +56,8 @@ export const COMPONENTS_ROUTES: Routes = [
           { path: 'home', component: DatagridHome },
           { path: 'client-side', component: DatagridClientSideComponent },
           { path: 'server-side', component: DatagridServerSideComponent },
-          { path: 'infinite-server-side', component: DatagridInfiniteServerSideComponent }
+          { path: 'infinite-server-side', component: DatagridInfiniteServerSideComponent },
+          { path: 'treeview-infinite-server-side', component: DatagridTreeviewInfiniteServerSideComponent }
         ]
       },
       {
