@@ -12,6 +12,7 @@
     "@angular-devkit/core",
     "@angular-devkit/schematics",
     "@tweenjs/tween.js",
-    "@types/tween.js"
+    "@types/tween.js",
+    "resize-observer-polyfill"
   ]
 }

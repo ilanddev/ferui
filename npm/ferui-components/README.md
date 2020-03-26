@@ -9,7 +9,7 @@
     - Don't forget to add the polyfill for Custom Elements if not already done:
 
     ```
-    npm install @webcomponents/custom-elements
+    npm install --save @webcomponents/custom-elements
     ```
 
 2.  Install Ferui Design package through npm:
@@ -22,6 +22,12 @@
 
     ```
     npm install @ferui/angular
+    ```
+
+    - We rely on [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) too. But it is not compatible with all browsers, so if you see that one of the browser that you want to support has not native support for IntersectionObserver, you need to install the [polyfill](https://github.com/w3c/IntersectionObserver/tree/master/polyfill).
+
+    ```
+    npm install --save intersection-observer
     ```
 
     - If you want to install everything in one command :
