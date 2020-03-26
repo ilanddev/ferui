@@ -190,6 +190,8 @@ import { IDatagridRowData } from '../server-side-api/datagrid-row.service';
           </div>
           <fui-datagrid
             #datagrid2
+            [withHeader]="withHeader2"
+            [withFooter]="withFooter2"
             [exportParams]="exportParams2"
             [maxDisplayedRows]="itemPerPageSynchronous"
             [defaultColDefs]="defaultColumnDefs"
@@ -274,6 +276,8 @@ export class DatagridClientSideComponent {
   itemPerPageSynchronous: number = 5;
   rowDataModel: FuiRowModel = FuiRowModel.CLIENT_SIDE;
 
+  withHeader2: boolean = true;
+  withFooter2: boolean = true;
   withHeader: boolean = true;
   withFooter: boolean = true;
   withFooterItemPerPage: boolean = true;
@@ -410,6 +414,9 @@ export class DatagridClientSideComponent {
       sortable: true,
       filter: true
     };
+
+    this.withHeader2 = false;
+    this.withFooter2 = false;
 
     this.http.get('/datagrid-10k-data.min.json').subscribe((results: IDatagridRowData[]) => {
       setTimeout(() => {

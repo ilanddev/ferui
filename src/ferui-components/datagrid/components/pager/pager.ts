@@ -23,7 +23,7 @@ import { DomObserver, ObserverInstance } from '../../../utils/dom-observer/dom-o
             {{ totalRows }} {{ commonStrings.total }}
           </div>
           <div unselectable="on" class="fui-datagrid-pager-total" *ngIf="totalRows === null">
-            {{ startIndex + 1 }} to {{ endIndex + 1 }} of {{ serverSideTotalRows }}
+            {{ startIndex + 1 }} to {{ endIndex }} of {{ serverSideTotalRows }}
           </div>
         </div>
         <div class="col">

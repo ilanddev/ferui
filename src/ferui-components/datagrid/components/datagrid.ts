@@ -231,7 +231,11 @@ export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefa
     class: 'fui-datagrid',
     '[class.fui-datagrid-has-vertical-scroll]': 'hasVerticallScroll',
     '[class.fui-datagrid-has-filter]': 'datagridFilters !== undefined',
-    '[class.fui-datagrid-has-pager]': 'datagridPager !== undefined'
+    '[class.fui-datagrid-has-pager]': 'datagridPager !== undefined',
+
+    '[class.fui-datagrid-without-header]': '!withHeader',
+    '[class.fui-datagrid-without-footer]': '!withFooter',
+    '[class.fui-datagrid-rounded-corners]': 'roundedCorners'
   },
   providers: [
     { provide: VIRTUAL_SCROLLER_DEFAULT_OPTIONS, useFactory: VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY },
@@ -279,6 +283,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   @Input() withFooterItemPerPage: boolean = true;
   @Input() withFooterPager: boolean = true;
   @Input() fixedHeight: boolean = false;
+  @Input() roundedCorners: boolean = true;
 
   @Input() exportParams: BaseExportParams;
   @Input() actionMenuTemplate: TemplateRef<FuiDatagridBodyRowContext>;
@@ -362,10 +367,10 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   ) {
     // Each time we are updating the states, we need to run change detection.
     this.subscriptions.push(
-      this.stateService.getCurrentStates().subscribe(states => {
+      this.stateService.getCurrentStates().subscribe(() => {
         this._isLoading = this.stateService.hasState(DatagridStateEnum.LOADING);
         this._isEmptyData = this.stateService.hasState(DatagridStateEnum.EMPTY);
-        this.loadingRefreshGrid();
+        this.inputGridHeight = 'refresh';
       })
     );
 
@@ -487,7 +492,6 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this._gridHeight = value;
     }
-
     this.rootWrapperHeight = `calc(100% - ${this.getHeaderPagerHeight()}px)`;
     this.cd.markForCheck();
   }
@@ -791,8 +795,6 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
         this.cd.markForCheck();
       })
     );
-
-    this.rootWrapperHeight = this.withHeader ? 'calc(100% - 60px)' : '100%';
     this.cd.markForCheck();
   }
 
@@ -1108,12 +1110,6 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
     csvCreator.export(this.exportParams);
   }
 
-  private loadingRefreshGrid() {
-    this.rootWrapperHeight = `calc(100% - ${this.getHeaderPagerHeight()}px)`;
-    this.inputGridHeight = 'refresh';
-    this.cd.markForCheck();
-  }
-
   private isGridLoadedOnce(): boolean {
     return this.stateService.hasState(DatagridStateEnum.LOADED) && this.stateService.hasState(DatagridStateEnum.INITIALIZED);
   }
@@ -1162,10 +1158,14 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
     const filterHeight: number =
       this.withHeader && this.datagridFilters && this.datagridFilters.getElementHeight()
         ? this.datagridFilters.getElementHeight()
+        : !this.withHeader
+        ? 0
         : this.defaultFiltersHeight;
     const pagerHeight: number =
       this.withFooter && !this.isLoading && this.datagridPager && this.datagridPager.getElementHeight()
         ? this.datagridPager.getElementHeight()
+        : !this.withFooter
+        ? 0
         : this.defaultPagersHeight;
     return filterHeight + pagerHeight;
   }
