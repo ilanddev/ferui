@@ -61,9 +61,9 @@ export interface TreeViewEvent<T> {
  * Tree View Event Type enum
  */
 export enum TreeViewEventType {
-  NODE_CLICKED,
-  NODE_EXPANDED,
-  NODE_COLLAPSED
+  NODE_CLICKED = 'node_clicked',
+  NODE_EXPANDED = 'node_expanded',
+  NODE_COLLAPSED = 'node_collapsed'
 }
 
 /**
