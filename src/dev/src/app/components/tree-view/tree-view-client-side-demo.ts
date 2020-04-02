@@ -79,7 +79,7 @@ import * as jsBeautify from 'js-beautify';
       }
       .fui-less-icon {
         height: 12px;
-        width: 10px;
+        width: 12px;
         margin-bottom: 2px;
         transform: rotate(180deg);
       }
