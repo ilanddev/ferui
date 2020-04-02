@@ -24,6 +24,9 @@ import { TreeViewClientSideDemo } from './tree-view/tree-view-client-side-demo';
 import { WidgetDemo } from './widget/widget.demo';
 import { NumberComponent } from './forms/number/number';
 import { DatagridTreeviewInfiniteServerSideComponent } from './datagrid/pages/datagrid-treeview.component';
+import { TreeViewServerSideDemo } from './tree-view/tree-view-server-side-demo';
+import { TreeViewOverviewDemo } from './tree-view/tree-view-overview-demo';
+import { TreeViewDashboardDemo } from './tree-view/tree-view-dashboard-demo';
 
 export const COMPONENTS_ROUTES: Routes = [
   {
@@ -70,7 +73,13 @@ export const COMPONENTS_ROUTES: Routes = [
       },
       {
         path: 'treeview',
-        component: TreeViewClientSideDemo
+        component: TreeViewOverviewDemo,
+        children: [
+          { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+          { path: 'dashboard', component: TreeViewDashboardDemo },
+          { path: 'client-side', component: TreeViewClientSideDemo },
+          { path: 'server-side', component: TreeViewServerSideDemo }
+        ]
       },
       {
         path: 'widget',
