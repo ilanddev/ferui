@@ -6,6 +6,9 @@ export class DatagridUtils {
   private static isChrome: boolean;
   private static isFirefox: boolean;
 
+  // This is an util class, we shouldn't be able to create an instance of this.
+  private constructor() {}
+
   static isBrowserChrome(): boolean {
     if (this.isChrome === undefined) {
       const win = window as any;

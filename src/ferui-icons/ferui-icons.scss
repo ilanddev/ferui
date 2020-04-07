@@ -1,10 +1,10 @@
 $clr-icon-size: 16px !default;
-$clr-icon-color-success: #13CE66 !default;
-$clr-icon-color-danger: #ed5151 !default;
-$clr-icon-color-warning: #FADD56 !default;
-$clr-icon-color-error: #ed5151 !default;
-$clr-icon-color-info: #03A6FF !default;
 $clr-icon-color-inverse: #ffffff !default;
+$clr-icon-color-success: #13ce66 !default;
+$clr-icon-color-danger: #ed5151 !default;
+$clr-icon-color-error: #ed5151 !default;
+$clr-icon-color-warning: #fadd56 !default;
+$clr-icon-color-info: #03a6ff !default;
 $clr-icon-color-highlight: #0079b8 !default;
 
 @mixin setIconColor($clr-icon-color) {

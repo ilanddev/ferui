@@ -7,6 +7,9 @@ export interface ObserverInstance {
 }
 
 export class DomObserver {
+  // This is an util class, we shouldn't be able to instanciate it.
+  private constructor() {}
+
   static observe(
     element: Element,
     intersectCallback: IntersectionObserverCallback,

@@ -22,6 +22,8 @@ export class FuiTab {
   @Input() title: string;
   @Input() active: boolean = false;
 
+  @Input() titleTemplateOutletRef: TemplateRef<any>;
+  @Input() titleTemplateOutletContext: Object = {};
   @Input() templateOutletRef: TemplateRef<any>;
   @Input() templateOutletContext: Object = {};
 }

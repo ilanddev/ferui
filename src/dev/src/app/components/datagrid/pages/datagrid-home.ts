@@ -6,9 +6,7 @@ import { Component } from '@angular/core';
     <div class="container-fluid">
       <div class="row" style="max-width: 1200px">
         <div class="col-12">
-          <h1 class="mb-4">Get Started with FerUI Datagrid</h1>
-
-          <h2 id="datagrid-overview">Tutorial Overview</h2>
+          <h2 id="datagrid-overview">Overview</h2>
 
           <p>
             In this article, we will walk you through the necessary steps to add FerUI datagrid to an existing Angular project,
@@ -16,7 +14,7 @@ import { Component } from '@angular/core';
             properties, using the API, etc).
           </p>
 
-          <h3>Add Datagrid to Your Project</h3>
+          <h3>Add a Datagrid to Your Project</h3>
 
           <p>
             Since the datagrid component is part of <code>@ferui-components</code> you just need to add FerUI to your project main
@@ -195,22 +193,26 @@ import { Component } from '@angular/core';
               <tr>
                 <td><code>[datasource]</code></td>
                 <td>IServerSideDatasource</td>
-                <td></td>
+                <td>
+                  Used only for <code>server-side</code> or <code>infinte</code> row models. Refer to the
+                  <a [routerLink]="['/components/datagrid/server-side']">respective docs</a> to understand how it works.
+                </td>
               </tr>
               <tr>
                 <td><code>[trackByFn]</code></td>
                 <td>TrackByFunction&lt;any&gt;</td>
-                <td></td>
+                <td>
+                  By default, all columns and row are controled by an <code>*ngFor</code> loop, and by default we are trying to
+                  track the entities by either <code>id</code>, <code>uuid</code> or by object identity.
+                </td>
               </tr>
               <tr>
                 <td><code>[vsBufferAmount]</code></td>
                 <td>number</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td><code>[isLoading]</code></td>
-                <td>boolean</td>
-                <td>Whether or not the datagrid should display the loading icon (loading state).</td>
+                <td>
+                  How many extra row should we store in the DOM. Because of virtual scroller, we can load only the needed number
+                  of row that would be visible on screen or we can also load an extra amount for visual performance.
+                </td>
               </tr>
               <tr>
                 <td><code>[rowDataModel]</code></td>
@@ -423,13 +425,11 @@ export class DatagridHome {
     ...
     this.http.get('/datagrid-10k-data.min.json').subscribe((results: Array<any>) => {
       this.rowData = results;
-      this.isLoading = false;
     });
   }
   ...`;
   datagridTemplateCode: string = `  ...
   <fui-datagrid #datagrid
-    [isLoading]="isLoading"
     [columnDefs]="columnDefs"
     [rowData]="rowData">
   </fui-datagrid>
@@ -588,7 +588,6 @@ export class DatagridHome {
   datagridDefaultColumnDefTpltCode: string = `  ...
   <fui-datagrid
     #datagrid
-    [isLoading]="isLoading"
     [defaultColDefs]="defaultColumnDefs"
     [columnDefs]="columnDefs"
     [rowData]="rowData">

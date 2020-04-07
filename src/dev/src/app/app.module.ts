@@ -9,6 +9,7 @@ import { FeruiModule } from '@ferui/components';
 import { HighlightModule } from 'ngx-highlightjs';
 import xml from 'highlight.js/lib/languages/xml';
 import scss from 'highlight.js/lib/languages/scss';
+import css from 'highlight.js/lib/languages/css';
 import typescript from 'highlight.js/lib/languages/typescript';
 import json from 'highlight.js/lib/languages/json';
 
@@ -25,6 +26,7 @@ export function hljsLanguages() {
   return [
     { name: 'typescript', func: typescript },
     { name: 'scss', func: scss },
+    { name: 'css', func: css },
     { name: 'xml', func: xml },
     { name: 'json', func: json }
   ];

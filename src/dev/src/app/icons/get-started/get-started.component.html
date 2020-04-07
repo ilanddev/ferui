@@ -1,6 +1,4 @@
-<h2>Getting started with Ferui Icons</h2>
-
-<p class="alert alert-danger">THIS PAGE IS NOT DONE YET !!! PLEASE DON'T FOLLOW THIS GUIDE YET !!!</p>
+<h2>Getting started with FerUI Icons</h2>
 
 <p>
   The Ferui Icons library presents pixel-perfect, scalable SVG-based icons. This new icon system gives you complete control over
@@ -8,27 +6,19 @@
   standard CSS.
 </p>
 
-<p class="alert alert-primary">
+<p class="alert alert-primary fit-content">
   The Ferui icons library extends the amazing
   <a href="https://vmware.github.io/clarity/icons/clarity-icons" target="_blank">Clarity Icons</a> library. We only added more
-  shapes to the library and we load only load the Clarity <span class="text-danger">core</span> set by default.
+  shapes to the library and we load only the Clarity <span class="text-danger">core</span> icon set by default.
 </p>
 
 <h4>Install and load Ferui Icons:</h4>
 
 <p>Install the Ferui Icons package through npm:</p>
-<pre>
-  <code>
-    npm install @ferui/icons --save
-  </code>
-</pre>
+<pre><code [highlight]="'npm install @ferui/icons --save'"></code></pre>
 
 <p>Install the polyfill for Custom Elements, on which Ferui Icons is dependent:</p>
-<pre>
-  <code>
-    npm install @webcomponents/custom-elements@1.0.0 --save
-  </code>
-</pre>
+<pre><code [highlight]="'npm install @webcomponents/custom-elements@1.0.0 --save'"></code></pre>
 
 <p>
   Load the library in your app by including <span class="text-danger">ferui-icons.min.css</span> and
@@ -36,18 +26,7 @@
   <span class="text-danger">custom-elements.min.js</span>, the Custom Elements polyfill before
   <span class="text-danger">ferui-icons.min.js</span>:
 </p>
-<pre>
-  <code>
-    &lt;!--CLARITY ICONS STYLE--&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;path/to/node_modules/@ferui/icons/ferui-icons.min.css&quot;&gt;
-
-    &lt;!--CLARITY ICONS DEPENDENCY: CUSTOM ELEMENTS POLYFILL--&gt;
-    &lt;script src=&quot;path/to/node_modules/@webcomponents/custom-elements/custom-elements.min.js&quot;&gt;&lt;/script&gt;
-
-    &lt;!--CLARITY ICONS API &amp; ALL ICON SETS --&gt;
-    &lt;script src=&quot;path/to/node_modules/@ferui/icons/ferui-icons.min.js&quot;&gt;&lt;/script&gt;
-</code>
-</pre>
+<pre><code [highlight]="codeExample1"></code></pre>
 <p>
   That's it! As <span class="text-danger">ferui-icons.min.js</span> loads not only the Clarity Icons Api, but also all icons sets
   (including Ferui ones), you will have access to more than 100 different icons that have variants, orientations, and colors out
@@ -63,57 +42,27 @@
   <span class="text-danger">ferui-icons-lite.min.js</span>, which loads only Clarity Icons Api and Core Shapes set. For example,
   if you want to use icons from only Social Shapes and Travel Shapes, you would load Clarity Icons this way:
 </p>
-<pre>
-  <code>
-    &lt;!--CLARITY ICONS STYLE--&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;path/to/node_modules/@clr/icons/clr-icons.min.css&quot;&gt;
-
-    &lt;!--CLARITY ICONS DEPENDENCY: CUSTOM ELEMENTS POLYFILL--&gt;
-    &lt;script src=&quot;path/to/node_modules/@webcomponents/custom-elements/custom-elements.min.js&quot;&gt;&lt;/script&gt;
-
-    &lt;!--CLARITY ICONS API &amp; CORE SHAPES SET--&gt;
-    &lt;script src=&quot;path/to/node_modules/@clr/icons/clr-icons-lite.min.js&quot;&gt;&lt;/script&gt;
-
-    &lt;!--ICON SETS--&gt;
-    &lt;script src=&quot;path/to/node_modules/@clr/icons/shapes/social-shapes.min.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;path/to/node_modules/@clr/icons/shapes/travel-shapes.min.js&quot;&gt;&lt;/script&gt;
-  </code>
-</pre>
+<pre><code [highlight]="codeExample2"></code></pre>
 
 <h4>Load Clarity Icons API and icon sets in Typescript:</h4>
 <p>It's easy to load Clarity Icons API and icon sets in Typescript.</p>
 
-<p class="alert alert-info">
+<p class="alert alert-primary fit-content">
   If you load the Clarity Icons in Typescript, make sure you are not loading it through the script tag again. Otherwise you will
   have two different instances of Clarity Icons that override one another.
 </p>
 
 <p>For example:</p>
-<pre>
-  <code>
-    import &apos;@clr/icons&apos;;
-    </code>
-</pre>
+<pre><code [highlight]="'import \'@clr/icons\''"></code></pre>
 <p>
   The example above is loading only Clarity Icons Api and Core Shapes set. You can load more icon sets on top of it as needed:
 </p>
-<pre>
-  <code>
-    import &apos;@clr/icons&apos;;
-    import &apos;@clr/icons/shapes/essential-shapes&apos;;
-    import &apos;@clr/icons/shapes/technology-shapes&apos;;
-  </code>
-</pre>
+<pre><code [highlight]="codeExample3"></code></pre>
 <p>
   And lastly, if you need to use shapes from all sets, you don't need to import and load every single icon set, because you have a
   shortcut for loading all sets:
 </p>
-<pre>
-  <code>
-    import &apos;@clr/icons&apos;;
-    import &apos;@clr/icons/shapes/all-shapes&apos;;
-  </code>
-</pre>
+<pre><code [highlight]="codeExample4"></code></pre>
 
 <h4>Optimize Clarity Icons in your application</h4>
 
@@ -123,20 +72,7 @@
   application. For example, if you need to use car, pin, and star icons in an application, you can import and add them in the
   following way:
 </p>
-<pre>
-  <code>
-    import &#123; ClarityIcons &#125; from "@clr/icons";
-    import &#123; ClrShapePin &#125; from "@clr/icons/shapes/essential-shapes";
-    import &#123; ClrShapeStar &#125; from "@clr/icons/shapes/social-shapes";
-    import &#123; ClrShapeCar &#125; from "@clr/icons/shapes/travel-shapes";
-
-    ClarityIcons.add(&#123;
-    pin: ClrShapePin,
-    star: ClrShapeStar,
-    car: ClrShapeCar
-    &#125;);
-  </code>
-</pre>
+<pre><code [highlight]="codeExample5"></code></pre>
 <p>
   You can see that each shape modules have "ClrShape" prefix in the example above. An important thing to note here is that, to
   take advantage of this new method, you should only load Clarity Icons by importing it from "@clr/icons" and make sure that you

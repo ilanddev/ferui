@@ -12,7 +12,7 @@ import * as jsBeautify from 'js-beautify';
 
 @Component({
   template: `
-    <h1 class="mb-4">FerUI Server Side Tree View Demo</h1>
+    <h2 class="mb-4">Server Side Tree View</h2>
     <div class="demo-tree-view">
       <h1>Server Side Tree View With Borders</h1>
       <h4>Select first node via Tree View auto selector interface</h4>

@@ -3,7 +3,7 @@ import * as jsBeautify from 'js-beautify';
 
 @Component({
   template: `
-    <h1>Overview and Tutorial</h1>
+    <h2>Overview and Tutorial</h2>
     <p>
       Just like any other FerUI component in <code>@ferui-components</code>, the Tree View will require adding the FerUI to your
       project's main module to use this component like a regular Angular component.

@@ -15,7 +15,7 @@
           height: $default-control-height;
           font-size: $font-size-base;
           font-weight: $font-weight-bold;
-          background: none;
+          background: $white;
           color: $gray-900;
           @include controls-transitions();
           @include border-radius(3px);
