@@ -23,7 +23,8 @@ import {
   TreeNodeDataRetriever,
   PagedTreeNodeDataRetriever,
   NonRootTreeNode,
-  PagingParams
+  PagingParams,
+  TreeViewAutoNodeSelector
 } from './interfaces';
 import { TreeNode, FuiTreeViewComponentStyles, TreeNodeEvent, WrappedPromise } from './internal-interfaces';
 import { FuiVirtualScrollerComponent } from '../virtual-scroller/virtual-scroller';
@@ -80,6 +81,8 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
   @Input() loading: boolean = false;
 
   @Input() error: boolean = false;
+
+  @Input() autoNodeSelector?: TreeViewAutoNodeSelector<T>;
 
   @HostBinding('class.show-border') border: boolean;
 
@@ -146,10 +149,16 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
           return this.createTreeNode(child, null);
         });
         this.scrollViewArray = this.nonRootArray;
+        if (this.autoNodeSelector && this.scrollViewArray.length > 0) {
+          this.selectNode(this.autoNodeSelector.autoSelectNode(this.scrollViewArray.map(it => it.data)));
+        }
       });
     } else {
       this.rootNode = this.createTreeNode(this.treeNodeData, null);
       this.scrollViewArray = [this.rootNode];
+      if (this.autoNodeSelector && this.scrollViewArray.length > 0) {
+        this.selectNode(this.autoNodeSelector.autoSelectNode(this.scrollViewArray.map(it => it.data)));
+      }
     }
     this.cd.markForCheck();
   }

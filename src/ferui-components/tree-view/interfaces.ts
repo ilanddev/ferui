@@ -91,3 +91,10 @@ export enum TreeViewColorTheme {
   GRAY = 'gray',
   WHITE = 'white'
 }
+
+/**
+ * Tree View auto select a node interface
+ */
+export interface TreeViewAutoNodeSelector<T> {
+  autoSelectNode(nodesArray: Array<TreeNodeData<T>>): TreeNodeData<T>;
+}
