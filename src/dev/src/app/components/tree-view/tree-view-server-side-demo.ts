@@ -5,7 +5,8 @@ import {
   TreeNodeData,
   PagedTreeNodeDataRetriever,
   FuiTreeViewComponent,
-  TreeViewAutoNodeSelector
+  TreeViewAutoNodeSelector,
+  NonRootTreeNode
 } from '@ferui/components';
 import * as jsBeautify from 'js-beautify';
 
@@ -63,13 +64,34 @@ import * as jsBeautify from 'js-beautify';
         </fui-tabs>
       </div>
     </div>
+
+    <div class="demo-tree-view">
+      <h1>Non Root Server Side Tree View</h1>
+      <div class="demo-component">
+        <fui-tree-view
+          [loading]="loading"
+          [treeNodeData]="nonRootServerSideTreeNodeData"
+          [dataRetriever]="nonRootServerSideDataRetriever"
+          [config]="{ width: '250px', height: '300px' }"
+        ></fui-tree-view>
+      </div>
+      <div class="code-example">
+        <fui-tabs>
+          <fui-tab [title]="'HTML'" [active]="true">
+            <pre><code [languages]="['html']" [highlight]="dataExampleHtml3"></code></pre>
+          </fui-tab>
+          <fui-tab [title]="'TypeScript'">
+            <pre><code [languages]="['typescript']" [highlight]="dataExample3"></code></pre>
+          </fui-tab>
+        </fui-tabs>
+      </div>
+    </div>
   `,
   styles: [
     `
       .demo-tree-view {
         background-color: #f5f8f9;
-        padding-top: 20px;
-        padding-left: 10px;
+        padding: 20px 0 20px 20px;
       }
       .demo-component {
         display: inline-block;
@@ -180,6 +202,50 @@ export class TreeViewServerSideDemo {
     }
   `);
 
+  dataExampleHtml3 = jsBeautify.html(`<fui-tree-view
+          [loading]="loading"
+          [treeNodeData]="nonRootServerSideTreeNodeData"
+          [dataRetriever]="nonRootServerSideDataRetriever"
+          [config]="{ width: '250px', height: '300px' }"></fui-tree-view>`);
+
+  dataExample3 = jsBeautify.js(`
+      // Non Root Server Side
+      nonRootServerSideTreeNodeData: NonRootTreeNode = NonRootTreeNode.instance;
+
+      nonRootServerSideDataRetriever: PagedTreeNodeDataRetriever<FoodNode> = {
+        hasChildNodes: (node: TreeNodeData<FoodNode>) => Promise.resolve(!!node.data.children && node.data.children.length > 0),
+        getChildNodeData: (node: TreeNodeData<FoodNode>) => {
+          // not used on Server Side
+        },
+        getPagedChildNodeData: (node: TreeNodeData<FoodNode>, pagingParams: PagingParams) => {
+          // On first load the initial node will be the non root tree node, dev must handle appropriately
+          if (node instanceof NonRootTreeNode) {
+            // mocking the promises
+            return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                const children = serverData.children[0].children.slice(pagingParams.offset, pagingParams.offset + pagingParams.limit);
+                resolve(
+                  children.map(it => {
+                    return { data: it, nodeLabel: it.name };
+                  })
+                );
+              }, 100);
+            });
+          }
+          return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                const children = node.data.children.slice(pagingParams.offset, pagingParams.offset + pagingParams.limit);
+                resolve(
+                  children.map(it => {
+                    return { data: it, nodeLabel: it.name };
+                  })
+                );
+              }, 500);
+          });
+        }
+      };
+   `);
+
   // Public api
   treeNodeData: TreeNodeData<FoodNode> = {
     data: treeData,
@@ -235,6 +301,37 @@ export class TreeViewServerSideDemo {
             );
           }, 500);
         }
+      });
+    }
+  };
+
+  // Non Root Server Side
+  nonRootServerSideTreeNodeData: NonRootTreeNode = NonRootTreeNode.instance;
+  nonRootServerSideDataRetriever: PagedTreeNodeDataRetriever<FoodNode> = {
+    hasChildNodes: (node: TreeNodeData<FoodNode>) => Promise.resolve(!!node.data.children && node.data.children.length > 0),
+    getChildNodeData: (node: TreeNodeData<FoodNode>) => Promise.resolve([]),
+    getPagedChildNodeData: (node: TreeNodeData<FoodNode>, pagingParams: PagingParams) => {
+      if (node instanceof NonRootTreeNode) {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            const children = serverData.children[0].children.slice(pagingParams.offset, pagingParams.offset + pagingParams.limit);
+            resolve(
+              children.map(it => {
+                return { data: it, nodeLabel: it.name };
+              })
+            );
+          }, 100);
+        });
+      }
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const children = node.data.children.slice(pagingParams.offset, pagingParams.offset + pagingParams.limit);
+          resolve(
+            children.map(it => {
+              return { data: it, nodeLabel: it.name };
+            })
+          );
+        }, 500);
       });
     }
   };
