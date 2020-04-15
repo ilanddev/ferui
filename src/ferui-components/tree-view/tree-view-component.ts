@@ -56,7 +56,7 @@ import { FuiTreeViewUtilsService } from './tree-view-utils-service';
         class="fui-tree-view-infinite-loader"
         *ngIf="serverSideComponent && scrollPromise"
         [style.width]="'80%'"
-        [style.bottom.px]="hasBorders ? 1 : -9"
+        [style.bottom.px]="1"
       ></div>
       <clr-icon *ngIf="loading" class="fui-loader fui-loader-animation" shape="fui-spinner"></clr-icon>
       <div *ngIf="error" class="error">
@@ -102,6 +102,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
 
   private rootNode: TreeNode<T>;
   private nonRootArray: TreeNode<T>[];
+  private nonRootArrayComplete: boolean = false;
   private scrollSubscription: Subscription;
   private scrollWidthChangeSub: Subscription;
   private originalWidth: number;
@@ -283,7 +284,10 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
       this.addNodeAndChildrenToVirtualScrollerArray(this.rootNode, aggregator);
     } else {
       for (const child of this.nonRootArray) {
-        this.addNodeAndChildrenToVirtualScrollerArray(child, aggregator);
+        const shouldContinue = this.addNodeAndChildrenToVirtualScrollerArray(child, aggregator);
+        if (!shouldContinue) {
+          break;
+        }
       }
     }
     this.scrollViewArray = aggregator;
@@ -359,7 +363,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
     const numberNeeded = this.bufferAmount - (this.scrollViewArray.length - lastIdxInView);
     if (numberNeeded > 0 && !this.scrollPromise) {
       const parentNode: TreeNode<T> | null = this.scrollViewArray[lastIdxInView].parent;
-      if (parentNode === null || this.getFirstNodeWithMoreChildrenToLoad(parentNode) != null) {
+      if ((parentNode === null && !this.nonRootArrayComplete) || this.getFirstNodeWithMoreChildrenToLoad(parentNode) != null) {
         this.scrollPromise = true;
         await this.loadMoreNodes(parentNode, numberNeeded, true);
         this.rebuildVirtualScrollerArray();
@@ -378,6 +382,9 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
    */
   private async loadMoreNodes(node: TreeNode<T>, numberToLoad: number, recurse: boolean) {
     const firstNodeWithMoreChildrenToLoad = this.getFirstNodeWithMoreChildrenToLoad(node);
+    if (firstNodeWithMoreChildrenToLoad === null && this.treeNodeData instanceof NonRootTreeNode) {
+      return this.getNonRootChildren(numberToLoad); // Scrolling through the top first level on a non root array
+    }
     if (firstNodeWithMoreChildrenToLoad === null) {
       return;
     }
@@ -421,6 +428,20 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
         );
       }
     }
+  }
+
+  /**
+   * Handle scrolling on Non Root Server Side node and use the defined nonRoot array specifically
+   * @param numberToLoad
+   */
+  private async getNonRootChildren(numberToLoad: number) {
+    if (!this.nonRootArrayComplete) {
+      const emptyRootNode = this.createTreeNode(this.treeNodeData, null);
+      const children = await this.getNodeData()(emptyRootNode.data, { offset: this.scrollViewArray.length, limit: numberToLoad });
+      this.nonRootArray = this.nonRootArray.concat(children.map(child => this.createTreeNode(child, null)));
+      this.nonRootArrayComplete = children.length < numberToLoad;
+    }
+    this.scrollPromise = false;
   }
 
   /**
