@@ -1,6 +1,6 @@
 <div class="container-fluid">
-  <div class="row row flex-xl-nowrap">
-    <div class="col-sm-12 col-md-12 col-xl-2 col-lg-2 p-0 fui-sidebar">
+  <div class="row flex-xl-nowrap">
+    <div class="col col-2 p-0 fui-sidebar">
       <form class="fui-search p-3 d-flex align-items-center">
         <input name="globalSearch" type="text" placeholder="Search..." ngModel />
       </form>
@@ -14,7 +14,9 @@
                 class="nav-link"
                 [routerLink]="[path + '/' + item.path]"
                 [routerLinkActive]="['active']"
-                >{{ item.path }}</a
+              >
+                <clr-icon class="fui-icon-caret" *ngIf="item.children && item.children.length > 0" shape="fui-caret"></clr-icon>
+                {{ item.path }}</a
               >
 
               <ul *ngIf="item.children && item.children.length > 0">
@@ -32,7 +34,7 @@
         </ul>
       </nav>
     </div>
-    <main id="main-content" class="col-xl-10 col-lg-10 col-md-12 col-sm-12 bd-content">
+    <main id="main-content" class="col-10 bd-content">
       <router-outlet></router-outlet>
     </main>
   </div>

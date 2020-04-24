@@ -24,23 +24,25 @@ import { TreeViewClientSideDemo } from './tree-view/tree-view-client-side-demo';
 import { WidgetDemo } from './widget/widget.demo';
 import { NumberComponent } from './forms/number/number';
 import { DatagridTreeviewInfiniteServerSideComponent } from './datagrid/pages/datagrid-treeview.component';
+import { TabsDemo } from './tabs/tabs.demo';
 import { TreeViewServerSideDemo } from './tree-view/tree-view-server-side-demo';
 import { TreeViewOverviewDemo } from './tree-view/tree-view-overview-demo';
 import { TreeViewDashboardDemo } from './tree-view/tree-view-dashboard-demo';
+import { VirtualScrollerDemo } from './virtual-scroller/virtual-scroller.demo';
 
 export const COMPONENTS_ROUTES: Routes = [
   {
     path: 'components',
     component: ComponentsLandingComponent,
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: ComponentsDashboardComponent },
+      { path: '', redirectTo: 'overview', pathMatch: 'full' },
+      { path: 'overview', component: ComponentsDashboardComponent },
       {
         path: 'forms',
         component: FormsLandingComponent,
         children: [
-          { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-          { path: 'dashboard', component: FormsDashboardComponent },
+          { path: '', redirectTo: 'overview', pathMatch: 'full' },
+          { path: 'overview', component: FormsDashboardComponent },
           { path: 'inputs', component: InputsComponent },
           { path: 'number', component: NumberComponent },
           { path: 'datetimes', component: DatetimeComponent },
@@ -55,8 +57,8 @@ export const COMPONENTS_ROUTES: Routes = [
         path: 'datagrid',
         component: DatagridDemo,
         children: [
-          { path: '', redirectTo: 'home', pathMatch: 'full' },
-          { path: 'home', component: DatagridHome },
+          { path: '', redirectTo: 'overview', pathMatch: 'full' },
+          { path: 'overview', component: DatagridHome },
           { path: 'client-side', component: DatagridClientSideComponent },
           { path: 'server-side', component: DatagridServerSideComponent },
           { path: 'infinite-server-side', component: DatagridInfiniteServerSideComponent },
@@ -67,8 +69,8 @@ export const COMPONENTS_ROUTES: Routes = [
         path: 'dropdown',
         component: DropdownDemo,
         children: [
-          { path: '', redirectTo: 'home', pathMatch: 'full' },
-          { path: 'home', component: DropdownExample }
+          { path: '', redirectTo: 'overview', pathMatch: 'full' },
+          { path: 'overview', component: DropdownExample }
         ]
       },
       {
@@ -84,6 +86,14 @@ export const COMPONENTS_ROUTES: Routes = [
       {
         path: 'widget',
         component: WidgetDemo
+      },
+      {
+        path: 'tabs',
+        component: TabsDemo
+      },
+      {
+        path: 'virtual-scroller',
+        component: VirtualScrollerDemo
       }
     ]
   }

@@ -14,6 +14,8 @@ import { DropdownDemoModule } from './dropdown/dropdown.module';
 import { UtilsModule } from '../utils/utils.module';
 import { TreeViewDemoModule } from './tree-view/tree-view.module';
 import { WidgetDemoModule } from './widget/widget.module';
+import { TabsDemoModule } from './tabs/tabs.module';
+import { VirtualScrollerModule } from './virtual-scroller/virtual-scroller.module';
 
 export const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [ComponentsDashboardComponent, ComponentsLandingComponent];
 
@@ -30,8 +32,10 @@ export const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [ComponentsDashboardC
     HighlightModule,
     TreeViewDemoModule,
     WidgetDemoModule,
+    TabsDemoModule,
+    VirtualScrollerModule
   ],
   declarations: [FUI_DEMO_COMPONENTS_DIRECTIVES],
-  exports: [FUI_DEMO_COMPONENTS_DIRECTIVES],
+  exports: [FUI_DEMO_COMPONENTS_DIRECTIVES]
 })
 export class ComponentsDemoModule {}

@@ -4,9 +4,8 @@ import * as jsBeautify from 'js-beautify';
 
 @Component({
   template: `
-    <h1 class="mb-4">FerUI Client Side Tree View Demo</h1>
     <div class="demo-tree-view">
-      <h1>Client Side Tree View</h1>
+      <h2>Client Side Tree View</h2>
       <div class="demo-component">
         <fui-tree-view
           [treeNodeData]="treeNodeData"
@@ -27,7 +26,7 @@ import * as jsBeautify from 'js-beautify';
     </div>
 
     <div class="demo-tree-view">
-      <h1>Non Root Tree View With Custom Icons and Node Templates</h1>
+      <h2>Non Root Tree View With Custom Icons and Node Templates</h2>
       <div class="demo-component">
         <fui-tree-view
           [autoNodeSelector]="treeViewAutoNodeSelector"
