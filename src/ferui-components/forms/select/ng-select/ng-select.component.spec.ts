@@ -280,7 +280,7 @@ export default function(): void {
       it('should set items correctly if there is no bindLabel', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<ng-select 
+          `<ng-select
                     [items]="cities"
                     [clearable]="true"
                     [(ngModel)]="selectedCity">
@@ -1209,7 +1209,7 @@ export default function(): void {
         });
       }));
 
-      it('should select item with encapsulation = native', fakeAsync(() => {
+      it('should select item with encapsulation = ShadowDom', fakeAsync(() => {
         const fixture = createTestingModule(
           EncapsulatedTestCmp,
           `<ng-select [items]="cities"
@@ -1903,10 +1903,10 @@ export default function(): void {
       it('should display custom loading and no data found template', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<ng-select [items]="cities" 
+          `<ng-select [items]="cities"
                             [loading]="citiesLoading"
                             [(ngModel)]="selectedCity">
-                    
+
                     <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
                         <div class="custom-notfound">
                             No data found for "{{searchTerm}}"
@@ -1941,15 +1941,15 @@ export default function(): void {
       it('should display custom type for search template', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<ng-select [items]="cities" 
-                            [typeahead]="filter" 
+          `<ng-select [items]="cities"
+                            [typeahead]="filter"
                             [(ngModel)]="selectedCity">
                     <ng-template ng-typetosearch-tmp>
                         <div class="custom-typeforsearch">
                             Start typing...
                         </div>
                     </ng-template>
-                   
+
                 </ng-select>`
         );
 
@@ -1968,10 +1968,10 @@ export default function(): void {
       it('should display custom loading spinner template', fakeAsync(() => {
         const fixture = createTestingModule(
           NgSelectTestCmp,
-          `<ng-select [items]="cities" 
+          `<ng-select [items]="cities"
                             [loading]="true"
                             [(ngModel)]="selectedCity">
-                    
+
                     <ng-template ng-loadingspinner-tmp>
                         <div class="custom-loadingspinner">
                             Custom loading spinner
@@ -2869,7 +2869,7 @@ export default function(): void {
           NgSelectTestCmp,
           `<ng-select [items]="cities"
                         labelForId="lbl"
-                        (change)="onChange($event)" 
+                        (change)="onChange($event)"
                         bindLabel="name">
                 </ng-select>`
         );
@@ -3745,7 +3745,7 @@ class NgSelectTestCmp {
 
 @Component({
   template: ``,
-  encapsulation: ViewEncapsulation.Native
+  encapsulation: ViewEncapsulation.ShadowDom
 })
 class EncapsulatedTestCmp extends NgSelectTestCmp {
   @ViewChild(NgSelectComponent) select: NgSelectComponent;
