@@ -94,8 +94,8 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
 
   treeViewStyles: FuiTreeViewComponentStyles;
   colorTheme: TreeViewColorTheme;
-  scrollViewArray: TreeNode<T>[];
-  hasBorders: boolean;
+  scrollViewArray: TreeNode<T>[] = [];
+  hasBorders: boolean = false;
   domBufferAmount: number = 10;
   scrollPromise: boolean = false;
   serverSideComponent: boolean = false;
@@ -127,19 +127,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
     this.scrollWidthChangeSub = this.treeViewUtils.treeViewScrollWidthChange.subscribe(() => this.updateScrollerWidth());
     this.colorTheme = this.config.colorVariation ? this.config.colorVariation : this.defaultColorScheme;
     this.border = this.hasBorders = this.config.hasBorders ? this.config.hasBorders : false;
-    if (this.serverSideComponent) {
-      this.bufferAmount = this.config.bufferAmount || this.bufferAmount;
-      this.scrollSubscription = this.vs.vsChange.subscribe(pageInfo => {
-        if (this.el.nativeElement.children.length > 0) {
-          // check if view is full to ensure that the user is scrolling
-          const nodesInView = pageInfo.endIndex - pageInfo.startIndex;
-          const nodesExpectedInView = this.el.nativeElement.firstElementChild.clientHeight / this.nodeTreeHeight;
-          if (nodesExpectedInView - nodesInView <= 0) {
-            this.handleScroll(pageInfo.endIndex);
-          }
-        }
-      });
-    }
+
     if (this.treeNodeData instanceof NonRootTreeNode) {
       const emptyRootNode = this.createTreeNode(this.treeNodeData, null);
       const params: PagingParams | null = this.serverSideComponent
@@ -153,6 +141,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
         if (this.autoNodeSelector && this.scrollViewArray.length > 0) {
           this.selectNode(this.autoNodeSelector.autoSelectNode(this.scrollViewArray.map(it => it.data)));
         }
+        this.scrollSubHandler();
       });
     } else {
       this.rootNode = this.createTreeNode(this.treeNodeData, null);
@@ -160,6 +149,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
       if (this.autoNodeSelector && this.scrollViewArray.length > 0) {
         this.selectNode(this.autoNodeSelector.autoSelectNode(this.scrollViewArray.map(it => it.data)));
       }
+      this.scrollSubHandler();
     }
     this.cd.markForCheck();
   }
@@ -495,5 +485,25 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
         return event.getType();
       }
     });
+  }
+
+  /**
+   * Server side only.
+   * Just subscribe to vsChange observable to track if we need to load more data.
+   */
+  private scrollSubHandler() {
+    if (this.serverSideComponent) {
+      this.bufferAmount = this.config.bufferAmount || this.bufferAmount;
+      this.scrollSubscription = this.vs.vsChange.subscribe(pageInfo => {
+        if (this.el.nativeElement.children.length > 0) {
+          // check if view is full to ensure that the user is scrolling
+          const nodesInView = pageInfo.endIndex - pageInfo.startIndex;
+          const nodesExpectedInView = this.el.nativeElement.firstElementChild.clientHeight / this.nodeTreeHeight;
+          if (nodesExpectedInView - nodesInView <= 0) {
+            this.handleScroll(pageInfo.endIndex);
+          }
+        }
+      });
+    }
   }
 }
