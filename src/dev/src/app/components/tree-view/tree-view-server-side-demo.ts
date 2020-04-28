@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import {
   PagingParams,
   TreeNodeDataRetriever,
@@ -9,6 +9,7 @@ import {
   NonRootTreeNode
 } from '@ferui/components';
 import * as jsBeautify from 'js-beautify';
+import { TreeNode } from '../../../../../ferui-components/tree-view/internal-interfaces';
 
 @Component({
   template: `
@@ -66,14 +67,24 @@ import * as jsBeautify from 'js-beautify';
     </div>
 
     <div class="demo-tree-view">
-      <h1>Non Root Server Side Tree View</h1>
-      <div class="demo-component">
+      <h1>
+        Non Root Server Side Tree View
+        <button type="button" class="btn btn-primary" (click)="hiddenTreeview = !hiddenTreeview">
+          {{ hiddenTreeview ? 'Display treeView' : 'Hide Treeview' }}
+        </button>
+      </h1>
+      <div class="demo-component" [class.hidden-treeview]="hiddenTreeview">
         <fui-tree-view
           [loading]="loading"
           [treeNodeData]="nonRootServerSideTreeNodeData"
           [dataRetriever]="nonRootServerSideDataRetriever"
-          [config]="{ width: '250px', height: '300px' }"
+          [config]="{ height: '300px', width: '250px' }"
         ></fui-tree-view>
+        <ng-template #treeViewTemplate let-node="node">
+          <span class="directory-label">
+            {{ node.data.nodeLabel }}
+          </span>
+        </ng-template>
       </div>
       <div class="code-example">
         <fui-tabs>
@@ -106,11 +117,17 @@ import * as jsBeautify from 'js-beautify';
       .public-buttons {
         padding-top: 20px;
       }
+      .hidden-treeview {
+        display: none;
+      }
     `
   ]
 })
 export class TreeViewServerSideDemo {
   @ViewChild('publicApi') publicTreeView: FuiTreeViewComponent<any>;
+  @ViewChild('treeViewTemplate') nodeTemplate: TemplateRef<TreeNode<FoodNode>>;
+
+  hiddenTreeview: boolean = true;
 
   dataExampleHtml2 = jsBeautify.html(`
     <fui-tree-view
@@ -306,37 +323,47 @@ export class TreeViewServerSideDemo {
   };
 
   // Non Root Server Side
-  nonRootServerSideTreeNodeData: NonRootTreeNode = NonRootTreeNode.instance;
-  nonRootServerSideDataRetriever: PagedTreeNodeDataRetriever<FoodNode> = {
-    hasChildNodes: (node: TreeNodeData<FoodNode>) => Promise.resolve(!!node.data.children && node.data.children.length > 0),
-    getChildNodeData: (node: TreeNodeData<FoodNode>) => Promise.resolve([]),
-    getPagedChildNodeData: (node: TreeNodeData<FoodNode>, pagingParams: PagingParams) => {
-      if (node instanceof NonRootTreeNode) {
+  nonRootServerSideTreeNodeData: NonRootTreeNode;
+  nonRootServerSideDataRetriever: PagedTreeNodeDataRetriever<FoodNode>;
+
+  ngOnInit() {
+    // Non Root Server Side
+    this.nonRootServerSideTreeNodeData = NonRootTreeNode.instance;
+    this.nonRootServerSideDataRetriever = {
+      hasChildNodes: (node: TreeNodeData<FoodNode>) => Promise.resolve(!!node.data.children && node.data.children.length > 0),
+      getChildNodeData: (parent: TreeNodeData<FoodNode>) => void 0,
+      getPagedChildNodeData: (node: TreeNodeData<FoodNode>, pagingParams: PagingParams) => {
+        if (node instanceof NonRootTreeNode) {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              const children = serverData.children[0].children.slice(
+                pagingParams.offset,
+                pagingParams.offset + pagingParams.limit
+              );
+              resolve(
+                children.map(it => {
+                  return { data: it, nodeLabel: it.name };
+                })
+              );
+            }, 100);
+          });
+        }
         return new Promise((resolve, reject) => {
           setTimeout(() => {
-            const children = serverData.children[0].children.slice(pagingParams.offset, pagingParams.offset + pagingParams.limit);
+            const children = node.data.children.slice(pagingParams.offset, pagingParams.offset + pagingParams.limit);
             resolve(
               children.map(it => {
                 return { data: it, nodeLabel: it.name };
               })
             );
-          }, 100);
+          }, 500);
         });
+      },
+      getNodeTemplate: () => {
+        return this.nodeTemplate;
       }
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          const children = node.data.children.slice(pagingParams.offset, pagingParams.offset + pagingParams.limit);
-          resolve(
-            children.map(it => {
-              return { data: it, nodeLabel: it.name };
-            })
-          );
-        }, 500);
-      });
-    }
-  };
+    };
 
-  ngOnInit() {
     setTimeout(() => {
       this.loading = false;
     }, 2500);

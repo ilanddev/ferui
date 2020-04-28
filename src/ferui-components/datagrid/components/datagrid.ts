@@ -25,7 +25,6 @@ import { FuiDatagridOptionsWrapperService } from '../services/datagrid-options-w
 import { FuiColumnService } from '../services/rendering/column.service';
 import { Column } from './entities/column';
 import { ColumnUtilsService } from '../utils/column-utils.service';
-import { ScrollbarHelper } from '../services/datagrid-scrollbar-helper.service';
 import { FuiDatagridSortService } from '../services/datagrid-sort.service';
 import { Subscription } from 'rxjs';
 import {
@@ -74,6 +73,7 @@ import {
   VIRTUAL_SCROLLER_DEFAULT_OPTIONS_FACTORY
 } from '../../virtual-scroller/virtual-scroller-factory';
 import { DomObserver, ObserverInstance } from '../../utils/dom-observer/dom-observer';
+import { ScrollbarHelper } from '../../utils/scrollbar-helper/scrollbar-helper.service';
 
 export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefaultOptions {
   const defaults: VirtualScrollerDefaultOptions = VIRTUAL_SCROLLER_DEFAULT_OPTIONS_FACTORY();

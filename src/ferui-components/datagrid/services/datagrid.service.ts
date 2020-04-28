@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { FuiVirtualScrollerComponent } from '../../virtual-scroller/virtual-scroller';
 import { FuiDatagridEventService } from './event.service';
 import { FuiColumnService } from './rendering/column.service';
-import { ScrollbarHelper } from './datagrid-scrollbar-helper.service';
+import { ScrollbarHelper } from '../../utils/scrollbar-helper/scrollbar-helper.service';
 import { BodyScrollEvent, FuiDatagridEvents } from '../events';
 
 @Injectable()
