@@ -31,6 +31,7 @@ import { FuiVirtualScrollerComponent } from '../virtual-scroller/virtual-scrolle
 import { Subscription } from 'rxjs';
 import { FuiTreeNodeComponent } from './tree-node-component';
 import { FuiTreeViewUtilsService } from './tree-view-utils-service';
+import { ScrollbarHelper } from '../utils/scrollbar-helper/scrollbar-helper.service';
 
 @Component({
   selector: 'fui-tree-view',
@@ -49,6 +50,7 @@ import { FuiTreeViewUtilsService } from './tree-view-utils-service';
           [theme]="colorTheme"
           [borders]="hasBorders"
           [dataRetriever]="dataRetriever"
+          [treeviewConfig]="config"
           (onNodeEvent)="nodeEvent($event)"
         ></fui-tree-node>
       </fui-virtual-scroller>
@@ -69,28 +71,22 @@ import { FuiTreeViewUtilsService } from './tree-view-utils-service';
   host: {
     class: 'fui-tree-view-component'
   },
-  providers: [FuiTreeViewUtilsService]
+  providers: [FuiTreeViewUtilsService, ScrollbarHelper]
 })
 export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
+  @Output() onNodeEvent: EventEmitter<TreeViewEvent<T>> = new EventEmitter<TreeViewEvent<T>>();
+
   @Input() treeNodeData: TreeNodeData<T>;
-
   @Input() dataRetriever: TreeNodeDataRetriever<T> | PagedTreeNodeDataRetriever<T>;
-
   @Input() config: TreeViewConfiguration;
-
   @Input() loading: boolean = false;
-
   @Input() error: boolean = false;
-
   @Input() autoNodeSelector?: TreeViewAutoNodeSelector<T>;
 
   @HostBinding('class.show-border') border: boolean;
 
   @ViewChild(FuiVirtualScrollerComponent) vs: FuiVirtualScrollerComponent;
-
   @ViewChildren(FuiTreeNodeComponent) children: QueryList<FuiTreeNodeComponent<T>>;
-
-  @Output() onNodeEvent: EventEmitter<TreeViewEvent<T>> = new EventEmitter<TreeViewEvent<T>>();
 
   treeViewStyles: FuiTreeViewComponentStyles;
   colorTheme: TreeViewColorTheme;

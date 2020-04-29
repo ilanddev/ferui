@@ -28,7 +28,7 @@ import {
   WrapGroupDimension,
   WrapGroupDimensions
 } from './types/virtual-scroller-interfaces';
-import { ScrollbarHelper } from '../datagrid/services/datagrid-scrollbar-helper.service';
+import { ScrollbarHelper } from '../utils/scrollbar-helper/scrollbar-helper.service';
 import { VIRTUAL_SCROLLER_DEFAULT_OPTIONS } from './virtual-scroller-factory';
 
 export interface CancelableFunction extends Function {

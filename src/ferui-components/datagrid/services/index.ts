@@ -5,7 +5,6 @@ export * from './datagrid-drag-events.service';
 export * from './datagrid-filter.service';
 export * from './datagrid-options-wrapper.service';
 export * from './datagrid-resize.service';
-export * from './datagrid-scrollbar-helper.service';
 export * from './datagrid-sort.service';
 export * from './event.service';
 export * from './abstract-event-listener-service';
