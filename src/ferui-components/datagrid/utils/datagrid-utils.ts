@@ -1,6 +1,6 @@
-// @dynamic
 import { FeruiUtils } from '../../utils/ferui-utils';
 
+// @dynamic
 export class DatagridUtils extends FeruiUtils {
   // This is an util class, we shouldn't be able to create an instance of this.
   protected constructor() {

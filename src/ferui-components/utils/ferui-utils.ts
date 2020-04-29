@@ -1,9 +1,10 @@
+// @dynamic
 export class FeruiUtils {
-  private static isSafari: boolean;
-  private static isIE: boolean;
-  private static isEdge: boolean;
-  private static isChrome: boolean;
-  private static isFirefox: boolean;
+  protected static isSafari: boolean;
+  protected static isIE: boolean;
+  protected static isEdge: boolean;
+  protected static isChrome: boolean;
+  protected static isFirefox: boolean;
 
   protected constructor() {}
 
