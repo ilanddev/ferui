@@ -30,6 +30,6 @@ export class CsvCreator extends BaseCreator<string, GridSerializingSession<strin
   }
 
   public createSerializingSession(params?: CsvExportParams): GridSerializingSession<string> {
-    return this.gridSerializer.gridSerializingSession();
+    return this.gridSerializer.gridSerializingSession(params);
   }
 }
