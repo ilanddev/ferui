@@ -285,7 +285,8 @@ export class DatagridClientSideComponent {
   withFixedHeight: boolean = false;
 
   exportParams: CsvExportParams = {
-    fileName: 'ferUI-export-test-1'
+    fileName: 'ferUI-export-test-1',
+    columnSeparator: ','
   };
   exportParams2: CsvExportParams = {
     fileName: 'ferUI-export-test-2'

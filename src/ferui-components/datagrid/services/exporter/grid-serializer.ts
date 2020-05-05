@@ -1,5 +1,5 @@
 import { Column } from '../../components/entities/column';
-import { ExportParams } from './export-params';
+import { CsvExportParams, ExportParams } from './export-params';
 
 const LINE_SEPARATOR = '\r\n';
 
@@ -38,11 +38,11 @@ export class GridSerializer<T> {
     this._displayedRows = value;
   }
 
-  gridSerializingSession(): GridSerializingSession<string> {
+  gridSerializingSession(params?: CsvExportParams): GridSerializingSession<string> {
     const json: GridSerializingSession<string> = {
       headers: [],
       body: [],
-      columnSeparator: ';'
+      columnSeparator: params && params.columnSeparator ? params.columnSeparator : ';'
     };
 
     const filteredColumns: Column[] = this._displayedColumns.filter(col => {
