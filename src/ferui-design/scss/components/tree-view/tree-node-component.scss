@@ -8,6 +8,7 @@
     .node-tree {
       height: 34px;
       width: max-content;
+      display: inline-block;
     }
     .label {
       line-height: 34px;
@@ -15,7 +16,7 @@
       padding-right: 10px;
     }
     .icon-template {
-      margin-right: 5px;
+      margin-right: 9px;
     }
     .fui-loader-animation {
       color: #87a1b5;
