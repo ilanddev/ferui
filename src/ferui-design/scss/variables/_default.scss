@@ -32,12 +32,49 @@ $colors: (
   'gray-dark': $gray-900
 );
 
+// Spacing
+//
+// Control the default styling of most Bootstrap elements by modifying these
+// variables. Mostly focused on spacing.
+// You can add more entries to the $spacers map, should you need more variation.
+$spacer: 1rem !default;
+$spacers: (
+  0: 0,
+  1: (
+    $spacer * 0.3125 // 5px
+  ),
+  2: (
+    $spacer * 0.625 // 10px
+  ),
+  3: (
+    $spacer * 0.9375 // 15px
+  ),
+  4: (
+    $spacer * 1.25 // 20px
+  ),
+  5: (
+    $spacer * 1.875 // 30px
+  ),
+  6: (
+    $spacer * 2.5 // 40px
+  ),
+  7: (
+    $spacer * 3.125 // 50px
+  )
+);
+
 $secondary: $gray-500 !default;
 $dark: $gray-900 !default;
 $light: $gray-300 !default;
 
 $grid-columns: 12 !default;
 $grid-gutter-width: 20px !default;
+
+$paragraph-margin-bottom: 0.9375rem !default;
+$headings-font-weight: 700 !default;
+
+$input-btn-padding-y: 0.625rem !default;
+$input-btn-padding-x: 1.875rem !default;
 
 // The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
 $yiq-contrasted-threshold: 160 !default;
@@ -74,3 +111,6 @@ $default-radius-value: 3px;
 $border-radius: $default-radius-value;
 
 $fui-default-padding: 1.25rem; // 20px
+
+// Import Bootstrap default variables
+@import '../bootstrap-45/variables';

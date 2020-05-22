@@ -24,10 +24,12 @@
       }
     }
 
-    th {
-      white-space: nowrap;
-      background-color: $gray-100;
-      border-top: none;
+    thead {
+      th {
+        white-space: nowrap;
+        background-color: $gray-100;
+        border-top: none;
+      }
     }
   }
 }

@@ -21,6 +21,7 @@ import { ComponentsDemoModule } from './components/components-demo.module';
 import { IconsModule } from './icons/icons.module';
 import { AppRoutingModule } from './app.routing';
 import { UtilsModule } from './utils/utils.module';
+import { UiDesignModule } from './ui-design/ui-design.module';
 
 export function hljsLanguages() {
   return [
@@ -41,6 +42,7 @@ export function hljsLanguages() {
     FormsModule,
     AppRoutingModule,
     IconsModule,
+    UiDesignModule,
     ComponentsDemoModule,
     FeruiModule,
     HighlightModule.forRoot({

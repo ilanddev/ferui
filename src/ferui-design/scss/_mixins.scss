@@ -1,6 +1,3 @@
-// All imported Bootstrap mixins.
-@import 'bootstrap/mixins';
-
 // FerUI custom mixins.
 @import 'mixins/exports';
 @import 'mixins/default';
@@ -10,3 +7,6 @@
 @import 'mixins/animations';
 @import 'mixins/z-layers';
 @import 'mixins/dropdown-menu-mixins';
+
+// Bootstrap mixins
+@import 'bootstrap-45/mixins';
