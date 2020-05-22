@@ -24,12 +24,12 @@ $gray-900: #252a3a !default;
 $gray-1000: #191c28 !default;
 
 $grays: (
-  '1000': $gray-1000,
+  '1000': $gray-1000
 );
 
 $colors: (
   'gray': $gray-500,
-  'gray-dark': $gray-900,
+  'gray-dark': $gray-900
 );
 
 $secondary: $gray-500 !default;
@@ -46,6 +46,7 @@ $font-family-sans-serif: Roboto, 'Helvetica Neue', Arial, Noto Sans, sans-serif 
 $font-family-monospace: Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !default;
 
 $font-size-base: 0.875rem !default; // = 14px assuming browser default to 16px
+$font-size-md: 0.9375rem !default; // 15px
 $font-size-lg: 1rem !default; // 16px
 $font-size-sm: 0.75rem !default; // 12px
 
@@ -71,3 +72,5 @@ $fui-rem-1px: 0.0625rem;
 
 $default-radius-value: 3px;
 $border-radius: $default-radius-value;
+
+$fui-default-padding: 1.25rem; // 20px

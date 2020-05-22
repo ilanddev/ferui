@@ -50,7 +50,9 @@ import { FuiDatetimeModelTypes } from '@ferui/components';
                 <td><code>&lt;fui-widget-header&gt;</code></td>
                 <td>
                   <b>(optional)</b> This is the header container. It allows you to add content in the header section of a widget.
-                  This must be placed within an <code>&lt;fui-widget&gt;</code> tag
+                  This must be placed within an <code>&lt;fui-widget&gt;</code> tag.<br />
+                  Note: If you want, you can add the <code>border-bottom-0</code> class to this element to remove the border
+                  bottom for this element.
                 </td>
               </tr>
               <tr>
@@ -176,7 +178,7 @@ export class WidgetDemo implements OnInit {
         params: { dateType: FuiDatetimeModelTypes.DATE },
         source: `
         <fui-widget>
-          <fui-widget-header>
+          <fui-widget-header class="border-bottom-0">
             <fui-widget-title>Dev and Staging VM</fui-widget-title>
             <fui-widget-subtitle>Ubuntu Linux (64 bits)</fui-widget-subtitle>
             <fui-widget-actions>
