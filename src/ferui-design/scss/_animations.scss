@@ -1,5 +1,3 @@
-@import '_mixins.scss';
-
 .fui-loader-animation {
   @include fui-spinning-animation();
 }
