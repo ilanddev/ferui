@@ -1119,7 +1119,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private autoSizeColumns() {
-    this.columnService.autoSizeAllColumns(this.gridPanel.getCenterContainer());
+    this.columnService.autoSizeAllColumns(this.gridPanel.eBodyViewport);
     this.columnService.updateColumnsPosition();
     this.calculateSizes();
   }
