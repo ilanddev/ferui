@@ -24,14 +24,17 @@ import {
   PagedTreeNodeDataRetriever,
   NonRootTreeNode,
   PagingParams,
-  TreeViewAutoNodeSelector
+  TreeViewAutoNodeSelector,
+  TreeNodeEvent,
+  TreeNode
 } from './interfaces';
-import { TreeNode, FuiTreeViewComponentStyles, TreeNodeEvent, WrappedPromise } from './internal-interfaces';
+import { FuiTreeViewComponentStyles, WrappedPromise } from './internal-interfaces';
 import { FuiVirtualScrollerComponent } from '../virtual-scroller/virtual-scroller';
 import { Subscription } from 'rxjs';
 import { FuiTreeNodeComponent } from './tree-node-component';
 import { FuiTreeViewUtilsService } from './tree-view-utils-service';
 import { ScrollbarHelper } from '../utils/scrollbar-helper/scrollbar-helper.service';
+import { DomObserver, ObserverInstance } from '../utils/dom-observer/dom-observer';
 
 @Component({
   selector: 'fui-tree-view',
@@ -51,7 +54,9 @@ import { ScrollbarHelper } from '../utils/scrollbar-helper/scrollbar-helper.serv
           [borders]="hasBorders"
           [dataRetriever]="dataRetriever"
           [treeviewConfig]="config"
+          [siblingHasChildren]="firstLevelNodeHasChildren"
           (onNodeEvent)="nodeEvent($event)"
+          (onFirstLevelNodeHasChildren)="onFirstLevelNode($event)"
         ></fui-tree-node>
       </fui-virtual-scroller>
       <div
@@ -95,6 +100,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
   domBufferAmount: number = 10;
   scrollPromise: boolean = false;
   serverSideComponent: boolean = false;
+  firstLevelNodeHasChildren: boolean = false; // only used for first top level of Tree Nodes
 
   private rootNode: TreeNode<T>;
   private nonRootArray: TreeNode<T>[];
@@ -108,8 +114,14 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
   private defaultColorScheme: TreeViewColorTheme = TreeViewColorTheme.WHITE;
   private nodeTreeHeight: number = 34;
   private cancelablePromises: WrappedPromise<T>[] = [];
+  private domObserver: ObserverInstance;
 
-  constructor(@Self() private el: ElementRef, private cd: ChangeDetectorRef, private treeViewUtils: FuiTreeViewUtilsService) {}
+  constructor(
+    @Self() private el: ElementRef,
+    private cd: ChangeDetectorRef,
+    private treeViewUtils: FuiTreeViewUtilsService,
+    private scrollbarHelper: ScrollbarHelper
+  ) {}
 
   /**
    * Initializes the Tree View component and all properties needed depending on inputs configuration
@@ -147,6 +159,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
       }
       this.scrollSubHandler();
     }
+    this.domObserverHandler();
     this.cd.markForCheck();
   }
 
@@ -163,6 +176,10 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
     if (this.cancelablePromises.length > 0) {
       this.cancelablePromises.forEach(i => i.cancel());
     }
+    if (this.domObserver) {
+      DomObserver.unObserve(this.domObserver);
+      this.domObserver = undefined;
+    }
   }
 
   /**
@@ -170,7 +187,8 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
    */
   ngAfterViewInit(): void {
     if (!this.originalWidth) {
-      this.originalWidth = this.el.nativeElement.firstElementChild.clientWidth;
+      this.originalWidth = this.el.nativeElement.firstElementChild.clientWidth || parseInt(this.config.width, 10);
+      this.config.width = this.originalWidth.toString();
       this.treeViewUtils.defaultScrollerWidth = this.originalWidth;
     }
   }
@@ -232,6 +250,16 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
   }
 
   /**
+   * Event listener handler to check if any first level top tree nodes have children to adjust padding as needed for icons
+   * @param event
+   */
+  private onFirstLevelNode(event: boolean): void {
+    if (event) {
+      this.firstLevelNodeHasChildren = true;
+    }
+  }
+
+  /**
    * Get either getChildNodeData or getPagedChildNodeData from data retriever depending its type.
    */
   private getNodeData(): (parent: TreeNodeData<T>, pagingParams?: PagingParams) => Promise<Array<TreeNodeData<T>>> {
@@ -246,10 +274,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
    * Updates virtual scroller width based on the view's children Tree Nodes widths to expand according to largest child
    */
   private updateScrollerWidth(): void {
-    let max = this.treeViewUtils.virtualScrollerWidth;
-    // takes into consideration padding
-    max = max > this.originalWidth ? (this.border ? max : max + 20) : this.border ? this.originalWidth : this.originalWidth - 20;
-    this.vs.setInternalWidth(max + 'px');
+    this.vs.setInternalWidth(this.treeViewUtils.virtualScrollerWidth + 'px');
     this.cd.markForCheck();
   }
 
@@ -326,6 +351,22 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
     await this.loadMoreNodes(node, this.bufferAmount + lastIdxInView - firstIdxInView, false);
     node.showLoader = false;
     this.rebuildVirtualScrollerArray();
+    // On Expand: if original width is greater than nodes and scrollbar exists calculate to subtract scrollbar
+    const nodesExpectedInView = this.el.nativeElement.firstElementChild.clientHeight / this.nodeTreeHeight;
+    if (this.scrollbarHelper.getWidth() && nodesExpectedInView - this.scrollViewArray.length <= 0) {
+      const biggestNodeWidth = this.scrollViewArray.reduce((acc, current) => {
+        return current.width ? Math.max(acc, current.width) : acc;
+      }, 0);
+      let padding = 0;
+      if (this.originalWidth > biggestNodeWidth) {
+        // if container width is bigger than nodes width we will subtract to adjust scroller
+        const diff = Math.abs(this.originalWidth - biggestNodeWidth);
+        padding = diff > this.scrollbarHelper.getWidth() ? this.scrollbarHelper.getWidth() : diff;
+        this.treeViewUtils.defaultScrollerWidth = this.originalWidth;
+        this.vs.setInternalWidth(this.treeViewUtils.virtualScrollerWidth - padding + 'px');
+        this.cd.markForCheck();
+      }
+    }
   }
 
   /**
@@ -337,8 +378,22 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
     node.expanded = node.showLoader = node.loadError = false;
     node.allChildrenLoaded = false;
     this.rebuildVirtualScrollerArray();
-    this.treeViewUtils.defaultScrollerWidth = this.originalWidth;
-    this.updateScrollerWidth();
+    // Set the scroller width based on the largest TreeNode available, original width is only based on first load width
+    const biggestNode = this.scrollViewArray.reduce((acc, current) => {
+      return current.width ? Math.max(acc, current.width) : acc;
+    }, 0);
+    this.treeViewUtils.defaultScrollerWidth = Math.max(biggestNode, this.originalWidth);
+    // On Collapse: If original width is greater than any node width and tree view is scrollable and scroll bar exists we
+    // subtract the scroll bar width
+    let spacing = 0;
+    if (this.originalWidth > biggestNode && this.scrollbarHelper.getWidth()) {
+      const nodesExpectedInView = this.el.nativeElement.firstElementChild.clientHeight / this.nodeTreeHeight;
+      if (nodesExpectedInView - this.scrollViewArray.length <= 0) {
+        spacing = this.scrollbarHelper.getWidth();
+      }
+    }
+    this.vs.setInternalWidth(this.treeViewUtils.virtualScrollerWidth - spacing + 'px');
+    this.cd.markForCheck();
   }
 
   /**
@@ -499,6 +554,31 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
             this.handleScroll(pageInfo.endIndex);
           }
         }
+      });
+    }
+  }
+
+  /**
+   * Check if configuration width is a fixed pixel length, if not set a Dom Observer to adjust Tree View virtual scroller
+   * width based on its container when any container size happens (including window resize)
+   */
+  private domObserverHandler(): void {
+    if (!this.treeViewStyles.width.includes('px')) {
+      this.domObserver = DomObserver.observe(this.el.nativeElement.firstChild, undefined, () => {
+        this.originalWidth = this.el.nativeElement.firstElementChild.clientWidth;
+        this.config.width = this.originalWidth.toString();
+        const biggestNode = this.scrollViewArray.reduce((acc, current) => {
+          return current.width ? Math.max(acc, current.width) : acc;
+        }, 0);
+        this.treeViewUtils.defaultScrollerWidth = Math.max(biggestNode, this.originalWidth);
+        let padding = 0;
+        if (this.originalWidth > biggestNode) {
+          // if container width is bigger than nodes width we will subtract to adjust scroller
+          const diff = Math.abs(this.originalWidth - biggestNode);
+          padding = diff > this.scrollbarHelper.getWidth() ? this.scrollbarHelper.getWidth() : diff;
+        }
+        this.vs.setInternalWidth(this.treeViewUtils.virtualScrollerWidth - padding + 'px');
+        this.cd.markForCheck();
       });
     }
   }

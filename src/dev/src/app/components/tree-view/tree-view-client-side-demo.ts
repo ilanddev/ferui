@@ -26,6 +26,27 @@ import * as jsBeautify from 'js-beautify';
     </div>
 
     <div class="demo-tree-view">
+      <h2>Non Root Tree View with percentage width 20%</h2>
+      <div class="demo-component expandable-width">
+        <fui-tree-view
+          [treeNodeData]="noRoot"
+          [dataRetriever]="treeDataRetrieverNonRoot"
+          [config]="{ height: '300px' }"
+        ></fui-tree-view>
+      </div>
+      <div class="code-example">
+        <fui-tabs>
+          <fui-tab [title]="'HTML'" [active]="true">
+            <pre><code [languages]="['html']" [highlight]="htmlExample2"></code></pre>
+          </fui-tab>
+          <fui-tab [title]="'TypeScript'">
+            <pre><code [languages]="['typescript']" [highlight]="dataExample2"></code></pre>
+          </fui-tab>
+        </fui-tabs>
+      </div>
+    </div>
+
+    <div class="demo-tree-view">
       <h2>Non Root Tree View With Custom Icons and Node Templates</h2>
       <div class="demo-component">
         <fui-tree-view
@@ -61,6 +82,10 @@ import * as jsBeautify from 'js-beautify';
   `,
   styles: [
     `
+      .expandable-width {
+        width: 20%;
+        border: 1px solid;
+      }
       .demo-tree-view {
         background-color: #f5f8f9;
         padding-top: 20px;
@@ -243,6 +268,40 @@ export class TreeViewClientSideDemo {
     </ng-template>
   `);
 
+  htmlExample2 = jsBeautify.html(`
+        <fui-tree-view
+          [treeNodeData]="noRoot"
+          [dataRetriever]="treeDataRetrieverNonRoot"
+          [config]="{ height: '300px' }"></fui-tree-view>
+    `);
+  dataExample2 = jsBeautify.js(`
+      noRoot = NonRootTreeNode.instance;
+
+      treeDataRetrieverNonRoot = {
+        hasChildNodes: (node: TreeNodeData<FoodNode>) => {
+          return Promise.resolve(!!node.data.children && node.data.children.length > 0);
+        },
+        getChildNodeData: (node: TreeNodeData<FoodNode>) => {
+          const isEmptyRoot = node instanceof NonRootTreeNode;
+          if (isEmptyRoot) {
+            return Promise.resolve(
+              dataArrayExpandWidth.map(it => {
+                return { data: it, nodeLabel: it.name };
+              })
+            );
+          }
+          return Promise.resolve(
+            node.data.children.map(it => {
+              return { data: it, nodeLabel: it.name };
+            })
+          );
+        },
+        getIconTemplate: () => {
+          return this.iconTemplate;
+        }
+  };
+  `);
+
   treeNodeData: TreeNodeData<FoodNode> = {
     data: treeData,
     nodeLabel: treeData.name
@@ -291,7 +350,60 @@ export class TreeViewClientSideDemo {
       return nodesArray.length > 1 ? nodesArray[1] : nodesArray[0];
     }
   };
+  treeDataRetrieverNonRoot = {
+    hasChildNodes: (node: TreeNodeData<FoodNode>) => {
+      return Promise.resolve(!!node.data.children && node.data.children.length > 0);
+    },
+    getChildNodeData: (node: TreeNodeData<FoodNode>) => {
+      const isEmptyRoot = node instanceof NonRootTreeNode;
+      if (isEmptyRoot) {
+        return Promise.resolve(
+          dataArrayExpandWidth.map(it => {
+            return { data: it, nodeLabel: it.name };
+          })
+        );
+      }
+      return Promise.resolve(
+        node.data.children.map(it => {
+          return { data: it, nodeLabel: it.name };
+        })
+      );
+    },
+    getIconTemplate: () => {
+      return this.iconTemplate;
+    }
+  };
+
+  ngOnInit(): void {
+    for (let i = 0; i <= 15; i++) {
+      const folder: FoodNode = {
+        name: `Folder ${Math.random()}`
+      };
+      if (i % 3 === 0) {
+        folder.children = [];
+        for (let x = 0; x <= i; x++) {
+          const subFolder: FoodNode = {
+            name: `Folder child - ${Math.random()}`
+          };
+          if (i % 5 === 0) {
+            subFolder.children = [
+              {
+                name: `Folder grand child - ${Math.random()}`
+              },
+              {
+                name: `Folder grand child - ${Math.random()}`
+              }
+            ];
+          }
+          folder.children.push(subFolder);
+        }
+      }
+      dataArrayExpandWidth.push(folder);
+    }
+  }
 }
+
+const dataArrayExpandWidth = [];
 
 interface FoodNode {
   name: string;
@@ -349,7 +461,10 @@ const treeData: FoodNode = {
   children: [
     {
       name: 'Fruit',
-      children: [{ name: 'Apple' }, { name: 'Banana' }, { name: 'Strawberry' }]
+      children: [{ name: 'Apple' }, { name: 'Banana', children: [{ name: 'Banana peal' }] }, { name: 'Strawberry' }]
+    },
+    {
+      name: 'Dairy'
     },
     {
       name: 'Vegetables',

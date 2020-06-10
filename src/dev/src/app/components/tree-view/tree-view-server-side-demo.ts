@@ -6,10 +6,10 @@ import {
   PagedTreeNodeDataRetriever,
   FuiTreeViewComponent,
   TreeViewAutoNodeSelector,
-  NonRootTreeNode
+  NonRootTreeNode,
+  TreeNode
 } from '@ferui/components';
 import * as jsBeautify from 'js-beautify';
-import { TreeNode } from '../../../../../ferui-components/tree-view/internal-interfaces';
 
 @Component({
   template: `
@@ -33,6 +33,27 @@ import { TreeNode } from '../../../../../ferui-components/tree-view/internal-int
           </fui-tab>
           <fui-tab [title]="'TypeScript'">
             <pre><code [languages]="['typescript']" [highlight]="dataExample2"></code></pre>
+          </fui-tab>
+        </fui-tabs>
+      </div>
+    </div>
+
+    <div class="demo-tree-view">
+      <h2>Server Side Non Root Tree View with adjustable width and adjustable padding</h2>
+      <div class="demo-component expandable-width">
+        <fui-tree-view
+          [treeNodeData]="nonRootServerSideTreeNodeData"
+          [dataRetriever]="treeDataRetrieverNonRoot"
+          [config]="{ height: '300px', limit: 10 }"
+        ></fui-tree-view>
+      </div>
+      <div class="code-example">
+        <fui-tabs>
+          <fui-tab [title]="'HTML'" [active]="true">
+            <pre><code [languages]="['html']" [highlight]="htmlExampleOneLevel"></code></pre>
+          </fui-tab>
+          <fui-tab [title]="'TypeScript'">
+            <pre><code [languages]="['typescript']" [highlight]="dataExampleOneLevel"></code></pre>
           </fui-tab>
         </fui-tabs>
       </div>
@@ -119,6 +140,10 @@ import { TreeNode } from '../../../../../ferui-components/tree-view/internal-int
       }
       .hidden-treeview {
         display: none;
+      }
+      .expandable-width {
+        width: 20%;
+        border: 1px solid;
       }
     `
   ]
@@ -263,6 +288,29 @@ export class TreeViewServerSideDemo {
       };
    `);
 
+  htmlExampleOneLevel = jsBeautify.html(`
+        <fui-tree-view
+          [treeNodeData]="noRoot"
+          [dataRetriever]="treeDataRetrieverNonRoot"
+          [config]="{ height: '300px', limit: 10 }"></fui-tree-view>
+    `);
+
+  dataExampleOneLevel = jsBeautify.js(`
+    noRoot = NonRootTreeNode.instance;
+
+    treeDataRetrieverNonRoot = {
+        hasChildNodes: (node: TreeNodeData<FoodNode>) => {
+            return Promise.resolve(!!node.data.children && node.data.children.length > 0);
+        },
+        getPagedChildNodeData: (parent, params) => {
+            return getPagedDate(params.offset, params.limit).then((dataArray) => {
+                return dataArray.map(it => {
+                    return { data: it, nodeLabel: it.name };
+                });
+            });
+       }
+  `);
+
   // Public api
   treeNodeData: TreeNodeData<FoodNode> = {
     data: treeData,
@@ -326,6 +374,19 @@ export class TreeViewServerSideDemo {
   nonRootServerSideTreeNodeData: NonRootTreeNode;
   nonRootServerSideDataRetriever: PagedTreeNodeDataRetriever<FoodNode>;
 
+  treeDataRetrieverNonRoot = {
+    hasChildNodes: (node: TreeNodeData<FoodNode>) => {
+      return Promise.resolve(!!node.data.children && node.data.children.length > 0);
+    },
+    getPagedChildNodeData: (parent, params) => {
+      return Promise.resolve(
+        dataArrayExpandWidth.slice(params.offset, params.limit).map(it => {
+          return { data: it, nodeLabel: it.name };
+        })
+      );
+    }
+  };
+
   ngOnInit() {
     // Non Root Server Side
     this.nonRootServerSideTreeNodeData = NonRootTreeNode.instance;
@@ -379,6 +440,20 @@ export class TreeViewServerSideDemo {
     setTimeout(() => {
       this.publicTreeView.expandNode(this.treeNodeData);
     }, 500);
+
+    for (let i = 0; i <= 50; i++) {
+      const folder: FoodNode = {
+        name: `Folder ${Math.random()}`
+      };
+      if (i === 40) {
+        folder.children = [
+          {
+            name: 'Folder child'
+          }
+        ];
+      }
+      dataArrayExpandWidth.push(folder);
+    }
   }
 
   closeVegetables(): void {
@@ -410,6 +485,8 @@ interface FoodNode {
   name: string;
   children?: FoodNode[];
 }
+
+const dataArrayExpandWidth = [];
 
 const serverData: FoodNode = {
   name: 'Foods',

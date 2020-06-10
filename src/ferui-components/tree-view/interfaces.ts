@@ -98,3 +98,26 @@ export enum TreeViewColorTheme {
 export interface TreeViewAutoNodeSelector<T> {
   autoSelectNode(nodesArray: Array<TreeNodeData<T>>): TreeNodeData<T>;
 }
+
+/**
+ * Tree Node Interface
+ */
+export interface TreeNode<T> {
+  data: TreeNodeData<T>;
+  selected: boolean;
+  expanded: boolean;
+  children: Array<TreeNode<T>>;
+  allChildrenLoaded: boolean;
+  parent: TreeNode<T> | null;
+  showLoader: boolean;
+  loadError: boolean;
+  width?: number;
+}
+
+/**
+ * Tree Node Event Interface
+ */
+export interface TreeNodeEvent<T> {
+  getNode(): TreeNode<T>;
+  getType(): TreeViewEventType;
+}

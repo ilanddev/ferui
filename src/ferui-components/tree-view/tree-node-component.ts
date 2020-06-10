@@ -12,19 +12,22 @@ import {
   ChangeDetectorRef,
   Self,
   OnDestroy,
-  DoCheck
+  DoCheck,
+  SimpleChanges
 } from '@angular/core';
 import {
   TreeViewEventType,
   TreeNodeDataRetriever,
   PagedTreeNodeDataRetriever,
   TreeViewColorTheme,
-  TreeViewConfiguration
+  TreeViewConfiguration,
+  TreeNode,
+  TreeNodeEvent
 } from './interfaces';
-import { TreeNode, TreeNodeEvent } from './internal-interfaces';
 import { FuiTreeViewUtilsService } from './tree-view-utils-service';
 import { DomObserver, ObserverInstance } from '../utils/dom-observer/dom-observer';
 import { ScrollbarHelper } from '../utils/scrollbar-helper/scrollbar-helper.service';
+import { TREE_VIEW_INDENTATION_PADDING } from './internal-interfaces';
 
 @Component({
   selector: 'fui-tree-node',
@@ -52,7 +55,7 @@ import { ScrollbarHelper } from '../utils/scrollbar-helper/scrollbar-helper.serv
         </span>
       </div>
     </div>
-    <div [style.margin-left.px]="calculatePadding() + 20">
+    <div [style.margin-left.px]="padding + indentationPadding">
       <clr-icon *ngIf="node.showLoader" class="fui-loader-animation" shape="fui-spinner"></clr-icon>
       <clr-icon *ngIf="node.loadError" class="fui-error-icon" shape="fui-error" aria-hidden="true"></clr-icon>
       <span *ngIf="node.loadError" class="error-msg">Couldn't load content</span>
@@ -62,11 +65,13 @@ import { ScrollbarHelper } from '../utils/scrollbar-helper/scrollbar-helper.serv
 })
 export class FuiTreeNodeComponent<T> implements OnInit, OnDestroy, DoCheck {
   @Output() onNodeEvent: EventEmitter<TreeNodeEvent<T>> = new EventEmitter<TreeNodeEvent<T>>();
+  @Output() onFirstLevelNodeHasChildren: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Input() node: TreeNode<T>;
   @Input() theme: TreeViewColorTheme;
   @Input() dataRetriever: TreeNodeDataRetriever<T> | PagedTreeNodeDataRetriever<T>;
   @Input() treeviewConfig: TreeViewConfiguration;
+  @Input() siblingHasChildren: boolean;
 
   @HostBinding('class') themeClass;
   @HostBinding('class.fui-tree-node-component') nodeComponent: boolean = true;
@@ -80,6 +85,7 @@ export class FuiTreeNodeComponent<T> implements OnInit, OnDestroy, DoCheck {
   hasChildren: boolean = false;
   // left padding dependent of node tree hierarchical level
   padding: number;
+  indentationPadding: number = TREE_VIEW_INDENTATION_PADDING;
 
   private domObservers: ObserverInstance[] = [];
 
@@ -103,6 +109,9 @@ export class FuiTreeNodeComponent<T> implements OnInit, OnDestroy, DoCheck {
     }
     this.dataRetriever.hasChildNodes(this.node.data).then((hasChildren: boolean) => {
       this.hasChildren = hasChildren;
+      if (this.level === 0) {
+        this.onFirstLevelNodeHasChildren.emit(this.hasChildren);
+      }
       this.setVirtualScrollerWidth();
     });
 
@@ -130,6 +139,16 @@ export class FuiTreeNodeComponent<T> implements OnInit, OnDestroy, DoCheck {
   ngOnDestroy() {
     this.domObservers.forEach(observerInstance => DomObserver.unObserve(observerInstance));
     this.domObservers = undefined;
+  }
+
+  /**
+   * On any input siblingHasChildren property change of nodes, we will recalculate padding
+   * @param changes
+   */
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.siblingHasChildren) {
+      this.padding = this.calculatePadding();
+    }
   }
 
   /**
@@ -176,9 +195,14 @@ export class FuiTreeNodeComponent<T> implements OnInit, OnDestroy, DoCheck {
 
   /**
    * Calculates the needed padding based on nodes level and if it has children
+   * 20 for the indentation pixels per level
+   * 10 pixels if has children to add equal 5 pixel margin around icon
+   * 30 pixels if no children to add margin from beginning of node text to beginning of left hand tree view
    */
-  calculatePadding(): number {
-    return this.hasChildren ? this.level * 20 + 10 : this.level * 20 + 30;
+  private calculatePadding(): number {
+    // On first level, we check if any sibling nodes have children, if not we only add 10px padding and not 30 for icons
+    const padding = this.level === 0 ? (this.siblingHasChildren ? 30 : 10) : 30;
+    return this.hasChildren ? this.level * this.indentationPadding + 10 : this.level * this.indentationPadding + padding;
   }
 
   /**
@@ -189,20 +213,27 @@ export class FuiTreeNodeComponent<T> implements OnInit, OnDestroy, DoCheck {
     // At this particular time the view isn't updated fast enough so we calculate the node width to include:
     // Node text width, padding and if icons exists take a value of 16 into consideration
     const iconPadding = this.hasChildren ? 16 : 0;
-    const currentNodeWidth: number = this.getNodeWidth() + iconPadding + this.padding;
+    this.node.width = this.getNodeWidth() + iconPadding + this.padding + this.indentationPadding;
     const configWidth: number = this.treeviewConfig ? parseInt(this.treeviewConfig.width, 10) : 0;
     // For users with scrollbars visible, we need to take the scrollbar width into account.
     const scrollbarWidth: number = this.scrollbarHelper.getWidth();
     this.treeViewUtils.virtualScrollerWidth =
-      configWidth > currentNodeWidth ? (this.borders ? configWidth : configWidth - (40 + scrollbarWidth)) : currentNodeWidth;
-    // 40 = 2 times padding of 20px.
+      configWidth > this.node.width
+        ? this.borders
+          ? configWidth
+          : configWidth - (this.indentationPadding + scrollbarWidth)
+        : this.node.width;
+    // 20 = 2 times padding of 10px.
     this.cd.markForCheck();
   }
 
   /**
-   * Gets the Node Tree width including padding
+   * Gets the Node Tree width
+   * Take the nodeLabel width only as we add icon padding on the setVirtualScrollerWidth method
    */
   private getNodeWidth(): number {
-    return this.nodeTreeElement.nativeElement.offsetWidth;
+    return this.nodeTreeElement.nativeElement.children[1]
+      ? this.nodeTreeElement.nativeElement.children[1].offsetWidth
+      : this.nodeTreeElement.nativeElement.children[0].offsetWidth;
   }
 }
