@@ -25,8 +25,8 @@ import {
   NonRootTreeNode,
   PagingParams,
   TreeViewAutoNodeSelector,
-  TreeNodeEvent,
-  TreeNode
+  TreeNode,
+  TreeNodeEvent
 } from './interfaces';
 import { FuiTreeViewComponentStyles, WrappedPromise } from './internal-interfaces';
 import { FuiVirtualScrollerComponent } from '../virtual-scroller/virtual-scroller';
@@ -253,7 +253,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
    * Event listener handler to check if any first level top tree nodes have children to adjust padding as needed for icons
    * @param event
    */
-  private onFirstLevelNode(event: boolean): void {
+  onFirstLevelNode(event: boolean): void {
     if (event) {
       this.firstLevelNodeHasChildren = true;
     }
