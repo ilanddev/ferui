@@ -34,6 +34,7 @@ import {
   ColumnEvent,
   ColumnResizedEvent,
   ColumnVisibleEvent,
+  DatagridOnResizeEvent,
   FuiDatagridEvents,
   FuiPageChangeEvent,
   RowClickedEvent,
@@ -74,6 +75,7 @@ import {
 } from '../../virtual-scroller/virtual-scroller-factory';
 import { DomObserver, ObserverInstance } from '../../utils/dom-observer/dom-observer';
 import { ScrollbarHelper } from '../../utils/scrollbar-helper/scrollbar-helper.service';
+import { FeruiUtils } from '../../utils/ferui-utils';
 
 export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefaultOptions {
   const defaults: VirtualScrollerDefaultOptions = VIRTUAL_SCROLLER_DEFAULT_OPTIONS_FACTORY();
@@ -115,7 +117,14 @@ export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefa
             </fui-datagrid-header-viewport>
           </fui-datagrid-header>
 
-          <fui-datagrid-body [isFixedheight]="fixedHeight" [id]="virtualBodyId" [headerHeight]="rowHeight" unselectable="on">
+          <fui-datagrid-body
+            [isFixedheight]="fixedHeight"
+            [id]="virtualBodyId"
+            [rowHeight]="rowHeight"
+            [headerHeight]="rowHeight"
+            [hasActionMenu]="!!actionMenuTemplate"
+            unselectable="on"
+          >
             <fui-virtual-scroller
               #scroll
               class="fui-datagrid-body-viewport"
@@ -138,15 +147,17 @@ export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefa
               <fui-datagrid-body-row
                 *ngFor="let row of scroll.viewPortItems; index as idx; trackBy: rowTrackByFn"
                 [data]="row"
-                [rowIndex]="idx + scroll.viewPortInfo.startIndex"
+                [rowHeight]="rowHeight"
+                [rowIndex]="idx + scroll.viewPortInfo.startIndexWithBuffer"
                 [style.width.px]="totalWidth"
                 [datagridId]="datagridId"
+                [hasActionMenu]="!!actionMenuTemplate"
               >
                 <fui-datagrid-body-cell
                   *ngFor="let column of getVisibleColumns(); trackBy: columnTrackByIndexFn"
                   unselectable="on"
                   [column]="column"
-                  [rowIndex]="idx + scroll.viewPortInfo.startIndex"
+                  [rowIndex]="idx + scroll.viewPortInfo.startIndexWithBuffer"
                   [rowHeight]="rowHeight"
                   [rowData]="row"
                 ></fui-datagrid-body-cell>
@@ -230,8 +241,8 @@ export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefa
   host: {
     class: 'fui-datagrid',
     '[class.fui-datagrid-has-vertical-scroll]': 'hasVerticallScroll',
-    '[class.fui-datagrid-has-filter]': 'datagridFilters !== undefined',
-    '[class.fui-datagrid-has-pager]': 'datagridPager !== undefined',
+    '[class.fui-datagrid-has-filter]': 'withHeader && datagridFilters !== undefined',
+    '[class.fui-datagrid-has-pager]': 'withFooter && datagridPager !== undefined',
 
     '[class.fui-datagrid-without-header]': '!withHeader',
     '[class.fui-datagrid-without-footer]': '!withFooter',
@@ -267,6 +278,7 @@ export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefa
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
+  @Output() onDatagridResized: EventEmitter<DatagridOnResizeEvent> = new EventEmitter<DatagridOnResizeEvent>();
   @Output() onColumnWidthChange: EventEmitter<ColumnEvent> = new EventEmitter<ColumnEvent>();
   @Output() onColumnResized: EventEmitter<ColumnResizedEvent> = new EventEmitter<ColumnResizedEvent>();
   @Output() onColumnVisibilityChanged: EventEmitter<ColumnVisibleEvent> = new EventEmitter<ColumnVisibleEvent>();
@@ -299,6 +311,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   totalWidth: number;
   scrollSize: number = 0;
   virtualBodyId: string = DatagridUtils.generateUniqueId('fui-body');
+  gridSize: DatagridOnResizeEvent;
   @ViewChild(FuiDatagridFilters) datagridFilters: FuiDatagridFilters;
   @ViewChild(FuiDatagridPager) datagridPager: FuiDatagridPager;
 
@@ -370,7 +383,9 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
       this.stateService.getCurrentStates().subscribe(() => {
         this._isLoading = this.stateService.hasState(DatagridStateEnum.LOADING);
         this._isEmptyData = this.stateService.hasState(DatagridStateEnum.EMPTY);
-        this.inputGridHeight = 'refresh';
+        if (this.isGridLoadedOnce()) {
+          this.inputGridHeight = 'refresh';
+        }
       })
     );
 
@@ -455,7 +470,10 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   @Input('gridHeight')
   set inputGridHeight(value: string) {
     // Do nothing if the value is the same.
-    if (value !== 'refresh' && value !== 'auto' && value === this._gridHeight) {
+    if (
+      ((value === 'refresh' || value === 'auto') && this.isFirstLoad()) ||
+      (value !== 'refresh' && value !== 'auto' && value === this._gridHeight)
+    ) {
       return;
     }
     if (value === 'auto' || value === 'refresh') {
@@ -466,6 +484,31 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
       const totalRows: number = this.totalRows ? this.totalRows : this.displayedRows.length;
       const scrollSize: number = this.hasHorizontalScroll ? this.scrollSize : 0;
       const serverSideRowModel: FuiDatagridServerSideRowModel = this.rowModel.getServerSideRowModel();
+
+      const filtersComputedStyle: CSSStyleDeclaration =
+        this.withHeader && this.datagridFilters ? getComputedStyle(this.datagridFilters.elementRef.nativeElement, null) : null;
+      const filtersBorderTopSize: number = filtersComputedStyle
+        ? parseInt(filtersComputedStyle.getPropertyValue('border-top-width'), 10)
+        : 0;
+
+      const pagerComputedStyle: CSSStyleDeclaration =
+        this.withFooter && this.datagridPager ? getComputedStyle(this.datagridPager.elementRef.nativeElement, null) : null;
+      const pagerBorderBottomSize: number = pagerComputedStyle
+        ? parseInt(pagerComputedStyle.getPropertyValue('border-bottom-width'), 10)
+        : 0;
+
+      const rootWrapperComputedStyle: CSSStyleDeclaration = this.rootWrapper
+        ? getComputedStyle(this.rootWrapper.nativeElement, null)
+        : null;
+      const rootWrapperBorderTopSize: number = rootWrapperComputedStyle
+        ? parseInt(rootWrapperComputedStyle.getPropertyValue('border-top-width'), 10)
+        : 0;
+      const rootWrapperBorderBottomSize: number = rootWrapperComputedStyle
+        ? parseInt(rootWrapperComputedStyle.getPropertyValue('border-bottom-width'), 10)
+        : 0;
+
+      const datagridBorderTopSize: number = filtersComputedStyle ? filtersBorderTopSize : rootWrapperBorderTopSize;
+      const datagridBorderBottomSize: number = pagerComputedStyle ? pagerBorderBottomSize : rootWrapperBorderBottomSize;
 
       let gridHeight: number;
       if (!this.fixedHeight) {
@@ -484,15 +527,21 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
           initialLoadHeight +
           this.getHeaderPagerHeight() +
           scrollSize +
-          1;
+          Math.max(datagridBorderTopSize, datagridBorderBottomSize);
       } else {
-        gridHeight = maxDisplayedRows * this.rowHeight + this.headerHeight + this.getHeaderPagerHeight() + scrollSize + 1;
+        gridHeight =
+          maxDisplayedRows * this.rowHeight +
+          this.headerHeight +
+          this.getHeaderPagerHeight() +
+          scrollSize +
+          Math.max(datagridBorderTopSize, datagridBorderBottomSize);
       }
       this._gridHeight = gridHeight + 'px';
     } else {
       this._gridHeight = value;
     }
     this.rootWrapperHeight = `calc(100% - ${this.getHeaderPagerHeight()}px)`;
+    this.onGridResize();
     this.cd.markForCheck();
   }
 
@@ -506,6 +555,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   @Input('gridWidth')
   set inputGridWidth(value: string) {
     this._gridWidth = value;
+    this.onGridResize();
     this.cd.markForCheck();
   }
 
@@ -840,8 +890,8 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
           if (hasIntersect) {
             if (this.isFirstLoad()) {
               // If content has been loaded and it's first load, we then run the autoSizeColumns function.
-              this.inputGridHeight = 'refresh';
               this._isFirstLoad = false;
+              this.inputGridHeight = 'refresh';
               this.autoSizeColumns();
               // We can kill the observers once loaded (no need to re-run this again)
               domObserverTargets.forEach(target => observer.unobserve(target));
@@ -876,6 +926,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
     // We set 60ms delay performance-wise.
     this.resizeEventDebounce = setTimeout(() => {
       this.autoSizeColumns();
+      this.onGridResize();
     }, 60);
   }
 
@@ -1005,7 +1056,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
 
   onVerticalScroll(event: Event): void {
     this.gridPanel.onVerticalScroll();
-    // The EventTarget coming from a scroll Event is an Element.
+    // The EventTarget coming from a scroll Event should be an Element.
     // So we can just assume that the EventTarget is in fact an Element.
     const target: Element = (event.target || event.srcElement) as Element;
     if (target && target.scrollTop !== this.bodyViewportScrollTop) {
@@ -1013,7 +1064,7 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
       // This part is only when we have an action menu set.
       // It will trigger the action menu close event when scrolling.
       if (this.actionMenuTemplate && this.actionMenuService) {
-        if (this.actionMenuService.isActionMenuDropdownOpen) {
+        if (this.actionMenuService.isActionMenuDropdownOpen === true) {
           this.actionMenuService.isActionMenuDropdownOpen = false;
         }
       }
@@ -1148,7 +1199,22 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
       this.scrollSize = this.scrollbarHelper.getWidth();
     }
     this.gridPanel.setCenterContainerSize();
+    this.onGridResize();
     this.cd.markForCheck();
+  }
+
+  /**
+   * Emit the grid resize event everytime the grid is resized in height and/or width.
+   */
+  private onGridResize() {
+    const gridSize: DatagridOnResizeEvent = {
+      width: this.element.nativeElement.offsetWidth,
+      height: this.element.nativeElement.offsetHeight
+    };
+    if (!FeruiUtils.isEqual(this.gridSize, gridSize)) {
+      this.gridSize = gridSize;
+      this.onDatagridResized.emit(this.gridSize);
+    }
   }
 
   /**

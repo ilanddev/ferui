@@ -56,7 +56,6 @@ export class FuiDatagridActionMenu implements OnDestroy {
         this.forceClose = !isOpen;
         this.cd.markForCheck();
       }),
-
       this.actionMenuService.selectedRowContextChange().subscribe(context => {
         if (context) {
           const offsetTopValue: number = this.datagridOptionsWrapper.gridApi.getViewportContentOffsetTop();
@@ -83,12 +82,12 @@ export class FuiDatagridActionMenu implements OnDestroy {
 
   @HostListener('mouseenter', ['$event'])
   onRowEnter(event) {
-    this.actionMenuService.isActionMenuHovered = true;
+    this.actionMenuService.setHoverState(true, event);
   }
 
   @HostListener('mouseleave', ['$event'])
   onRowLeave(event) {
-    this.actionMenuService.isActionMenuHovered = false;
+    this.actionMenuService.setHoverState(false, event);
   }
 
   ngOnDestroy(): void {
@@ -108,7 +107,7 @@ export class FuiDatagridActionMenu implements OnDestroy {
   getContextForActionMenu(): FuiDatagridBodyRowContext {
     if (this.actionMenuService) {
       return {
-        ...this.actionMenuService.curentlySelectedRowContext,
+        ...this.actionMenuService.currentlySelectedRowContext,
         forceClose: this.forceClose,
         onDropdownOpen: this.onDropdownOpen
       };

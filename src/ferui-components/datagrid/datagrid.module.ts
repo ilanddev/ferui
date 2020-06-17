@@ -6,7 +6,6 @@ import { FuiHeaderContainer } from './components/header/header-container';
 import { FuiHeaderRow } from './components/header/header-row';
 import { FuiHeaderCell } from './components/header/header-cell';
 import { FuiBodyRoot } from './components/body/body-root';
-import { FuiBodyContainer } from './components/body/body-container';
 import { FuiBodyRow } from './components/body/body-row';
 import { FuiBodyCell } from './components/body/body-cell';
 import { FuiHeaderViewport } from './components/header/header-viewport';
@@ -53,7 +52,6 @@ export const FUI_DATAGRID_DIRECTIVES: Type<any>[] = [
   FuiHeaderRow,
   FuiHeaderCell,
   FuiBodyRoot,
-  FuiBodyContainer,
   FuiBodyRow,
   FuiBodyCell,
   FuiBodyEmpty,

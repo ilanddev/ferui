@@ -135,3 +135,37 @@ pre {
     }
   }
 }
+
+.datagrid-treeview-example {
+  .fui-datagrid {
+    // Filter
+    &.fui-datagrid-has-filter {
+      .fui-datagrid-filters {
+        border-top: none !important;
+        border-radius: 0 !important;
+      }
+    }
+
+    &:not(.fui-datagrid-has-filter) {
+      .fui-datagrid-root-wrapper {
+        border-top: none !important;
+        border-radius: 0 !important;
+      }
+    }
+
+    // Pager
+    &.fui-datagrid-has-pager {
+      .fui-datagrid-pager {
+        border-bottom: none !important;
+        border-radius: 0 !important;
+      }
+    }
+
+    &:not(.fui-datagrid-has-pager) {
+      .fui-datagrid-root-wrapper {
+        border-bottom: none !important;
+        border-radius: 0 !important;
+      }
+    }
+  }
+}

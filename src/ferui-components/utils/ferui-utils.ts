@@ -271,4 +271,23 @@ export class FeruiUtils {
     // If nothing failed, return true
     return true;
   }
+
+  /**
+   * This is equivalent to jQuery `$(jqObject).closest(className)` method.
+   * We try to get the closest element that contains the desired class and travel up the DOM to find it.
+   * @param domElement
+   * @param domClass
+   * @returns Element | null
+   */
+  static getClosestDomElement(domElement: Element, domClass: string): Element | null {
+    if (!domElement || !domElement.classList) {
+      return null;
+    }
+    if (!domElement.classList.contains(domClass)) {
+      const parent: Element = domElement.parentElement;
+      return FeruiUtils.getClosestDomElement(parent, domClass);
+    } else {
+      return domElement;
+    }
+  }
 }

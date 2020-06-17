@@ -19,7 +19,8 @@ import {
   TreeViewEvent,
   NonRootTreeNode,
   PagingParams,
-  FuiTreeViewComponent
+  FuiTreeViewComponent,
+  DatagridOnResizeEvent
 } from '@ferui/components';
 import { Subject } from 'rxjs';
 
@@ -41,7 +42,7 @@ import { Subject } from 'rxjs';
         <fui-widget>
           <fui-widget-header></fui-widget-header>
           <fui-widget-body>
-            <div class="fui-demo-wrapper">
+            <div class="fui-demo-wrapper" [style.height.px]="datagridHeight">
               <div class="fui-demo-treeview-datagrid-flex-container left-side">
                 <fui-tree-view
                   #treeView
@@ -54,12 +55,15 @@ import { Subject } from 'rxjs';
               <div class="fui-demo-treeview-datagrid-flex-container right-side">
                 <fui-datagrid
                   #datagrid
+                  [withHeader]="false"
                   [fixedHeight]="true"
                   [rowDataModel]="rowDataModel"
                   [datasource]="dataSource"
                   [maxDisplayedRows]="itemPerPage"
                   [defaultColDefs]="defaultColumnDefs"
                   [columnDefs]="columnDefs"
+                  [actionMenuTemplate]="actionMenu"
+                  (onDatagridResized)="onGridResized($event)"
                 ></fui-datagrid>
                 <br /><br />
               </div>
@@ -81,6 +85,28 @@ import { Subject } from 'rxjs';
             [attr.src]="'https://www.countryflags.io/' + node.data.data.country_code + '/shiny/24.png'"
           />
           {{ node.data.nodeLabel }}
+        </ng-template>
+
+        <ng-template
+          #actionMenu
+          let-rowIndex="rowIndex"
+          let-rowData="rowData"
+          let-onDropdownOpen="onDropdownOpen"
+          let-forceClose="forceClose"
+          let-appendTo="appendTo"
+        >
+          <fui-dropdown (dropdownOpenChange)="onDropdownOpen($event)" [forceClose]="forceClose">
+            <button class="fui-datagrid-demo-action-btn btn" fuiDropdownTrigger>
+              <clr-icon class="fui-dots-icon" shape="fui-dots"></clr-icon>
+            </button>
+            <fui-dropdown-menu [appendTo]="appendTo" *fuiIfOpen>
+              <div fuiDropdownItem>action 1 for row {{ rowIndex }} (ID: {{ rowData.id }})</div>
+              <div fuiDropdownItem>action 2 for row {{ rowIndex }} (ID: {{ rowData.id }})</div>
+              <div fuiDropdownItem>action 3 for row {{ rowIndex }} (ID: {{ rowData.id }})</div>
+              <div fuiDropdownItem>action 4 for row {{ rowIndex }} (ID: {{ rowData.id }})</div>
+              <div fuiDropdownItem>action 5 for row {{ rowIndex }} (ID: {{ rowData.id }})</div>
+            </fui-dropdown-menu>
+          </fui-dropdown>
         </ng-template>
 
         <ng-template #avatarRenderer let-value="value">
@@ -120,15 +146,9 @@ import { Subject } from 'rxjs';
       </fui-tab>
     </fui-tabs>
   `,
-  styles: [
-    `
-      .fui-datagrid-loading-icon {
-        color: #87a1b5;
-        width: 14px;
-        height: 14px;
-      }
-    `
-  ],
+  host: {
+    '[class.datagrid-treeview-example]': 'true'
+  },
   providers: [DatagridService]
 })
 export class DatagridTreeviewInfiniteServerSideComponent implements OnInit {
@@ -136,7 +156,8 @@ export class DatagridTreeviewInfiniteServerSideComponent implements OnInit {
   defaultColumnDefs: FuiColumnDefinitions;
   dataSource: IServerSideDatasource;
   rowDataModel: FuiRowModel = FuiRowModel.INFINITE;
-  itemPerPage: number = 10;
+  itemPerPage: number = 5;
+  datagridHeight: number = null;
 
   // Tree view properties
   treeNodeData: TreeNodeData<IDatagridRowData>;
@@ -236,6 +257,10 @@ export class DatagridTreeviewInfiniteServerSideComponent implements OnInit {
     this.dataSource = this.serverSideDatasource(this);
 
     this.initTreeView();
+  }
+
+  onGridResized(event: DatagridOnResizeEvent) {
+    this.datagridHeight = event.height;
   }
 
   private serverSideDatasource(server: DatagridTreeviewInfiniteServerSideComponent): IServerSideDatasource {

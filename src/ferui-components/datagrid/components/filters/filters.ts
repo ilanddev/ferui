@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Self } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, Self } from '@angular/core';
 
 @Component({
   selector: 'fui-datagrid-filters',
@@ -19,7 +19,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Self } from
     class: 'fui-datagrid-filters'
   }
 })
-export class FuiDatagridFilters implements OnInit {
+export class FuiDatagridFilters implements AfterViewInit {
   @Output() heightChange: EventEmitter<number> = new EventEmitter<number>();
 
   @Input() displayFilters: boolean = true;
@@ -29,7 +29,7 @@ export class FuiDatagridFilters implements OnInit {
 
   constructor(@Self() public elementRef: ElementRef) {}
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.height = this.elementRef.nativeElement.offsetHeight;
   }
 
@@ -43,12 +43,6 @@ export class FuiDatagridFilters implements OnInit {
    * @param value
    */
   set height(value: number) {
-    // We set the height at ngOnInit stage. But if, for some reason, the height is 0, we then loop until the height is != 0.
-    if (value === 0 && this._height === 0) {
-      setTimeout(() => {
-        this.height = this.elementRef.nativeElement.offsetHeight;
-      }, 10);
-    }
     if (this._height !== value) {
       this._height = value;
       this.heightChange.emit(this._height);

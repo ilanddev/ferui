@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import * as jsBeautify from 'js-beautify';
 
 @Component({
   selector: 'datagrid-demo-home',
@@ -121,6 +122,29 @@ import { Component } from '@angular/core';
           <p>Then, on your template, you'll need to add this default column def to the datagrid:</p>
 
           <pre><code [languages]="['html']" [highlight]="datagridDefaultColumnDefTpltCode"></code></pre>
+
+          <h2 id="datagrid-action-menu" class="mt-4">Datagrid Action-Menu</h2>
+
+          <p>
+            You might need to add an action-menu for each rows of your datagrid. This is possible, thanks to
+            <code>FuiDatagridActionMenu</code>. It is fairly easy to use, you just need to create the action menu template :
+          </p>
+
+          <pre><code [languages]="['html']" [highlight]="datagridActionMenuCode"></code></pre>
+
+          <p>Then pass it to the datagrid :</p>
+
+          <pre><code [languages]="['html']" [highlight]="datagridActionMenuTagCode"></code></pre>
+
+          <p>
+            <u>NOTE:</u> The template for action-menu can be anything you want, from a simple link to a complex dropdown (it works
+            perfectly with <a href="/#/components/dropdown/overview"><code>FuiDropdown</code></a
+            >). It is up-to you to decide. But keep in mind that the template will always use the
+            <code>FuiDatagridBodyRowContext</code> context which contain the data of the hovered row to allow you to do whatever
+            you want.
+          </p>
+
+          <pre><code [languages]="['typescript']" [highlight]="datagridActionMenuContextCode"></code></pre>
 
           <h2 id="datagrid-api" class="mt-4">Datagrid API</h2>
 
@@ -261,6 +285,102 @@ import { Component } from '@angular/core';
               </tr>
             </tbody>
           </table>
+
+          <h2 id="datagrid-api" class="mt-4">Datagrid Outputs</h2>
+
+          <p>There is the list of all <code>fui-datagrid</code> attributes and what they do.</p>
+
+          <table class="fui-table">
+            <thead>
+              <tr>
+                <th width="200">Property</th>
+                <th width="295">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>(onDatagridResized)</code></td>
+                <td><code>EventEmitter&lt;DatagridOnResizeEvent&gt;</code></td>
+                <td>
+                  Each time the datagrid size (width and/or height) is updated, we're triggering this event.<br />
+                  NOTE: Be careful when using this event when resizing the window, it will be triggered multiple times.<br />
+                  <pre><code [languages]="['typescript']"  [highlight]="datagridOnResizeEventCode"></code></pre>
+                </td>
+              </tr>
+              <tr>
+                <td><code>(onColumnWidthChange)</code></td>
+                <td><code>EventEmitter&lt;ColumnEvent&gt;</code></td>
+                <td>
+                  Each time one or multiple columns width are updated, we're triggering this event.<br />
+                  <pre><code [languages]="['typescript']"  [highlight]="columnEventCode"></code></pre>
+                </td>
+              </tr>
+              <tr>
+                <td><code>(onColumnResized)</code></td>
+                <td><code>EventEmitter&lt;ColumnResizedEvent&gt;</code></td>
+                <td>
+                  Similar to <code>(onColumnWidthChange)</code> but it is called only if the user is manually resizing one
+                  column.<br />
+                  <pre><code [languages]="['typescript']"  [highlight]="columnResizedEventCode"></code></pre>
+                </td>
+              </tr>
+              <tr>
+                <td><code>(onColumnVisibilityChanged)</code></td>
+                <td><code>EventEmitter&lt;ColumnVisibleEvent&gt;</code></td>
+                <td>
+                  Each time the user is updating the column visibility (display or hide a column) we're triggering this event.
+                  <pre><code [languages]="['typescript']"  [highlight]="columnVisibleEventCode"></code></pre>
+                </td>
+              </tr>
+              <tr>
+                <td><code>(onRowClicked)</code></td>
+                <td><code>EventEmitter&lt;RowClickedEvent&gt;</code></td>
+                <td>
+                  Each time the user click on a row we're triggering this event.
+                  <pre><code [languages]="['typescript']" [highlight]="rowClickedEventCode"></code></pre>
+                </td>
+              </tr>
+              <tr>
+                <td><code>(onRowDoubleClicked)</code></td>
+                <td><code>EventEmitter&lt;RowDoubleClickedEvent&gt;</code></td>
+                <td>
+                  Same as <code>(onRowClicked)</code> except that is is triggered only if the user double click on the row.
+                  <pre><code [languages]="['typescript']"  [highlight]="rowDoubleClickedEventCode"></code></pre>
+                </td>
+              </tr>
+              <tr>
+                <td><code>(onCellClicked)</code></td>
+                <td><code>EventEmitter&lt;CellClickedEvent&gt;</code></td>
+                <td>
+                  Each time the user click on a cell we're triggering this event.<br />
+                  NOTE: The <code>(onRowClicked)</code> event will also be triggered when clicking on a cell.
+                  <pre><code [languages]="['typescript']"  [highlight]="cellClickedEventCode"></code></pre>
+                </td>
+              </tr>
+              <tr>
+                <td><code>(onCellDoubleClicked)</code></td>
+                <td><code>EventEmitter&lt;CellDoubleClickedEvent&gt;</code></td>
+                <td>
+                  Same as <code>(onCellClicked)</code> except that is triggered only is the user double click on the cell.<br />
+                  NOTE: The <code>(onRowDoubleClicked)</code> event will also be triggered when double clicking on a cell.
+                  <pre><code [languages]="['typescript']"  [highlight]="cellDoubleClickedEventCode"></code></pre>
+                </td>
+              </tr>
+              <tr>
+                <td><code>(onCellContextmenu)</code></td>
+                <td><code>EventEmitter&lt;CellContextMenuEvent&gt;</code></td>
+                <td>
+                  Each time a user right click on a cell, this event is triggered. It is up to the developper to override the
+                  context menu completely by preventing the <code>event</code> to be called. The dev would be able to customize
+                  and bind whatever external context menu plugin. All information about the current cell and the row will be
+                  shared through this event.<br />
+                  <pre><code [languages]="['typescript']"  [highlight]="cellContextMenuEventCode"></code></pre>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <br />
         </div>
       </div>
     </div>
@@ -593,4 +713,143 @@ export class DatagridHome {
     [rowData]="rowData">
   </fui-datagrid>
   `;
+
+  datagridOnResizeEventCode: string = jsBeautify.js(`
+  interface DatagridOnResizeEvent {
+  width: number; // Value in px of the current datagrid width
+  height: number; // Value in px of the current datagrid height
+}`);
+
+  columnEventCode: string = jsBeautify.js(`
+  interface ColumnEvent {
+  type: string;
+  api: FuiDatagridApiService;
+  columnApi: FuiDatagridColumnApiService;
+  column: Column | null;
+  columns: Column[] | null;
+}`);
+
+  columnResizedEventCode: string = jsBeautify.js(`
+  interface ColumnResizedEvent extends ColumnEvent {
+  finished: boolean;
+}`);
+
+  columnVisibleEventCode: string = jsBeautify.js(`
+  interface ColumnVisibleEvent extends ColumnEvent {
+  visible: boolean | undefined;
+}`);
+
+  rowClickedEventCode: string = jsBeautify.js(`
+  interface RowClickedEvent {
+  type: string;
+  api: FuiDatagridApiService;
+  columnApi: FuiDatagridColumnApiService;
+  rowNode: FuiBodyRow;
+  rowData: any;
+  rowIndex: number;
+  event?: Event | null;
+  }`);
+
+  rowDoubleClickedEventCode: string = jsBeautify.js(`
+  interface RowDoubleClickedEvent {
+  type: string;
+  api: FuiDatagridApiService;
+  columnApi: FuiDatagridColumnApiService;
+  rowNode: FuiBodyRow;
+  rowData: any;
+  rowIndex: number;
+  event?: Event | null;
+  }`);
+
+  cellClickedEventCode: string = jsBeautify.js(`
+  interface CellClickedEvent {
+  type: string;
+  api: FuiDatagridApiService;
+  columnApi: FuiDatagridColumnApiService;
+  cellNode: FuiBodyCell;
+  column: Column;
+  value: any;
+  rowIndex: number;
+  rowData: any;
+  event?: Event | null;
+  }`);
+
+  cellDoubleClickedEventCode: string = jsBeautify.js(`
+  interface CellDoubleClickedEvent {
+  type: string;
+  api: FuiDatagridApiService;
+  columnApi: FuiDatagridColumnApiService;
+  cellNode: FuiBodyCell;
+  column: Column;
+  value: any;
+  rowIndex: number;
+  rowData: any;
+  event?: Event | null;
+  }`);
+
+  cellContextMenuEventCode: string = jsBeautify.js(`
+  interface CellContextMenuEvent {
+  type: string;
+  api: FuiDatagridApiService;
+  columnApi: FuiDatagridColumnApiService;
+  cellNode: FuiBodyCell;
+  column: Column;
+  value: any;
+  rowIndex: number;
+  rowData: any;
+  event?: Event | null;
+  }`);
+
+  datagridActionMenuCode: string = jsBeautify.html(`
+  <ng-template
+    #actionMenu
+    let-rowIndex="rowIndex"
+    let-rowData="rowData"
+    let-onDropdownOpen="onDropdownOpen"
+    let-forceClose="forceClose"
+    let-appendTo="appendTo"
+  >
+    <fui-dropdown (dropdownOpenChange)="onDropdownOpen($event)" [forceClose]="forceClose">
+      <button class="fui-datagrid-demo-action-btn btn" fuiDropdownTrigger>
+        <clr-icon class="fui-dots-icon" shape="fui-dots"></clr-icon>
+      </button>
+      <fui-dropdown-menu [appendTo]="appendTo" *fuiIfOpen>
+        <div fuiDropdownItem>action 1 for row {{ rowIndex }} (ID: {{rowData.id}})</div>
+        <div fuiDropdownItem>action 2 for row {{ rowIndex }} (ID: {{rowData.id}})</div>
+        <div fuiDropdownItem>action 3 for row {{ rowIndex }} (ID: {{rowData.id}})</div>
+        <div fuiDropdownItem>action 4 for row {{ rowIndex }} (ID: {{rowData.id}})</div>
+        <div fuiDropdownItem>action 5 for row {{ rowIndex }} (ID: {{rowData.id}})</div>
+      </fui-dropdown-menu>
+    </fui-dropdown>
+  </ng-template>`);
+
+  datagridActionMenuTagCode: string = jsBeautify.html(`
+  <fui-datagrid
+    #datagrid
+    ...
+    [actionMenuTemplate]="actionMenu"
+  ></fui-datagrid>`);
+
+  datagridActionMenuContextCode: string = jsBeautify.js(`
+  export interface FuiDatagridBodyRowContext {
+    // The row height in px
+    rowHeight: number;
+    // The row Index
+    rowIndex: number;
+    // The row data. It will contains the API data for the specific row.
+    rowData: any;
+    // Whether or not it is the first row in the datagrid.
+    isFirstRow: boolean;
+    // If for any reason you need to know the top value of the specific row.
+    // Can be useful if you're using custom action-menu dropdown.
+    rowTopValue: number;
+    // If you want to append the action-menu to a different container, like the body or whatever else.
+    // By default, the action-menu will automatically assign this property to body.
+    appendTo: string;
+    // Callback for when the dropdown menu is opening. Useful for adding extra design to the row (i.e: hovering state).
+    onDropdownOpen?: (isOpen: boolean) => void;
+    // This will force the action menu to close its dropdown (if any).
+    forceClose?: boolean;
+  }
+  `);
 }

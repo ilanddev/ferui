@@ -29,4 +29,12 @@ export class RowRendererService {
     }
     return eCells;
   }
+
+  /**
+   * Return the row stored at the specified index.
+   * @param index
+   */
+  getRowByIndex(index: number): FuiBodyRow {
+    return this.rowsByIndex[this.indexPrefix + index];
+  }
 }
