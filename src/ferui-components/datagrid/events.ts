@@ -176,3 +176,8 @@ export class FuiDatagridEvents {
 
   public static EVENT_DISPLAYED_COLUMNS_WIDTH_CHANGED = 'displayedColumnsWidthChanged';
 }
+
+export interface DatagridOnResizeEvent {
+  width: number; // Value in px of the current datagrid width
+  height: number; // Value in px of the current datagrid height
+}

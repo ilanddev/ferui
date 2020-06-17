@@ -10,8 +10,7 @@ import {
   OnDestroy,
   OnInit,
   QueryList,
-  Self,
-  TemplateRef
+  Self
 } from '@angular/core';
 import { FuiBodyCell } from './body-cell';
 import { RowRendererService } from '../../services/rendering/row-renderer.service';
@@ -20,14 +19,17 @@ import { Column } from '../entities/column';
 import { FuiDatagridEventService } from '../../services/event.service';
 import { FuiDatagridEvents, RowClickedEvent, RowDoubleClickedEvent } from '../../events';
 import { Subscription } from 'rxjs';
-import { FuiDatagridBodyRowContext } from '../../types/body-row-context';
 import { FuiActionMenuService } from '../../services/action-menu/action-menu.service';
+import { FuiActionMenuUtils } from '../../services/action-menu/action-menu-utils';
 
 @Component({
   selector: 'fui-datagrid-body-row',
   template: `
     <ng-content *ngIf="!isRowError()" select="fui-datagrid-body-cell"></ng-content>
-    <div *ngIf="isRowError()">{{ data.fuiError }}</div>
+    <div *ngIf="isRowError()" class="fui-datagrid-row-error" [style.height.px]="rowHeight" [style.line-height.px]="rowHeight - 2">
+      <clr-icon shape="fui-error" class="fui-datagrid-row-error-icon"></clr-icon>
+      <span class="fui-error-message">{{ data.fuiError }}</span>
+    </div>
   `,
   host: {
     '[class.fui-datagrid-body-row]': 'true',
@@ -39,11 +41,14 @@ import { FuiActionMenuService } from '../../services/action-menu/action-menu.ser
 })
 export class FuiBodyRow implements OnInit, OnDestroy {
   @HostBinding('attr.role') role: string = 'row';
-  @HostBinding('style.height.px') rowHeight: number = 0;
+
+  @HostBinding('style.height.px')
+  @Input()
+  rowHeight: number = 0;
 
   @Input() datagridId: string;
   @Input() data: any;
-  @Input() actionMenuTemplate: TemplateRef<FuiDatagridBodyRowContext>;
+  @Input() hasActionMenu: boolean;
 
   get isFirstRow(): boolean {
     return this._isFirstRow;
@@ -77,16 +82,14 @@ export class FuiBodyRow implements OnInit, OnDestroy {
   private _isFirstRow: boolean = false;
   private _rowIndex: number = 0;
   private subscriptions: Subscription[] = [];
-  private mouseLeaveTimeout: NodeJS.Timer;
-  private rowHovered: boolean = false;
 
   constructor(
-    @Self() private el: ElementRef,
-    private actionMenuService: FuiActionMenuService,
+    @Self() public elementRef: ElementRef,
     private cd: ChangeDetectorRef,
     private rowRendererService: RowRendererService,
     private optionsWrapperService: FuiDatagridOptionsWrapperService,
-    private eventService: FuiDatagridEventService
+    private eventService: FuiDatagridEventService,
+    private actionMenuService: FuiActionMenuService
   ) {}
 
   @HostListener('click', ['$event'])
@@ -114,73 +117,54 @@ export class FuiBodyRow implements OnInit, OnDestroy {
   }
 
   @HostListener('mouseenter')
-  onRowEnter() {
-    this.actionMenuService.setSelectedRowContext(this.getContextForActionMenu());
-    this.actionMenuService.isActionMenuVisible = true;
-    this.isRowOrActionMenuHovered = true;
-    this.rowHovered = true;
-    this.cd.markForCheck();
-  }
-
-  @HostListener('mouseleave')
-  onRowLeave() {
-    this.rowHovered = false;
-    this.mouseLeaveTimeout = setTimeout(() => {
-      const context: FuiDatagridBodyRowContext = this.actionMenuService.curentlySelectedRowContext || null;
-      if (!this.actionMenuService.isActionMenuHovered && context && context.rowIndex === this.rowIndex) {
-        this.actionMenuService.isActionMenuVisible = false;
-      }
-      if (!this.actionMenuService.isActionMenuHovered) {
-        this.isRowOrActionMenuHovered = false;
-        this.cd.markForCheck();
-      }
-    }, 10);
+  onRowHovered() {
+    if (this.hasActionMenu) {
+      this.actionMenuService.setSelectedRowContext(FuiActionMenuUtils.getContextForActionMenu(this));
+      this.actionMenuService.isActionMenuVisible = true;
+    }
   }
 
   ngOnInit(): void {
-    if (this.optionsWrapperService && this.optionsWrapperService.gridOptions) {
-      this.rowHeight = this.optionsWrapperService.gridOptions.rowHeight;
-      this.cd.markForCheck();
+    if (this.hasActionMenu) {
+      this.subscriptions.push(
+        this.actionMenuService.actionMenuVisibilityChange().subscribe(isVisible => {
+          const context = this.actionMenuService.currentlySelectedRowContext || null;
+          if (context) {
+            this.isRowOrActionMenuHovered = this.rowIndex === context.rowIndex && isVisible;
+          } else {
+            this.isRowOrActionMenuHovered = false;
+          }
+          this.cd.markForCheck();
+        }),
+        this.actionMenuService.actionMenuOpenChange().subscribe(isOpen => {
+          const isVisible: boolean = this.actionMenuService.isActionMenuVisible;
+          const context = this.actionMenuService.currentlySelectedRowContext || null;
+          if (context) {
+            this.isRowOrActionMenuHovered = this.rowIndex === context.rowIndex && (isOpen || isVisible);
+          } else {
+            this.isRowOrActionMenuHovered = false;
+          }
+          this.cd.markForCheck();
+        }),
+        this.actionMenuService.actionMenuHoverChange().subscribe(isHovered => {
+          const isOpen: boolean = this.actionMenuService.isActionMenuDropdownOpen;
+          const isVisible: boolean = this.actionMenuService.isActionMenuVisible;
+          const context = this.actionMenuService.currentlySelectedRowContext || null;
+          if (context) {
+            this.isRowOrActionMenuHovered = this.rowIndex === context.rowIndex && (isHovered || isOpen || isVisible);
+          } else {
+            this.isRowOrActionMenuHovered = false;
+          }
+          this.cd.markForCheck();
+        })
+      );
     }
-
-    this.subscriptions.push(
-      this.actionMenuService.actionMenuHoverChange().subscribe(isHovered => {
-        const context = this.actionMenuService.curentlySelectedRowContext || null;
-        this.isRowOrActionMenuHovered = context && context.rowIndex === this.rowIndex && isHovered;
-        this.cd.markForCheck();
-        if (!isHovered) {
-          setTimeout(() => {
-            if (!this.rowHovered && context && context.rowIndex === this.rowIndex && !isHovered) {
-              this.actionMenuService.isActionMenuVisible = false;
-            }
-          }, 10);
-        }
-      }),
-      this.actionMenuService.actionMenuOpenChange().subscribe(isOpen => {
-        const context = this.actionMenuService.curentlySelectedRowContext || null;
-        this.isRowSelected = context && context.rowIndex === this.rowIndex && isOpen;
-        this.cd.markForCheck();
-      })
-    );
   }
 
   ngOnDestroy(): void {
-    if (this.mouseLeaveTimeout) {
-      clearTimeout(this.mouseLeaveTimeout);
-    }
     this.rowRendererService.removeRowElement(this.rowIndex);
     this.subscriptions.forEach(sub => sub.unsubscribe());
     this.subscriptions = null;
-    const context = this.actionMenuService.curentlySelectedRowContext || null;
-    if (
-      context &&
-      context.rowIndex === this.rowIndex &&
-      this.actionMenuService.isActionMenuVisible &&
-      this.actionMenuService.isActionMenuDropdownOpen
-    ) {
-      this.actionMenuService.isActionMenuVisible = false;
-      this.actionMenuService.isActionMenuDropdownOpen = false;
-    }
   }
 
   getCellForCol(column: Column): FuiBodyCell {
@@ -189,16 +173,5 @@ export class FuiBodyRow implements OnInit, OnDestroy {
 
   isRowError(): boolean {
     return this.data && this.data.hasOwnProperty('fuiError') && this.data.fuiError;
-  }
-
-  private getContextForActionMenu(): FuiDatagridBodyRowContext {
-    return {
-      rowHeight: this.rowHeight,
-      rowIndex: this.rowIndex,
-      rowData: this.data,
-      rowTopValue: this.el.nativeElement.offsetTop,
-      isFirstRow: this.isFirstRow,
-      appendTo: '#' + this.datagridId
-    };
   }
 }
