@@ -143,7 +143,7 @@
     "netlify-cli": "^2.19.5",
     "ng-dynamic": "^3.0.2",
     "ng-dynamic-component": "^4.0.0",
-    "ng-packagr": "^4.4.5",
+    "ng-packagr": "^10.1.1",
     "ngx-highlightjs": "^3.0.3",
     "node-sass": "^4.12.0",
     "node-sass-tilde-importer": "^1.0.2",
