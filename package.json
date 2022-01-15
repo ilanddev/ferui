@@ -152,7 +152,7 @@
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.0",
     "replace": "^1.0.0",
-    "shelljs": "^0.8.1",
+    "shelljs": "^0.8.5",
     "source-map": "^0.7.2",
     "ts-api-guardian": "^0.4.1",
     "ts-node": "~5.0.1",
